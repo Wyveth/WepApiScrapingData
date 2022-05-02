@@ -20,8 +20,9 @@
         public const string urlTestErrorType = "https://api.pokemon.com/fr/pokedex/type0";
         public const string urlTestShifours = "https://api.pokemon.com/fr/pokedex/shifours";
         public const string urlTestSylveroy = "https://api.pokemon.com/fr/pokedex/sylveroy";
-        public const string urlEnd = "https://api.pokemon.com/fr/pokedex/sylveroy";
-        public const int lastPokemonNumber = 898;
+        public const string urlTestCanarticho = "https://api.pokemon.com/fr/pokedex/canarticho";
+        public const string urlTestCerbyllin = "https://api.pokemon.com/fr/pokedex/cerbyllin";
+        public const int lastPokemonNumber = 905;
 
         public const string urlStart1Gen = "https://api.pokemon.com/fr/pokedex/bulbizarre";
         public const string urlStart2Gen = "https://api.pokemon.com/fr/pokedex/germignon";
@@ -42,6 +43,7 @@
         public const string Femelle = "Femelle";
         public const string VarianteSexe = "VarianteSexe";
         public const string Variant = "Variant";
+        public const string Hisui = "Hisui";
 
         public const string regionAlola = "d'Alola";
         public const string regionGalar = "de Galar";

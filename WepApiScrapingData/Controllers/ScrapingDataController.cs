@@ -19,7 +19,7 @@ namespace WepApiScrapingData.Controllers
         {
             List<DataJson> dataJsons = new List<DataJson>();
 
-            string url = Constantes.urlEnd;
+            string url = Constantes.urlTestCanarticho;
             RecursiveGetDataJsonWithUrl(url, dataJsons);
 
             WriteToJson(dataJsons);
@@ -48,6 +48,7 @@ namespace WepApiScrapingData.Controllers
                 .Where(node => node.GetAttributeValue("class", "").Contains("pokedex-pokemon-pagination-title")).First();
 
             dataJson.number = value.InnerText.Trim().Split("\n")[1].Trim().Split(".")[1];
+            int numbPok = int.Parse(dataJson.number.ToString());
 
             if (many)
             {
@@ -56,29 +57,45 @@ namespace WepApiScrapingData.Controllers
                 if (values[option].InnerText.Contains(Constantes.Alola))
                 {
                     dataJson.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola;
+                    dataJson.displayName = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola;
                 }
                 else if (values[option].InnerText.Contains(Constantes.Galar))
                 {
                     dataJson.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionGalar;
+                    dataJson.displayName = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionGalar;
                 }
                 else
                 {
                     if (values[option].InnerText.Contains("Forme de Motisma"))
+                    {
                         dataJson.name = values[option].InnerText.Split(" ")[2];
+                        dataJson.displayName = values[option].InnerText.Split(" ")[2];
+                    }
                     else if (values[option].InnerText.Contains(value.InnerText.Trim().Split("\n")[0]))
+                    {
                         dataJson.name = values[option].InnerText;
+                        dataJson.displayName = value.InnerText.Trim().Split("\n")[0];
+                    }
                     else if (value.InnerText.Trim().Split("\n")[0] != values[option].InnerText)
+                    {
                         dataJson.name = value.InnerText.Trim().Split("\n")[0] + " " + values[option].InnerText;
+                        dataJson.displayName = value.InnerText.Trim().Split("\n")[0];
+                    }
                     else
+                    {
                         dataJson.name = values[option].InnerText;
+                        dataJson.displayName = values[option].InnerText;
+                    }
                 }
             }
             else
             {
                 dataJson.name = value.InnerText.Trim().Split("\n")[0];
+                dataJson.displayName = value.InnerText.Trim().Split("\n")[0];
             }
 
             dataJson.name = dataJson.name.Replace("&#39;", "'").Replace(':', ' ');
+            dataJson.displayName = dataJson.displayName.Replace("&#39;", "'").Replace(':', ' ');
             Debug.WriteLine(dataJson.number + ": " + dataJson.name);
             #endregion
 
@@ -108,53 +125,34 @@ namespace WepApiScrapingData.Controllers
             #endregion
 
             #region Get Size, Category, Weight, Talent
-            if (dataJson.number.Equals("849") && dataJson.name.Contains(Constantes.GigaEvolution))
-            {
-                values = htmlDoc.DocumentNode.Descendants("div")
-                    .Where(node => node.GetAttributeValue("class", "").Contains("pokemon-ability-info"))
-                    .Where(m => !m.InnerHtml.Contains("pokemon-ability-info-detail"))
-                    .ToList();
+            values = htmlDoc.DocumentNode.Descendants("div")
+            .Where(node => node.GetAttributeValue("class", "").Contains("pokemon-ability-info color-bg color-lightblue match"))
+            .ToList();
+            value = values[option];
 
-                value = values[4];
-                values = value.Descendants("span")
-                    .Where(node => node.GetAttributeValue("class", "").Contains("attribute-value")).ToList();
+            values = value.Descendants("span")
+                .Where(node => node.GetAttributeValue("class", "").Contains("attribute-value")).ToList();
 
-                dataJson.size = values[0].InnerText;
-                dataJson.weight = values[1].InnerText;
-                dataJson.category = values[3].InnerText;
-            }
-            else
-            {
-                values = htmlDoc.DocumentNode.Descendants("div")
-                    .Where(node => node.GetAttributeValue("class", "").Contains("pokemon-ability-info"))
-                    .Where(m => m.InnerHtml.Contains("pokemon-ability-info-detail"))
-                    .ToList();
-
-                value = values[option];
-                values = value.Descendants("span")
-                    .Where(node => node.GetAttributeValue("class", "").Contains("attribute-value")).ToList();
-
-                dataJson.size = values[0].InnerText;
-                dataJson.weight = values[1].InnerText;
-                dataJson.category = values[3].InnerText;
-                if (values.Count().Equals(5))
-                    dataJson.talent = values[4].InnerText;
-                else if (values.Count() > 5)
-                    dataJson.talent = values[4].InnerText + "," + values[5].InnerText;
-            }
+            dataJson.size = values[0].InnerText;
+            dataJson.weight = values[1].InnerText;
+            dataJson.category = values[3].InnerText.Replace("&#39;", "'");
+            if (values.Count().Equals(5))
+                dataJson.talent = values[4].InnerText;
+            else if (values.Count() > 5)
+                dataJson.talent = values[4].InnerText + "," + values[5].InnerText;
 
             #endregion
 
             #region Get Description Talent
-            values = htmlDoc.DocumentNode.Descendants("div")
+            values = value.Descendants("div")
                 .Where(node => node.GetAttributeValue("class", "").Contains("pokemon-ability-info-detail")).ToList();
 
             if (values.Count().Equals(1))
             {
-                value = values[option].Descendants("p").First();
-                dataJson.descriptionTalent = value.InnerText;
+                value = values[0].Descendants("p").First();
+                dataJson.descriptionTalent = value.InnerText.Replace("&#39;", "'");
             }
-            else
+            else if (values.Count() > 1)
             {
                 for (i = 0; i < 2; i++)
                 {
@@ -213,12 +211,12 @@ namespace WepApiScrapingData.Controllers
                 string pokName = item.InnerHtml.Trim().Split("\n")[0];
                 if (i == 0)
                 {
-                    dataJson.evolution = pokName;
+                    dataJson.evolutions = pokName.Replace("&#39;", "'");
                     i++;
                 }
                 else
                 {
-                    dataJson.evolution += ',' + pokName;
+                    dataJson.evolutions += ',' + pokName.Replace("&#39;", "'");
                 }
             }
             #endregion
@@ -234,6 +232,8 @@ namespace WepApiScrapingData.Controllers
                 dataJson.typeEvolution = Constantes.Galar;
             else if (dataJson.name.Contains(Constantes.Femelle))
                 dataJson.typeEvolution = Constantes.VarianteSexe;
+            else if ((numbPok >= 899 && numbPok <= 905) || dataJson.name.Contains(Constantes.Hisui))
+                dataJson.typeEvolution = Constantes.Hisui;
             else if (option != 0)
                 dataJson.typeEvolution = Constantes.Variant;
             else
@@ -241,8 +241,10 @@ namespace WepApiScrapingData.Controllers
             #endregion
 
             #region Generation
-            int numbPok = int.Parse(dataJson.number.ToString());
-            if (numbPok <= 151)
+
+            if ((numbPok >= 899 && numbPok <= 905) || dataJson.name.Contains(Constantes.Hisui))
+                dataJson.generation = 0;
+            else if (numbPok <= 151)
                 dataJson.generation = 1;
             else if (numbPok <= 251)
                 dataJson.generation = 2;
@@ -308,12 +310,6 @@ namespace WepApiScrapingData.Controllers
         {
             string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
             System.IO.File.WriteAllText("PokeScrap.json", json);
-
-            foreach (DataJson dataJson in dataJsons)
-            {
-                Download(dataJson.urlImg, dataJson.name);
-                DownloadMini(dataJson.urlImg, dataJson.name);
-            }
         }
 
         #region Get Url Img/Sprite
@@ -533,27 +529,5 @@ namespace WepApiScrapingData.Controllers
         }
         #endregion
         #endregion
-
-        private void Download(string url, string namefile)
-        {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            string path = @"D:\ScrapingApiPokemon\Pokemon\" + namefile + ".png";
-            using (WebClient client = new WebClient())
-            {
-                if (!System.IO.File.Exists(path))
-                    client.DownloadFile(new Uri(url), path);
-            }
-        }
-
-        public void DownloadMini(string url, string namefile)
-        {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            string path = @"D:\ScrapingApiPokemon\Pixel\" + namefile + "_mini.png";
-            using (WebClient client = new WebClient())
-            {
-                if (!System.IO.File.Exists(path))
-                    client.DownloadFile(new Uri(url), path);
-            }
-        }
     }
 }

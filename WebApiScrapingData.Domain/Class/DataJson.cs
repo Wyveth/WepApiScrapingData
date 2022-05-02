@@ -9,6 +9,9 @@
         //Nom du Pokémon
         public string name = "";
 
+        //Nom Affiché
+        public string displayName = "";
+
         //Description du Pokémon Version X
         public string descriptionVx = "";
 
@@ -43,9 +46,9 @@
         public string weakness = "";
 
         //Evolution/Famille du Pokémon
-        public string evolution = "";
+        public string evolutions = "";
 
-        //Type Evolution : Normal, Méga, Gigamax, Alola, Galar, Variant
+        //Type Evolution : Normal, Méga, Gigamax, Alola, Galar
         public string typeEvolution = "";
 
         //Generation Number
