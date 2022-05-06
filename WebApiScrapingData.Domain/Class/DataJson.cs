@@ -48,7 +48,7 @@
         //Evolution/Famille du Pokémon
         public string evolutions = "";
 
-        //Type Evolution : Normal, Méga, Gigamax, Alola, Galar
+        //Type Evolution : Normal, Méga, Gigamax, Alola, Galar, Hisui
         public string typeEvolution = "";
 
         //Generation Number

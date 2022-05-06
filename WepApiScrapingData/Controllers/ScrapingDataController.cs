@@ -232,7 +232,7 @@ namespace WepApiScrapingData.Controllers
                 dataJson.typeEvolution = Constantes.Galar;
             else if (dataJson.name.Contains(Constantes.Femelle))
                 dataJson.typeEvolution = Constantes.VarianteSexe;
-            else if ((numbPok >= 899 && numbPok <= 905) || dataJson.name.Contains(Constantes.Hisui))
+            else if (dataJson.name.Contains(Constantes.Hisui))
                 dataJson.typeEvolution = Constantes.Hisui;
             else if (option != 0)
                 dataJson.typeEvolution = Constantes.Variant;
