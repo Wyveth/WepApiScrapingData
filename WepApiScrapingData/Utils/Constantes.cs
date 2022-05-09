@@ -7,6 +7,10 @@
         public const string urlAllSprites = "https://www.pokepedia.fr/Liste_des_Pok%C3%A9mon_dans_l'ordre_du_Pok%C3%A9dex_National";
         #endregion
 
+        #region Pokébip
+        public const string urlStatsPB = "https://www.pokebip.com/pokedex/pokemon/";
+        #endregion
+
         #region Api Pokemon
         public const string urlPath = "https://api.pokemon.com";
         public const string urlStart = "https://api.pokemon.com/fr/pokedex/bulbizarre";

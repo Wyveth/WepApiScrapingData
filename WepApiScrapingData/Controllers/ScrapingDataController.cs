@@ -166,6 +166,10 @@ namespace WepApiScrapingData.Controllers
             }
             #endregion
 
+            #region Stats + WhenEvolution
+            GetStats(Constantes.urlStatsPB, dataJson, option);
+            #endregion
+
             #region Type
             values = htmlDoc.DocumentNode.Descendants("div").Where(node => node.GetAttributeValue("class", "").Contains("pokedex-pokemon-attributes")).ToList();
             value = values[option].Descendants("div")
@@ -527,6 +531,205 @@ namespace WepApiScrapingData.Controllers
 
             return url;
         }
+        #endregion
+
+        #region Private Methods
+        #region Get Data Stat & When Evolution
+        private string GetNamePokebip(DataJson dataJson, int option)
+        {
+            string nameSite = "";
+
+            if (dataJson.name.Contains("♀") || dataJson.name.Contains("♂"))
+            {
+                if (dataJson.name.Contains("♀"))
+                {
+                    nameSite = dataJson.name.Split('♀')[0] + "-f";
+                }
+                else
+                {
+                    nameSite = dataJson.name.Split('♂')[0] + "-m";
+                }
+            }
+            else if (dataJson.name.Contains(Constantes.Alola))
+            {
+                nameSite = dataJson.displayName.Split(' ')[0] + "-" + Constantes.Alola;
+            }
+            else if (dataJson.name.Contains(Constantes.Galar))
+            {
+                if (dataJson.name.Contains("M. Mime"))
+                    nameSite = dataJson.displayName.Replace(". ", "-").Split(' ')[0];
+                else
+                    nameSite = dataJson.displayName.Split(' ')[0] + "-" + Constantes.Galar;
+            }
+            else if (dataJson.name.Contains(Constantes.Hisui))
+            {
+                nameSite = dataJson.displayName.Split(' ')[0];
+            }
+            else if (dataJson.name.Contains("Mâle") || dataJson.name.Contains("Femelle"))
+            {
+                if (dataJson.name.Contains("Déflaisan") || dataJson.name.Contains("Viskuse") || dataJson.name.Contains("Moyade") || dataJson.name.Contains("Mistigrix") || dataJson.name.Contains("Wimessir"))
+                {
+                    if (dataJson.name.Contains("Mâle"))
+                        nameSite = dataJson.displayName;
+                    else
+                        nameSite = dataJson.displayName + "-femelle";
+                }
+                else if (dataJson.name.Contains("Némélios"))
+                {
+                    nameSite = dataJson.displayName;
+                }
+            }
+            else if (dataJson.name.Contains(' '))
+            {
+                if (dataJson.name.Contains(". "))
+                {
+                    nameSite = dataJson.displayName.Replace(". ", "-");
+                }
+                else if (dataJson.name.Contains("Primo"))
+                {
+                    nameSite = "Primo-" + dataJson.displayName;
+                }
+                else if (dataJson.name.Contains("Forme")
+                    || dataJson.name.Contains("Cape")
+                    || dataJson.name.Contains("Temps")
+                    || dataJson.name.Contains("Mer")
+                    || dataJson.name.Contains("Aspect")
+                    || dataJson.name.Contains("Motif")
+                    || dataJson.name.Contains("Style")
+                    || dataJson.name.Contains("Mode")
+                    || dataJson.name.Contains("Héros")
+                    || dataJson.name.Contains("Forme Normal")
+                    || dataJson.name.Contains("Enchaîné")
+                    || dataJson.name.Contains("Cavalier")
+                    || dataJson.name.Contains("Necrozma"))
+                {
+                    if (option != 0)
+                    {
+                        if (dataJson.name.Contains("Dialga") || dataJson.name.Contains("Palkia"))
+                        {
+                            nameSite = dataJson.displayName;
+                        }
+                        else if (dataJson.name.Contains("Prismillon"))
+                        {
+                            nameSite = dataJson.name.Split(' ')[0] + "-" + dataJson.name.Split(' ')[1] + "-" + dataJson.name.Split(' ')[2];
+                        }
+                        else if (dataJson.name.Contains("Parfaite"))
+                        {
+                            nameSite = dataJson.displayName + "-Parfait";
+                        }
+                        else if (dataJson.name.Contains("Necrozma"))
+                        {
+                            if (dataJson.name.Contains("Crinière"))
+                                nameSite = dataJson.displayName + "-" + dataJson.name.Split(' ')[1] + "-" + dataJson.name.Split(' ')[3];
+                            else if (dataJson.name.Contains("Ailes"))
+                                nameSite = dataJson.displayName + "-" + dataJson.name.Split(' ')[1] + "-" + dataJson.name.Replace('\'', ' ').Split(' ')[4];
+                            else
+                                nameSite = dataJson.displayName;
+                        }
+                        else if (dataJson.name.Contains("Shifours"))
+                        {
+                            if (dataJson.name.Contains("Gigamax"))
+                            {
+                                nameSite = dataJson.displayName + "-" + dataJson.name.Replace(" (", " ").Replace(")", "").Split(' ')[3] + "-" + dataJson.name.Replace(" (", " ").Replace(")", "").Split(' ')[4] + "-" + dataJson.name.Replace(" (", " ").Replace(")", "").Split(' ')[1];
+                            }
+                            else
+                            {
+                                nameSite = dataJson.displayName + "-" + dataJson.name.Split(' ')[2] + "-" + dataJson.name.Split(' ')[3];
+                            }
+                        }
+                        else if (dataJson.name.Contains("Sylveroy"))
+                        {
+                            nameSite = dataJson.displayName + "-" + dataJson.name.Replace('’', ' ').Split(' ')[1] + "-" + dataJson.name.Replace("’", " ").Split(' ')[3];
+                        }
+                        else
+                        {
+                            nameSite = dataJson.displayName + "-" + dataJson.name.Split(' ')[2];
+                        }
+                    }
+                    else
+                    {
+                        if (dataJson.name.Contains("Salarsen"))
+                            nameSite = dataJson.displayName + "-" + dataJson.name.Split(' ')[2];
+                        else
+                            nameSite = dataJson.displayName;
+                    }
+                }
+                else
+                {
+                    nameSite = dataJson.name.Replace(' ', '-');
+                }
+            }
+            else
+            {
+                if (dataJson.name.Contains("Arceus"))
+                {
+                    nameSite = "arceus-normal";
+                }
+                else if (dataJson.name.Contains("Spectreval"))
+                {
+                    nameSite = "sprectreval";
+                }
+                else
+                {
+                    nameSite = dataJson.name;
+                }
+            }
+
+            return nameSite;
+        }
+        private void GetStats(string urlStats, DataJson dataJson, int option)
+        {
+            string name = GetNamePokebip(dataJson, option);
+            string response = CallUrl(urlStats + name).Result;
+            GetStatsPokemon(response, dataJson);
+        }
+        private void GetStatsPokemon(string html, DataJson dataJson)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(html);
+
+            var stats = htmlDoc.DocumentNode.Descendants("div")
+                .Where(node => node.GetAttributeValue("class", "").Contains("progress-bar")).ToList();
+
+            if (stats.Count >= 6)
+            {
+                dataJson.statPv = int.Parse(stats[0].InnerText);
+                dataJson.statAttaque = int.Parse(stats[1].InnerText);
+                dataJson.statDefense = int.Parse(stats[2].InnerText);
+                dataJson.statAttaqueSpe = int.Parse(stats[3].InnerText);
+                dataJson.statDefenseSpe = int.Parse(stats[4].InnerText);
+                dataJson.statVitesse = int.Parse(stats[5].InnerText);
+                dataJson.statTotal = dataJson.statPv + dataJson.statAttaque + dataJson.statDefense + dataJson.statAttaqueSpe + dataJson.statDefenseSpe + dataJson.statVitesse;
+            }
+            else
+                Debug.WriteLine("Stats Erreur: " + dataJson.number + ": " + dataJson.name);
+
+            var detailsEvol = htmlDoc.DocumentNode.Descendants("li")
+                .Where(node => node.GetAttributeValue("class", "").Contains("list-group-item")).ToList();
+
+            var filter = "";
+            if (dataJson.name.Contains(Constantes.Alola) || dataJson.name.Contains(Constantes.Galar) || dataJson.name.Contains(Constantes.Hisui))
+                filter = dataJson.displayName;
+            else
+                filter = dataJson.name;
+
+            HtmlNode? evol = detailsEvol.Find(m => m.ChildNodes[5].InnerText.Trim().Contains(filter));
+
+            if (evol != null)
+            {
+                var i = evol.ChildNodes[5].InnerText.Trim().Split("\n").Length;
+
+                if (i.Equals(1))
+                    dataJson.whenEvolution = "Base";
+                else
+                    dataJson.whenEvolution = evol.ChildNodes[5].InnerText.Trim().Split("\n")[2].Trim();
+
+                Debug.WriteLine("Evolution Essai: " + dataJson.number + ": " + dataJson.name + " - " + dataJson.whenEvolution);
+            }
+            else
+                Debug.WriteLine("Evolution Erreur: " + dataJson.number + ": " + dataJson.name);
+        }
+        #endregion
         #endregion
         #endregion
     }
