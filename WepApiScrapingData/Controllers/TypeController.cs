@@ -55,6 +55,7 @@ namespace WepApiScrapingData.Controllers
                 typeJson.urlMiniHome = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Miniature_Type_" + type + "_HOME.png");
                 typeJson.urlIconHome = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Icône_Type_" + type + "_HOME.png");
                 typeJson.urlAutoHome = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Autocollant_Type_" + type + "_HOME.png");
+                GetColor(typeJson);
                 typeJsons.Add(typeJson);
             }
         }
@@ -66,6 +67,84 @@ namespace WepApiScrapingData.Controllers
             client.DefaultRequestHeaders.Accept.Clear();
             var response = client.GetStringAsync(fullUrl);
             return await response;
+        }
+        private void GetColor(TypeJson typeJson)
+        {
+            switch (typeJson.name)
+            {
+                case Constantes.Steel:
+                    typeJson.imgColor = Constantes.ImgColorSteel;
+                    typeJson.infoColor = Constantes.InfoColorSteel;
+                    break;
+                case Constantes.Fighting:
+                    typeJson.imgColor = Constantes.ImgColorFighting;
+                    typeJson.infoColor = Constantes.InfoColorFighting;
+                    break;
+                case Constantes.Dragon:
+                    typeJson.imgColor = Constantes.ImgColorDragon;
+                    typeJson.infoColor = Constantes.InfoColorDragon;
+                    break;
+                case Constantes.Water:
+                    typeJson.imgColor = Constantes.ImgColorWater;
+                    typeJson.infoColor = Constantes.InfoColorWater;
+                    break;
+                case Constantes.Electric:
+                    typeJson.imgColor = Constantes.ImgColorElectric;
+                    typeJson.infoColor = Constantes.InfoColorElectric;
+                    break;
+                case Constantes.Fairy:
+                    typeJson.imgColor = Constantes.ImgColorFairy;
+                    typeJson.infoColor = Constantes.InfoColorFairy;
+                    break;
+                case Constantes.Fire:
+                    typeJson.imgColor = Constantes.ImgColorFire;
+                    typeJson.infoColor = Constantes.InfoColorFire;
+                    break;
+                case Constantes.Ice:
+                    typeJson.imgColor = Constantes.ImgColorIce;
+                    typeJson.infoColor = Constantes.InfoColorIce;
+                    break;
+                case Constantes.Bug:
+                    typeJson.imgColor = Constantes.ImgColorBug;
+                    typeJson.infoColor = Constantes.InfoColorBug;
+                    break;
+                case Constantes.Normal:
+                    typeJson.imgColor = Constantes.ImgColorNormal;
+                    typeJson.infoColor = Constantes.InfoColorNormal;
+                    break;
+                case Constantes.Grass:
+                    typeJson.imgColor = Constantes.ImgColorGrass;
+                    typeJson.infoColor = Constantes.InfoColorGrass;
+                    break;
+                case Constantes.Poison:
+                    typeJson.imgColor = Constantes.ImgColorPoison;
+                    typeJson.infoColor = Constantes.InfoColorPoison;
+                    break;
+                case Constantes.Psychic:
+                    typeJson.imgColor = Constantes.ImgColorPsychic;
+                    typeJson.infoColor = Constantes.InfoColorPsychic;
+                    break;
+                case Constantes.Rock:
+                    typeJson.imgColor = Constantes.Rock;
+                    typeJson.infoColor = Constantes.InfoColorRock;
+                    break;
+                case Constantes.Ground:
+                    typeJson.imgColor = Constantes.ImgColorGround;
+                    typeJson.infoColor = Constantes.InfoColorGround;
+                    break;
+                case Constantes.Ghost:
+                    typeJson.imgColor = Constantes.ImgColorGhost;
+                    typeJson.infoColor = Constantes.InfoColorGhost;
+                    break;
+                case Constantes.Dark:
+                    typeJson.imgColor = Constantes.ImgColorDark;
+                    typeJson.infoColor = Constantes.InfoColorDark;
+                    break;
+                case Constantes.Flying:
+                    typeJson.imgColor = Constantes.ImgColorSteel;
+                    typeJson.infoColor = Constantes.InfoColorSteel;
+                    break;
+            }
         }
 
         private string GetUrlImg(string url)

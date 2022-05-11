@@ -226,7 +226,7 @@ namespace WepApiScrapingData.Controllers
             #endregion
 
             #region Type Evolution
-            if (dataJson.name.Contains(Constantes.MegaEvolution))
+            if (dataJson.name.Contains(Constantes.MegaEvolution) && !dataJson.name.Contains(Constantes.Meganium))
                 dataJson.typeEvolution = Constantes.MegaLevel;
             else if (dataJson.name.Contains(Constantes.GigaEvolution))
                 dataJson.typeEvolution = Constantes.GigaLevel;
@@ -535,6 +535,13 @@ namespace WepApiScrapingData.Controllers
 
         #region Private Methods
         #region Get Data Stat & When Evolution
+        private void GetStats(string urlStats, DataJson dataJson, int option)
+        {
+            string name = GetNamePokebip(dataJson, option);
+            string response = CallUrl(urlStats + name).Result;
+            GetStatsPokemon(response, dataJson);
+        }
+
         private string GetNamePokebip(DataJson dataJson, int option)
         {
             string nameSite = "";
@@ -656,7 +663,10 @@ namespace WepApiScrapingData.Controllers
                 }
                 else
                 {
-                    nameSite = dataJson.name.Replace(' ', '-');
+                    if (!dataJson.name.Contains("Mime Jr."))
+                        nameSite = dataJson.name.Replace(' ', '-');
+                    else
+                        nameSite = dataJson.name.Split(" ")[0] + "-" + dataJson.name.Split(" ")[1].Split('.')[0];
                 }
             }
             else
@@ -676,12 +686,6 @@ namespace WepApiScrapingData.Controllers
             }
 
             return nameSite;
-        }
-        private void GetStats(string urlStats, DataJson dataJson, int option)
-        {
-            string name = GetNamePokebip(dataJson, option);
-            string response = CallUrl(urlStats + name).Result;
-            GetStatsPokemon(response, dataJson);
         }
         private void GetStatsPokemon(string html, DataJson dataJson)
         {
@@ -722,7 +726,18 @@ namespace WepApiScrapingData.Controllers
                 if (i.Equals(1))
                     dataJson.whenEvolution = "Base";
                 else
-                    dataJson.whenEvolution = evol.ChildNodes[5].InnerText.Trim().Split("\n")[2].Trim();
+                {
+                    if (evol.ChildNodes[5].InnerText.Trim().Split("\n")[2].Contains("Reproduction"))
+                        evol = detailsEvol.Find(m => m.ChildNodes[5].InnerText.Trim().Contains(filter) && !m.ChildNodes[5].InnerText.Trim().Contains("Reproduction"));
+
+                    if (evol == null)
+                        evol = detailsEvol.Find(m => m.ChildNodes[5].InnerText.Trim().Contains(filter));
+
+                    dataJson.whenEvolution = evol.ChildNodes[5].InnerText.Trim().Split("\n")[2].Trim().Replace("&#039;", "'");
+
+                    if (dataJson.whenEvolution.Contains("."))
+                        dataJson.whenEvolution = dataJson.whenEvolution.Split('.')[dataJson.whenEvolution.Split('.').Length - 1];
+                }
 
                 Debug.WriteLine("Evolution Essai: " + dataJson.number + ": " + dataJson.name + " - " + dataJson.whenEvolution);
             }

@@ -15,5 +15,7 @@ namespace WebApiScrapingData.Domain.Class
         public string urlMiniHome = "";
         public string urlIconHome = "";
         public string urlAutoHome = "";
+        public string imgColor = "";
+        public string infoColor = "";
     }
 }
