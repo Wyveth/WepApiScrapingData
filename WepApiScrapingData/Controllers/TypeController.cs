@@ -125,7 +125,7 @@ namespace WepApiScrapingData.Controllers
                     typeJson.infoColor = Constantes.InfoColorPsychic;
                     break;
                 case Constantes.Rock:
-                    typeJson.imgColor = Constantes.Rock;
+                    typeJson.imgColor = Constantes.ImgColorRock;
                     typeJson.infoColor = Constantes.InfoColorRock;
                     break;
                 case Constantes.Ground:
