@@ -17,5 +17,6 @@ namespace WebApiScrapingData.Domain.Class
         public string urlAutoHome = "";
         public string imgColor = "";
         public string infoColor = "";
+        public string typeColor = "";
     }
 }

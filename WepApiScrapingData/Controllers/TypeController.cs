@@ -75,74 +75,92 @@ namespace WepApiScrapingData.Controllers
                 case Constantes.Steel:
                     typeJson.imgColor = Constantes.ImgColorSteel;
                     typeJson.infoColor = Constantes.InfoColorSteel;
+                    typeJson.typeColor = Constantes.TypeColorSteel;
                     break;
                 case Constantes.Fighting:
                     typeJson.imgColor = Constantes.ImgColorFighting;
                     typeJson.infoColor = Constantes.InfoColorFighting;
+                    typeJson.typeColor = Constantes.TypeColorFighting;
                     break;
                 case Constantes.Dragon:
                     typeJson.imgColor = Constantes.ImgColorDragon;
                     typeJson.infoColor = Constantes.InfoColorDragon;
+                    typeJson.typeColor = Constantes.TypeColorDragon;
                     break;
                 case Constantes.Water:
                     typeJson.imgColor = Constantes.ImgColorWater;
                     typeJson.infoColor = Constantes.InfoColorWater;
+                    typeJson.typeColor = Constantes.TypeColorWater;
                     break;
                 case Constantes.Electric:
                     typeJson.imgColor = Constantes.ImgColorElectric;
                     typeJson.infoColor = Constantes.InfoColorElectric;
+                    typeJson.typeColor = Constantes.TypeColorElectric;
                     break;
                 case Constantes.Fairy:
                     typeJson.imgColor = Constantes.ImgColorFairy;
                     typeJson.infoColor = Constantes.InfoColorFairy;
+                    typeJson.typeColor = Constantes.TypeColorFairy;
                     break;
                 case Constantes.Fire:
                     typeJson.imgColor = Constantes.ImgColorFire;
                     typeJson.infoColor = Constantes.InfoColorFire;
+                    typeJson.typeColor = Constantes.TypeColorFire;
                     break;
                 case Constantes.Ice:
                     typeJson.imgColor = Constantes.ImgColorIce;
                     typeJson.infoColor = Constantes.InfoColorIce;
+                    typeJson.typeColor = Constantes.TypeColorIce;
                     break;
                 case Constantes.Bug:
                     typeJson.imgColor = Constantes.ImgColorBug;
                     typeJson.infoColor = Constantes.InfoColorBug;
+                    typeJson.typeColor = Constantes.TypeColorBug;
                     break;
                 case Constantes.Normal:
                     typeJson.imgColor = Constantes.ImgColorNormal;
                     typeJson.infoColor = Constantes.InfoColorNormal;
+                    typeJson.typeColor = Constantes.TypeColorNormal;
                     break;
                 case Constantes.Grass:
                     typeJson.imgColor = Constantes.ImgColorGrass;
                     typeJson.infoColor = Constantes.InfoColorGrass;
+                    typeJson.typeColor = Constantes.TypeColorGrass;
                     break;
                 case Constantes.Poison:
                     typeJson.imgColor = Constantes.ImgColorPoison;
                     typeJson.infoColor = Constantes.InfoColorPoison;
+                    typeJson.typeColor = Constantes.TypeColorPoison;
                     break;
                 case Constantes.Psychic:
                     typeJson.imgColor = Constantes.ImgColorPsychic;
                     typeJson.infoColor = Constantes.InfoColorPsychic;
+                    typeJson.typeColor = Constantes.TypeColorPsychic;
                     break;
                 case Constantes.Rock:
                     typeJson.imgColor = Constantes.ImgColorRock;
                     typeJson.infoColor = Constantes.InfoColorRock;
+                    typeJson.typeColor = Constantes.TypeColorRock;
                     break;
                 case Constantes.Ground:
                     typeJson.imgColor = Constantes.ImgColorGround;
                     typeJson.infoColor = Constantes.InfoColorGround;
+                    typeJson.typeColor = Constantes.TypeColorGround;
                     break;
                 case Constantes.Ghost:
                     typeJson.imgColor = Constantes.ImgColorGhost;
                     typeJson.infoColor = Constantes.InfoColorGhost;
+                    typeJson.typeColor = Constantes.TypeColorGhost;
                     break;
                 case Constantes.Dark:
                     typeJson.imgColor = Constantes.ImgColorDark;
                     typeJson.infoColor = Constantes.InfoColorDark;
+                    typeJson.typeColor = Constantes.TypeColorDark;
                     break;
                 case Constantes.Flying:
-                    typeJson.imgColor = Constantes.ImgColorSteel;
-                    typeJson.infoColor = Constantes.InfoColorSteel;
+                    typeJson.imgColor = Constantes.ImgColorFlying;
+                    typeJson.infoColor = Constantes.InfoColorFlying;
+                    typeJson.typeColor = Constantes.TypeColorFlying;
                     break;
             }
         }
