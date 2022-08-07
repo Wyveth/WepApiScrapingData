@@ -9,7 +9,11 @@ namespace WebApiScrapingData.Domain.Class
     [Serializable]
     public class TypeJson
     {
-        public string name = "";
+        public string name_FR = "";
+        public string name_EN = "";
+        public string name_ES = "";
+        public string name_IT = "";
+        public string name_DE = "";
         public string urlMiniGo = "";
         public string urlFondGo = "";
         public string urlMiniHome = "";

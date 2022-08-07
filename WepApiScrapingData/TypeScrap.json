@@ -1,6 +1,10 @@
 [
   {
-    "name": "Acier",
+    "name_FR": "Acier",
+    "name_EN": "Steel",
+    "name_ES": "Acero",
+    "name_IT": "Acciaio",
+    "name_DE": "Stahl",
     "urlMiniGo": "https://www.pokepedia.fr/images/c/c8/Miniature_Type_Acier_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/d/d6/Fond_Type_Acier_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/e/e8/Miniature_Type_Acier_HOME.png",
@@ -11,7 +15,11 @@
     "typeColor": "#5A8EA1"
   },
   {
-    "name": "Dragon",
+    "name_FR": "Dragon",
+    "name_EN": "Dragon",
+    "name_ES": "Dragón",
+    "name_IT": "Drago",
+    "name_DE": "Drache",
     "urlMiniGo": "https://www.pokepedia.fr/images/b/b5/Miniature_Type_Dragon_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/f/fb/Fond_Type_Dragon_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/0/00/Miniature_Type_Dragon_HOME.png",
@@ -22,7 +30,11 @@
     "typeColor": "#096DC4"
   },
   {
-    "name": "Électrik",
+    "name_FR": "Électrik",
+    "name_EN": "Electric",
+    "name_ES": "Eléctrico",
+    "name_IT": "Elettro",
+    "name_DE": "Elektro",
     "urlMiniGo": "https://www.pokepedia.fr/images/c/c6/Miniature_Type_%C3%89lectrik_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/3/32/Fond_Type_%C3%89lectrik_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/5/5f/Miniature_Type_%C3%89lectrik_HOME.png",
@@ -33,7 +45,11 @@
     "typeColor": "#F3D23B"
   },
   {
-    "name": "Feu",
+    "name_FR": "Feu",
+    "name_EN": "Fire",
+    "name_ES": "Fuego",
+    "name_IT": "Fueco",
+    "name_DE": "Feuer",
     "urlMiniGo": "https://www.pokepedia.fr/images/e/ed/Miniature_Type_Feu_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/5/5b/Fond_Type_Feu_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/f/f7/Miniature_Type_Feu_HOME.png",
@@ -44,7 +60,11 @@
     "typeColor": "#FF9C54"
   },
   {
-    "name": "Insecte",
+    "name_FR": "Insecte",
+    "name_EN": "Bug",
+    "name_ES": "Bicho",
+    "name_IT": "Coleottero",
+    "name_DE": "Käfer",
     "urlMiniGo": "https://www.pokepedia.fr/images/e/ea/Miniature_Type_Insecte_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/f/f4/Fond_Type_Insecte_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/5/5e/Miniature_Type_Insecte_HOME.png",
@@ -55,7 +75,11 @@
     "typeColor": "#90C12C"
   },
   {
-    "name": "Plante",
+    "name_FR": "Plante",
+    "name_EN": "Grass",
+    "name_ES": "Planta",
+    "name_IT": "Erba",
+    "name_DE": "Pflanze",
     "urlMiniGo": "https://www.pokepedia.fr/images/5/5e/Miniature_Type_Plante_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/c/c2/Fond_Type_Plante_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/d/d3/Miniature_Type_Plante_HOME.png",
@@ -66,7 +90,11 @@
     "typeColor": "#63BB5B"
   },
   {
-    "name": "Psy",
+    "name_FR": "Psy",
+    "name_EN": "Psychic",
+    "name_ES": "Psíquico",
+    "name_IT": "Psico",
+    "name_DE": "Psycho",
     "urlMiniGo": "https://www.pokepedia.fr/images/f/f5/Miniature_Type_Psy_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/4/45/Fond_Type_Psy_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/a/a1/Miniature_Type_Psy_HOME.png",
@@ -77,7 +105,11 @@
     "typeColor": "#F97176"
   },
   {
-    "name": "Sol",
+    "name_FR": "Sol",
+    "name_EN": "Ground",
+    "name_ES": "Tierra",
+    "name_IT": "Terra",
+    "name_DE": "Boden",
     "urlMiniGo": "https://www.pokepedia.fr/images/3/3c/Miniature_Type_Sol_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/4/46/Fond_Type_Sol_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/a/a9/Miniature_Type_Sol_HOME.png",
@@ -88,7 +120,11 @@
     "typeColor": "#D97746"
   },
   {
-    "name": "Ténèbres",
+    "name_FR": "Ténèbres",
+    "name_EN": "Dark",
+    "name_ES": "Siniestro",
+    "name_IT": "Buio",
+    "name_DE": "Unlicht",
     "urlMiniGo": "https://www.pokepedia.fr/images/e/ea/Miniature_Type_T%C3%A9n%C3%A8bres_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/3/3c/Fond_Type_T%C3%A9n%C3%A8bres_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/2/20/Miniature_Type_T%C3%A9n%C3%A8bres_HOME.png",
@@ -99,7 +135,11 @@
     "typeColor": "#5A5366"
   },
   {
-    "name": "Combat",
+    "name_FR": "Combat",
+    "name_EN": "Fighting",
+    "name_ES": "Lucha",
+    "name_IT": "Lotta",
+    "name_DE": "Kampf",
     "urlMiniGo": "https://www.pokepedia.fr/images/7/7e/Miniature_Type_Combat_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/c/c8/Fond_Type_Combat_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/d/d1/Miniature_Type_Combat_HOME.png",
@@ -110,7 +150,11 @@
     "typeColor": "#CE4069"
   },
   {
-    "name": "Eau",
+    "name_FR": "Eau",
+    "name_EN": "Water",
+    "name_ES": "Aqua",
+    "name_IT": "Acqua",
+    "name_DE": "Wasser",
     "urlMiniGo": "https://www.pokepedia.fr/images/4/4d/Miniature_Type_Eau_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/9/97/Fond_Type_Eau_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/0/08/Miniature_Type_Eau_HOME.png",
@@ -121,7 +165,11 @@
     "typeColor": "#4D90D5"
   },
   {
-    "name": "Fée",
+    "name_FR": "Fée",
+    "name_EN": "Fairy",
+    "name_ES": "Hada",
+    "name_IT": "Folletto",
+    "name_DE": "Fee",
     "urlMiniGo": "https://www.pokepedia.fr/images/d/d6/Miniature_Type_F%C3%A9e_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/0/0f/Fond_Type_F%C3%A9e_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/1/1a/Miniature_Type_F%C3%A9e_HOME.png",
@@ -132,7 +180,11 @@
     "typeColor": "#EC8FE6"
   },
   {
-    "name": "Glace",
+    "name_FR": "Glace",
+    "name_EN": "Ice",
+    "name_ES": "Hielo",
+    "name_IT": "Ghiaccio",
+    "name_DE": "Eis",
     "urlMiniGo": "https://www.pokepedia.fr/images/f/fa/Miniature_Type_Glace_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/f/f1/Fond_Type_Glace_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/e/e2/Miniature_Type_Glace_HOME.png",
@@ -143,7 +195,11 @@
     "typeColor": "#74CEC0"
   },
   {
-    "name": "Normal",
+    "name_FR": "Normal",
+    "name_EN": "Normal",
+    "name_ES": "Normal",
+    "name_IT": "Normale",
+    "name_DE": "Normal",
     "urlMiniGo": "https://www.pokepedia.fr/images/1/10/Miniature_Type_Normal_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/8/87/Fond_Type_Normal_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/2/24/Miniature_Type_Normal_HOME.png",
@@ -154,7 +210,11 @@
     "typeColor": "#9099A1"
   },
   {
-    "name": "Poison",
+    "name_FR": "Poison",
+    "name_EN": "Poison",
+    "name_ES": "Venemo",
+    "name_IT": "Veleno",
+    "name_DE": "Gift",
     "urlMiniGo": "https://www.pokepedia.fr/images/6/6d/Miniature_Type_Poison_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/2/2f/Fond_Type_Poison_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/5/58/Miniature_Type_Poison_HOME.png",
@@ -165,7 +225,11 @@
     "typeColor": "#AB6AC8"
   },
   {
-    "name": "Roche",
+    "name_FR": "Roche",
+    "name_EN": "Rock",
+    "name_ES": "Roca",
+    "name_IT": "Roccia",
+    "name_DE": "Gestein",
     "urlMiniGo": "https://www.pokepedia.fr/images/3/3f/Miniature_Type_Roche_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/1/10/Fond_Type_Roche_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/a/ab/Miniature_Type_Roche_HOME.png",
@@ -176,7 +240,11 @@
     "typeColor": "#C7B78B"
   },
   {
-    "name": "Spectre",
+    "name_FR": "Spectre",
+    "name_EN": "Ghost",
+    "name_ES": "Fantasma",
+    "name_IT": "Spettro",
+    "name_DE": "Geist",
     "urlMiniGo": "https://www.pokepedia.fr/images/9/90/Miniature_Type_Spectre_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/5/5c/Fond_Type_Spectre_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/0/0c/Miniature_Type_Spectre_HOME.png",
@@ -187,7 +255,11 @@
     "typeColor": "#5269AC"
   },
   {
-    "name": "Vol",
+    "name_FR": "Vol",
+    "name_EN": "Flying",
+    "name_ES": "Volador",
+    "name_IT": "Volante",
+    "name_DE": "Flug",
     "urlMiniGo": "https://www.pokepedia.fr/images/5/51/Miniature_Type_Vol_GO.png",
     "urlFondGo": "https://www.pokepedia.fr/images/b/b8/Fond_Type_Vol_GO.png",
     "urlMiniHome": "https://www.pokepedia.fr/images/1/19/Miniature_Type_Vol_HOME.png",
