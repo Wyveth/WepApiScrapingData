@@ -14,6 +14,10 @@ namespace WebApiScrapingData.Domain.Class
         public string name_ES = "";
         public string name_IT = "";
         public string name_DE = "";
+        public string name_RU = "";
+        public string name_JP = "";
+        public string name_CO = "";
+        public string name_CN = "";
         public string urlMiniGo = "";
         public string urlFondGo = "";
         public string urlMiniHome = "";

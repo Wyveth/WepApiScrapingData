@@ -18,6 +18,14 @@ namespace WebApiScrapingData.Domain
 
         public DataInfo DE;
 
+        public DataInfo RU;
+
+        public DataInfo JP;
+
+        public DataInfo CO;
+
+        public DataInfo CN;
+
         //Type Evolution : Normal, Méga, Gigamax, Alola, Galar, Hisui
         public string typeEvolution = "";
 

@@ -20,12 +20,22 @@ namespace WepApiScrapingData.Controllers
         {
             List<DataJson> dataJsons = new List<DataJson>();
 
+            #region Europe
             string url_FR = Constantes.urlStartFR;
             string url_EN = Constantes.urlStartEN;
             string url_ES = Constantes.urlStartES;
             string url_IT = Constantes.urlStartIT;
             string url_DE = Constantes.urlStartDE;
-            RecursiveGetDataJsonWithUrl(url_FR, url_EN, url_ES, url_IT, url_DE, dataJsons);
+            string url_RU = Constantes.urlStartRU;
+            #endregion
+
+            #region Asia
+            string url_JP = Constantes.urlStartJP;
+            string url_CO = Constantes.urlStartCO;
+            string url_CN = Constantes.urlStartCN;
+            #endregion
+
+            RecursiveGetDataJsonWithUrl(url_FR, url_EN, url_ES, url_IT, url_DE, url_RU, url_JP, url_CO, url_CN, dataJsons);
 
             WriteToJson(dataJsons);
         }
@@ -41,13 +51,16 @@ namespace WepApiScrapingData.Controllers
         #endregion
 
         #region Json
-        private DataJson ParseHtmlToJson(HtmlDocument htmlDoc_FR, HtmlDocument htmlDoc_EN, HtmlDocument htmlDoc_ES, HtmlDocument htmlDoc_IT, HtmlDocument htmlDoc_DE, bool many = false, int option = 0)
+        private DataJson ParseHtmlToJson(HtmlDocument htmlDoc_FR, HtmlDocument htmlDoc_EN, HtmlDocument htmlDoc_ES, HtmlDocument htmlDoc_IT, HtmlDocument htmlDoc_DE, HtmlDocument htmlDoc_RU, HtmlDocument htmlDoc_JP, HtmlDocument htmlDoc_CO, HtmlDocument htmlDoc_CN, bool many = false, int option = 0)
         {
             List<HtmlNode> values;
             HtmlNode value;
             int i = 0;
             DataJson dataJson = new DataJson();
 
+            #region Get Number
+
+            #endregion
             #region FR
             #region Get Name & Number
             value = htmlDoc_FR.DocumentNode.Descendants("div")
@@ -285,26 +298,43 @@ namespace WepApiScrapingData.Controllers
             #endregion
 
             #region EN
-            GetDataByLanguage(htmlDoc_EN, dataJson.EN, dataJson.number, numbPok, values, value, i, many, option);
+            GetDataByEurope(htmlDoc_EN, dataJson.EN, dataJson.number, numbPok, values, value, i, many, option);
             #endregion
 
             #region ES
-            GetDataByLanguage(htmlDoc_ES, dataJson.ES, dataJson.number, numbPok, values, value, i, many, option);
+            GetDataByEurope(htmlDoc_ES, dataJson.ES, dataJson.number, numbPok, values, value, i, many, option);
             #endregion
 
             #region IT
-            GetDataByLanguage(htmlDoc_IT, dataJson.IT, dataJson.number, numbPok, values, value, i, many, option);
+            GetDataByEurope(htmlDoc_IT, dataJson.IT, dataJson.number, numbPok, values, value, i, many, option);
             #endregion
 
             #region DE
-            GetDataByLanguage(htmlDoc_DE, dataJson.DE, dataJson.number, numbPok, values, value, i, many, option);
+            GetDataByEurope(htmlDoc_DE, dataJson.DE, dataJson.number, numbPok, values, value, i, many, option);
             #endregion
+
+            #region RU
+            GetDataByEurope(htmlDoc_RU, dataJson.RU, dataJson.number, numbPok, values, value, i, many, option);
+            #endregion
+
+            //#region JP
+            //GetDataByAsia(htmlDoc_JP, dataJson.JP, dataJson.number, numbPok, values, value, i, many, option);
+            //#endregion
+
+            //#region CO
+            //GetDataByAsia(htmlDoc_CO, dataJson.CO, dataJson.number, numbPok, values, value, i, many, option);
+            //#endregion
+
+            //#region CN
+            //GetDataByAsia(htmlDoc_CN, dataJson.CN, dataJson.number, numbPok, values, value, i, many, option);
+            //#endregion
 
             return dataJson;
         }
 
-        private List<DataJson> RecursiveGetDataJsonWithUrl(string url_FR, string url_EN, string url_ES, string url_IT, string url_DE, List<DataJson> dataJsons)
+        private List<DataJson> RecursiveGetDataJsonWithUrl(string url_FR, string url_EN, string url_ES, string url_IT, string url_DE, string url_RU, string url_JP, string url_CO, string url_CN, List<DataJson> dataJsons)
         {
+            #region Europe
             string response_FR = CallUrl(url_FR).Result;
             HtmlDocument htmlDoc_FR = new HtmlDocument();
             htmlDoc_FR.LoadHtml(response_FR);
@@ -325,6 +355,25 @@ namespace WepApiScrapingData.Controllers
             HtmlDocument htmlDoc_DE = new HtmlDocument();
             htmlDoc_DE.LoadHtml(response_DE);
 
+            string response_RU = CallUrl(url_RU).Result;
+            HtmlDocument htmlDoc_RU = new HtmlDocument();
+            htmlDoc_RU.LoadHtml(response_RU);
+            #endregion
+
+            #region Asia
+            string response_JP = CallUrl(url_JP).Result;
+            HtmlDocument htmlDoc_JP = new HtmlDocument();
+            htmlDoc_JP.LoadHtml(response_JP);
+
+            string response_CO = CallUrl(url_CO).Result;
+            HtmlDocument htmlDoc_CO = new HtmlDocument();
+            htmlDoc_CO.LoadHtml(response_CO);
+
+            string response_CN = CallUrl(url_CN).Result;
+            HtmlDocument htmlDoc_CN = new HtmlDocument();
+            htmlDoc_CN.LoadHtml(response_CN);
+            #endregion
+
             HtmlNode value = htmlDoc_FR.DocumentNode.Descendants("div")
                .Where(node => node.GetAttributeValue("class", "").Contains("profile-images")).First();
             int countImg = value.Descendants("img").Count();
@@ -332,20 +381,20 @@ namespace WepApiScrapingData.Controllers
             DataJson dataJson = new DataJson();
             if (countImg.Equals(1))
             {
-                dataJson = ParseHtmlToJson(htmlDoc_FR, htmlDoc_EN, htmlDoc_ES, htmlDoc_IT, htmlDoc_DE);
+                dataJson = ParseHtmlToJson(htmlDoc_FR, htmlDoc_EN, htmlDoc_ES, htmlDoc_IT, htmlDoc_DE, htmlDoc_RU, htmlDoc_JP, htmlDoc_CO, htmlDoc_CN);
                 dataJsons.Add(dataJson);
             }
             else
             {
                 for (int i = 0; i < countImg; i++)
                 {
-                    dataJson = ParseHtmlToJson(htmlDoc_FR, htmlDoc_EN, htmlDoc_ES, htmlDoc_IT, htmlDoc_DE, true, i);
+                    dataJson = ParseHtmlToJson(htmlDoc_FR, htmlDoc_EN, htmlDoc_ES, htmlDoc_IT, htmlDoc_DE, htmlDoc_RU, htmlDoc_JP, htmlDoc_CO, htmlDoc_CN, true, i);
                     dataJsons.Add(dataJson);
                 }
             }
 
             if (!string.IsNullOrEmpty(dataJson.FR.nextUrl))
-                RecursiveGetDataJsonWithUrl(dataJson.FR.nextUrl, dataJson.EN.nextUrl, dataJson.ES.nextUrl, dataJson.IT.nextUrl, dataJson.DE.nextUrl, dataJsons);
+                RecursiveGetDataJsonWithUrl(dataJson.FR.nextUrl, dataJson.EN.nextUrl, dataJson.ES.nextUrl, dataJson.IT.nextUrl, dataJson.DE.nextUrl, dataJson.RU.nextUrl, dataJson.JP.nextUrl, dataJson.CO.nextUrl, dataJson.CN.nextUrl, dataJsons);
 
             return dataJsons;
         }
@@ -786,7 +835,7 @@ namespace WepApiScrapingData.Controllers
                 Debug.WriteLine("Evolution Erreur: " + dataJson.number + ": " + dataJson.FR.name);
         }
 
-        private void GetDataByLanguage(HtmlDocument htmlDoc, DataInfo dataInfo, string number, int numbPok, List<HtmlNode> values, HtmlNode value, int i = 0, bool many = false, int option = 0)
+        private void GetDataByEurope(HtmlDocument htmlDoc, DataInfo dataInfo, string number, int numbPok, List<HtmlNode> values, HtmlNode value, int i = 0, bool many = false, int option = 0)
         {
             #region Get Name & Number
             value = htmlDoc.DocumentNode.Descendants("div")

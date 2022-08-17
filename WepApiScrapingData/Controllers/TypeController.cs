@@ -54,6 +54,10 @@ namespace WepApiScrapingData.Controllers
                 typeJson.name_ES = GetNameTypeByLanguage(type, Constantes.ES);
                 typeJson.name_IT = GetNameTypeByLanguage(type, Constantes.IT);
                 typeJson.name_DE = GetNameTypeByLanguage(type, Constantes.DE);
+                typeJson.name_RU = GetNameTypeByLanguage(type, Constantes.RU);
+                typeJson.name_JP = GetNameTypeByLanguage(type, Constantes.JP);
+                typeJson.name_CO = GetNameTypeByLanguage(type, Constantes.CO);
+                typeJson.name_CN = GetNameTypeByLanguage(type, Constantes.CN);
                 typeJson.urlMiniGo = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Miniature_Type_" + type + "_GO.png");
                 typeJson.urlFondGo = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Fond_Type_" + type + "_GO.png");
                 typeJson.urlMiniHome = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Miniature_Type_" + type + "_HOME.png");
@@ -426,6 +430,246 @@ namespace WepApiScrapingData.Controllers
                         break;
                     case Constantes.Flying_FR:
                         type = Constantes.Flying_DE;
+                        break;
+                    default:
+                        break;
+                }
+            else if (Language.Equals(Constantes.RU))
+                switch (type)
+                {
+                    case Constantes.Steel_FR:
+                        type = Constantes.Steel_RU;
+                        break;
+                    case Constantes.Fighting_FR:
+                        type = Constantes.Fighting_RU;
+                        break;
+                    case Constantes.Dragon_FR:
+                        type = Constantes.Dragon_RU;
+                        break;
+                    case Constantes.Water_FR:
+                        type = Constantes.Water_RU;
+                        break;
+                    case Constantes.Electric_FR:
+                        type = Constantes.Electric_RU;
+                        break;
+                    case Constantes.Fairy_FR:
+                        type = Constantes.Fairy_RU;
+                        break;
+                    case Constantes.Fire_FR:
+                        type = Constantes.Fire_RU;
+                        break;
+                    case Constantes.Ice_FR:
+                        type = Constantes.Ice_RU;
+                        break;
+                    case Constantes.Bug_FR:
+                        type = Constantes.Bug_RU;
+                        break;
+                    case Constantes.Normal_FR:
+                        type = Constantes.Normal_RU;
+                        break;
+                    case Constantes.Grass_FR:
+                        type = Constantes.Grass_RU;
+                        break;
+                    case Constantes.Poison_FR:
+                        type = Constantes.Poison_RU;
+                        break;
+                    case Constantes.Psychic_FR:
+                        type = Constantes.Psychic_RU;
+                        break;
+                    case Constantes.Rock_FR:
+                        type = Constantes.Rock_RU;
+                        break;
+                    case Constantes.Ground_FR:
+                        type = Constantes.Ground_RU;
+                        break;
+                    case Constantes.Ghost_FR:
+                        type = Constantes.Ghost_RU;
+                        break;
+                    case Constantes.Dark_FR:
+                        type = Constantes.Dark_RU;
+                        break;
+                    case Constantes.Flying_FR:
+                        type = Constantes.Flying_RU;
+                        break;
+                    default:
+                        break;
+                }
+            else if (Language.Equals(Constantes.JP))
+                switch (type)
+                {
+                    case Constantes.Steel_FR:
+                        type = Constantes.Steel_JP;
+                        break;
+                    case Constantes.Fighting_FR:
+                        type = Constantes.Fighting_JP;
+                        break;
+                    case Constantes.Dragon_FR:
+                        type = Constantes.Dragon_JP;
+                        break;
+                    case Constantes.Water_FR:
+                        type = Constantes.Water_JP;
+                        break;
+                    case Constantes.Electric_FR:
+                        type = Constantes.Electric_JP;
+                        break;
+                    case Constantes.Fairy_FR:
+                        type = Constantes.Fairy_JP;
+                        break;
+                    case Constantes.Fire_FR:
+                        type = Constantes.Fire_JP;
+                        break;
+                    case Constantes.Ice_FR:
+                        type = Constantes.Ice_JP;
+                        break;
+                    case Constantes.Bug_FR:
+                        type = Constantes.Bug_JP;
+                        break;
+                    case Constantes.Normal_FR:
+                        type = Constantes.Normal_JP;
+                        break;
+                    case Constantes.Grass_FR:
+                        type = Constantes.Grass_JP;
+                        break;
+                    case Constantes.Poison_FR:
+                        type = Constantes.Poison_JP;
+                        break;
+                    case Constantes.Psychic_FR:
+                        type = Constantes.Psychic_JP;
+                        break;
+                    case Constantes.Rock_FR:
+                        type = Constantes.Rock_JP;
+                        break;
+                    case Constantes.Ground_FR:
+                        type = Constantes.Ground_JP;
+                        break;
+                    case Constantes.Ghost_FR:
+                        type = Constantes.Ghost_JP;
+                        break;
+                    case Constantes.Dark_FR:
+                        type = Constantes.Dark_JP;
+                        break;
+                    case Constantes.Flying_FR:
+                        type = Constantes.Flying_JP;
+                        break;
+                    default:
+                        break;
+                }
+            else if (Language.Equals(Constantes.CO))
+                switch (type)
+                {
+                    case Constantes.Steel_FR:
+                        type = Constantes.Steel_CO;
+                        break;
+                    case Constantes.Fighting_FR:
+                        type = Constantes.Fighting_CO;
+                        break;
+                    case Constantes.Dragon_FR:
+                        type = Constantes.Dragon_CO;
+                        break;
+                    case Constantes.Water_FR:
+                        type = Constantes.Water_CO;
+                        break;
+                    case Constantes.Electric_FR:
+                        type = Constantes.Electric_CO;
+                        break;
+                    case Constantes.Fairy_FR:
+                        type = Constantes.Fairy_CO;
+                        break;
+                    case Constantes.Fire_FR:
+                        type = Constantes.Fire_CO;
+                        break;
+                    case Constantes.Ice_FR:
+                        type = Constantes.Ice_CO;
+                        break;
+                    case Constantes.Bug_FR:
+                        type = Constantes.Bug_CO;
+                        break;
+                    case Constantes.Normal_FR:
+                        type = Constantes.Normal_CO;
+                        break;
+                    case Constantes.Grass_FR:
+                        type = Constantes.Grass_CO;
+                        break;
+                    case Constantes.Poison_FR:
+                        type = Constantes.Poison_CO;
+                        break;
+                    case Constantes.Psychic_FR:
+                        type = Constantes.Psychic_CO;
+                        break;
+                    case Constantes.Rock_FR:
+                        type = Constantes.Rock_CO;
+                        break;
+                    case Constantes.Ground_FR:
+                        type = Constantes.Ground_CO;
+                        break;
+                    case Constantes.Ghost_FR:
+                        type = Constantes.Ghost_CO;
+                        break;
+                    case Constantes.Dark_FR:
+                        type = Constantes.Dark_CO;
+                        break;
+                    case Constantes.Flying_FR:
+                        type = Constantes.Flying_CO;
+                        break;
+                    default:
+                        break;
+                }
+            else if (Language.Equals(Constantes.CN))
+                switch (type)
+                {
+                    case Constantes.Steel_FR:
+                        type = Constantes.Steel_CN;
+                        break;
+                    case Constantes.Fighting_FR:
+                        type = Constantes.Fighting_CN;
+                        break;
+                    case Constantes.Dragon_FR:
+                        type = Constantes.Dragon_CN;
+                        break;
+                    case Constantes.Water_FR:
+                        type = Constantes.Water_CN;
+                        break;
+                    case Constantes.Electric_FR:
+                        type = Constantes.Electric_CN;
+                        break;
+                    case Constantes.Fairy_FR:
+                        type = Constantes.Fairy_CN;
+                        break;
+                    case Constantes.Fire_FR:
+                        type = Constantes.Fire_CN;
+                        break;
+                    case Constantes.Ice_FR:
+                        type = Constantes.Ice_CN;
+                        break;
+                    case Constantes.Bug_FR:
+                        type = Constantes.Bug_CN;
+                        break;
+                    case Constantes.Normal_FR:
+                        type = Constantes.Normal_CN;
+                        break;
+                    case Constantes.Grass_FR:
+                        type = Constantes.Grass_CN;
+                        break;
+                    case Constantes.Poison_FR:
+                        type = Constantes.Poison_CN;
+                        break;
+                    case Constantes.Psychic_FR:
+                        type = Constantes.Psychic_CN;
+                        break;
+                    case Constantes.Rock_FR:
+                        type = Constantes.Rock_CN;
+                        break;
+                    case Constantes.Ground_FR:
+                        type = Constantes.Ground_CN;
+                        break;
+                    case Constantes.Ghost_FR:
+                        type = Constantes.Ghost_CN;
+                        break;
+                    case Constantes.Dark_FR:
+                        type = Constantes.Dark_CN;
+                        break;
+                    case Constantes.Flying_FR:
+                        type = Constantes.Flying_CN;
                         break;
                     default:
                         break;
