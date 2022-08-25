@@ -69,6 +69,10 @@ namespace WebApiScrapingData.Domain
             ES = new DataInfo();
             IT = new DataInfo();
             DE = new DataInfo();
+            RU = new DataInfo();
+            JP = new DataInfo();
+            CO = new DataInfo();
+            CN = new DataInfo();
         }
     }
 }

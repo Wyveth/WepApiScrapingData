@@ -58,10 +58,6 @@ namespace WepApiScrapingData.Controllers
             int i = 0;
             DataJson dataJson = new DataJson();
 
-            #region Get Number
-
-            #endregion
-            #region FR
             #region Get Name & Number
             value = htmlDoc_FR.DocumentNode.Descendants("div")
                 .Where(node => node.GetAttributeValue("class", "").Contains("pokedex-pokemon-pagination-title")).First();
@@ -69,6 +65,16 @@ namespace WepApiScrapingData.Controllers
             dataJson.number = value.InnerText.Trim().Split("\n")[1].Trim().Split(".")[1];
 
             int numbPok = int.Parse(dataJson.number.ToString());
+
+            values = htmlDoc_FR.DocumentNode.Descendants("div")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("version-descriptions")).ToList();
+            #endregion
+            #region FR
+            #region Get Name & Number
+            value = htmlDoc_FR.DocumentNode.Descendants("div")
+                .Where(node => node.GetAttributeValue("class", "").Contains("pokedex-pokemon-pagination-title")).First();
+
+            dataJson.number = value.InnerText.Trim().Split("\n")[1].Trim().Split(".")[1];
 
             if (many)
             {
@@ -318,15 +324,15 @@ namespace WepApiScrapingData.Controllers
             #endregion
 
             //#region JP
-            //GetDataByAsia(htmlDoc_JP, dataJson.JP, dataJson.number, numbPok, values, value, i, many, option);
+            //GetDataByAsia(htmlDoc_JP, dataJson.JP, dataJson.number, numbPok, values, value, i, many, option, Constantes.JP);
             //#endregion
 
             //#region CO
-            //GetDataByAsia(htmlDoc_CO, dataJson.CO, dataJson.number, numbPok, values, value, i, many, option);
+            //GetDataByAsia(htmlDoc_CO, dataJson.CO, dataJson.number, numbPok, values, value, i, many, option, Constantes.CO);
             //#endregion
 
             //#region CN
-            //GetDataByAsia(htmlDoc_CN, dataJson.CN, dataJson.number, numbPok, values, value, i, many, option);
+            //GetDataByAsia(htmlDoc_CN, dataJson.CN, dataJson.number, numbPok, values, value, i, many, option, Constantes.CN);
             //#endregion
 
             return dataJson;
@@ -361,17 +367,17 @@ namespace WepApiScrapingData.Controllers
             #endregion
 
             #region Asia
-            string response_JP = CallUrl(url_JP).Result;
+            //string response_JP = CallUrl(url_JP).Result;
             HtmlDocument htmlDoc_JP = new HtmlDocument();
-            htmlDoc_JP.LoadHtml(response_JP);
+            //htmlDoc_JP.LoadHtml(response_JP);
 
-            string response_CO = CallUrl(url_CO).Result;
+            //string response_CO = CallUrl(url_CO).Result;
             HtmlDocument htmlDoc_CO = new HtmlDocument();
-            htmlDoc_CO.LoadHtml(response_CO);
+            //htmlDoc_CO.LoadHtml(response_CO);
 
-            string response_CN = CallUrl(url_CN).Result;
+            //string response_CN = CallUrl(url_CN).Result;
             HtmlDocument htmlDoc_CN = new HtmlDocument();
-            htmlDoc_CN.LoadHtml(response_CN);
+            //htmlDoc_CN.LoadHtml(response_CN);
             #endregion
 
             HtmlNode value = htmlDoc_FR.DocumentNode.Descendants("div")
@@ -389,6 +395,11 @@ namespace WepApiScrapingData.Controllers
                 for (int i = 0; i < countImg; i++)
                 {
                     dataJson = ParseHtmlToJson(htmlDoc_FR, htmlDoc_EN, htmlDoc_ES, htmlDoc_IT, htmlDoc_DE, htmlDoc_RU, htmlDoc_JP, htmlDoc_CO, htmlDoc_CN, true, i);
+
+                    if (i > 0)
+                    {
+                        //A faire
+                    }
                     dataJsons.Add(dataJson);
                 }
             }
@@ -1011,8 +1022,305 @@ namespace WepApiScrapingData.Controllers
             }
             #endregion
         }
+
+        private void GetDataByAsia(HtmlDocument htmlDoc, DataInfo dataInfo, string number, int numbPok, List<HtmlNode> values, HtmlNode value, int i, bool many, int option, string region)
+        {
+            if (region.Equals(Constantes.JP))
+            {
+                #region Get Name & Number
+                values = htmlDoc.DocumentNode.Descendants("h3")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("ttl__detail")).ToList();
+
+                dataInfo.name = value.InnerText.Trim().Split("\n")[0];
+                dataInfo.displayName = value.InnerText.Trim().Split("\n")[0];
+
+                dataInfo.name = dataInfo.name.Replace("&#39;", "'").Replace(':', ' ');
+                dataInfo.displayName = dataInfo.displayName.Replace("&#39;", "'").Replace(':', ' ');
+                Debug.WriteLine(number + ": " + dataInfo.name);
+                #endregion
+
+                #region Get Description
+                values = htmlDoc.DocumentNode.Descendants("div")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("version-descriptions")).ToList();
+                value = values[option].Descendants("p")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("version-x")).First();
+
+                dataInfo.descriptionVx = value.InnerText.Trim().Replace("&#39;", "'");
+
+                value = values[option].Descendants("p")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("version-y")).First();
+
+                dataInfo.descriptionVy = value.InnerText.Trim().Replace("&#39;", "'");
+                #endregion
+
+                #region Get Talent
+                values = htmlDoc.DocumentNode.Descendants("div")
+                .Where(node => node.GetAttributeValue("class", "").Contains("pokemon-ability-info color-bg color-lightblue match"))
+                .ToList();
+                value = values[option];
+
+                values = value.Descendants("span")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("attribute-value")).ToList();
+
+                dataInfo.size = values[0].InnerText;
+                dataInfo.weight = values[1].InnerText;
+                dataInfo.category = values[3].InnerText.Replace("&#39;", "'");
+                if (values.Count().Equals(5))
+                    dataInfo.talent = values[4].InnerText;
+                else if (values.Count() > 5)
+                    dataInfo.talent = values[4].InnerText + "," + values[5].InnerText;
+
+                #endregion
+
+                #region Get Description Talent
+                values = value.Descendants("div")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("pokemon-ability-info-detail")).ToList();
+
+                if (values.Count().Equals(1))
+                {
+                    value = values[0].Descendants("p").First();
+                    dataInfo.descriptionTalent = value.InnerText.Replace("&#39;", "'");
+                }
+                else if (values.Count() > 1)
+                {
+                    for (i = 0; i < 2; i++)
+                    {
+                        value = values[i].Descendants("p").First();
+                        if (i.Equals(0))
+                            dataInfo.descriptionTalent = value.InnerText.Replace("&#39;", "'");
+                        else
+                            dataInfo.descriptionTalent += ";" + value.InnerText.Replace("&#39;", "'");
+                    }
+
+                }
+                #endregion
+
+                #region Evolution
+                values = htmlDoc.DocumentNode.Descendants("h3")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("match")).ToList();
+
+                i = 0;
+
+                foreach (var item in values)
+                {
+                    string pokName = item.InnerHtml.Trim().Split("\n")[0];
+                    if (i == 0)
+                    {
+                        dataInfo.evolutions = pokName.Replace("&#39;", "'");
+                        i++;
+                    }
+                    else
+                    {
+                        dataInfo.evolutions += ',' + pokName.Replace("&#39;", "'");
+                    }
+                }
+                #endregion
+
+                #region Next Url
+                if (numbPok != Constantes.lastPokemonNumber)
+                {
+                    value = htmlDoc.DocumentNode.Descendants("a")
+                        .Where(node => node.GetAttributeValue("class", "").Contains("next")).First();
+
+                    dataInfo.nextUrl = Constantes.urlPath + value.OuterHtml.Split('"')[1];
+                }
+                #endregion
+            }
+            else if (region.Equals(Constantes.CO))
+            {
+                #region Get Name & Number
+                value = htmlDoc.DocumentNode.Descendants("h3").First();
+
+                dataInfo.name = value.InnerText.Trim().Split(" ")[2];
+                dataInfo.displayName = value.InnerText.Trim().Split(" ")[2];
+                Debug.WriteLine(number + ": " + dataInfo.name);
+                #endregion
+
+                #region Get Description
+                values = htmlDoc.DocumentNode.Descendants("p")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("descript")).ToList();
+
+                dataInfo.descriptionVx = values[0].InnerText;
+
+                dataInfo.descriptionVy = values[1].InnerText;
+                #endregion
+
+                #region Get Talent
+                values = htmlDoc.DocumentNode.Descendants("div")
+                .Where(node => node.GetAttributeValue("class", "").Contains("bx-detail"))
+                .ToList();
+                value = values[0];
+
+                values = value.Descendants("div").Where(node => node.GetAttributeValue("class", "").Contains("col-4")).ToList();
+
+                dataInfo.size = values[1].InnerText;
+                dataInfo.weight = values[4].InnerText;
+                dataInfo.category = values[2].InnerText.Replace("&#39;", "'");
+                if (values.Count().Equals(5))
+                    dataInfo.talent = values[4].InnerText;
+                else if (values.Count() > 5)
+                    dataInfo.talent = values[4].InnerText + "," + values[5].InnerText;
+
+                #endregion
+
+                #region Get Description Talent
+                values = value.Descendants("div")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("pokemon-ability-info-detail")).ToList();
+
+                if (values.Count().Equals(1))
+                {
+                    value = values[0].Descendants("p").First();
+                    dataInfo.descriptionTalent = value.InnerText.Replace("&#39;", "'");
+                }
+                else if (values.Count() > 1)
+                {
+                    for (i = 0; i < 2; i++)
+                    {
+                        value = values[i].Descendants("p").First();
+                        if (i.Equals(0))
+                            dataInfo.descriptionTalent = value.InnerText.Replace("&#39;", "'");
+                        else
+                            dataInfo.descriptionTalent += ";" + value.InnerText.Replace("&#39;", "'");
+                    }
+
+                }
+                #endregion
+
+                #region Evolution
+                values = htmlDoc.DocumentNode.Descendants("h3")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("match")).ToList();
+
+                i = 0;
+
+                foreach (var item in values)
+                {
+                    string pokName = item.InnerHtml.Trim().Split("\n")[0];
+                    if (i == 0)
+                    {
+                        dataInfo.evolutions = pokName.Replace("&#39;", "'");
+                        i++;
+                    }
+                    else
+                    {
+                        dataInfo.evolutions += ',' + pokName.Replace("&#39;", "'");
+                    }
+                }
+                #endregion
+
+                #region Next Url
+                if (numbPok != Constantes.lastPokemonNumber)
+                {
+                    value = htmlDoc.DocumentNode.Descendants("a")
+                        .Where(node => node.GetAttributeValue("class", "").Contains("next")).First();
+
+                    dataInfo.nextUrl = Constantes.urlPath + value.OuterHtml.Split('"')[1];
+                }
+                #endregion
+            }
+            else if (region.Equals(Constantes.CN))
+            {
+                #region Get Name & Number
+                values = htmlDoc.DocumentNode.Descendants("h2")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("ttl__detail")).ToList();
+
+                dataInfo.name = value.InnerText.Trim().Split("\n")[0];
+                dataInfo.displayName = value.InnerText.Trim().Split("\n")[0];
+
+                dataInfo.name = dataInfo.name.Replace("&#39;", "'").Replace(':', ' ');
+                dataInfo.displayName = dataInfo.displayName.Replace("&#39;", "'").Replace(':', ' ');
+                Debug.WriteLine(number + ": " + dataInfo.name);
+                #endregion
+
+                #region Get Description
+                values = htmlDoc.DocumentNode.Descendants("div")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("version-descriptions")).ToList();
+                value = values[option].Descendants("p")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("version-x")).First();
+
+                dataInfo.descriptionVx = value.InnerText.Trim().Replace("&#39;", "'");
+
+                value = values[option].Descendants("p")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("version-y")).First();
+
+                dataInfo.descriptionVy = value.InnerText.Trim().Replace("&#39;", "'");
+                #endregion
+
+                #region Get Talent
+                values = htmlDoc.DocumentNode.Descendants("div")
+                .Where(node => node.GetAttributeValue("class", "").Contains("pokemon-ability-info color-bg color-lightblue match"))
+                .ToList();
+                value = values[option];
+
+                values = value.Descendants("span")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("attribute-value")).ToList();
+
+                dataInfo.size = values[0].InnerText;
+                dataInfo.weight = values[1].InnerText;
+                dataInfo.category = values[3].InnerText.Replace("&#39;", "'");
+                if (values.Count().Equals(5))
+                    dataInfo.talent = values[4].InnerText;
+                else if (values.Count() > 5)
+                    dataInfo.talent = values[4].InnerText + "," + values[5].InnerText;
+
+                #endregion
+
+                #region Get Description Talent
+                values = value.Descendants("div")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("pokemon-ability-info-detail")).ToList();
+
+                if (values.Count().Equals(1))
+                {
+                    value = values[0].Descendants("p").First();
+                    dataInfo.descriptionTalent = value.InnerText.Replace("&#39;", "'");
+                }
+                else if (values.Count() > 1)
+                {
+                    for (i = 0; i < 2; i++)
+                    {
+                        value = values[i].Descendants("p").First();
+                        if (i.Equals(0))
+                            dataInfo.descriptionTalent = value.InnerText.Replace("&#39;", "'");
+                        else
+                            dataInfo.descriptionTalent += ";" + value.InnerText.Replace("&#39;", "'");
+                    }
+
+                }
+                #endregion
+
+                #region Evolution
+                values = htmlDoc.DocumentNode.Descendants("h3")
+                    .Where(node => node.GetAttributeValue("class", "").Contains("match")).ToList();
+
+                i = 0;
+
+                foreach (var item in values)
+                {
+                    string pokName = item.InnerHtml.Trim().Split("\n")[0];
+                    if (i == 0)
+                    {
+                        dataInfo.evolutions = pokName.Replace("&#39;", "'");
+                        i++;
+                    }
+                    else
+                    {
+                        dataInfo.evolutions += ',' + pokName.Replace("&#39;", "'");
+                    }
+                }
+                #endregion
+
+                #region Next Url
+                if (numbPok != Constantes.lastPokemonNumber)
+                {
+                    value = htmlDoc.DocumentNode.Descendants("a")
+                        .Where(node => node.GetAttributeValue("class", "").Contains("next")).First();
+
+                    dataInfo.nextUrl = Constantes.urlPath + value.OuterHtml.Split('"')[1];
+                }
+                #endregion
+            }
+        }
         #endregion
         #endregion
-#endregion
+        #endregion
     }
 }
