@@ -82,13 +82,18 @@ namespace WepApiScrapingData.Controllers
 
                 if (values[option].InnerText.Contains(Constantes.Alola))
                 {
-                    dataJson.FR.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola;
-                    dataJson.FR.displayName = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola;
+                    dataJson.FR.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola_FR;
+                    dataJson.FR.displayName = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola_FR;
                 }
                 else if (values[option].InnerText.Contains(Constantes.Galar))
                 {
-                    dataJson.FR.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionGalar;
-                    dataJson.FR.displayName = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionGalar;
+                    dataJson.FR.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionGalar_FR;
+                    dataJson.FR.displayName = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionGalar_FR;
+                }
+                else if (values[option].InnerText.Contains(Constantes.Hisui))
+                {
+                    dataJson.FR.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionHisui_FR;
+                    dataJson.FR.displayName = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionHisui_FR;
                 }
                 else
                 {
@@ -304,23 +309,23 @@ namespace WepApiScrapingData.Controllers
             #endregion
 
             #region EN
-            GetDataByEurope(htmlDoc_EN, dataJson.EN, dataJson.number, numbPok, values, value, i, many, option);
+            GetDataByEurope(htmlDoc_EN, dataJson.EN, dataJson.number, numbPok, values, value, i, many, option, Constantes.EN);
             #endregion
 
             #region ES
-            GetDataByEurope(htmlDoc_ES, dataJson.ES, dataJson.number, numbPok, values, value, i, many, option);
+            GetDataByEurope(htmlDoc_ES, dataJson.ES, dataJson.number, numbPok, values, value, i, many, option, Constantes.ES);
             #endregion
 
             #region IT
-            GetDataByEurope(htmlDoc_IT, dataJson.IT, dataJson.number, numbPok, values, value, i, many, option);
+            GetDataByEurope(htmlDoc_IT, dataJson.IT, dataJson.number, numbPok, values, value, i, many, option, Constantes.IT);
             #endregion
 
             #region DE
-            GetDataByEurope(htmlDoc_DE, dataJson.DE, dataJson.number, numbPok, values, value, i, many, option);
+            GetDataByEurope(htmlDoc_DE, dataJson.DE, dataJson.number, numbPok, values, value, i, many, option, Constantes.DE);
             #endregion
 
             #region RU
-            GetDataByEurope(htmlDoc_RU, dataJson.RU, dataJson.number, numbPok, values, value, i, many, option);
+            GetDataByEurope(htmlDoc_RU, dataJson.RU, dataJson.number, numbPok, values, value, i, many, option, Constantes.RU);
             #endregion
 
             //#region JP
@@ -825,7 +830,10 @@ namespace WepApiScrapingData.Controllers
                 var i = evol.ChildNodes[5].InnerText.Trim().Split("\n").Length;
 
                 if (i.Equals(1))
-                    dataJson.whenEvolution = "Base";
+                {
+                    dataJson.FR.whenEvolution = dataJson.EN.whenEvolution = dataJson.ES.whenEvolution = dataJson.IT.whenEvolution = dataJson.DE.whenEvolution = Constantes.Base_EU;
+                    dataJson.RU.whenEvolution = Constantes.Base_RU;
+                }
                 else
                 {
                     if (evol.ChildNodes[5].InnerText.Trim().Split("\n")[2].Contains("Reproduction"))
@@ -834,19 +842,42 @@ namespace WepApiScrapingData.Controllers
                     if (evol == null)
                         evol = detailsEvol.Find(m => m.ChildNodes[5].InnerText.Trim().Contains(filter));
 
-                    dataJson.whenEvolution = evol.ChildNodes[5].InnerText.Trim().Split("\n")[2].Trim().Replace("&#039;", "'");
+                    dataJson.FR.whenEvolution = evol.ChildNodes[5].InnerText.Trim().Split("\n")[2].Trim().Replace("&#039;", "'");
 
-                    if (dataJson.whenEvolution.Contains("."))
-                        dataJson.whenEvolution = dataJson.whenEvolution.Split('.')[dataJson.whenEvolution.Split('.').Length - 1];
+                    if (dataJson.FR.whenEvolution.Contains("."))
+                        dataJson.FR.whenEvolution = dataJson.FR.whenEvolution.Split('.')[dataJson.FR.whenEvolution.Split('.').Length - 1];
+
+                    GetTranslationWhenEvolution(dataJson);
                 }
 
-                Debug.WriteLine("Evolution Essai: " + dataJson.number + ": " + dataJson.FR.name + " - " + dataJson.whenEvolution);
+                Debug.WriteLine("Evolution Essai: " + dataJson.number + ": " + dataJson.FR.name + " - " + dataJson.FR.whenEvolution);
             }
             else
                 Debug.WriteLine("Evolution Erreur: " + dataJson.number + ": " + dataJson.FR.name);
         }
 
-        private void GetDataByEurope(HtmlDocument htmlDoc, DataInfo dataInfo, string number, int numbPok, List<HtmlNode> values, HtmlNode value, int i = 0, bool many = false, int option = 0)
+        private void GetTranslationWhenEvolution(DataJson dataJson)
+        {
+            if (dataJson.FR.whenEvolution.Contains(Constantes.Level_FR) && dataJson.FR.whenEvolution.Length <= 9)
+            {
+                dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_EN);
+                dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_ES);
+                dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_IT);
+                dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_DE);
+                dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.Split(' ')[1] + " " + dataJson.FR.whenEvolution.Split(' ')[0].Replace(Constantes.Level_FR, Constantes.Level_RU);
+            }
+            else
+            {
+                //Faire le Switch
+                dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_EN);
+                dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_ES);
+                dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_IT);
+                dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_DE);
+                dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.Split(' ')[1] + " " + dataJson.FR.whenEvolution.Split(' ')[0].Replace(Constantes.Level_FR, Constantes.Level_RU);
+            }
+        }
+
+        private void GetDataByEurope(HtmlDocument htmlDoc, DataInfo dataInfo, string number, int numbPok, List<HtmlNode> values, HtmlNode value, int i = 0, bool many = false, int option = 0, string region = "")
         {
             #region Get Name & Number
             value = htmlDoc.DocumentNode.Descendants("div")
@@ -858,20 +889,52 @@ namespace WepApiScrapingData.Controllers
 
                 if (values[option].InnerText.Contains(Constantes.Alola))
                 {
-                    dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola;
-                    dataInfo.displayName = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola;
+                    if(region.Equals(Constantes.EN))
+                        dataInfo.name = Constantes.regionAlola_EN + " " + value.InnerText.Trim().Split("\n")[0];
+                    else if (region.Equals(Constantes.ES))
+                        dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola_ES;
+                    else if (region.Equals(Constantes.IT))
+                        dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola_IT;
+                    else if (region.Equals(Constantes.DE))
+                        dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola_DE;
+                    else if (region.Equals(Constantes.RU))
+                        dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola_RU;
+                    dataInfo.displayName = dataInfo.name;
                 }
                 else if (values[option].InnerText.Contains(Constantes.Galar))
                 {
-                    dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionGalar;
-                    dataInfo.displayName = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionGalar;
+                    if (region.Equals(Constantes.EN))
+                        dataInfo.name = Constantes.regionGalar_EN + " " + value.InnerText.Trim().Split("\n")[0];
+                    else if (region.Equals(Constantes.ES))
+                        dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionGalar_ES;
+                    else if (region.Equals(Constantes.IT))
+                        dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionGalar_IT;
+                    else if (region.Equals(Constantes.DE))
+                        dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionGalar_DE;
+                    else if (region.Equals(Constantes.RU))
+                        dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionGalar_RU;
+                    dataInfo.displayName = dataInfo.name;
+                }
+                else if (values[option].InnerText.Contains(Constantes.Hisui))
+                {
+                    if (region.Equals(Constantes.EN))
+                        dataInfo.name = Constantes.regionHisui_EN + " " + value.InnerText.Trim().Split("\n")[0];
+                    else if (region.Equals(Constantes.ES))
+                        dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionHisui_ES;
+                    else if (region.Equals(Constantes.IT))
+                        dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionHisui_IT;
+                    else if (region.Equals(Constantes.DE))
+                        dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionHisui_DE;
+                    else if (region.Equals(Constantes.RU))
+                        dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionHisui_RU;
+                    dataInfo.displayName = dataInfo.name;
                 }
                 else
                 {
                     if (values[option].InnerText.Contains("Forme de Motisma"))
                     {
                         dataInfo.name = values[option].InnerText.Split(" ")[2];
-                        dataInfo.displayName = values[option].InnerText.Split(" ")[2];
+                        dataInfo.displayName = dataInfo.name;
                     }
                     else if (values[option].InnerText.Contains(value.InnerText.Trim().Split("\n")[0]))
                     {
@@ -886,18 +949,18 @@ namespace WepApiScrapingData.Controllers
                     else
                     {
                         dataInfo.name = values[option].InnerText;
-                        dataInfo.displayName = values[option].InnerText;
+                        dataInfo.displayName = dataInfo.name;
                     }
                 }
             }
             else
             {
                 dataInfo.name = value.InnerText.Trim().Split("\n")[0];
-                dataInfo.displayName = value.InnerText.Trim().Split("\n")[0];
+                dataInfo.displayName = dataInfo.name;
             }
 
             dataInfo.name = dataInfo.name.Replace("&#39;", "'").Replace(':', ' ');
-            dataInfo.displayName = dataInfo.displayName.Replace("&#39;", "'").Replace(':', ' ');
+            dataInfo.displayName = dataInfo.name;
             Debug.WriteLine(number + ": " + dataInfo.name);
             #endregion
 

@@ -30,7 +30,7 @@ namespace WebApiScrapingData.Domain
         public string typeEvolution = "";
 
         //Savoir Quand où comment le pokémon évolue
-        public string whenEvolution = "";
+        //public string whenEvolution = "";
 
         //Statistique PV
         public int statPv = 0;

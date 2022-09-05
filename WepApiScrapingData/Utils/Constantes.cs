@@ -34,7 +34,7 @@
         public const string urlTestSylveroy = "https://api.pokemon.com/fr/pokedex/sylveroy";
         public const string urlTestCanarticho = "https://api.pokemon.com/fr/pokedex/canarticho";
         public const string urlTestCerbyllin = "https://api.pokemon.com/fr/pokedex/cerbyllin";
-        public const int lastPokemonNumber = 905;
+        public const int lastPokemonNumber = 6;
 
         public const string urlStart1Gen = "https://api.pokemon.com/fr/pokedex/bulbizarre";
         public const string urlStart2Gen = "https://api.pokemon.com/fr/pokedex/germignon";
@@ -57,10 +57,32 @@
         public const string Variant = "Variant";
         public const string Hisui = "Hisui";
 
-        public const string regionAlola = "d'Alola";
-        public const string regionGalar = "de Galar";
+        public const string regionAlola_FR = "d'Alola";
+        public const string regionGalar_FR = "de Galar";
+        public const string regionHisui_FR = "de Hisui";
+
+        public const string regionAlola_EN = "Alolan";
+        public const string regionGalar_EN = "Galarian";
+        public const string regionHisui_EN = "Hisuian";
+
+        public const string regionAlola_ES = "de Alola";
+        public const string regionGalar_ES = "de Galar";
+        public const string regionHisui_ES = "de Hisui";
+
+        public const string regionAlola_IT = "di Alola";
+        public const string regionGalar_IT = "di Galar";
+        public const string regionHisui_IT = "di Hisui";
+
+        public const string regionAlola_DE = "von Alola";
+        public const string regionGalar_DE = "von Galar";
+        public const string regionHisui_DE = "von Hisui";
+
+        public const string regionAlola_RU = "от Алола";
+        public const string regionGalar_RU = "от галарского";
+        public const string regionHisui_RU = "от Хисуи";
 
         public const string Meganium = "Méganium";
+        
         #endregion
 
         #region PokemonDB
@@ -301,6 +323,591 @@
         public const string ImgColorFlying = "#D4C49A";
         public const string InfoColorFlying = "#98B3E9";
         public const string TypeColorFlying = "#92AADE";
+        #endregion
+
+        #region Object
+        #region Mega-Evolution
+        public const string Florizarrite = "Florizarrite";
+        public const string Dracaufite_X = "Dracaufite X";
+        public const string Dracaufite_Y = "Dracaufite Y";
+        public const string Tortankite = "Tortankite";
+        public const string Dardargnite = "Dardargnite";
+        public const string Roucarnagite = "Roucarnagite";
+        public const string Alakazamite = "Alakazamite";
+        public const string Flagadossite = "Flagadossite";
+        public const string Ectoplasmite = "Ectoplasmite";
+        public const string Kangourexite = "Kangourexite";
+        public const string Scarabruite = "Scarabruite";
+        public const string Léviatorite = "Léviatorite";
+        public const string Ptéraïte = "Ptéraïte";
+        public const string Mewtwoïte_X = "Mewtwoïte X";
+        public const string Mewtwoïte_Y = "Mewtwoïte Y";
+        public const string Pharampite = "Pharampite";
+        public const string Steelixite = "Steelixite";
+        public const string Cizayoxite = "Cizayoxite";
+        public const string Scarhinoïte = "Scarhinoïte";
+        public const string Démolossite = "Démolossite";
+        public const string Tyranocivite = "Tyranocivite";
+        public const string Jungkite = "Jungkite";
+        public const string Braségalite = "Braségalite";
+        public const string Laggronite = "Laggronite";
+        public const string Gardevoirite = "Gardevoirite";
+        public const string Ténéfixite = "Ténéfixite";
+        public const string Mysdibulite = "Mysdibulite";
+        public const string Galekingite = "Galekingite";
+        public const string Charminite = "Charminite";
+        public const string Élecsprintite = "Élecsprintite";
+        public const string Sharpedite = "Sharpedite";
+        public const string Caméruptite = "Caméruptite";
+        public const string Altarïte = "Altarïte";
+        public const string Branettite = "Branettite";
+        public const string Absolite = "Absolite";
+        public const string Oniglalite = "Oniglalite";
+        public const string Drattakite = "Drattakite";
+        public const string Métalossite = "Métalossite";
+        public const string Latiasite = "Latiasite";
+        public const string Latiosite = "Latiosite";
+        public const string Lockpinite = "Lockpinite";
+        public const string Carchacrokite = "Carchacrokite";
+        public const string Lucarite = "Lucarite";
+        public const string Blizzarite = "Blizzarite";
+        public const string Gallamïte = "Gallamïte";
+        public const string Nanméouïte = "Nanméouïte";
+        public const string Diancite = "Diancite";
+        #endregion
+
+        #region Exchange
+        public const string Exchange = "Échange en tenant";
+        public const string Roche_Royale = "Roche Royale";
+        public const string Peau_Métal = "Peau Métal";
+        public const string Écaille_Draco = "Écaille Draco";
+        public const string Améliorator = "Améliorator";
+        public const string Bel_Écaille = "Bel'Écaille";
+        public const string Dent_Ocean = "Dent Océan";
+        public const string Écaille_Ocean = "Écaille Océan";
+        public const string Protecteur = "Protecteur";
+        public const string Électriseur = "Électriseur";
+        public const string Magmariseur = "Magmariseur";
+        public const string CD_Douteux = "CD Douteux";
+        public const string Tissu_Fauche = "Tissu Fauche";
+        #endregion
+
+        #region Object Used
+        public const string OutsideAlola = "(en dehors d'Alola)";
+        public const string Use_1 = "Utiliser un";
+        public const string Use_2 = "Utiliser une";
+        public const string Pierre = "Pierre";
+        public const string Male = "mâle";
+        public const string FemelleMin = "femelle";
+        public const string Bracelet_Galanoa = "Bracelet Galanoa";
+        public const string Couronne_Galanoa = "Couronne Galanoa";
+        public const string Pomme_Acidulee = "Pomme Acidulée";
+        public const string Pomme_Sucree = "Pomme Sucrée";
+        public const string Theiere_Felee = "Théière Fêlée";
+        public const string Lune = "Lune";
+        public const string Feu = "Feu";
+        public const string Plante = "Plante";
+        public const string Eau = "Eau";
+        public const string Foudre = "Foudre";
+        public const string Soleil = "Soleil";
+        public const string Éclat = "Éclat";
+        public const string Nuit = "Nuit";
+        public const string Glace = "Glace";
+        public const string Aube = "Aube";
+        #endregion
+
+        #region Reproduction
+        public const string ReproductionAvec = "Reproduction avec";
+        public const string ReproductionDe = "Reproduction de";
+        public const string FaireTenir = "Faire tenir";
+        public const string AuParent = "au parent";
+        public const string TenuParUnParent = "tenu par un parent";
+        public const string Encens_Mer = "Encens Mer";
+        public const string Encens_Doux = "Encens Doux";
+        public const string Encens_Pur = "Encens Pur";
+        public const string Encens_Roc = "Encens Roc";
+        public const string Encens_Bizarre = "Encens Bizarre";
+        public const string Encens_Veine = "Encens Veine";
+        public const string Encens_Plein = "Encens Plein";
+        public const string Encens_Fleur = "Encens Fleur";
+        public const string Encens_Vague = "Encens Vague";
+        public const string PikachuORRaichu = "Pikachu ou Raichu";
+        public const string RondoudouORGrodoudou = "Rondoudou ou Grodoudou";
+        public const string TogeticORTogekiss = "Togetic ou Togekiss";
+        public const string TygnonORKickleeORKapoera = "Tygnon, Kicklee ou Kapoera";
+        public const string Lippoutou = "Lippoutou";
+        public const string ÉlektekORÉlekable = "Élektek ou Élekable";
+        public const string MagmarORMaganon = "Magmar ou Maganon";
+        public const string Lucario = "Lucario";
+        public const string Salarsen = "Salarsen";
+        #endregion
+
+        #region Level Up
+        //Monter un niveau en tenant une Pierre Ovale le jour
+        //Monter un niveau en tenant Griffe Rasoir la nuit
+        //Monter un niveau en tenant Croc Rasoir la nuit
+
+        //avec bonheur élevé
+        //en ayant appris Copie(hors Galar)
+        //en ayant appris l'attaque Copie
+        //avec Rémoraid dans l'équipe
+        //en ayant appris Coup Double
+        //avec bonheur élevé le jour
+        //en ayant appris Roulade
+        //en ayant appris Pouvoir Antique
+        //au Mont Lanakila
+        //en ayant appris Écrasement
+        //en ayant appris Dracochoc
+        //en ayant appris Provoc
+        //avec bonheur élevé la nuit
+        #endregion
+
+
+
+
+        //si Attaque > Défense
+        //si Attaque<Défense
+        //(en dehors de Galar)
+        //(à Galar)
+        //si Défense = l'Attaque
+        //(dépend d'un numéro aléatoire calculé à la capture, le PID)
+        //avec un emplacement libre dans l'équipe et une Pokéball dans le sac
+        //femelle
+        //mâle
+        //avec un Pokémon Ténèbres dans l'équipe
+        //avec la console retournée
+        //le jour
+        //la nuit
+        //dans un lieu avec de la pluie naturelle
+        //(sauf Lune et Ultra-Lune)
+        //(sauf Soleil et Ultra-Soleil)
+        //au crépuscule(Rocabot avec Tempo Perso uniquement)
+        //(Soleil, Ultra-Soleil et Épée)
+        //(Lune, Ultra-Lune et Bouclier)
+        //si de nature Pudique, Assuré, Calme, Prudent, Gentil, Solo, Doux, Modeste, Discret, Relax, Sérieux ou Timide
+        //si de nature Bizarre, Brave, Docile, Foufou, Hardi, Jovial, Lâche, Malin, Malpoli, Mauvais, Naïf, Pressé ou Rigide
+
+
+        //Phione n'évolue pas
+        //Faire 3 coups critiques en un seul combat
+        //Perdre 49 PV ou plus et passer sous l'arche en pierre dans la Fosse des Sables (Terres Sauvages)
+        //Monter un niveau
+        #endregion
+
+        #region WhenEvolution
+        #region Niveau
+        public const string WE_L_1 = "Niveau 7 (dépend d'un numéro aléatoire calculé à la capture, le PID)";
+        public const string WE_L_2 = "Niveau 20, si Attaque > Défense";
+        public const string WE_L_3 = "Niveau 20, si Attaque < Défense";
+        public const string WE_L_4 = "Niveau 20, si Défense = l'Attaque";
+        public const string WE_L_5 = "Niveau 20 avec un emplacement libre dans l'équipe et une Pokéball dans le sac";
+        public const string WE_L_6 = "Niveau 20, femelle";
+        public const string WE_L_7 = "Niveau 20, mâle";
+        public const string WE_L_8 = "Niveau 20, le jour";
+        public const string WE_L_9 = "Niveau 21, femelle";
+        public const string WE_L_10 = "Niveau 25, mâle";
+        public const string WE_L_11 = "Niveau 25, femelle";
+        public const string WE_L_12 = "Niveau 25, le jour(sauf Lune et Ultra-Lune)";
+        public const string WE_L_13 = "Niveau 25, la nuit(sauf Soleil et Ultra-Soleil)";
+        public const string WE_L_14 = "Niveau 25 au crépuscule(Rocabot avec Tempo Perso uniquement)";
+        public const string WE_L_15 = "Niveau 28 (en dehors d'Alola)";
+        public const string WE_L_16 = "Niveau 30 avec la console retournée";
+        public const string WE_L_17 = "Niveau 30, si de nature Pudique, Assuré, Calme, Prudent, Gentil, Solo, Doux, Modeste, Discret, Relax, Sérieux ou Timide";
+        public const string WE_L_18 = "Niveau 30, si de nature Bizarre, Brave, Docile, Foufou, Hardi, Jovial, Lâche, Malin, Malpoli, Mauvais, Naïf, Pressé ou Rigide";
+        public const string WE_L_19 = "Niveau 32 avec un Pokémon Ténèbres dans l'équipe";
+        public const string WE_L_20 = "Niveau 33, femelle";
+        public const string WE_L_21 = "Niveau 34, le jour";
+        public const string WE_L_22 = "Niveau 35, la nuit";
+        public const string WE_L_23 = "Niveau 35 (en dehors de Galar)";
+        public const string WE_L_24 = "Niveau 35 (à Galar)";
+        public const string WE_L_25 = "Niveau 39, le jour";
+        public const string WE_L_26 = "Niveau 39, la nuit";
+        public const string WE_L_27 = "Niveau 50, dans un lieu avec de la pluie naturelle";
+        public const string WE_L_28 = "Niveau 53 (Soleil, Ultra-Soleil et Épée)";
+        public const string WE_L_29 = "Niveau 53 (Lune, Ultra-Lune et Bouclier)";
+        #endregion
+
+        #region Méga-Evolution
+        public const string WE_ME_1 = "Méga-Évolution avec une Florizarrite";
+        public const string WE_ME_2 = "Méga-Évolution avec une Dracaufite X";
+        public const string WE_ME_3 = "Méga-Évolution avec une Dracaufite Y";
+        public const string WE_ME_4 = "Méga-Évolution avec une Tortankite";
+        public const string WE_ME_5 = "Méga-Évolution avec une Dardargnite";
+        public const string WE_ME_6 = "Méga-Évolution avec une Roucarnagite";
+        public const string WE_ME_7 = "Méga-Évolution avec une Alakazamite";
+        public const string WE_ME_8 = "Méga-Évolution avec une Flagadossite";
+        public const string WE_ME_9 = "Méga-Évolution avec une Ectoplasmite";
+        public const string WE_ME_10 = "Méga-Évolution avec une Kangourexite";
+        public const string WE_ME_11 = "Méga-Évolution avec une Scarabruite";
+        public const string WE_ME_12 = "Méga-Évolution avec une Léviatorite";
+        public const string WE_ME_13 = "Méga-Évolution avec une Ptéraïte";
+        public const string WE_ME_14 = "Méga-Évolution avec une Mewtwoïte X";
+        public const string WE_ME_15 = "Méga-Évolution avec une Mewtwoïte Y";
+        public const string WE_ME_16 = "Méga-Évolution avec une Pharampite";
+        public const string WE_ME_17 = "Méga-Évolution avec une Steelixite";
+        public const string WE_ME_18 = "Méga-Évolution avec une Cizayoxite";
+        public const string WE_ME_19 = "Méga-Évolution avec une Scarhinoïte";
+        public const string WE_ME_20 = "Méga-Évolution avec une Démolossite";
+        public const string WE_ME_21 = "Méga-Évolution avec une Tyranocivite";
+        public const string WE_ME_22 = "Méga-Évolution avec une Jungkite";
+        public const string WE_ME_23 = "Méga-Évolution avec une Braségalite";
+        public const string WE_ME_24 = "Méga-Évolution avec une Laggronite";
+        public const string WE_ME_25 = "Méga-Évolution avec une Gardevoirite";
+        public const string WE_ME_26 = "Méga-Évolution avec une Ténéfixite";
+        public const string WE_ME_27 = "Méga-Évolution avec une Galekingite";
+        public const string WE_ME_28 = "Méga-Évolution avec une Charminite";
+        public const string WE_ME_29 = "Méga-Évolution avec une Élecsprintite";
+        public const string WE_ME_30 = "Méga-Évolution avec une Sharpedite";
+        public const string WE_ME_31 = "Méga-Évolution avec une Caméruptite";
+        public const string WE_ME_32 = "Méga-Évolution avec une Altarïte";
+        public const string WE_ME_33 = "Méga-Évolution avec une Branettite";
+        public const string WE_ME_34 = "Méga-Évolution avec une Absolite";
+        public const string WE_ME_35 = "Méga-Évolution avec une Oniglalite";
+        public const string WE_ME_36 = "Méga-Évolution avec une Drattakite";
+        public const string WE_ME_37 = "Méga-Évolution avec une Métalossite";
+        public const string WE_ME_38 = "Méga-Évolution avec une Latiasite";
+        public const string WE_ME_39 = "Méga-Évolution avec une Latiosite";
+        public const string WE_ME_40 = "Méga-Évolution avec une Lockpinite";
+        public const string WE_ME_41 = "Méga-Évolution avec une Carchacrokite";
+        public const string WE_ME_42 = "Méga-Évolution avec une Lucarite";
+        public const string WE_ME_43 = "Méga-Évolution avec une Blizzarite";
+        public const string WE_ME_44 = "Méga-Évolution avec une Gallamïte";
+        public const string WE_ME_45 = "Méga-Évolution avec une Diancite";
+        #endregion
+
+        #region Pierre d'évolution
+        public const string WE_P_1 = "Pierre Foudre(en dehors d'Alola)";
+        public const string WE_P_2 = "Pierre Lune";
+        public const string WE_P_3 = "Pierre Feu";
+        public const string WE_P_4 = "Pierre Plante";
+        public const string WE_P_5 = "Pierre Eau";
+        public const string WE_P_6 = "Pierre Plante (en dehors d'Alola)";
+        public const string WE_P_7 = "Pierre Foudre";
+        public const string WE_P_8 = "Pierre Soleil";
+        public const string WE_P_9 = "Pierre Éclat";
+        public const string WE_P_10 = "Pierre Nuit";
+        public const string WE_P_11 = "Pierre Aube, mâle";
+        public const string WE_P_12 = "Pierre Aube, femelle";
+        public const string WE_P_13 = "Pierre Glace";
+        public const string WE_P_14 = "8G+ : Pierre Foudre";
+        public const string WE_P_15 = "8G+ : Pierre Plante";
+        public const string WE_P_16 = "8G+ : Pierre Glace";
+        #endregion
+
+        #region Echange
+        public const string WE_E_1 = "Échange";
+        public const string WE_E_2 = "Échange en tenant Roche Royale";
+        public const string WE_E_3 = "Échange en tenant Peau Métal";
+        public const string WE_E_4 = "Échange en tenant Écaille Draco";
+        public const string WE_E_5 = "Échange en tenant Améliorator";
+        public const string WE_E_6 = "Échange en tenant Bel'Écaille / Monter un niveau avec 170 de Beauté (RSE / DPP / HGSS / ROSA / DEPS)";
+        public const string WE_E_7 = "Échange en tenant Dent Océan";
+        public const string WE_E_8 = "Échange en tenant Écaille Océan";
+        public const string WE_E_9 = "Échange contre Escargaume";
+        public const string WE_E_10 = "Échange contre Carabing";
+        public const string WE_E_11 = "Échange en tenant Sachet Senteur";
+        public const string WE_E_12 = "Échange en tenant Chantibonbon";
+        public const string WE_E_13 = "Échange en tenant Protecteur";
+        public const string WE_E_14 = "Échange en tenant Électriseur";
+        public const string WE_E_15 = "Échange en tenant Magmariseur";
+        public const string WE_E_16 = "Échange en tenant CD Douteux";
+        public const string WE_E_17 = "Échange en tenant Tissu Fauche";
+        #endregion
+
+        #region LevelUp
+        public const string WE_LU_1 = "Monter un niveau avec bonheur élevé";
+        public const string WE_LU_2 = "Monter un niveau en tenant une Pierre Ovale le jour";
+        public const string WE_LU_3 = "Monter un niveau en ayant appris Copie(hors Galar)";
+        public const string WE_LU_4 = "Monter un niveau en ayant appris l'attaque Copie";
+        public const string WE_LU_5 = "Monter un niveau avec bonheur élevé, le jour";
+        public const string WE_LU_6 = "Monter un niveau avec bonheur élevé, la nuit";
+        public const string WE_LU_7 = "Monter un niveau avec Rémoraid dans l'équipe";
+        public const string WE_LU_8 = "Monter un niveau en ayant appris Coup Double";
+        public const string WE_LU_9 = "Monter un niveau avec bonheur élevé le jour";
+        public const string WE_LU_10 = "Monter un niveau en tenant Griffe Rasoir la nuit";
+        public const string WE_LU_11 = "Monter un niveau en ayant appris Roulade";
+        public const string WE_LU_12 = "Monter un niveau en ayant appris Pouvoir Antique";
+        public const string WE_LU_13 = "Monter un niveau en tenant Croc Rasoir la nuit";
+        public const string WE_LU_14 = "Monter un niveau en ayant appris Écrasement";
+        public const string WE_LU_15 = "Monter un niveau en ayant appris Dracochoc";
+        public const string WE_LU_16 = "Monter un niveau en ayant appris Provoc";
+        public const string WE_LU_17 = "Monter un niveau avec bonheur élevé la nuit";
+        public const string WE_LU_18 = "Utiliser un Bracelet Galanoa";
+        public const string WE_LU_19 = "Utiliser une Couronne Galanoa";
+        public const string WE_LU_20 = "-Évolution avec une Mysdibulite";
+        public const string WE_LU_21 = "Phione n'évolue pas";
+        public const string WE_LU_22 = "7G : Monter un niveau au Mont Lanakila";
+        public const string WE_LU_23 = "Pomme Acidulée";
+        public const string WE_LU_24 = "Pomme Sucrée";
+        public const string WE_LU_25 = "Théière Fêlée";
+        public const string WE_LU_26 = "Faire 3 coups critiques en un seul combat";
+        public const string WE_LU_27 = " Mime de Galar)";
+        public const string WE_LU_28 = "Perdre 49 PV ou plus et passer sous l'arche en pierre dans la Fosse des Sables (Terres Sauvages)";
+        #endregion
+
+        #region Reproduction
+        public const string WE_R_1 = "Reproduction de Pikachu ou Raichu";
+        public const string WE_R_2 = "Reproduction de Rondoudou ou Grodoudou";
+        public const string WE_R_3 = "Reproduction de Togetic ou Togekiss";
+        public const string WE_R_4 = "Reproduction de Tygnon, Kicklee ou Kapoera";
+        public const string WE_R_5 = "Reproduction de Lippoutou";
+        public const string WE_R_6 = "Reproduction de Élektek ou Élekable";
+        public const string WE_R_7 = "Reproduction de Magmar ou Maganon";
+        public const string WE_R_8 = "Reproduction avec Encens Mer tenu par un parent";
+        public const string WE_R_9 = "Reproduction avec Encens Doux tenu par un parent";
+        public const string WE_R_10 = "Reproduction avec Encens Pur tenu par un parent";
+        public const string WE_R_11 = "Reproduction avec Encens Roc tenu par un parent";
+        public const string WE_R_12 = "Reproduction avec Encens Bizarre tenu par un parent";
+        public const string WE_R_13 = "Reproduction avec Encens Veine tenu par un parent";
+        public const string WE_R_14 = "Reproduction avec Encens Plein tenu par un parent";
+        public const string WE_R_15 = "Reproduction de Lucario";
+        public const string WE_R_16 = "Reproduction avec Encens Vague tenu par un parent";
+        public const string WE_R_17 = "Faire tenir Encens Fleur au parent";
+        public const string WE_R_18 = "Reproduction de Salarsen";
+        #endregion
+
+        #region Gigamax
+        public const string WE_GM_1 = "Forme Gigamax de Florizarre";
+        public const string WE_GM_2 = "Forme Gigamax de Dracaufeu";
+        public const string WE_GM_3 = "Forme Gigamax de Tortank";
+        public const string WE_GM_4 = "Forme Gigamax de Papilusion";
+        public const string WE_GM_5 = "Forme Gigamax de Pikachu";
+        public const string WE_GM_6 = "Forme Gigamax de Miaouss";
+        public const string WE_GM_7 = "Forme Gigamax de Mackogneur";
+        public const string WE_GM_8 = "Forme Gigamax de Ectoplasma";
+        public const string WE_GM_9 = "Forme Gigamax de Krabboss";
+        public const string WE_GM_10 = "Forme Gigamax de Lokhlass";
+        public const string WE_GM_11 = "Forme Gigamax de Évoli";
+        public const string WE_GM_12 = "Forme Gigamax de Ronflex";
+        public const string WE_GM_13 = "Forme Gigamax de Miasmax";
+        public const string WE_GM_14 = "Forme Gigamax de Melmetal";
+        public const string WE_GM_15 = "Forme Gigamax de Gorythmic";
+        public const string WE_GM_16 = "Forme Gigamax de Pyrobut";
+        public const string WE_GM_17 = "Forme Gigamax de Lézargus";
+        public const string WE_GM_18 = "Forme Gigamax de Corvaillus";
+        public const string WE_GM_19 = "Forme Gigamax de Astronelle";
+        public const string WE_GM_20 = "Forme Gigamax de Torgamord";
+        public const string WE_GM_21 = "Forme Gigamax de Monthracite";
+        public const string WE_GM_22 = "Forme Gigamax de Sorcilence";
+        public const string WE_GM_23 = "Forme Gigamax de Angoliath";
+        public const string WE_GM_24 = "Forme Gigamax de Scolocentre";
+        public const string WE_GM_25 = "Forme Gigamax de Dratatin";
+        public const string WE_GM_26 = "Forme Gigamax de Dunaconda";
+        public const string WE_GM_27 = "Forme Gigamax de Pomdrapi";
+        public const string WE_GM_28 = "Forme Gigamax de Charmilly";
+        public const string WE_GM_29 = "Forme Gigamax de Pachyradjah";
+        public const string WE_GM_30 = "Forme Gigamax de Duralugon";
+        public const string WE_GM_31 = "Forme Gigamax  de Shifours Poing Final";
+        public const string WE_GM_32 = "Forme Gigamax de Shifours Mille Poings";
+        #endregion
+        #endregion
+
+        #region Translation
+        public const string Base_EU = "Base";
+        public const string Base_RU = "База";
+
+        public const string Level_FR = "Niveau";
+        public const string Level_EN = "Level";
+        public const string Level_ES = "Nivel";
+        public const string Level_IT = "Livello";
+        public const string Level_DE = "Eben";
+        public const string Level_RU = "Yровень";
+
+        public const string BasicData_FR = "Données de Base";
+        public const string BasicData_EN = "Basic data";
+        public const string BasicData_ES = "Base de datos";
+        public const string BasicData_IT = "Dati di base";
+        public const string BasicData_DE = "Grundinformationen";
+        public const string BasicData_RU = "Основные данные";
+
+        public const string SpecialAbility_FR = "Capacité Spéciale";
+        public const string SpecialAbility_EN = "Special Ability";
+        public const string SpecialAbility_ES = "Habilidad especial";
+        public const string SpecialAbility_IT = "Abilità speciale";
+        public const string SpecialAbility_DE = "Besondere Fähigkeit";
+        public const string SpecialAbility_RU = "Специальные возможности";
+
+        public const string Statistics_FR = "Statistiques";
+        public const string Statistics_EN = "Statistics";
+        public const string Statistics_ES = "Estadísticas";
+        public const string Statistics_IT = "Statistiche";
+        public const string Statistics_DE = "Statistiken";
+        public const string Statistics_RU = "Статистика";
+
+        public const string Category_FR = "Catégorie";
+        public const string Category_EN = "Category";
+        public const string Category_ES = "Categoría";
+        public const string Category_IT = "Categoria";
+        public const string Category_DE = "Kategorie";
+        public const string Category_RU = "категория";
+
+        public const string Height_FR = "Taille";
+        public const string Height_EN = "Height";
+        public const string Height_ES = "Altura";
+        public const string Height_IT = "Altezza";
+        public const string Height_DE = "Größe";
+        public const string Height_RU = "высота";
+
+        public const string Weight_FR = "Poids";
+        public const string Weight_EN = "Weight";
+        public const string Weight_ES = "Peso";
+        public const string Weight_IT = "Peso";
+        public const string Weight_DE = "Gewicht";
+        public const string Weight_RU = "Масса";
+
+        public const string Skills_FR = "Talents";
+        public const string Skills_EN = "Skills";
+        public const string Skills_ES = "Habilidades";
+        public const string Skills_IT = "Abilità";
+        public const string Skills_DE = "Fähigkeiten";
+        public const string Skills_RU = "Способности";
+
+        public const string HP_FR = "PV";
+        public const string HP_EN = "HP";
+        public const string HP_ES = "PS";
+        public const string HP_IT = "PS";
+        public const string HP_DE = "KP";
+        public const string HP_RU = "HP";
+
+        public const string Atk_FR = "Att.";
+        public const string Atk_EN = "Atk";
+        public const string Atk_ES = "At.";
+        public const string Atk_IT = "Att.";
+        public const string Atk_DE = "Angr.";
+        public const string Atk_RU = "Atk";
+
+        public const string Def_FR = "Def.";
+        public const string Def_EN = "Def";
+        public const string Def_ES = "Def.";
+        public const string Def_IT = "Dif.";
+        public const string Def_DE = "Vert.";
+        public const string Def_RU = "Def";
+
+        public const string SpAtk_FR = "Att. Sp.";
+        public const string SpAtk_EN = "Sp. Atk";
+        public const string SpAtk_ES = "At. Esp.";
+        public const string SpAtk_IT = "Att. Sp.";
+        public const string SpAtk_DE = "Sp. Ang.";
+        public const string SpAtk_RU = "Sp. Atk";
+
+        public const string SpDef_FR = "Def. Sp.";
+        public const string SpDef_EN = "Sp. Def";
+        public const string SpDef_ES = "Def. Esp.";
+        public const string SpDef_IT = "Dif. Sp.";
+        public const string SpDef_DE = "Sp. Ver.";
+        public const string SpDef_RU = "Sp. Def";
+
+        public const string Speed_FR = "Vit.";
+        public const string Speed_EN = "Speed";
+        public const string Speed_ES = "Vel.";//Velocidad
+        public const string Speed_IT = "Vel.";//Velocità
+        public const string Speed_DE = "Init.";
+        public const string Speed_RU = "Speed";
+
+        public const string Evolution_FR = "Evolution";
+        public const string Evolution_EN = "Evolution";
+        public const string Evolution_ES = "Evolución";
+        public const string Evolution_IT = "Evoluzione";
+        public const string Evolution_DE = "Evolution";
+        public const string Evolution_RU = "Эволюции";
+
+        public const string Weaknesses_FR = "Faiblesses";
+        public const string Weaknesses_EN = "Weaknesses";
+        public const string Weaknesses_ES = "Debilidades";
+        public const string Weaknesses_IT = "Debolezze";
+        public const string Weaknesses_DE = "Schwächen";
+        public const string Weaknesses_RU = "Слабость";
+
+        public const string MegaEvolution_FR = "Méga Evolution";
+        public const string MegaEvolution_EN = "Mega Evolution";
+        public const string MegaEvolution_ES = "Megaevolución";
+        public const string MegaEvolution_IT = "Megaevoluzione";
+        public const string MegaEvolution_DE = "Mega-Entwicklung";
+        public const string MegaEvolution_RU = "Мегаэволюция";
+
+        public const string GigantamaxForm_FR = "Forme Gigamax";
+        public const string GigantamaxForm_EN = "Gigantamax Form";
+        public const string GigantamaxForm_ES = "Forma Gigamax";
+        public const string GigantamaxForm_IT = "Forma Gigamax";
+        public const string GigantamaxForm_DE = "GigaDynamax-Form";
+        public const string GigantamaxForm_RU = "гигамакс форма";
+
+        public const string AlolanForm_FR = "Forme d'Alola";
+        public const string AlolanForm_EN = "Alolan Form";
+        public const string AlolanForm_ES = "Forma De Alola";
+        public const string AlolanForm_IT = "Forma Di Alola";
+        public const string AlolanForm_DE = "Alola-Form";
+        public const string AlolanForm_RU = "алола форма";
+
+        public const string GalarsForm_FR = "Forme de Galar";
+        public const string GalarsForm_EN = "Galar's Form";
+        public const string GalarsForm_ES = "Forma De Galar";
+        public const string GalarsForm_IT = "Forma Di Galar";
+        public const string GalarsForm_DE = "Galar-Form";
+        public const string GalarsForm_RU = "галар форма";
+
+        public const string HisuisForm_FR = "Forme D'Hisui";
+        public const string HisuisForm_EN = "Hisui's Form";
+        public const string HisuisForm_ES = "Forma De Hisui";
+        public const string HisuisForm_IT = "Forma Di Hisui";
+        public const string HisuisForm_DE = "Hisui-Form";
+        public const string HisuisForm_RU = "Хисуи форма";
+
+        public const string Type_FR = "Type";
+        public const string Type_EN = "Type";
+        public const string Type_ES = "Tipo";
+        public const string Type_IT = "Tipo";
+        public const string Type_DE = "Typ";
+        public const string Type_RU = "Тип";
+
+        public const string Gen_FR = "Gen";
+        public const string Gen_EN = "Gen";
+        public const string Gen_ES = "Gen";
+        public const string Gen_IT = "Gen";
+        public const string Gen_DE = "Gen";
+        public const string Gen_RU = "Поколение";
+
+        public const string FilterShare_FR = "Filtrer Part";
+        public const string FilterShare_EN = "Filter Share";
+        public const string FilterShare_ES = "Compartir Filtro";
+        public const string FilterShare_IT = "Filtra Condividi";
+        public const string FilterShare_DE = "Teilen filtern";
+        public const string FilterShare_RU = "Поделиться фильтром";
+
+        public const string Return_FR = "Retour";
+        public const string Return_EN = "Return";
+        public const string Return_ES = "Devolver";
+        public const string Return_IT = "Ritorno";
+        public const string Return_DE = "Zurückkehren";
+        public const string Return_RU = "Возвращаться";
+
+        public const string Filter_FR = "Filtrer";
+        public const string Filter_EN = "Filter";
+        public const string Filter_ES = "Filtrar";
+        public const string Filter_IT = "Filtro";
+        public const string Filter_DE = "Filter";
+        public const string Filter_RU = "Фильтр";
+
+        public const string Female_FR = "Femelle";
+        public const string Female_EN = "Female";
+        public const string Female_ES = "Femenino";
+        public const string Female_IT = "Femmina";
+        public const string Female_DE = "Weiblich";
+        public const string Female_RU = "женский";
+
+        public const string VariantGender_FR = "Variante Sexe";
+        public const string VariantGender_EN = "Variant Gender";
+        public const string VariantGender_ES = "Género Variante";
+        public const string VariantGender_IT = "Genere Variante";
+        public const string VariantGender_DE = "Variante Geschlecht";
+        public const string VariantGender_RU = "Вариант пола";
+
+        public const string Variant_FR = "Variant";
+        public const string Variant_EN = "Variant";
+        public const string Variant_ES = "Variante";
+        public const string Variant_IT = "Variante";
+        public const string Variant_DE = "Variante";
+        public const string Variant_RU = "Вариант";
         #endregion
 
         #region Language

@@ -44,6 +44,9 @@ namespace WebApiScrapingData.Domain.Class
         //Evolution/Famille du Pokémon
         public string evolutions = "";
 
+        //Savoir Quand où comment le pokémon évolue
+        public string whenEvolution = "";
+
         //Prochain Pokémon
         public string nextUrl = "";
     }

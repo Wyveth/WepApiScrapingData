@@ -193,7 +193,6 @@ namespace WepApiScrapingData.Controllers
 
         private string GetNameTypeByLanguage(string type, string Language)
         {
-            string typeToReturn = "";
             if(Language.Equals(Constantes.EN))
                 switch (type)
                 {
