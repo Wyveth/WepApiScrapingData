@@ -858,22 +858,208 @@ namespace WepApiScrapingData.Controllers
 
         private void GetTranslationWhenEvolution(DataJson dataJson)
         {
-            if (dataJson.FR.whenEvolution.Contains(Constantes.Level_FR) && dataJson.FR.whenEvolution.Length <= 9)
+            if (dataJson.FR.whenEvolution.Contains(Constantes.Level_FR))
             {
-                dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_EN);
-                dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_ES);
-                dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_IT);
-                dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_DE);
-                dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.Split(' ')[1] + " " + dataJson.FR.whenEvolution.Split(' ')[0].Replace(Constantes.Level_FR, Constantes.Level_RU);
+                Translate(dataJson, Constantes.Level_FR);
             }
             else
             {
-                //Faire le Switch
-                dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_EN);
-                dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_ES);
-                dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_IT);
-                dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.Replace(Constantes.Level_FR, Constantes.Level_DE);
-                dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.Split(' ')[1] + " " + dataJson.FR.whenEvolution.Split(' ')[0].Replace(Constantes.Level_FR, Constantes.Level_RU);
+                //Translate(dataJson, Constantes.Level_FR);
+            }
+        }
+
+        private void Translate(DataJson dataJson, string value)
+        {
+            switch (value)
+            {
+                case Constantes.Level_FR:
+                    if (dataJson.FR.whenEvolution.Contains(Constantes.PID_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.PID_FR, Constantes.PID_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.PID_FR, Constantes.PID_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.PID_FR, Constantes.PID_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.PID_FR, Constantes.PID_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.PID_FR, Constantes.PID_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.ASD_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.ASD_FR, Constantes.ASD_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.ASD_FR, Constantes.ASD_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.ASD_FR, Constantes.ASD_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.ASD_FR, Constantes.ASD_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.ASD_FR, Constantes.ASD_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.AID_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.AID_FR, Constantes.AID_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.AID_FR, Constantes.AID_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.AID_FR, Constantes.AID_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.AID_FR, Constantes.AID_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.AID_FR, Constantes.AID_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.AED_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.AED_FR, Constantes.AED_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.AED_FR, Constantes.AED_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.AED_FR, Constantes.AED_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.AED_FR, Constantes.AED_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.AED_FR, Constantes.AED_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.PIB_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.PIB_FR, Constantes.PIB_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.PIB_FR, Constantes.PIB_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.PIB_FR, Constantes.PIB_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.PIB_FR, Constantes.PIB_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.PIB_FR, Constantes.PIB_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.FM_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.FM_FR, Constantes.FM_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.FM_FR, Constantes.FM_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.FM_FR, Constantes.FM_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.FM_FR, Constantes.FM_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.FM_FR, Constantes.FM_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.M_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.M_FR, Constantes.M_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.M_FR, Constantes.M_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.M_FR, Constantes.M_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.M_FR, Constantes.M_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.M_FR, Constantes.M_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.D_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.D_FR, Constantes.D_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.D_FR, Constantes.D_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.D_FR, Constantes.D_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.D_FR, Constantes.D_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.D_FR, Constantes.D_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.N_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.N_FR, Constantes.N_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.N_FR, Constantes.N_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.N_FR, Constantes.N_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.N_FR, Constantes.N_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.N_FR, Constantes.N_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.DLUL_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.DLUL_FR, Constantes.DLUL_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.DLUL_FR, Constantes.DLUL_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.DLUL_FR, Constantes.DLUL_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.DLUL_FR, Constantes.DLUL_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.DLUL_FR, Constantes.DLUL_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.NSUS_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.NSUS_FR, Constantes.NSUS_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.NSUS_FR, Constantes.NSUS_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.NSUS_FR, Constantes.NSUS_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.NSUS_FR, Constantes.NSUS_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.NSUS_FR, Constantes.NSUS_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.CR_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.CR_FR, Constantes.CR_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.CR_FR, Constantes.CR_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.CR_FR, Constantes.CR_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.CR_FR, Constantes.CR_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.CR_FR, Constantes.CR_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.OSA_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.OSA_FR, Constantes.OSA_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.OSA_FR, Constantes.OSA_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.OSA_FR, Constantes.OSA_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.OSA_FR, Constantes.OSA_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.OSA_FR, Constantes.OSA_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.CB_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.CB_FR, Constantes.CB_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.CB_FR, Constantes.CB_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.CB_FR, Constantes.CB_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.CB_FR, Constantes.CB_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.CB_FR, Constantes.CB_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.SPN_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.SPN_FR, Constantes.SPN_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.SPN_FR, Constantes.SPN_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.SPN_FR, Constantes.SPN_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.SPN_FR, Constantes.SPN_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.SPN_FR, Constantes.SPN_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.WN_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.WN_FR, Constantes.WN_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.WN_FR, Constantes.WN_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.WN_FR, Constantes.WN_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.WN_FR, Constantes.WN_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.WN_FR, Constantes.WN_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.DPIT_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.DPIT_FR, Constantes.DPIT_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.DPIT_FR, Constantes.DPIT_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.DPIT_FR, Constantes.DPIT_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.DPIT_FR, Constantes.DPIT_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.DPIT_FR, Constantes.DPIT_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.OSG_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.OSG_FR, Constantes.OSG_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.OSG_FR, Constantes.OSG_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.OSG_FR, Constantes.OSG_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.OSG_FR, Constantes.OSG_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.OSG_FR, Constantes.OSG_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.AG_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.AG_FR, Constantes.AG_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.AG_FR, Constantes.AG_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.AG_FR, Constantes.AG_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.AG_FR, Constantes.AG_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.AG_FR, Constantes.AG_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.NR_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.NR_FR, Constantes.NR_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.NR_FR, Constantes.NR_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.NR_FR, Constantes.NR_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.NR_FR, Constantes.NR_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.NR_FR, Constantes.NR_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.SUSE_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.SUSE_FR, Constantes.SUSE_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.SUSE_FR, Constantes.SUSE_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.SUSE_FR, Constantes.SUSE_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.SUSE_FR, Constantes.SUSE_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.SUSE_FR, Constantes.SUSE_RU);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.LULB_FR))
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_EN, Constantes.LULB_FR, Constantes.LULB_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_ES, Constantes.LULB_FR, Constantes.LULB_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_IT, Constantes.LULB_FR, Constantes.LULB_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.Level_FR, Constantes.Level_DE, Constantes.LULB_FR, Constantes.LULB_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(Constantes.Level_FR, Constantes.Level_RU, Constantes.LULB_FR, Constantes.LULB_RU);
+                    }
+                    else
+                    {
+                        dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(value, Constantes.Level_EN);
+                        dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(value, Constantes.Level_ES);
+                        dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(value, Constantes.Level_IT);
+                        dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(value, Constantes.Level_DE);
+                        dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationCleanRU(value, Constantes.Level_RU);
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -889,7 +1075,7 @@ namespace WepApiScrapingData.Controllers
 
                 if (values[option].InnerText.Contains(Constantes.Alola))
                 {
-                    if(region.Equals(Constantes.EN))
+                    if (region.Equals(Constantes.EN))
                         dataInfo.name = Constantes.regionAlola_EN + " " + value.InnerText.Trim().Split("\n")[0];
                     else if (region.Equals(Constantes.ES))
                         dataInfo.name = value.InnerText.Trim().Split("\n")[0] + " " + Constantes.regionAlola_ES;

@@ -495,36 +495,160 @@
         #endregion
 
         #region WhenEvolution
-        #region Niveau
-        public const string WE_L_1 = "Niveau 7 (dépend d'un numéro aléatoire calculé à la capture, le PID)";
-        public const string WE_L_2 = "Niveau 20, si Attaque > Défense";
-        public const string WE_L_3 = "Niveau 20, si Attaque < Défense";
-        public const string WE_L_4 = "Niveau 20, si Défense = l'Attaque";
-        public const string WE_L_5 = "Niveau 20 avec un emplacement libre dans l'équipe et une Pokéball dans le sac";
-        public const string WE_L_6 = "Niveau 20, femelle";
-        public const string WE_L_7 = "Niveau 20, mâle";
-        public const string WE_L_8 = "Niveau 20, le jour";
-        public const string WE_L_9 = "Niveau 21, femelle";
-        public const string WE_L_10 = "Niveau 25, mâle";
-        public const string WE_L_11 = "Niveau 25, femelle";
-        public const string WE_L_12 = "Niveau 25, le jour(sauf Lune et Ultra-Lune)";
-        public const string WE_L_13 = "Niveau 25, la nuit(sauf Soleil et Ultra-Soleil)";
-        public const string WE_L_14 = "Niveau 25 au crépuscule(Rocabot avec Tempo Perso uniquement)";
-        public const string WE_L_15 = "Niveau 28 (en dehors d'Alola)";
-        public const string WE_L_16 = "Niveau 30 avec la console retournée";
-        public const string WE_L_17 = "Niveau 30, si de nature Pudique, Assuré, Calme, Prudent, Gentil, Solo, Doux, Modeste, Discret, Relax, Sérieux ou Timide";
-        public const string WE_L_18 = "Niveau 30, si de nature Bizarre, Brave, Docile, Foufou, Hardi, Jovial, Lâche, Malin, Malpoli, Mauvais, Naïf, Pressé ou Rigide";
-        public const string WE_L_19 = "Niveau 32 avec un Pokémon Ténèbres dans l'équipe";
-        public const string WE_L_20 = "Niveau 33, femelle";
-        public const string WE_L_21 = "Niveau 34, le jour";
-        public const string WE_L_22 = "Niveau 35, la nuit";
-        public const string WE_L_23 = "Niveau 35 (en dehors de Galar)";
-        public const string WE_L_24 = "Niveau 35 (à Galar)";
-        public const string WE_L_25 = "Niveau 39, le jour";
-        public const string WE_L_26 = "Niveau 39, la nuit";
-        public const string WE_L_27 = "Niveau 50, dans un lieu avec de la pluie naturelle";
-        public const string WE_L_28 = "Niveau 53 (Soleil, Ultra-Soleil et Épée)";
-        public const string WE_L_29 = "Niveau 53 (Lune, Ultra-Lune et Bouclier)";
+        #region Niveau //OK
+        public const string PID_FR = "dépend d'un numéro aléatoire calculé à la capture, le PID";
+        public const string PID_EN = "depends on a random number calculated on capture, the PID";
+        public const string PID_ES = "depende de un número aleatorio calculado en la captura, el PID";
+        public const string PID_IT = "dipende da un numero casuale calcolato sulla cattura, il PID";
+        public const string PID_DE = "hängt von einer Zufallszahl ab, die bei der Erfassung berechnet wird, der PID";
+        public const string PID_RU = "зависит от случайного числа, вычисляемого при захвате, PID";
+
+        public const string ASD_FR = "si Attaque > Défense";
+        public const string ASD_EN = "if Attack > Defense";
+        public const string ASD_ES = "si Ataque > Defensa";
+        public const string ASD_IT = "se Attacco > Difesa";
+        public const string ASD_DE = "wenn Angriff > Verteidigung";
+        public const string ASD_RU = "если атака > защита";
+
+        public const string AID_FR = "si Attaque < Défense";
+        public const string AID_EN = "if Attack < Defense";
+        public const string AID_ES = "si Ataque < Defensa";
+        public const string AID_IT = "se Attacco < Difesa";
+        public const string AID_DE = "wenn Angriff < Verteidigung";
+        public const string AID_RU = "если атака < защита";
+
+        public const string AED_FR = "si Défense = l'Attaque";
+        public const string AED_EN = "if Attack = Defense";
+        public const string AED_ES = "si Ataque = Defensa";
+        public const string AED_IT = "se Attacco = Difesa";
+        public const string AED_DE = "wenn Angriff = Verteidigung";
+        public const string AED_RU = "если атака = защита";
+
+        public const string PIB_FR = "avec un emplacement libre dans l'équipe et une Pokéball dans le sac";
+        public const string PIB_EN = "with a free slot in the team and a Pokeball in the bag";
+        public const string PIB_ES = "con un espacio libre en el equipo y una Pokébola en la bolsa";
+        public const string PIB_IT = "con uno spazio libero nella squadra e una Pokeball nella borsa";
+        public const string PIB_DE = "mit einem freien Platz im Team und einem Pokeball in der Tasche";
+        public const string PIB_RU = "со свободным слотом в команде и покеболом в сумке";
+
+        public const string FM_FR = "femelle";
+        public const string FM_EN = "female";
+        public const string FM_ES = "femenino";
+        public const string FM_IT = "femmina";
+        public const string FM_DE = "weiblich";
+        public const string FM_RU = "женский";
+
+        public const string M_FR = "mâle";
+        public const string M_EN = "male";
+        public const string M_ES = "masculino";
+        public const string M_IT = "maschio";
+        public const string M_DE = "männlich";
+        public const string M_RU = "мужчина";
+
+        public const string D_FR = "le jour";
+        public const string D_EN = "the day";
+        public const string D_ES = "el día";
+        public const string D_IT = "il giorno";
+        public const string D_DE = "der Tag";
+        public const string D_RU = "день";
+
+        public const string N_FR = "la nuit";
+        public const string N_EN = "the night";
+        public const string N_ES = "la noche";
+        public const string N_IT = "la notte";
+        public const string N_DE = "die Nacht";
+        public const string N_RU = "ночь";
+
+        public const string DLUL_FR = "le jour(sauf Lune et Ultra-Lune)";
+        public const string DLUL_EN = "the day (except Moon and Ultra-Moon)";
+        public const string DLUL_ES = "el día (excepto Luna y Ultraluna)";
+        public const string DLUL_IT = "il giorno (tranne Luna e Ultraluna)";
+        public const string DLUL_DE = "der Tag (außer Mond und Ultra-Mond)";
+        public const string DLUL_RU = "день (кроме Луны и Ультра-Луны)";
+
+        public const string NSUS_FR = "la nuit(sauf Soleil et Ultra-Soleil)";
+        public const string NSUS_EN = "at night (except Sun and Ultra-Sun)";
+        public const string NSUS_ES = "la noche (excepto Sol y Ultra-Sol)";
+        public const string NSUS_IT = "la notte (tranne Sole e Ultrasole)";
+        public const string NSUS_DE = "die Nacht (außer Sonne und Ultra-Sonne)";
+        public const string NSUS_RU = "ночью (кроме Солнце и Ультра-Солнце)";
+
+        public const string CR_FR = "au crépuscule(Rocabot avec Tempo Perso uniquement)";
+        public const string CR_EN = "at dusk (Rockruff with Own Tempo only)";
+        public const string CR_ES = "al anochecer (Rockruff solo con Ritmo Propio)";
+        public const string CR_IT = "al tramonto (Rockruff con Mente Locale)";
+        public const string CR_DE = "in der Dämmerung (Wuffels mit Tempomacher)";
+        public const string CR_RU = "в сумерках (Рокрафф с Своими Темпами)";
+
+        public const string OSA_FR = "en dehors d'Alola";
+        public const string OSA_EN = "outside of Alola";
+        public const string OSA_ES = "fuera de Alola";
+        public const string OSA_IT = "fuori Alola";
+        public const string OSA_DE = "außerhalb von Alola";
+        public const string OSA_RU = "за пределами Алолы";
+
+        public const string CB_FR = "avec la console retournée";
+        public const string CB_EN = "with the console turned over";
+        public const string CB_ES = "con la consola volteada";
+        public const string CB_IT = "con la console capovolta";
+        public const string CB_DE = "bei umgedrehter Konsole";
+        public const string CB_RU = "с перевернутой консолью";
+
+        public const string SPN_FR = "si de nature Pudique, Assuré, Calme, Prudent, Gentil, Solo, Doux, Modeste, Discret, Relax, Sérieux ou Timide";
+        public const string SPN_EN = "if by nature Modest, Assertive, Calm, Cautious, Kind, Solo, Gentle, Modest, Discreet, Relaxed, Serious or Shy";
+        public const string SPN_ES = "si por naturaleza Modesto, Asertivo, Calmado, Cauteloso, Amable, Solitario, Amable, Modesto, Discreto, Relajado, Serio o Tímido";
+        public const string SPN_IT = "se per natura modesto, assertivo, calmo, cauto, gentile, solitario, gentile, modesto, discreto, rilassato, serio o timido";
+        public const string SPN_DE = "ob von Natur aus bescheiden, durchsetzungsfähig, ruhig, vorsichtig, freundlich, solo, sanft, bescheiden, diskret, entspannt, ernst oder schüchtern";
+        public const string SPN_RU = "если по натуре Скромный, Напористый, Спокойный, Осторожный, Добрый, Соло, Нежный, Скромный, Сдержанный, Расслабленный, Серьезный или Застенчивый";
+
+        public const string WN_FR = "si de nature Bizarre, Brave, Docile, Foufou, Hardi, Jovial, Lâche, Malin, Malpoli, Mauvais, Naïf, Pressé ou Rigide";
+        public const string WN_EN = "if by nature Bizarre, Brave, Docile, Foufou, Bold, Jovial, Cowardly, Clever, Rude, Bad, Naive, Hasty or Rigid by nature";
+        public const string WN_ES = "si es bizarro, valiente, dócil, tonto, audaz, jovial, cobarde, inteligente, grosero, malo, ingenuo, apresurado o rígido por naturaleza";
+        public const string WN_IT = "se bizzarro, coraggioso, docile, foufou, audace, gioviale, codardo, intelligente, maleducato, cattivo, ingenuo, frettoloso o rigido per natura";
+        public const string WN_DE = "ob sie von Natur aus bizarr, mutig, fügsam, Foufou, mutig, fröhlich, feige, schlau, unhöflich, schlecht, naiv, hastig oder starr sind";
+        public const string WN_RU = "если по натуре Странный, Храбрый, Послушный, Шустрый, Смелый, Веселый, Трусливый, Умный, Грубый, Плохой, Наивный, Поспешный или Жесткий";
+
+        public const string DPIT_FR = "avec un Pokémon Ténèbres dans l'équipe";
+        public const string DPIT_EN = "with a Dark Pokemon on the team";
+        public const string DPIT_ES = "con un Pokemon Oscuro en el equipo";
+        public const string DPIT_IT = "con un Pokemon Oscuro nella squadra";
+        public const string DPIT_DE = "mit einem dunklen Pokemon im Team";
+        public const string DPIT_RU = "с темным покемоном в команде";
+
+        public const string OSG_FR = "en dehors de Galar";
+        public const string OSG_EN = "outside Galar";
+        public const string OSG_ES = "fuera de Galar";
+        public const string OSG_IT = "fuori Galar";
+        public const string OSG_DE = "außerhalb von Galar";
+        public const string OSG_RU = "за пределами Галара";
+
+        public const string AG_FR = "à Galar";
+        public const string AG_EN = "in Galar";
+        public const string AG_ES = "en Galar";
+        public const string AG_IT = "a Galar";
+        public const string AG_DE = "in Galar";
+        public const string AG_RU = "в Галаре";
+
+        public const string NR_FR = "dans un lieu avec de la pluie naturelle";
+        public const string NR_EN = "in a place with natural rain";
+        public const string NR_ES = "en un lugar con lluvia natural";
+        public const string NR_IT = "in un luogo con pioggia naturale";
+        public const string NR_DE = "an einem Ort mit natürlichem Regen";
+        public const string NR_RU = "в месте с естественным дождем";
+
+        public const string SUSE_FR = "Soleil, Ultra-Soleil et Épée";
+        public const string SUSE_EN = "Sun, Ultra-Sun and Sword";
+        public const string SUSE_ES = "Sol, Ultra-Sol y Espada";
+        public const string SUSE_IT = "Sole, Ultrasole e Spada";
+        public const string SUSE_DE = "Sonne, Ultra-Sonne und Schwert";
+        public const string SUSE_RU = "Солнце, Ультра-Солнце и Меч";
+
+        public const string LULB_FR = "Lune, Ultra-Lune et Bouclier";
+        public const string LULB_EN = "Moon, Ultra-Moon and Shield";
+        public const string LULB_ES = "Luna, Ultraluna y Escudo";
+        public const string LULB_IT = "Luna, Ultraluna e Scudo";
+        public const string LULB_DE = "Mond, Ultramond und Schild";
+        public const string LULB_RU = "Луна, Ультра-Луна и Щит";
         #endregion
 
         #region Méga-Evolution
@@ -576,6 +700,8 @@
         #endregion
 
         #region Pierre d'évolution
+        Pierre Foudre(en dehors d'Alola)	Thunder Stone (outside Alola)	Piedra Trueno (fuera de Alola)	Pietratuono (fuori Alola)	Donnerstein (außerhalb von Alola)	Громовой камень (за пределами Алолы)																				
+
         public const string WE_P_1 = "Pierre Foudre(en dehors d'Alola)";
         public const string WE_P_2 = "Pierre Lune";
         public const string WE_P_3 = "Pierre Feu";
