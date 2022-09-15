@@ -7,9 +7,14 @@ namespace WepApiScrapingData.Utils
     {
         public static string translationClean(this string s, string value1, string translateValue1, string value2 = "", string translateValue2 = "")
         {
-            return new StringBuilder(s)
+            if (!string.IsNullOrEmpty(value2))
+                return new StringBuilder(s)
                   .Replace(value1, translateValue1)
                   .Replace(value2, translateValue2)
+                  .ToString();
+            else
+                return new StringBuilder(s)
+                  .Replace(value1, translateValue1)
                   .ToString();
         }
 
@@ -25,7 +30,15 @@ namespace WepApiScrapingData.Utils
             }
             else
             {
-                return s.translationClean(value1, translateValue1, value2, translateValue2);
+                if (!string.IsNullOrEmpty(value2))
+                    return new StringBuilder(s)
+                      .Replace(value1, translateValue1)
+                      .Replace(value2, translateValue2)
+                      .ToString();
+                else
+                    return new StringBuilder(s)
+                      .Replace(value1, translateValue1)
+                      .ToString();
             }
         }
     }

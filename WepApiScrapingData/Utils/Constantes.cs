@@ -23,7 +23,7 @@
         public const string urlStartCO = "https://pokemonkorea.co.kr/pokedextemp/view/1";
         public const string urlStartCN = "https://www.pokemon.cn/play/pokedex/001";
         public const string urlTestWeakness = "https://api.pokemon.com/fr/pokedex/paras";
-        public const string urlTestEvolution = "https://api.pokemon.com/fr/pokedex/evoli";
+        public const string urlTestEvolution = "https://api.pokemon.com/fr/pokedex/aquali";
         public const string urlTestTypeEvolution = "https://api.pokemon.com/fr/pokedex/dracaufeu";
         public const string urlTestMime = "https://api.pokemon.com/fr/pokedex/m-mime";
         public const string urlTestDoubleTalent = "https://api.pokemon.com/fr/pokedex/mistigrix";
@@ -34,7 +34,7 @@
         public const string urlTestSylveroy = "https://api.pokemon.com/fr/pokedex/sylveroy";
         public const string urlTestCanarticho = "https://api.pokemon.com/fr/pokedex/canarticho";
         public const string urlTestCerbyllin = "https://api.pokemon.com/fr/pokedex/cerbyllin";
-        public const int lastPokemonNumber = 6;
+        public const int lastPokemonNumber = 905;
 
         public const string urlStart1Gen = "https://api.pokemon.com/fr/pokedex/bulbizarre";
         public const string urlStart2Gen = "https://api.pokemon.com/fr/pokedex/germignon";
@@ -502,6 +502,9 @@
         public const string PID_IT = "dipende da un numero casuale calcolato sulla cattura, il PID";
         public const string PID_DE = "hängt von einer Zufallszahl ab, die bei der Erfassung berechnet wird, der PID";
         public const string PID_RU = "зависит от случайного числа, вычисляемого при захвате, PID";
+        public const string PID_CO = "캡처 시 계산된 난수, PID에 따라 다름";
+        public const string PID_CN = "取决于捕获时计算的随机数，PID";
+        public const string PID_JP = "キャプチャ時に計算された乱数、PID に依存します";
 
         public const string ASD_FR = "si Attaque > Défense";
         public const string ASD_EN = "if Attack > Defense";
@@ -509,6 +512,9 @@
         public const string ASD_IT = "se Attacco > Difesa";
         public const string ASD_DE = "wenn Angriff > Verteidigung";
         public const string ASD_RU = "если атака > защита";
+        public const string ASD_CO = "공격 > 방어라면";
+        public const string ASD_CN = "如果攻击 > 防御";
+        public const string ASD_JP = "攻撃 > 防御の場合";
 
         public const string AID_FR = "si Attaque < Défense";
         public const string AID_EN = "if Attack < Defense";
@@ -516,6 +522,9 @@
         public const string AID_IT = "se Attacco < Difesa";
         public const string AID_DE = "wenn Angriff < Verteidigung";
         public const string AID_RU = "если атака < защита";
+        public const string AID_CO = "공격 < 방어라면";
+        public const string AID_CN = "如果攻击 < 防御";
+        public const string AID_JP = "攻撃 < 防御の場合";
 
         public const string AED_FR = "si Défense = l'Attaque";
         public const string AED_EN = "if Attack = Defense";
@@ -523,6 +532,9 @@
         public const string AED_IT = "se Attacco = Difesa";
         public const string AED_DE = "wenn Angriff = Verteidigung";
         public const string AED_RU = "если атака = защита";
+        public const string AED_CO = "공격 = 방어라면";
+        public const string AED_CN = "如果攻击 = 防御";
+        public const string AED_JP = "攻撃 = 防御の場合";
 
         public const string PIB_FR = "avec un emplacement libre dans l'équipe et une Pokéball dans le sac";
         public const string PIB_EN = "with a free slot in the team and a Pokeball in the bag";
@@ -530,6 +542,9 @@
         public const string PIB_IT = "con uno spazio libero nella squadra e una Pokeball nella borsa";
         public const string PIB_DE = "mit einem freien Platz im Team und einem Pokeball in der Tasche";
         public const string PIB_RU = "со свободным слотом в команде и покеболом в сумке";
+        public const string PIB_CO = "팀에 무료 슬롯이 있고 가방에 포켓볼이 있습니다.";
+        public const string PIB_CN = "队伍中有一个空位，袋子里有一个精灵球";
+        public const string PIB_JP = "チームに空きスロットがあり、バッグにポケボールが入っています";
 
         public const string FM_FR = "femelle";
         public const string FM_EN = "female";
@@ -537,6 +552,9 @@
         public const string FM_IT = "femmina";
         public const string FM_DE = "weiblich";
         public const string FM_RU = "женский";
+        public const string FM_CO = "여자";
+        public const string FM_CN = "女性";
+        public const string FM_JP = "女性";
 
         public const string M_FR = "mâle";
         public const string M_EN = "male";
@@ -544,6 +562,9 @@
         public const string M_IT = "maschio";
         public const string M_DE = "männlich";
         public const string M_RU = "мужчина";
+        public const string M_CO = "남성";
+        public const string M_CN = "男性";
+        public const string M_JP = "男";
 
         public const string D_FR = "le jour";
         public const string D_EN = "the day";
@@ -551,6 +572,9 @@
         public const string D_IT = "il giorno";
         public const string D_DE = "der Tag";
         public const string D_RU = "день";
+        public const string D_CO = "그 날";
+        public const string D_CN = "那天";
+        public const string D_JP = "その日";
 
         public const string N_FR = "la nuit";
         public const string N_EN = "the night";
@@ -558,6 +582,9 @@
         public const string N_IT = "la notte";
         public const string N_DE = "die Nacht";
         public const string N_RU = "ночь";
+        public const string N_CO = "밤";
+        public const string N_CN = "夜晚";
+        public const string N_JP = "夜";
 
         public const string DLUL_FR = "le jour(sauf Lune et Ultra-Lune)";
         public const string DLUL_EN = "the day (except Moon and Ultra-Moon)";
@@ -565,6 +592,9 @@
         public const string DLUL_IT = "il giorno (tranne Luna e Ultraluna)";
         public const string DLUL_DE = "der Tag (außer Mond und Ultra-Mond)";
         public const string DLUL_RU = "день (кроме Луны и Ультра-Луны)";
+        public const string DLUL_CO = "그 날 (문 및 울트라문 제외)";
+        public const string DLUL_CN = "那天 (除了月球和超月球)";
+        public const string DLUL_JP = "その日 (ムーンとウルトラムーンを除く)";
 
         public const string NSUS_FR = "la nuit(sauf Soleil et Ultra-Soleil)";
         public const string NSUS_EN = "at night (except Sun and Ultra-Sun)";
@@ -572,6 +602,9 @@
         public const string NSUS_IT = "la notte (tranne Sole e Ultrasole)";
         public const string NSUS_DE = "die Nacht (außer Sonne und Ultra-Sonne)";
         public const string NSUS_RU = "ночью (кроме Солнце и Ультра-Солнце)";
+        public const string NSUS_CO = "밤 (썬 및 울트라썬 제외)";
+        public const string NSUS_CN = "夜晚 (太阳和超太阳除外)";
+        public const string NSUS_JP = "夜 (サンとウルトラサンを除く)";
 
         public const string CR_FR = "au crépuscule(Rocabot avec Tempo Perso uniquement)";
         public const string CR_EN = "at dusk (Rockruff with Own Tempo only)";
@@ -579,6 +612,9 @@
         public const string CR_IT = "al tramonto (Rockruff con Mente Locale)";
         public const string CR_DE = "in der Dämmerung (Wuffels mit Tempomacher)";
         public const string CR_RU = "в сумерках (Рокрафф с Своими Темпами)";
+        public const string CR_CO = "황혼(마이페이스 가 있는 암멍이 만 해당)";
+        public const string CR_CN = "黄昏时（仅限 我行我素 的 岩狗狗）";
+        public const string CR_JP = "夕暮れ時 (イワンコ と マイペース のみ)";
 
         public const string OSA_FR = "en dehors d'Alola";
         public const string OSA_EN = "outside of Alola";
@@ -586,6 +622,9 @@
         public const string OSA_IT = "fuori Alola";
         public const string OSA_DE = "außerhalb von Alola";
         public const string OSA_RU = "за пределами Алолы";
+        public const string OSA_CO = "알로라 외부";
+        public const string OSA_CN = "阿罗拉以外";
+        public const string OSA_JP = "アローラの外";
 
         public const string CB_FR = "avec la console retournée";
         public const string CB_EN = "with the console turned over";
@@ -593,6 +632,9 @@
         public const string CB_IT = "con la console capovolta";
         public const string CB_DE = "bei umgedrehter Konsole";
         public const string CB_RU = "с перевернутой консолью";
+        public const string CB_CO = "콘솔을 뒤집은 채로";
+        public const string CB_CN = "将控制台翻过来";
+        public const string CB_JP = "コンソールをひっくり返した状態";
 
         public const string SPN_FR = "si de nature Pudique, Assuré, Calme, Prudent, Gentil, Solo, Doux, Modeste, Discret, Relax, Sérieux ou Timide";
         public const string SPN_EN = "if by nature Modest, Assertive, Calm, Cautious, Kind, Solo, Gentle, Modest, Discreet, Relaxed, Serious or Shy";
@@ -600,6 +642,9 @@
         public const string SPN_IT = "se per natura modesto, assertivo, calmo, cauto, gentile, solitario, gentile, modesto, discreto, rilassato, serio o timido";
         public const string SPN_DE = "ob von Natur aus bescheiden, durchsetzungsfähig, ruhig, vorsichtig, freundlich, solo, sanft, bescheiden, diskret, entspannt, ernst oder schüchtern";
         public const string SPN_RU = "если по натуре Скромный, Напористый, Спокойный, Осторожный, Добрый, Соло, Нежный, Скромный, Сдержанный, Расслабленный, Серьезный или Застенчивый";
+        public const string SPN_CO = "천성적으로 겸손하고, 독단적이며, 침착하고, 신중하고, 친절하고, 혼자 있고, 온화하고, 겸손하고, 신중하고, 편안하고, 진지하거나 수줍음";
+        public const string SPN_CN = "如果天生谦虚、自信、冷静、谨慎、善良、独奏、温柔、谦虚、谨慎、放松、严肃或害羞";
+        public const string SPN_JP = "本質的に謙虚、自己主張、冷静、用心深い、親切、独善的、穏やか、謙虚、控えめ、リラックス、真面目、または恥ずかしがり屋の場合";
 
         public const string WN_FR = "si de nature Bizarre, Brave, Docile, Foufou, Hardi, Jovial, Lâche, Malin, Malpoli, Mauvais, Naïf, Pressé ou Rigide";
         public const string WN_EN = "if by nature Bizarre, Brave, Docile, Foufou, Bold, Jovial, Cowardly, Clever, Rude, Bad, Naive, Hasty or Rigid by nature";
@@ -607,6 +652,9 @@
         public const string WN_IT = "se bizzarro, coraggioso, docile, foufou, audace, gioviale, codardo, intelligente, maleducato, cattivo, ingenuo, frettoloso o rigido per natura";
         public const string WN_DE = "ob sie von Natur aus bizarr, mutig, fügsam, Foufou, mutig, fröhlich, feige, schlau, unhöflich, schlecht, naiv, hastig oder starr sind";
         public const string WN_RU = "если по натуре Странный, Храбрый, Послушный, Шустрый, Смелый, Веселый, Трусливый, Умный, Грубый, Плохой, Наивный, Поспешный или Жесткий";
+        public const string WN_CO = "기괴하고, 용감하고, 유순하고, 푸푸하고, 대담하고, 유쾌하고, 겁쟁이, 영리하고, 무례하고, 나쁩니다, 천성적으로 순진하거나 성급하거나 완고한 경우";
+        public const string WN_CN = "如果生性古怪、勇敢、温顺、富夫、大胆、快活、懦弱、聪明、粗鲁、坏、天真、仓促或刚硬";
+        public const string WN_JP = "奇妙、勇敢、従順、ふざけた、大胆、陽気、臆病、賢い、無礼、悪い、純真、せっかち、硬直の場合";
 
         public const string DPIT_FR = "avec un Pokémon Ténèbres dans l'équipe";
         public const string DPIT_EN = "with a Dark Pokemon on the team";
@@ -614,6 +662,9 @@
         public const string DPIT_IT = "con un Pokemon Oscuro nella squadra";
         public const string DPIT_DE = "mit einem dunklen Pokemon im Team";
         public const string DPIT_RU = "с темным покемоном в команде";
+        public const string DPIT_CO = "팀에 다크 포켓몬과 함께";
+        public const string DPIT_CN = "队伍中有一只黑暗宝可梦";
+        public const string DPIT_JP = "チームにダークポケモンがいる";
 
         public const string OSG_FR = "en dehors de Galar";
         public const string OSG_EN = "outside Galar";
@@ -621,6 +672,9 @@
         public const string OSG_IT = "fuori Galar";
         public const string OSG_DE = "außerhalb von Galar";
         public const string OSG_RU = "за пределами Галара";
+        public const string OSG_CO = "갈라르 외부";
+        public const string OSG_CN = "伽勒尔外";
+        public const string OSG_JP = "ガラル外";
 
         public const string AG_FR = "à Galar";
         public const string AG_EN = "in Galar";
@@ -628,6 +682,9 @@
         public const string AG_IT = "a Galar";
         public const string AG_DE = "in Galar";
         public const string AG_RU = "в Галаре";
+        public const string AG_CO = "갈라르에서";
+        public const string AG_CN = "在伽勒尔";
+        public const string AG_JP = "ガラルで";
 
         public const string NR_FR = "dans un lieu avec de la pluie naturelle";
         public const string NR_EN = "in a place with natural rain";
@@ -635,6 +692,9 @@
         public const string NR_IT = "in un luogo con pioggia naturale";
         public const string NR_DE = "an einem Ort mit natürlichem Regen";
         public const string NR_RU = "в месте с естественным дождем";
+        public const string NR_CO = "자연비가 내리는 곳";
+        public const string NR_CN = "在有自然降雨的地方";
+        public const string NR_JP = "自然の雨が降る場所で";
 
         public const string SUSE_FR = "Soleil, Ultra-Soleil et Épée";
         public const string SUSE_EN = "Sun, Ultra-Sun and Sword";
@@ -642,6 +702,9 @@
         public const string SUSE_IT = "Sole, Ultrasole e Spada";
         public const string SUSE_DE = "Sonne, Ultra-Sonne und Schwert";
         public const string SUSE_RU = "Солнце, Ультра-Солнце и Меч";
+        public const string SUSE_CO = "썬, 울트라썬, 소드";
+        public const string SUSE_CN = "太阳、超太阳和剑";
+        public const string SUSE_JP = "サン、ウルトラサン、ソード";
 
         public const string LULB_FR = "Lune, Ultra-Lune et Bouclier";
         public const string LULB_EN = "Moon, Ultra-Moon and Shield";
@@ -649,6 +712,9 @@
         public const string LULB_IT = "Luna, Ultraluna e Scudo";
         public const string LULB_DE = "Mond, Ultramond und Schild";
         public const string LULB_RU = "Луна, Ультра-Луна и Щит";
+        public const string LULB_CO = "문, 울트라문 및 실드";
+        public const string LULB_CN = "月亮，超月亮和盾牌";
+        public const string LULB_JP = "ムーン、ウルトラムーン、シールド";
         #endregion
 
         #region Méga-Evolution
@@ -699,25 +765,46 @@
         public const string WE_ME_45 = "Méga-Évolution avec une Diancite";
         #endregion
 
-        #region Pierre d'évolution
-        Pierre Foudre(en dehors d'Alola)	Thunder Stone (outside Alola)	Piedra Trueno (fuera de Alola)	Pietratuono (fuori Alola)	Donnerstein (außerhalb von Alola)	Громовой камень (за пределами Алолы)																				
+        #region Pierre d'évolution //OK
+        public const string MoonStone_FR = "Pierre Lune";
+        public const string MoonStone_URL = "https://bulbapedia.bulbagarden.net/wiki/Moon_Stone";
+        public const string MoonStone_RU = "Лунный камень";
 
-        public const string WE_P_1 = "Pierre Foudre(en dehors d'Alola)";
-        public const string WE_P_2 = "Pierre Lune";
-        public const string WE_P_3 = "Pierre Feu";
-        public const string WE_P_4 = "Pierre Plante";
-        public const string WE_P_5 = "Pierre Eau";
-        public const string WE_P_6 = "Pierre Plante (en dehors d'Alola)";
-        public const string WE_P_7 = "Pierre Foudre";
-        public const string WE_P_8 = "Pierre Soleil";
-        public const string WE_P_9 = "Pierre Éclat";
-        public const string WE_P_10 = "Pierre Nuit";
-        public const string WE_P_11 = "Pierre Aube, mâle";
-        public const string WE_P_12 = "Pierre Aube, femelle";
-        public const string WE_P_13 = "Pierre Glace";
-        public const string WE_P_14 = "8G+ : Pierre Foudre";
-        public const string WE_P_15 = "8G+ : Pierre Plante";
-        public const string WE_P_16 = "8G+ : Pierre Glace";
+        public const string FireStone_FR = "Pierre Feu";
+        public const string FireStone_URL = "https://bulbapedia.bulbagarden.net/wiki/Fire_Stone";
+        public const string FireStone_RU = "Огненный Камень";
+
+        public const string LeafStone_FR = "Pierre Plante";
+        public const string LeafStone_URL = "https://bulbapedia.bulbagarden.net/wiki/Leaf_Stone";
+        public const string LeafStone_RU = "Лиственный Камень";
+
+        public const string WaterStone_FR = "Pierre Eau";
+        public const string WaterStone_URL = "https://bulbapedia.bulbagarden.net/wiki/Water_Stone";
+        public const string WaterStone_RU = "Водный камень";
+
+        public const string ThunderStone_FR = "Pierre Foudre";
+        public const string ThunderStone_URL = "https://bulbapedia.bulbagarden.net/wiki/Thunder_Stone";
+        public const string ThunderStone_RU = "Громовой Камень";
+
+        public const string SunStone_FR = "Pierre Soleil";
+        public const string SunStone_URL = "https://bulbapedia.bulbagarden.net/wiki/Sun_Stone";
+        public const string SunStone_RU = "Солнечный камень";
+
+        public const string ShinyStone_FR = "Pierre Éclat";
+        public const string ShinyStone_URL = "https://bulbapedia.bulbagarden.net/wiki/Shiny_Stone";
+        public const string ShinyStone_RU = "Блестящий камень";
+
+        public const string DuckStone_FR = "Pierre Nuit";
+        public const string DuckStone_URL = "https://bulbapedia.bulbagarden.net/wiki/Duck_Stone";
+        public const string DuckStone_RU = "Камень заката";
+
+        public const string IceStone_FR = "Pierre Glace";
+        public const string IceStone_URL = "https://bulbapedia.bulbagarden.net/wiki/Ice_Stone";
+        public const string IceStone_RU = "Ледяной камень";
+
+        public const string DawnStone_FR = "Pierre Aube";
+        public const string DawnStone_URL = "https://bulbapedia.bulbagarden.net/wiki/Dawn_Stone";
+        public const string DawnStone_RU = "Камень рассвета";
         #endregion
 
         #region Echange
@@ -838,6 +925,9 @@
         public const string Level_IT = "Livello";
         public const string Level_DE = "Eben";
         public const string Level_RU = "Yровень";
+        public const string Level_CO = "수준";
+        public const string Level_CN = "等级";
+        public const string Level_JP = "レベル";
 
         public const string BasicData_FR = "Données de Base";
         public const string BasicData_EN = "Basic data";
@@ -845,6 +935,9 @@
         public const string BasicData_IT = "Dati di base";
         public const string BasicData_DE = "Grundinformationen";
         public const string BasicData_RU = "Основные данные";
+        public const string BasicData_CO = "";
+        public const string BasicData_CN = "";
+        public const string BasicData_JP = "";
 
         public const string SpecialAbility_FR = "Capacité Spéciale";
         public const string SpecialAbility_EN = "Special Ability";
@@ -852,6 +945,9 @@
         public const string SpecialAbility_IT = "Abilità speciale";
         public const string SpecialAbility_DE = "Besondere Fähigkeit";
         public const string SpecialAbility_RU = "Специальные возможности";
+        public const string SpecialAbility_CO = "";
+        public const string SpecialAbility_CN = "";
+        public const string SpecialAbility_JP = "";
 
         public const string Statistics_FR = "Statistiques";
         public const string Statistics_EN = "Statistics";
@@ -859,6 +955,9 @@
         public const string Statistics_IT = "Statistiche";
         public const string Statistics_DE = "Statistiken";
         public const string Statistics_RU = "Статистика";
+        public const string Statistics_CO = "";
+        public const string Statistics_CN = "";
+        public const string Statistics_JP = "";
 
         public const string Category_FR = "Catégorie";
         public const string Category_EN = "Category";
@@ -866,6 +965,9 @@
         public const string Category_IT = "Categoria";
         public const string Category_DE = "Kategorie";
         public const string Category_RU = "категория";
+        public const string Category_CO = "";
+        public const string Category_CN = "";
+        public const string Category_JP = "";
 
         public const string Height_FR = "Taille";
         public const string Height_EN = "Height";
@@ -873,6 +975,9 @@
         public const string Height_IT = "Altezza";
         public const string Height_DE = "Größe";
         public const string Height_RU = "высота";
+        public const string Height_CO = "";
+        public const string Height_CN = "";
+        public const string Height_JP = "";
 
         public const string Weight_FR = "Poids";
         public const string Weight_EN = "Weight";
@@ -880,6 +985,9 @@
         public const string Weight_IT = "Peso";
         public const string Weight_DE = "Gewicht";
         public const string Weight_RU = "Масса";
+        public const string Weight_CO = "";
+        public const string Weight_CN = "";
+        public const string Weight_JP = "";
 
         public const string Skills_FR = "Talents";
         public const string Skills_EN = "Skills";
@@ -887,13 +995,19 @@
         public const string Skills_IT = "Abilità";
         public const string Skills_DE = "Fähigkeiten";
         public const string Skills_RU = "Способности";
-
+        public const string Skills_CO = "";
+        public const string Skills_CN = "";
+        public const string Skills_JP = "";
+        
         public const string HP_FR = "PV";
         public const string HP_EN = "HP";
         public const string HP_ES = "PS";
         public const string HP_IT = "PS";
         public const string HP_DE = "KP";
         public const string HP_RU = "HP";
+        public const string HP_CO = "";
+        public const string HP_CN = "";
+        public const string HP_JP = "";
 
         public const string Atk_FR = "Att.";
         public const string Atk_EN = "Atk";
@@ -901,6 +1015,9 @@
         public const string Atk_IT = "Att.";
         public const string Atk_DE = "Angr.";
         public const string Atk_RU = "Atk";
+        public const string Atk_CO = "";
+        public const string Atk_CN = "";
+        public const string Atk_JP = "";
 
         public const string Def_FR = "Def.";
         public const string Def_EN = "Def";
@@ -908,6 +1025,9 @@
         public const string Def_IT = "Dif.";
         public const string Def_DE = "Vert.";
         public const string Def_RU = "Def";
+        public const string Def_CO = "";
+        public const string Def_CN = "";
+        public const string Def_JP = "";
 
         public const string SpAtk_FR = "Att. Sp.";
         public const string SpAtk_EN = "Sp. Atk";
@@ -915,6 +1035,9 @@
         public const string SpAtk_IT = "Att. Sp.";
         public const string SpAtk_DE = "Sp. Ang.";
         public const string SpAtk_RU = "Sp. Atk";
+        public const string SpAtk_CO = "";
+        public const string SpAtk_CN = "";
+        public const string SpAtk_JP = "";
 
         public const string SpDef_FR = "Def. Sp.";
         public const string SpDef_EN = "Sp. Def";
@@ -922,6 +1045,9 @@
         public const string SpDef_IT = "Dif. Sp.";
         public const string SpDef_DE = "Sp. Ver.";
         public const string SpDef_RU = "Sp. Def";
+        public const string SpDef_CO = "";
+        public const string SpDef_CN = "";
+        public const string SpDef_JP = "";
 
         public const string Speed_FR = "Vit.";
         public const string Speed_EN = "Speed";
@@ -929,6 +1055,9 @@
         public const string Speed_IT = "Vel.";//Velocità
         public const string Speed_DE = "Init.";
         public const string Speed_RU = "Speed";
+        public const string Speed_CO = "";
+        public const string Speed_CN = "";
+        public const string Speed_JP = "";
 
         public const string Evolution_FR = "Evolution";
         public const string Evolution_EN = "Evolution";
@@ -936,6 +1065,9 @@
         public const string Evolution_IT = "Evoluzione";
         public const string Evolution_DE = "Evolution";
         public const string Evolution_RU = "Эволюции";
+        public const string Evolution_CO = "";
+        public const string Evolution_CN = "";
+        public const string Evolution_JP = "";
 
         public const string Weaknesses_FR = "Faiblesses";
         public const string Weaknesses_EN = "Weaknesses";
@@ -943,6 +1075,9 @@
         public const string Weaknesses_IT = "Debolezze";
         public const string Weaknesses_DE = "Schwächen";
         public const string Weaknesses_RU = "Слабость";
+        public const string Weaknesses_CO = "";
+        public const string Weaknesses_CN = "";
+        public const string Weaknesses_JP = "";
 
         public const string MegaEvolution_FR = "Méga Evolution";
         public const string MegaEvolution_EN = "Mega Evolution";
@@ -950,6 +1085,9 @@
         public const string MegaEvolution_IT = "Megaevoluzione";
         public const string MegaEvolution_DE = "Mega-Entwicklung";
         public const string MegaEvolution_RU = "Мегаэволюция";
+        public const string MegaEvolution_CO = "";
+        public const string MegaEvolution_CN = "";
+        public const string MegaEvolution_JP = "";
 
         public const string GigantamaxForm_FR = "Forme Gigamax";
         public const string GigantamaxForm_EN = "Gigantamax Form";
@@ -957,6 +1095,9 @@
         public const string GigantamaxForm_IT = "Forma Gigamax";
         public const string GigantamaxForm_DE = "GigaDynamax-Form";
         public const string GigantamaxForm_RU = "гигамакс форма";
+        public const string GigantamaxForm_CO = "";
+        public const string GigantamaxForm_CN = "";
+        public const string GigantamaxForm_JP = "";
 
         public const string AlolanForm_FR = "Forme d'Alola";
         public const string AlolanForm_EN = "Alolan Form";
@@ -964,6 +1105,9 @@
         public const string AlolanForm_IT = "Forma Di Alola";
         public const string AlolanForm_DE = "Alola-Form";
         public const string AlolanForm_RU = "алола форма";
+        public const string AlolanForm_CO = "";
+        public const string AlolanForm_CN = "";
+        public const string AlolanForm_JP = "";
 
         public const string GalarsForm_FR = "Forme de Galar";
         public const string GalarsForm_EN = "Galar's Form";
@@ -971,6 +1115,9 @@
         public const string GalarsForm_IT = "Forma Di Galar";
         public const string GalarsForm_DE = "Galar-Form";
         public const string GalarsForm_RU = "галар форма";
+        public const string GalarsForm_CO = "";
+        public const string GalarsForm_CN = "";
+        public const string GalarsForm_JP = "";
 
         public const string HisuisForm_FR = "Forme D'Hisui";
         public const string HisuisForm_EN = "Hisui's Form";
@@ -978,6 +1125,9 @@
         public const string HisuisForm_IT = "Forma Di Hisui";
         public const string HisuisForm_DE = "Hisui-Form";
         public const string HisuisForm_RU = "Хисуи форма";
+        public const string HisuisForm_CO = "";
+        public const string HisuisForm_CN = "";
+        public const string HisuisForm_JP = "";
 
         public const string Type_FR = "Type";
         public const string Type_EN = "Type";
@@ -985,6 +1135,9 @@
         public const string Type_IT = "Tipo";
         public const string Type_DE = "Typ";
         public const string Type_RU = "Тип";
+        public const string Type_CO = "";
+        public const string Type_CN = "";
+        public const string Type_JP = "";
 
         public const string Gen_FR = "Gen";
         public const string Gen_EN = "Gen";
@@ -992,6 +1145,9 @@
         public const string Gen_IT = "Gen";
         public const string Gen_DE = "Gen";
         public const string Gen_RU = "Поколение";
+        public const string Gen_CO = "";
+        public const string Gen_CN = "";
+        public const string Gen_JP = "";
 
         public const string FilterShare_FR = "Filtrer Part";
         public const string FilterShare_EN = "Filter Share";
@@ -999,6 +1155,9 @@
         public const string FilterShare_IT = "Filtra Condividi";
         public const string FilterShare_DE = "Teilen filtern";
         public const string FilterShare_RU = "Поделиться фильтром";
+        public const string FilterShare_CO = "";
+        public const string FilterShare_CN = "";
+        public const string FilterShare_JP = "";
 
         public const string Return_FR = "Retour";
         public const string Return_EN = "Return";
@@ -1006,6 +1165,9 @@
         public const string Return_IT = "Ritorno";
         public const string Return_DE = "Zurückkehren";
         public const string Return_RU = "Возвращаться";
+        public const string Return_CO = "";
+        public const string Return_CN = "";
+        public const string Return_JP = "";
 
         public const string Filter_FR = "Filtrer";
         public const string Filter_EN = "Filter";
@@ -1013,6 +1175,9 @@
         public const string Filter_IT = "Filtro";
         public const string Filter_DE = "Filter";
         public const string Filter_RU = "Фильтр";
+        public const string Filter_CO = "";
+        public const string Filter_CN = "";
+        public const string Filter_JP = "";
 
         public const string Female_FR = "Femelle";
         public const string Female_EN = "Female";
@@ -1020,6 +1185,9 @@
         public const string Female_IT = "Femmina";
         public const string Female_DE = "Weiblich";
         public const string Female_RU = "женский";
+        public const string Female_CO = "";
+        public const string Female_CN = "";
+        public const string Female_JP = "";
 
         public const string VariantGender_FR = "Variante Sexe";
         public const string VariantGender_EN = "Variant Gender";
@@ -1027,6 +1195,9 @@
         public const string VariantGender_IT = "Genere Variante";
         public const string VariantGender_DE = "Variante Geschlecht";
         public const string VariantGender_RU = "Вариант пола";
+        public const string VariantGender_CO = "";
+        public const string VariantGender_CN = "";
+        public const string VariantGender_JP = "";
 
         public const string Variant_FR = "Variant";
         public const string Variant_EN = "Variant";
@@ -1034,18 +1205,70 @@
         public const string Variant_IT = "Variante";
         public const string Variant_DE = "Variante";
         public const string Variant_RU = "Вариант";
+        public const string Variant_CO = "";
+        public const string Variant_CN = "";
+        public const string Variant_JP = "";
+
+        public const string Stone_FR = "Pierre";
+        public const string Stone_EN = "Stone";
+        public const string Stone_ES = "Piedra";
+        public const string Stone_IT = "Pietra";
+        public const string Stone_DE = "Stein";
+        public const string Stone_RU = "Камень";
+        public const string Stone_CO = "";
+        public const string Stone_CN = "";
+        public const string Stone_JP = "";
+
+        public const string Exchange_FR = "Echange";
+        public const string Exchange_EN = "Exchange";
+        public const string Exchange_ES = "Intercambio";
+        public const string Exchange_IT = "Scambio";
+        public const string Exchange_DE = "Austausch";
+        public const string Exchange_RU = "Обмен";
+        public const string Exchange_CO = "";
+        public const string Exchange_CN = "";
+        public const string Exchange_JP = "";
+
+        public const string LevelUp_FR = "Monter un niveau";
+        public const string LevelUp_EN = "Level Up";
+        public const string LevelUp_ES = "Elevar a mismo nivel";
+        public const string LevelUp_IT = "Sali di livello";
+        public const string LevelUp_DE = "Aufleveln";
+        public const string LevelUp_RU = "Уровень повышен";
+        public const string LevelUp_CO = "";
+        public const string LevelUp_CN = "";
+        public const string LevelUp_JP = "";
+
+        public const string Reproduction_FR = "Monter un niveau";
+        public const string Reproduction_EN = "Level Up";
+        public const string Reproduction_ES = "Elevar a mismo nivel";
+        public const string Reproduction_IT = "Sali di livello";
+        public const string Reproduction_DE = "Aufleveln";
+        public const string Reproduction_RU = "Уровень повышен";
+        public const string Reproduction_CO = "";
+        public const string Reproduction_CN = "";
+        public const string Reproduction_JP = "";
         #endregion
 
         #region Language
         public const string FR = "FR";
+        public const string FR_Lib = "French";
         public const string EN = "EN";
+        public const string EN_Lib = "English";
         public const string ES = "ES";
+        public const string ES_Lib = "Spain";
         public const string IT = "IT";
+        public const string IT_Lib = "Italian";
         public const string DE = "DE";
+        public const string DE_Lib = "German";
         public const string RU = "RU";
+        public const string RU_Lib = "Russian";
         public const string JP = "JP";
+        public const string JP_Lib = "Japanese";
         public const string CO = "CO";
+        public const string CO_Lib = "Korean";
         public const string CN = "CN";
+        public const string CN_Lib = "Mandarin";
         #endregion
     }
 }
