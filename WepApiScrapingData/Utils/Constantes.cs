@@ -326,55 +326,6 @@
         #endregion
 
         #region Object
-        #region Mega-Evolution
-        public const string Florizarrite = "Florizarrite";
-        public const string Dracaufite_X = "Dracaufite X";
-        public const string Dracaufite_Y = "Dracaufite Y";
-        public const string Tortankite = "Tortankite";
-        public const string Dardargnite = "Dardargnite";
-        public const string Roucarnagite = "Roucarnagite";
-        public const string Alakazamite = "Alakazamite";
-        public const string Flagadossite = "Flagadossite";
-        public const string Ectoplasmite = "Ectoplasmite";
-        public const string Kangourexite = "Kangourexite";
-        public const string Scarabruite = "Scarabruite";
-        public const string Léviatorite = "Léviatorite";
-        public const string Ptéraïte = "Ptéraïte";
-        public const string Mewtwoïte_X = "Mewtwoïte X";
-        public const string Mewtwoïte_Y = "Mewtwoïte Y";
-        public const string Pharampite = "Pharampite";
-        public const string Steelixite = "Steelixite";
-        public const string Cizayoxite = "Cizayoxite";
-        public const string Scarhinoïte = "Scarhinoïte";
-        public const string Démolossite = "Démolossite";
-        public const string Tyranocivite = "Tyranocivite";
-        public const string Jungkite = "Jungkite";
-        public const string Braségalite = "Braségalite";
-        public const string Laggronite = "Laggronite";
-        public const string Gardevoirite = "Gardevoirite";
-        public const string Ténéfixite = "Ténéfixite";
-        public const string Mysdibulite = "Mysdibulite";
-        public const string Galekingite = "Galekingite";
-        public const string Charminite = "Charminite";
-        public const string Élecsprintite = "Élecsprintite";
-        public const string Sharpedite = "Sharpedite";
-        public const string Caméruptite = "Caméruptite";
-        public const string Altarïte = "Altarïte";
-        public const string Branettite = "Branettite";
-        public const string Absolite = "Absolite";
-        public const string Oniglalite = "Oniglalite";
-        public const string Drattakite = "Drattakite";
-        public const string Métalossite = "Métalossite";
-        public const string Latiasite = "Latiasite";
-        public const string Latiosite = "Latiosite";
-        public const string Lockpinite = "Lockpinite";
-        public const string Carchacrokite = "Carchacrokite";
-        public const string Lucarite = "Lucarite";
-        public const string Blizzarite = "Blizzarite";
-        public const string Gallamïte = "Gallamïte";
-        public const string Nanméouïte = "Nanméouïte";
-        public const string Diancite = "Diancite";
-        #endregion
 
         #region Exchange
         public const string Exchange = "Échange en tenant";
@@ -393,27 +344,13 @@
         #endregion
 
         #region Object Used
-        public const string OutsideAlola = "(en dehors d'Alola)";
         public const string Use_1 = "Utiliser un";
         public const string Use_2 = "Utiliser une";
-        public const string Pierre = "Pierre";
-        public const string Male = "mâle";
-        public const string FemelleMin = "femelle";
         public const string Bracelet_Galanoa = "Bracelet Galanoa";
         public const string Couronne_Galanoa = "Couronne Galanoa";
         public const string Pomme_Acidulee = "Pomme Acidulée";
         public const string Pomme_Sucree = "Pomme Sucrée";
         public const string Theiere_Felee = "Théière Fêlée";
-        public const string Lune = "Lune";
-        public const string Feu = "Feu";
-        public const string Plante = "Plante";
-        public const string Eau = "Eau";
-        public const string Foudre = "Foudre";
-        public const string Soleil = "Soleil";
-        public const string Éclat = "Éclat";
-        public const string Nuit = "Nuit";
-        public const string Glace = "Glace";
-        public const string Aube = "Aube";
         #endregion
 
         #region Reproduction
@@ -461,31 +398,6 @@
         //en ayant appris Provoc
         //avec bonheur élevé la nuit
         #endregion
-
-
-
-
-        //si Attaque > Défense
-        //si Attaque<Défense
-        //(en dehors de Galar)
-        //(à Galar)
-        //si Défense = l'Attaque
-        //(dépend d'un numéro aléatoire calculé à la capture, le PID)
-        //avec un emplacement libre dans l'équipe et une Pokéball dans le sac
-        //femelle
-        //mâle
-        //avec un Pokémon Ténèbres dans l'équipe
-        //avec la console retournée
-        //le jour
-        //la nuit
-        //dans un lieu avec de la pluie naturelle
-        //(sauf Lune et Ultra-Lune)
-        //(sauf Soleil et Ultra-Soleil)
-        //au crépuscule(Rocabot avec Tempo Perso uniquement)
-        //(Soleil, Ultra-Soleil et Épée)
-        //(Lune, Ultra-Lune et Bouclier)
-        //si de nature Pudique, Assuré, Calme, Prudent, Gentil, Solo, Doux, Modeste, Discret, Relax, Sérieux ou Timide
-        //si de nature Bizarre, Brave, Docile, Foufou, Hardi, Jovial, Lâche, Malin, Malpoli, Mauvais, Naïf, Pressé ou Rigide
 
 
         //Phione n'évolue pas
@@ -717,52 +629,194 @@
         public const string LULB_JP = "ムーン、ウルトラムーン、シールド";
         #endregion
 
-        #region Méga-Evolution
-        public const string WE_ME_1 = "Méga-Évolution avec une Florizarrite";
-        public const string WE_ME_2 = "Méga-Évolution avec une Dracaufite X";
-        public const string WE_ME_3 = "Méga-Évolution avec une Dracaufite Y";
-        public const string WE_ME_4 = "Méga-Évolution avec une Tortankite";
-        public const string WE_ME_5 = "Méga-Évolution avec une Dardargnite";
-        public const string WE_ME_6 = "Méga-Évolution avec une Roucarnagite";
-        public const string WE_ME_7 = "Méga-Évolution avec une Alakazamite";
-        public const string WE_ME_8 = "Méga-Évolution avec une Flagadossite";
-        public const string WE_ME_9 = "Méga-Évolution avec une Ectoplasmite";
-        public const string WE_ME_10 = "Méga-Évolution avec une Kangourexite";
-        public const string WE_ME_11 = "Méga-Évolution avec une Scarabruite";
-        public const string WE_ME_12 = "Méga-Évolution avec une Léviatorite";
-        public const string WE_ME_13 = "Méga-Évolution avec une Ptéraïte";
-        public const string WE_ME_14 = "Méga-Évolution avec une Mewtwoïte X";
-        public const string WE_ME_15 = "Méga-Évolution avec une Mewtwoïte Y";
-        public const string WE_ME_16 = "Méga-Évolution avec une Pharampite";
-        public const string WE_ME_17 = "Méga-Évolution avec une Steelixite";
-        public const string WE_ME_18 = "Méga-Évolution avec une Cizayoxite";
-        public const string WE_ME_19 = "Méga-Évolution avec une Scarhinoïte";
-        public const string WE_ME_20 = "Méga-Évolution avec une Démolossite";
-        public const string WE_ME_21 = "Méga-Évolution avec une Tyranocivite";
-        public const string WE_ME_22 = "Méga-Évolution avec une Jungkite";
-        public const string WE_ME_23 = "Méga-Évolution avec une Braségalite";
-        public const string WE_ME_24 = "Méga-Évolution avec une Laggronite";
-        public const string WE_ME_25 = "Méga-Évolution avec une Gardevoirite";
-        public const string WE_ME_26 = "Méga-Évolution avec une Ténéfixite";
-        public const string WE_ME_27 = "Méga-Évolution avec une Galekingite";
-        public const string WE_ME_28 = "Méga-Évolution avec une Charminite";
-        public const string WE_ME_29 = "Méga-Évolution avec une Élecsprintite";
-        public const string WE_ME_30 = "Méga-Évolution avec une Sharpedite";
-        public const string WE_ME_31 = "Méga-Évolution avec une Caméruptite";
-        public const string WE_ME_32 = "Méga-Évolution avec une Altarïte";
-        public const string WE_ME_33 = "Méga-Évolution avec une Branettite";
-        public const string WE_ME_34 = "Méga-Évolution avec une Absolite";
-        public const string WE_ME_35 = "Méga-Évolution avec une Oniglalite";
-        public const string WE_ME_36 = "Méga-Évolution avec une Drattakite";
-        public const string WE_ME_37 = "Méga-Évolution avec une Métalossite";
-        public const string WE_ME_38 = "Méga-Évolution avec une Latiasite";
-        public const string WE_ME_39 = "Méga-Évolution avec une Latiosite";
-        public const string WE_ME_40 = "Méga-Évolution avec une Lockpinite";
-        public const string WE_ME_41 = "Méga-Évolution avec une Carchacrokite";
-        public const string WE_ME_42 = "Méga-Évolution avec une Lucarite";
-        public const string WE_ME_43 = "Méga-Évolution avec une Blizzarite";
-        public const string WE_ME_44 = "Méga-Évolution avec une Gallamïte";
-        public const string WE_ME_45 = "Méga-Évolution avec une Diancite";
+        #region Méga-Evolution //OK
+        public const string Venusaurite_FR = "Florizarrite";
+        public const string Venusaurite_URL = "https://bulbapedia.bulbagarden.net/wiki/Venusaurite";
+        public const string Venusaurite_RU = "Венузаврит";
+
+        public const string Charizardite_X_FR = "Dracaufite X";
+        public const string Charizardite_X_URL = "https://bulbapedia.bulbagarden.net/wiki/Charizardite_X";
+        public const string Charizardite_X_RU = "Чаризардит X";
+
+        public const string Charizardite_Y_FR = "Dracaufite Y";
+        public const string Charizardite_Y_URL = "https://bulbapedia.bulbagarden.net/wiki/Charizardite_Y";
+        public const string Charizardite_Y_RU = "Чаризардит Y";
+
+        public const string Blastoisinite_FR = "Tortankite";
+        public const string Blastoisinite_URL = "https://bulbapedia.bulbagarden.net/wiki/Blastoisinite";
+        public const string Blastoisinite_RU = "Бластойзит";
+
+        public const string Beedrillite_FR = "Dardargnite";
+        public const string Beedrillite_URL = "https://bulbapedia.bulbagarden.net/wiki/Beedrillite";
+        public const string Beedrillite_RU = "Бидриллит";
+
+        public const string Pidgeotite_FR = "Roucarnagite";
+        public const string Pidgeotite_URL = "https://bulbapedia.bulbagarden.net/wiki/Pidgeotite";
+        public const string Pidgeotite_RU = "Пиджитит";
+
+        public const string Alakazite_FR = "Alakazamite";
+        public const string Alakazite_URL = "https://bulbapedia.bulbagarden.net/wiki/Alakazite";
+        public const string Alakazite_RU = "Алаказит";
+
+        public const string Slowbronite_FR = "Flagadossite";
+        public const string Slowbronite_URL = "https://bulbapedia.bulbagarden.net/wiki/Slowbronite";
+        public const string Slowbronite_RU = "Слоубронит";
+
+        public const string Gengarite_FR = "Ectoplasmite";
+        public const string Gengarite_URL = "https://bulbapedia.bulbagarden.net/wiki/Gengarite";
+        public const string Gengarite_RU = "Генгарит";
+
+        public const string Kangaskhanite_FR = "Kangourexite";
+        public const string Kangaskhanite_URL = "https://bulbapedia.bulbagarden.net/wiki/Kangaskhanite";
+        public const string Kangaskhanite_RU = "Кангасханит";
+
+        public const string Pinsirite_FR = "Scarabruite";
+        public const string Pinsirite_URL = "https://bulbapedia.bulbagarden.net/wiki/Pinsirite";
+        public const string Pinsirite_RU = "Пинсирит";
+
+        public const string Gyaradosite_FR = "Léviatorite";
+        public const string Gyaradosite_URL = "https://bulbapedia.bulbagarden.net/wiki/Gyaradosite";
+        public const string Gyaradosite_RU = "Гаярадосит";
+
+        public const string Aerodactylite_FR = "Ptéraïte";
+        public const string Aerodactylite_URL = "https://bulbapedia.bulbagarden.net/wiki/Aerodactylite";
+        public const string Aerodactylite_RU = "Аэродактилит";
+
+        public const string Mewtwonite_X_FR = "Mewtwoïte X";
+        public const string Mewtwonite_X_URL = "https://bulbapedia.bulbagarden.net/wiki/Mewtwonite_X";
+        public const string Mewtwonite_X_RU = "Мьютунит X";
+
+        public const string Mewtwonite_Y_FR = "Mewtwoïte Y";
+        public const string Mewtwonite_Y_URL = "https://bulbapedia.bulbagarden.net/wiki/Mewtwonite_Y";
+        public const string Mewtwonite_Y_RU = "Мьютунит Y";
+
+        public const string Ampharosite_FR = "Pharampite";
+        public const string Ampharosite_URL = "https://bulbapedia.bulbagarden.net/wiki/Ampharosite";
+        public const string Ampharosite_RU = "Амфаросит";
+
+        public const string Steelixite_FR = "Steelixite";
+        public const string Steelixite_URL = "https://bulbapedia.bulbagarden.net/wiki/Steelixite";
+        public const string Steelixite_RU = "Стиликсит";
+
+        public const string Scizorite_FR = "Cizayoxite";
+        public const string Scizorite_URL = "https://bulbapedia.bulbagarden.net/wiki/Scizorite";
+        public const string Scizorite_RU = "Скизорит";
+
+        public const string Heracronite_FR = "Scarhinoïte";
+        public const string Heracronite_URL = "https://bulbapedia.bulbagarden.net/wiki/Heracronite";
+        public const string Heracronite_RU = "Геракронит";
+
+        public const string Houndoominite_FR = "Démolossite";
+        public const string Houndoominite_URL = "https://bulbapedia.bulbagarden.net/wiki/Houndoominite";
+        public const string Houndoominite_RU = "Хундумит";
+
+        public const string Tyranitarite_FR = "Tyranocivite";
+        public const string Tyranitarite_URL = "https://bulbapedia.bulbagarden.net/wiki/Tyranitarite";
+        public const string Tyranitarite_RU = "Тиранитарит";
+
+        public const string Sceptilite_FR = "Jungkite";
+        public const string Sceptilite_URL = "https://bulbapedia.bulbagarden.net/wiki/Sceptilite";
+        public const string Sceptilite_RU = "Септайлит";
+
+        public const string Blazikenite_FR = "Braségalite";
+        public const string Blazikenite_URL = "https://bulbapedia.bulbagarden.net/wiki/Blazikenite";
+        public const string Blazikenite_RU = "Блэйзикенит";
+
+        public const string Swampertite_FR = "Laggronite";
+        public const string Swampertite_URL = "https://bulbapedia.bulbagarden.net/wiki/Swampertite";
+        public const string Swampertite_RU = "Свамперит";
+
+        public const string Gardevoirite_FR = "Gardevoirite";
+        public const string Gardevoirite_URL = "https://bulbapedia.bulbagarden.net/wiki/Gardevoirite";
+        public const string Gardevoirite_RU = "Гардевуарит";
+
+        public const string Sablenite_FR = "Ténéfixite";
+        public const string Sablenite_URL = "https://bulbapedia.bulbagarden.net/wiki/Sablenite";
+        public const string Sablenite_RU = "Сабленит";
+
+        public const string Mawilite_FR = "Mysdibulite";
+        public const string Mawilite_URL = "https://bulbapedia.bulbagarden.net/wiki/Mawilite";
+        public const string Mawilite_RU = "Мавалит";
+
+        public const string Aggronite_FR = "Galekingite";
+        public const string Aggronite_URL = "https://bulbapedia.bulbagarden.net/wiki/Aggronite";
+        public const string Aggronite_RU = "Агронит";
+
+        public const string Medichamite_FR = "Charminite";
+        public const string Medichamite_URL = "https://bulbapedia.bulbagarden.net/wiki/Medichamite";
+        public const string Medichamite_RU = "Медичамит";
+     
+        public const string Manectite_FR = "Élecsprintite";
+        public const string Manectite_URL = "https://bulbapedia.bulbagarden.net/wiki/Manectite";
+        public const string Manectite_RU = "Манектит";
+
+        public const string Sharpedonite_FR = "Sharpedite";
+        public const string Sharpedonite_URL = "https://bulbapedia.bulbagarden.net/wiki/Sharpedonite";
+        public const string Sharpedonite_RU = "Шарпедонит";
+
+        public const string Cameruptite_FR = "Caméruptite";
+        public const string Cameruptite_URL = "https://bulbapedia.bulbagarden.net/wiki/Cameruptite";
+        public const string Cameruptite_RU = "Камераптит";
+
+        public const string Altarianite_FR = "Altarïte";
+        public const string Altarianite_URL = "https://bulbapedia.bulbagarden.net/wiki/Altarianite";
+        public const string Altarianite_RU = "Алтарианит";
+
+        public const string Banettite_FR = "Branettite";
+        public const string Banettite_URL = "https://bulbapedia.bulbagarden.net/wiki/Banettite";
+        public const string Banettite_RU = "Банеттит";
+
+        public const string Absolite_FR = "Absolite";
+        public const string Absolite_URL = "https://bulbapedia.bulbagarden.net/wiki/Absolite";
+        public const string Absolite_RU = "Абсолит";
+
+        public const string Glalitite_FR = "Oniglalite";
+        public const string Glalitite_URL = "https://bulbapedia.bulbagarden.net/wiki/Glalitite";
+        public const string Glalitite_RU = "Глэйлитит";
+
+        public const string Salamencite_FR = "Drattakite";
+        public const string Salamencite_URL = "https://bulbapedia.bulbagarden.net/wiki/Salamencite";
+        public const string Salamencite_RU = "Саламенсит";
+
+        public const string Metagrossite_FR = "Métalossite";
+        public const string Metagrossite_URL = "https://bulbapedia.bulbagarden.net/wiki/Metagrossite";
+        public const string Metagrossite_RU = "Метагроссит";
+
+        public const string Latiasite_FR = "Latiasite";
+        public const string Latiasite_URL = "https://bulbapedia.bulbagarden.net/wiki/Latiasite";
+        public const string Latiasite_RU = "Латиасит";
+
+        public const string Latiosite_FR = "Latiosite";
+        public const string Latiosite_URL = "https://bulbapedia.bulbagarden.net/wiki/Latiosite";
+        public const string Latiosite_RU = "Латиосит";
+
+        public const string Lopunnite_FR = "Lockpinite";
+        public const string Lopunnite_URL = "https://bulbapedia.bulbagarden.net/wiki/Lopunnite";
+        public const string Lopunnite_RU = "Лопаннит";
+
+        public const string Garchompite_FR = "Carchacrokite";
+        public const string Garchompite_URL = "https://bulbapedia.bulbagarden.net/wiki/Garchompite";
+        public const string Garchompite_RU = "Гарчомпит";
+
+        public const string Lucarionite_FR = "Lucarite";
+        public const string Lucarionite_URL = "https://bulbapedia.bulbagarden.net/wiki/Lucarionite";
+        public const string Lucarionite_RU = "Лукарионит";
+
+        public const string Abomasite_FR = "Blizzarite";
+        public const string Abomasite_URL = "https://bulbapedia.bulbagarden.net/wiki/Abomasite";
+        public const string Abomasite_RU = "Абомасит";
+
+        public const string Galladite_FR = "Gallamïte";
+        public const string Galladite_URL = "https://bulbapedia.bulbagarden.net/wiki/Galladite";
+        public const string Galladite_RU = "Галлейдит";
+
+        public const string Audinite_FR = "Nanméouïte";//Méga-Nanméouïe
+        public const string Audinite_URL = "https://bulbapedia.bulbagarden.net/wiki/Audinite";
+        public const string Audinite_RU = "Аудинит";
+
+        public const string Diancite_FR = "Diancite";
+        public const string Diancite_URL = "https://bulbapedia.bulbagarden.net/wiki/Diancite";
+        public const string Diancite_RU = "Диансит";
         #endregion
 
         #region Pierre d'évolution //OK
@@ -808,23 +862,57 @@
         #endregion
 
         #region Echange
-        public const string WE_E_1 = "Échange";
-        public const string WE_E_2 = "Échange en tenant Roche Royale";
-        public const string WE_E_3 = "Échange en tenant Peau Métal";
-        public const string WE_E_4 = "Échange en tenant Écaille Draco";
-        public const string WE_E_5 = "Échange en tenant Améliorator";
-        public const string WE_E_6 = "Échange en tenant Bel'Écaille / Monter un niveau avec 170 de Beauté (RSE / DPP / HGSS / ROSA / DEPS)";
-        public const string WE_E_7 = "Échange en tenant Dent Océan";
-        public const string WE_E_8 = "Échange en tenant Écaille Océan";
-        public const string WE_E_9 = "Échange contre Escargaume";
-        public const string WE_E_10 = "Échange contre Carabing";
-        public const string WE_E_11 = "Échange en tenant Sachet Senteur";
-        public const string WE_E_12 = "Échange en tenant Chantibonbon";
-        public const string WE_E_13 = "Échange en tenant Protecteur";
-        public const string WE_E_14 = "Échange en tenant Électriseur";
-        public const string WE_E_15 = "Échange en tenant Magmariseur";
-        public const string WE_E_16 = "Échange en tenant CD Douteux";
-        public const string WE_E_17 = "Échange en tenant Tissu Fauche";
+        //public const string WE_E_1 = "Échange";
+
+        //public const string WE_E_1 = "Échange en tenant";
+        //public const string WE_E_1 = "Échange contre";
+
+        //public const string WE_E_2 = "Échange en tenant Roche Royale";
+        //https://bulbapedia.bulbagarden.net/wiki/King%27s_Rock
+            
+        //public const string WE_E_3 = "Échange en tenant Peau Métal";
+        //https://bulbapedia.bulbagarden.net/wiki/Metal_Coat
+            
+        //public const string WE_E_4 = "Échange en tenant Écaille Draco";
+        //https://bulbapedia.bulbagarden.net/wiki/Dragon_Scale
+            
+        //public const string WE_E_5 = "Échange en tenant Améliorator";
+        //https://bulbapedia.bulbagarden.net/wiki/Upgrade
+            
+        //public const string WE_E_6 = "Échange en tenant Bel'Écaille / Monter un niveau avec 170 de Beauté (RSE / DPP / HGSS / ROSA / DEPS)";
+        //https://bulbapedia.bulbagarden.net/wiki/Prism_Scale
+            
+        //public const string WE_E_7 = "Échange en tenant Dent Océan";
+        //https://bulbapedia.bulbagarden.net/wiki/Deep_Sea_Tooth
+            
+        //public const string WE_E_8 = "Échange en tenant Écaille Océan";
+        //https://bulbapedia.bulbagarden.net/wiki/Deep_Sea_Scale
+            
+        //public const string WE_E_9 = "Échange contre Escargaume";
+        //https://bulbapedia.bulbagarden.net/wiki/Shelmet
+            
+        //public const string WE_E_10 = "Échange contre Carabing";
+        //https://bulbapedia.bulbagarden.net/wiki/Karrablast
+        
+        //public const string WE_E_11 = "Échange en tenant Sachet Senteur";
+        //https://bulbapedia.bulbagarden.net/wiki/Sachet
+        //public const string WE_E_12 = "Échange en tenant Chantibonbon";
+        //https://bulbapedia.bulbagarden.net/wiki/Whipped_Dream
+        
+        //public const string WE_E_13 = "Échange en tenant Protecteur";
+        //https://bulbapedia.bulbagarden.net/wiki/Protector
+
+        //public const string WE_E_14 = "Échange en tenant Électriseur";
+        //https://bulbapedia.bulbagarden.net/wiki/Electirizer
+            
+        //public const string WE_E_15 = "Échange en tenant Magmariseur";
+        //https://bulbapedia.bulbagarden.net/wiki/Magmarizer
+            
+        //public const string WE_E_16 = "Échange en tenant CD Douteux";
+        //https://bulbapedia.bulbagarden.net/wiki/Dubious_Disc
+            
+        //public const string WE_E_17 = "Échange en tenant Tissu Fauche";
+        //https://bulbapedia.bulbagarden.net/wiki/Reaper_Cloth
         #endregion
 
         #region LevelUp
@@ -847,7 +935,6 @@
         public const string WE_LU_17 = "Monter un niveau avec bonheur élevé la nuit";
         public const string WE_LU_18 = "Utiliser un Bracelet Galanoa";
         public const string WE_LU_19 = "Utiliser une Couronne Galanoa";
-        public const string WE_LU_20 = "-Évolution avec une Mysdibulite";
         public const string WE_LU_21 = "Phione n'évolue pas";
         public const string WE_LU_22 = "7G : Monter un niveau au Mont Lanakila";
         public const string WE_LU_23 = "Pomme Acidulée";
@@ -879,7 +966,7 @@
         public const string WE_R_18 = "Reproduction de Salarsen";
         #endregion
 
-        #region Gigamax
+        #region Gigamax //A effacer
         public const string WE_GM_1 = "Forme Gigamax de Florizarre";
         public const string WE_GM_2 = "Forme Gigamax de Dracaufeu";
         public const string WE_GM_3 = "Forme Gigamax de Tortank";
@@ -935,9 +1022,9 @@
         public const string BasicData_IT = "Dati di base";
         public const string BasicData_DE = "Grundinformationen";
         public const string BasicData_RU = "Основные данные";
-        public const string BasicData_CO = "";
-        public const string BasicData_CN = "";
-        public const string BasicData_JP = "";
+        public const string BasicData_CO = "기본적인 정보";
+        public const string BasicData_CN = "基本数据";
+        public const string BasicData_JP = "基本データ";
 
         public const string SpecialAbility_FR = "Capacité Spéciale";
         public const string SpecialAbility_EN = "Special Ability";
@@ -945,9 +1032,9 @@
         public const string SpecialAbility_IT = "Abilità speciale";
         public const string SpecialAbility_DE = "Besondere Fähigkeit";
         public const string SpecialAbility_RU = "Специальные возможности";
-        public const string SpecialAbility_CO = "";
-        public const string SpecialAbility_CN = "";
-        public const string SpecialAbility_JP = "";
+        public const string SpecialAbility_CO = "특수 능력";
+        public const string SpecialAbility_CN = "特殊能力";
+        public const string SpecialAbility_JP = "特別な能力";
 
         public const string Statistics_FR = "Statistiques";
         public const string Statistics_EN = "Statistics";
@@ -955,9 +1042,9 @@
         public const string Statistics_IT = "Statistiche";
         public const string Statistics_DE = "Statistiken";
         public const string Statistics_RU = "Статистика";
-        public const string Statistics_CO = "";
-        public const string Statistics_CN = "";
-        public const string Statistics_JP = "";
+        public const string Statistics_CO = "통계";
+        public const string Statistics_CN = "能力";
+        public const string Statistics_JP = "統計学";
 
         public const string Category_FR = "Catégorie";
         public const string Category_EN = "Category";
@@ -965,9 +1052,9 @@
         public const string Category_IT = "Categoria";
         public const string Category_DE = "Kategorie";
         public const string Category_RU = "категория";
-        public const string Category_CO = "";
-        public const string Category_CN = "";
-        public const string Category_JP = "";
+        public const string Category_CO = "분류";
+        public const string Category_CN = "分类";
+        public const string Category_JP = "特性";
 
         public const string Height_FR = "Taille";
         public const string Height_EN = "Height";
@@ -975,9 +1062,9 @@
         public const string Height_IT = "Altezza";
         public const string Height_DE = "Größe";
         public const string Height_RU = "высота";
-        public const string Height_CO = "";
-        public const string Height_CN = "";
-        public const string Height_JP = "";
+        public const string Height_CO = "키";
+        public const string Height_CN = "身高";
+        public const string Height_JP = "高さ";
 
         public const string Weight_FR = "Poids";
         public const string Weight_EN = "Weight";
@@ -985,9 +1072,9 @@
         public const string Weight_IT = "Peso";
         public const string Weight_DE = "Gewicht";
         public const string Weight_RU = "Масса";
-        public const string Weight_CO = "";
-        public const string Weight_CN = "";
-        public const string Weight_JP = "";
+        public const string Weight_CO = "몸무게";
+        public const string Weight_CN = "体重";
+        public const string Weight_JP = "重さ";
 
         public const string Skills_FR = "Talents";
         public const string Skills_EN = "Skills";
@@ -995,9 +1082,9 @@
         public const string Skills_IT = "Abilità";
         public const string Skills_DE = "Fähigkeiten";
         public const string Skills_RU = "Способности";
-        public const string Skills_CO = "";
-        public const string Skills_CN = "";
-        public const string Skills_JP = "";
+        public const string Skills_CO = "특성";
+        public const string Skills_CN = "特性";
+        public const string Skills_JP = "スキル";
         
         public const string HP_FR = "PV";
         public const string HP_EN = "HP";
@@ -1005,9 +1092,9 @@
         public const string HP_IT = "PS";
         public const string HP_DE = "KP";
         public const string HP_RU = "HP";
-        public const string HP_CO = "";
-        public const string HP_CN = "";
-        public const string HP_JP = "";
+        public const string HP_CO = "HP";
+        public const string HP_CN = "HP";
+        public const string HP_JP = "HP";
 
         public const string Atk_FR = "Att.";
         public const string Atk_EN = "Atk";
@@ -1015,9 +1102,9 @@
         public const string Atk_IT = "Att.";
         public const string Atk_DE = "Angr.";
         public const string Atk_RU = "Atk";
-        public const string Atk_CO = "";
-        public const string Atk_CN = "";
-        public const string Atk_JP = "";
+        public const string Atk_CO = "공격";
+        public const string Atk_CN = "攻击";
+        public const string Atk_JP = "こうげき";
 
         public const string Def_FR = "Def.";
         public const string Def_EN = "Def";
@@ -1025,9 +1112,9 @@
         public const string Def_IT = "Dif.";
         public const string Def_DE = "Vert.";
         public const string Def_RU = "Def";
-        public const string Def_CO = "";
-        public const string Def_CN = "";
-        public const string Def_JP = "";
+        public const string Def_CO = "방어";
+        public const string Def_CN = "防御";
+        public const string Def_JP = "ぼうぎょ";
 
         public const string SpAtk_FR = "Att. Sp.";
         public const string SpAtk_EN = "Sp. Atk";
@@ -1035,9 +1122,9 @@
         public const string SpAtk_IT = "Att. Sp.";
         public const string SpAtk_DE = "Sp. Ang.";
         public const string SpAtk_RU = "Sp. Atk";
-        public const string SpAtk_CO = "";
-        public const string SpAtk_CN = "";
-        public const string SpAtk_JP = "";
+        public const string SpAtk_CO = "특수 공격";
+        public const string SpAtk_CN = "特攻";
+        public const string SpAtk_JP = "とくこう";
 
         public const string SpDef_FR = "Def. Sp.";
         public const string SpDef_EN = "Sp. Def";
@@ -1045,9 +1132,9 @@
         public const string SpDef_IT = "Dif. Sp.";
         public const string SpDef_DE = "Sp. Ver.";
         public const string SpDef_RU = "Sp. Def";
-        public const string SpDef_CO = "";
-        public const string SpDef_CN = "";
-        public const string SpDef_JP = "";
+        public const string SpDef_CO = "특수방어";
+        public const string SpDef_CN = "特防";
+        public const string SpDef_JP = "とくぼう";
 
         public const string Speed_FR = "Vit.";
         public const string Speed_EN = "Speed";
@@ -1055,9 +1142,9 @@
         public const string Speed_IT = "Vel.";//Velocità
         public const string Speed_DE = "Init.";
         public const string Speed_RU = "Speed";
-        public const string Speed_CO = "";
-        public const string Speed_CN = "";
-        public const string Speed_JP = "";
+        public const string Speed_CO = "속도";
+        public const string Speed_CN = "速度";
+        public const string Speed_JP = "すばやさ";
 
         public const string Evolution_FR = "Evolution";
         public const string Evolution_EN = "Evolution";
@@ -1065,9 +1152,9 @@
         public const string Evolution_IT = "Evoluzione";
         public const string Evolution_DE = "Evolution";
         public const string Evolution_RU = "Эволюции";
-        public const string Evolution_CO = "";
-        public const string Evolution_CN = "";
-        public const string Evolution_JP = "";
+        public const string Evolution_CO = "진화";
+        public const string Evolution_CN = "进化";
+        public const string Evolution_JP = "進化";
 
         public const string Weaknesses_FR = "Faiblesses";
         public const string Weaknesses_EN = "Weaknesses";
@@ -1075,9 +1162,9 @@
         public const string Weaknesses_IT = "Debolezze";
         public const string Weaknesses_DE = "Schwächen";
         public const string Weaknesses_RU = "Слабость";
-        public const string Weaknesses_CO = "";
-        public const string Weaknesses_CN = "";
-        public const string Weaknesses_JP = "";
+        public const string Weaknesses_CO = "약점";
+        public const string Weaknesses_CN = "弱点";
+        public const string Weaknesses_JP = "弱点";
 
         public const string MegaEvolution_FR = "Méga Evolution";
         public const string MegaEvolution_EN = "Mega Evolution";
@@ -1085,9 +1172,9 @@
         public const string MegaEvolution_IT = "Megaevoluzione";
         public const string MegaEvolution_DE = "Mega-Entwicklung";
         public const string MegaEvolution_RU = "Мегаэволюция";
-        public const string MegaEvolution_CO = "";
-        public const string MegaEvolution_CN = "";
-        public const string MegaEvolution_JP = "";
+        public const string MegaEvolution_CO = "메가진화";
+        public const string MegaEvolution_CN = "超级进化";
+        public const string MegaEvolution_JP = "メガ進化";
 
         public const string GigantamaxForm_FR = "Forme Gigamax";
         public const string GigantamaxForm_EN = "Gigantamax Form";
@@ -1095,9 +1182,9 @@
         public const string GigantamaxForm_IT = "Forma Gigamax";
         public const string GigantamaxForm_DE = "GigaDynamax-Form";
         public const string GigantamaxForm_RU = "гигамакс форма";
-        public const string GigantamaxForm_CO = "";
-        public const string GigantamaxForm_CN = "";
-        public const string GigantamaxForm_JP = "";
+        public const string GigantamaxForm_CO = "기간타맥스 폼";
+        public const string GigantamaxForm_CN = "巨无霸形态";
+        public const string GigantamaxForm_JP = "ギガンタマックスフォーム";
 
         public const string AlolanForm_FR = "Forme d'Alola";
         public const string AlolanForm_EN = "Alolan Form";
@@ -1105,9 +1192,9 @@
         public const string AlolanForm_IT = "Forma Di Alola";
         public const string AlolanForm_DE = "Alola-Form";
         public const string AlolanForm_RU = "алола форма";
-        public const string AlolanForm_CO = "";
-        public const string AlolanForm_CN = "";
-        public const string AlolanForm_JP = "";
+        public const string AlolanForm_CO = "알로라의 모습";
+        public const string AlolanForm_CN = "阿罗拉的形态";
+        public const string AlolanForm_JP = "アローラの姿";
 
         public const string GalarsForm_FR = "Forme de Galar";
         public const string GalarsForm_EN = "Galar's Form";
@@ -1115,9 +1202,9 @@
         public const string GalarsForm_IT = "Forma Di Galar";
         public const string GalarsForm_DE = "Galar-Form";
         public const string GalarsForm_RU = "галар форма";
-        public const string GalarsForm_CO = "";
-        public const string GalarsForm_CN = "";
-        public const string GalarsForm_JP = "";
+        public const string GalarsForm_CO = "가라르의 모습";
+        public const string GalarsForm_CN = "伽勒尔的形式";
+        public const string GalarsForm_JP = "ガラルの姿";
 
         public const string HisuisForm_FR = "Forme D'Hisui";
         public const string HisuisForm_EN = "Hisui's Form";
@@ -1125,9 +1212,9 @@
         public const string HisuisForm_IT = "Forma Di Hisui";
         public const string HisuisForm_DE = "Hisui-Form";
         public const string HisuisForm_RU = "Хисуи форма";
-        public const string HisuisForm_CO = "";
-        public const string HisuisForm_CN = "";
-        public const string HisuisForm_JP = "";
+        public const string HisuisForm_CO = "히스이의 모습";
+        public const string HisuisForm_CN = "翡翠的形态";
+        public const string HisuisForm_JP = "ヒスイのフォーム";
 
         public const string Type_FR = "Type";
         public const string Type_EN = "Type";
@@ -1135,9 +1222,9 @@
         public const string Type_IT = "Tipo";
         public const string Type_DE = "Typ";
         public const string Type_RU = "Тип";
-        public const string Type_CO = "";
-        public const string Type_CN = "";
-        public const string Type_JP = "";
+        public const string Type_CO = "타입";
+        public const string Type_CN = "属性";
+        public const string Type_JP = "タイプ";
 
         public const string Gen_FR = "Gen";
         public const string Gen_EN = "Gen";
@@ -1145,9 +1232,9 @@
         public const string Gen_IT = "Gen";
         public const string Gen_DE = "Gen";
         public const string Gen_RU = "Поколение";
-        public const string Gen_CO = "";
-        public const string Gen_CN = "";
-        public const string Gen_JP = "";
+        public const string Gen_CO = "세대";
+        public const string Gen_CN = "创";
+        public const string Gen_JP = "ゲン";
 
         public const string FilterShare_FR = "Filtrer Part";
         public const string FilterShare_EN = "Filter Share";
@@ -1155,9 +1242,9 @@
         public const string FilterShare_IT = "Filtra Condividi";
         public const string FilterShare_DE = "Teilen filtern";
         public const string FilterShare_RU = "Поделиться фильтром";
-        public const string FilterShare_CO = "";
-        public const string FilterShare_CN = "";
-        public const string FilterShare_JP = "";
+        public const string FilterShare_CO = "필터 공유";
+        public const string FilterShare_CN = "过滤分享";
+        public const string FilterShare_JP = "フィルタ共有";
 
         public const string Return_FR = "Retour";
         public const string Return_EN = "Return";
@@ -1165,9 +1252,9 @@
         public const string Return_IT = "Ritorno";
         public const string Return_DE = "Zurückkehren";
         public const string Return_RU = "Возвращаться";
-        public const string Return_CO = "";
-        public const string Return_CN = "";
-        public const string Return_JP = "";
+        public const string Return_CO = "반품";
+        public const string Return_CN = "返回";
+        public const string Return_JP = "戻る";
 
         public const string Filter_FR = "Filtrer";
         public const string Filter_EN = "Filter";
@@ -1175,9 +1262,9 @@
         public const string Filter_IT = "Filtro";
         public const string Filter_DE = "Filter";
         public const string Filter_RU = "Фильтр";
-        public const string Filter_CO = "";
-        public const string Filter_CN = "";
-        public const string Filter_JP = "";
+        public const string Filter_CO = "필터";
+        public const string Filter_CN = "筛选";
+        public const string Filter_JP = "フィルター";
 
         public const string Female_FR = "Femelle";
         public const string Female_EN = "Female";
@@ -1185,9 +1272,9 @@
         public const string Female_IT = "Femmina";
         public const string Female_DE = "Weiblich";
         public const string Female_RU = "женский";
-        public const string Female_CO = "";
-        public const string Female_CN = "";
-        public const string Female_JP = "";
+        public const string Female_CO = "여성";
+        public const string Female_CN = "女性";
+        public const string Female_JP = "女性";
 
         public const string VariantGender_FR = "Variante Sexe";
         public const string VariantGender_EN = "Variant Gender";
@@ -1195,9 +1282,9 @@
         public const string VariantGender_IT = "Genere Variante";
         public const string VariantGender_DE = "Variante Geschlecht";
         public const string VariantGender_RU = "Вариант пола";
-        public const string VariantGender_CO = "";
-        public const string VariantGender_CN = "";
-        public const string VariantGender_JP = "";
+        public const string VariantGender_CO = "변형 성별";
+        public const string VariantGender_CN = "变体性别";
+        public const string VariantGender_JP = "バリアント性別";
 
         public const string Variant_FR = "Variant";
         public const string Variant_EN = "Variant";
@@ -1205,9 +1292,9 @@
         public const string Variant_IT = "Variante";
         public const string Variant_DE = "Variante";
         public const string Variant_RU = "Вариант";
-        public const string Variant_CO = "";
-        public const string Variant_CN = "";
-        public const string Variant_JP = "";
+        public const string Variant_CO = "변종";
+        public const string Variant_CN = "变体";
+        public const string Variant_JP = "変異体";
 
         public const string Stone_FR = "Pierre";
         public const string Stone_EN = "Stone";
@@ -1215,9 +1302,9 @@
         public const string Stone_IT = "Pietra";
         public const string Stone_DE = "Stein";
         public const string Stone_RU = "Камень";
-        public const string Stone_CO = "";
-        public const string Stone_CN = "";
-        public const string Stone_JP = "";
+        public const string Stone_CO = "결석";
+        public const string Stone_CN = "结石";
+        public const string Stone_JP = "結石";
 
         public const string Exchange_FR = "Echange";
         public const string Exchange_EN = "Exchange";
@@ -1225,9 +1312,9 @@
         public const string Exchange_IT = "Scambio";
         public const string Exchange_DE = "Austausch";
         public const string Exchange_RU = "Обмен";
-        public const string Exchange_CO = "";
-        public const string Exchange_CN = "";
-        public const string Exchange_JP = "";
+        public const string Exchange_CO = "교환";
+        public const string Exchange_CN = "交换";
+        public const string Exchange_JP = "交換";
 
         public const string LevelUp_FR = "Monter un niveau";
         public const string LevelUp_EN = "Level Up";
@@ -1235,19 +1322,39 @@
         public const string LevelUp_IT = "Sali di livello";
         public const string LevelUp_DE = "Aufleveln";
         public const string LevelUp_RU = "Уровень повышен";
-        public const string LevelUp_CO = "";
-        public const string LevelUp_CN = "";
-        public const string LevelUp_JP = "";
+        public const string LevelUp_CO = "레벨 업";
+        public const string LevelUp_CN = "升级";
+        public const string LevelUp_JP = "レベルアップ";
 
-        public const string Reproduction_FR = "Monter un niveau";
-        public const string Reproduction_EN = "Level Up";
-        public const string Reproduction_ES = "Elevar a mismo nivel";
-        public const string Reproduction_IT = "Sali di livello";
-        public const string Reproduction_DE = "Aufleveln";
-        public const string Reproduction_RU = "Уровень повышен";
-        public const string Reproduction_CO = "";
-        public const string Reproduction_CN = "";
-        public const string Reproduction_JP = "";
+        public const string Reproduction_FR = "Reproduction";
+        public const string Reproduction_EN = "Reproduction";
+        public const string Reproduction_ES = "Reproducción";
+        public const string Reproduction_IT = "Riproduzione";
+        public const string Reproduction_DE = "Reproduktion";
+        public const string Reproduction_RU = "Воспроизведение";
+        public const string Reproduction_CO = "생식";
+        public const string Reproduction_CN = "再生产";
+        public const string Reproduction_JP = "再生";
+
+        public const string MegaEvolutionWith_FR = "Méga-Évolution avec une";
+        public const string MegaEvolutionWith_EN = "Mega Evolution with"; //Avant
+        public const string MegaEvolutionWith_ES = "Mega Evolución con"; //Avant
+        public const string MegaEvolutionWith_IT = "Megaevoluzione con"; //Avant
+        public const string MegaEvolutionWith_DE = "Mega Evolution mit"; //Avant
+        public const string MegaEvolutionWith_RU = "Mega Evolyutsiya s"; //Avant
+        public const string MegaEvolutionWith_CO = "함께하는 메가진화"; //Après
+        public const string MegaEvolutionWith_CN = "超級進化"; //Après
+        public const string MegaEvolutionWith_JP = "でメガ進化"; //Après
+
+        public const string GigantamaxFormOf_FR = "Forme Gigamax de";
+        public const string GigantamaxFormOf_EN = "Gigantamax Form of";
+        public const string GigantamaxFormOf_ES = "Forma Gigamax de";
+        public const string GigantamaxFormOf_IT = "Forma Gigamax di";
+        public const string GigantamaxFormOf_DE = "GigaDynamax-Form von";
+        public const string GigantamaxFormOf_RU = "Гигантамаксная форма";
+        public const string GigantamaxFormOf_CO = "기간타맥스 형식";
+        public const string GigantamaxFormOf_CN = "巨无霸形态";
+        public const string GigantamaxFormOf_JP = "ギガンタマックス形態";
         #endregion
 
         #region Language
@@ -1257,6 +1364,7 @@
         public const string EN_Lib = "English";
         public const string ES = "ES";
         public const string ES_Lib = "Spain";
+        public const string ES_Lib_v2 = "Spanish";
         public const string IT = "IT";
         public const string IT_Lib = "Italian";
         public const string DE = "DE";
