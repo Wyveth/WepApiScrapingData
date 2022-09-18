@@ -33,8 +33,12 @@ namespace WepApiScrapingData.Utils
                       .Replace(value1, translateValue1)
                       .ToString();
             }
-            else if (value1.Equals(Constantes.MegaEvolutionWith_FR) || value1.Equals(Constantes.GigantamaxForm_FR)) {
+            else if (value2.Equals(Constantes.MegaEvolutionWith_FR) || value2.Equals(Constantes.GigantamaxForm_FR)) {
                 return translateValue2 + " " + translateValue1;
+            }
+            else if (value2.Equals(Constantes.SwapWH_FR) || value2.Equals(Constantes.ExchangeA_FR))
+            {
+                return translateValue2 + ": " + translateValue1;
             }
             else
             {

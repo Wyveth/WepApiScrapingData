@@ -325,87 +325,6 @@
         public const string TypeColorFlying = "#92AADE";
         #endregion
 
-        #region Object
-
-        #region Exchange
-        public const string Exchange = "Échange en tenant";
-        public const string Roche_Royale = "Roche Royale";
-        public const string Peau_Métal = "Peau Métal";
-        public const string Écaille_Draco = "Écaille Draco";
-        public const string Améliorator = "Améliorator";
-        public const string Bel_Écaille = "Bel'Écaille";
-        public const string Dent_Ocean = "Dent Océan";
-        public const string Écaille_Ocean = "Écaille Océan";
-        public const string Protecteur = "Protecteur";
-        public const string Électriseur = "Électriseur";
-        public const string Magmariseur = "Magmariseur";
-        public const string CD_Douteux = "CD Douteux";
-        public const string Tissu_Fauche = "Tissu Fauche";
-        #endregion
-
-        #region Object Used
-        public const string Use_1 = "Utiliser un";
-        public const string Use_2 = "Utiliser une";
-        public const string Bracelet_Galanoa = "Bracelet Galanoa";
-        public const string Couronne_Galanoa = "Couronne Galanoa";
-        public const string Pomme_Acidulee = "Pomme Acidulée";
-        public const string Pomme_Sucree = "Pomme Sucrée";
-        public const string Theiere_Felee = "Théière Fêlée";
-        #endregion
-
-        #region Reproduction
-        public const string ReproductionAvec = "Reproduction avec";
-        public const string ReproductionDe = "Reproduction de";
-        public const string FaireTenir = "Faire tenir";
-        public const string AuParent = "au parent";
-        public const string TenuParUnParent = "tenu par un parent";
-        public const string Encens_Mer = "Encens Mer";
-        public const string Encens_Doux = "Encens Doux";
-        public const string Encens_Pur = "Encens Pur";
-        public const string Encens_Roc = "Encens Roc";
-        public const string Encens_Bizarre = "Encens Bizarre";
-        public const string Encens_Veine = "Encens Veine";
-        public const string Encens_Plein = "Encens Plein";
-        public const string Encens_Fleur = "Encens Fleur";
-        public const string Encens_Vague = "Encens Vague";
-        public const string PikachuORRaichu = "Pikachu ou Raichu";
-        public const string RondoudouORGrodoudou = "Rondoudou ou Grodoudou";
-        public const string TogeticORTogekiss = "Togetic ou Togekiss";
-        public const string TygnonORKickleeORKapoera = "Tygnon, Kicklee ou Kapoera";
-        public const string Lippoutou = "Lippoutou";
-        public const string ÉlektekORÉlekable = "Élektek ou Élekable";
-        public const string MagmarORMaganon = "Magmar ou Maganon";
-        public const string Lucario = "Lucario";
-        public const string Salarsen = "Salarsen";
-        #endregion
-
-        #region Level Up
-        //Monter un niveau en tenant une Pierre Ovale le jour
-        //Monter un niveau en tenant Griffe Rasoir la nuit
-        //Monter un niveau en tenant Croc Rasoir la nuit
-
-        //avec bonheur élevé
-        //en ayant appris Copie(hors Galar)
-        //en ayant appris l'attaque Copie
-        //avec Rémoraid dans l'équipe
-        //en ayant appris Coup Double
-        //avec bonheur élevé le jour
-        //en ayant appris Roulade
-        //en ayant appris Pouvoir Antique
-        //au Mont Lanakila
-        //en ayant appris Écrasement
-        //en ayant appris Dracochoc
-        //en ayant appris Provoc
-        //avec bonheur élevé la nuit
-        #endregion
-
-
-        //Phione n'évolue pas
-        //Faire 3 coups critiques en un seul combat
-        //Perdre 49 PV ou plus et passer sous l'arche en pierre dans la Fosse des Sables (Terres Sauvages)
-        //Monter un niveau
-        #endregion
-
         #region WhenEvolution
         #region Niveau //OK
         public const string PID_FR = "dépend d'un numéro aléatoire calculé à la capture, le PID";
@@ -861,144 +780,310 @@
         public const string DawnStone_RU = "Камень рассвета";
         #endregion
 
-        #region Echange
-        //public const string WE_E_1 = "Échange";
+        #region Echange //OK
+        public const string Kings_Rock_FR = "Roche Royale";
+        public const string Kings_Rock_URL = "https://bulbapedia.bulbagarden.net/wiki/King%27s_Rock";
+        public const string Kings_Rock_RU = "Камень королей";
 
-        //public const string WE_E_1 = "Échange en tenant";
-        //public const string WE_E_1 = "Échange contre";
-
-        //public const string WE_E_2 = "Échange en tenant Roche Royale";
-        //https://bulbapedia.bulbagarden.net/wiki/King%27s_Rock
-            
-        //public const string WE_E_3 = "Échange en tenant Peau Métal";
-        //https://bulbapedia.bulbagarden.net/wiki/Metal_Coat
-            
-        //public const string WE_E_4 = "Échange en tenant Écaille Draco";
-        //https://bulbapedia.bulbagarden.net/wiki/Dragon_Scale
-            
-        //public const string WE_E_5 = "Échange en tenant Améliorator";
-        //https://bulbapedia.bulbagarden.net/wiki/Upgrade
-            
-        //public const string WE_E_6 = "Échange en tenant Bel'Écaille / Monter un niveau avec 170 de Beauté (RSE / DPP / HGSS / ROSA / DEPS)";
-        //https://bulbapedia.bulbagarden.net/wiki/Prism_Scale
-            
-        //public const string WE_E_7 = "Échange en tenant Dent Océan";
-        //https://bulbapedia.bulbagarden.net/wiki/Deep_Sea_Tooth
-            
-        //public const string WE_E_8 = "Échange en tenant Écaille Océan";
-        //https://bulbapedia.bulbagarden.net/wiki/Deep_Sea_Scale
-            
-        //public const string WE_E_9 = "Échange contre Escargaume";
-        //https://bulbapedia.bulbagarden.net/wiki/Shelmet
-            
-        //public const string WE_E_10 = "Échange contre Carabing";
-        //https://bulbapedia.bulbagarden.net/wiki/Karrablast
+        public const string Metal_Coat_FR = "Peau Métal";
+        public const string Metal_Coat_URL = "https://bulbapedia.bulbagarden.net/wiki/Metal_Coat";
+        public const string Metal_Coat_RU = "Металическая оболочка";
         
-        //public const string WE_E_11 = "Échange en tenant Sachet Senteur";
-        //https://bulbapedia.bulbagarden.net/wiki/Sachet
-        //public const string WE_E_12 = "Échange en tenant Chantibonbon";
-        //https://bulbapedia.bulbagarden.net/wiki/Whipped_Dream
-        
-        //public const string WE_E_13 = "Échange en tenant Protecteur";
-        //https://bulbapedia.bulbagarden.net/wiki/Protector
+        public const string Dragon_Scale_FR = "Écaille Draco";
+        public const string Dragon_Scale_URL = "https://bulbapedia.bulbagarden.net/wiki/Dragon_Scale";
+        public const string Dragon_Scale_RU = "Чешуя дракона";
 
-        //public const string WE_E_14 = "Échange en tenant Électriseur";
-        //https://bulbapedia.bulbagarden.net/wiki/Electirizer
-            
-        //public const string WE_E_15 = "Échange en tenant Magmariseur";
-        //https://bulbapedia.bulbagarden.net/wiki/Magmarizer
-            
-        //public const string WE_E_16 = "Échange en tenant CD Douteux";
-        //https://bulbapedia.bulbagarden.net/wiki/Dubious_Disc
-            
-        //public const string WE_E_17 = "Échange en tenant Tissu Fauche";
-        //https://bulbapedia.bulbagarden.net/wiki/Reaper_Cloth
+        public const string Upgrade_FR = "Améliorator";
+        public const string Upgrade_URL = "https://bulbapedia.bulbagarden.net/wiki/Upgrade";
+        public const string Upgrade_RU = "Обновление";
+
+        public const string Prism_Scale_FR = "Bel'Écaille / Monter un niveau avec 170 de Beauté (RSE / DPP / HGSS / ROSA / DEPS)";
+        public const string Prism_Scale_URL = "https://bulbapedia.bulbagarden.net/wiki/Prism_Scale";
+        public const string Prism_Scale_RU = "Призматическая чешуйка";
+
+        public const string Deep_Sea_Tooth_FR = "Dent Océan";
+        public const string Deep_Sea_Tooth_URL = "https://bulbapedia.bulbagarden.net/wiki/Deep_Sea_Tooth";
+        public const string Deep_Sea_Tooth_RU = "Зуб со дна моря";
+
+        public const string Deep_Sea_Scale_FR = "Écaille Océan";
+        public const string Deep_Sea_Scale_URL = "https://bulbapedia.bulbagarden.net/wiki/Deep_Sea_Scale";
+        public const string Deep_Sea_Scale_RU = "Чешуя со дна моря";
+
+        public const string Shelmet_FR = "Escargaume";
+        public const string Shelmet_URL = "https://bulbapedia.bulbagarden.net/wiki/Shelmet";
+        public const string Shelmet_RU = "Шелмет";
+
+        public const string Karrablast_FR = "Carabing";
+        public const string Karrablast_URL = "https://bulbapedia.bulbagarden.net/wiki/Karrablast";
+        public const string Karrablast_RU = "Каррабласт";
+
+        public const string Sachet_FR = "Sachet Senteur";
+        public const string Sachet_URL = "https://bulbapedia.bulbagarden.net/wiki/Sachet";
+        public const string Sachet_RU = "Саше с ароматом";
+
+        public const string Whipped_Dream_FR = "Chantibonbon";
+        public const string Whipped_Dream_URL = "https://bulbapedia.bulbagarden.net/wiki/Whipped_Dream";
+        public const string Whipped_Dream_RU = "Шантибонбон";
+
+        public const string Protector_FR = "Protecteur";
+        public const string Protector_URL = "https://bulbapedia.bulbagarden.net/wiki/Protector";
+        public const string Protector_RU = "Протектор";
+
+        public const string Electirizer_FR = "Électriseur";
+        public const string Electirizer_URL = "https://bulbapedia.bulbagarden.net/wiki/Electirizer";
+        public const string Electirizer_RU = "Электризатор";
+
+        public const string Magmarizer_FR = "Magmariseur";
+        public const string Magmarizer_URL = "https://bulbapedia.bulbagarden.net/wiki/Magmarizer";
+        public const string Magmarizer_RU = "Магмаризатор";
+
+        public const string Dubious_Disc_FR = "CD Douteux";
+        public const string Dubious_Disc_URL = "https://bulbapedia.bulbagarden.net/wiki/Dubious_Disc";
+        public const string Dubious_Disc_RU = "Сомнительный диск";
+
+        public const string Reaper_Cloth_FR = "Tissu Fauche";
+        public const string Reaper_Cloth_URL = "https://bulbapedia.bulbagarden.net/wiki/Reaper_Cloth";
+        public const string Reaper_Cloth_RU = "Ткань жнеца";
         #endregion
 
         #region LevelUp
-        public const string WE_LU_1 = "Monter un niveau avec bonheur élevé";
-        public const string WE_LU_2 = "Monter un niveau en tenant une Pierre Ovale le jour";
-        public const string WE_LU_3 = "Monter un niveau en ayant appris Copie(hors Galar)";
-        public const string WE_LU_4 = "Monter un niveau en ayant appris l'attaque Copie";
-        public const string WE_LU_5 = "Monter un niveau avec bonheur élevé, le jour";
-        public const string WE_LU_6 = "Monter un niveau avec bonheur élevé, la nuit";
-        public const string WE_LU_7 = "Monter un niveau avec Rémoraid dans l'équipe";
-        public const string WE_LU_8 = "Monter un niveau en ayant appris Coup Double";
-        public const string WE_LU_9 = "Monter un niveau avec bonheur élevé le jour";
-        public const string WE_LU_10 = "Monter un niveau en tenant Griffe Rasoir la nuit";
-        public const string WE_LU_11 = "Monter un niveau en ayant appris Roulade";
-        public const string WE_LU_12 = "Monter un niveau en ayant appris Pouvoir Antique";
-        public const string WE_LU_13 = "Monter un niveau en tenant Croc Rasoir la nuit";
-        public const string WE_LU_14 = "Monter un niveau en ayant appris Écrasement";
-        public const string WE_LU_15 = "Monter un niveau en ayant appris Dracochoc";
-        public const string WE_LU_16 = "Monter un niveau en ayant appris Provoc";
-        public const string WE_LU_17 = "Monter un niveau avec bonheur élevé la nuit";
-        public const string WE_LU_18 = "Utiliser un Bracelet Galanoa";
-        public const string WE_LU_19 = "Utiliser une Couronne Galanoa";
-        public const string WE_LU_21 = "Phione n'évolue pas";
-        public const string WE_LU_22 = "7G : Monter un niveau au Mont Lanakila";
-        public const string WE_LU_23 = "Pomme Acidulée";
-        public const string WE_LU_24 = "Pomme Sucrée";
-        public const string WE_LU_25 = "Théière Fêlée";
-        public const string WE_LU_26 = "Faire 3 coups critiques en un seul combat";
-        public const string WE_LU_27 = " Mime de Galar)";
-        public const string WE_LU_28 = "Perdre 49 PV ou plus et passer sous l'arche en pierre dans la Fosse des Sables (Terres Sauvages)";
+        //public const string WE_LU_1 = "Monter un niveau avec";
+        //public const string WE_LU_1 = "bonheur élevé";
+        //public const string WE_LU_5 = "bonheur élevé, le jour";
+        //public const string WE_LU_6 = "bonheur élevé, la nuit";
+        //public const string WE_LU_9 = "bonheur élevé le jour";
+        //public const string WE_LU_17 = "bonheur élevé la nuit";
+        //public const string WE_LU_7 = "Rémoraid dans l'équipe";
+
+        //public const string WE_LU_2 = "Monter un niveau en ayant appris";
+        //public const string WE_LU_3 = "Copie(hors Galar)";
+        //public const string WE_LU_4 = "l'attaque Copie";
+        //public const string WE_LU_8 = "Coup Double";
+        //public const string WE_LU_11 = "Roulade";
+        //public const string WE_LU_12 = "Pouvoir Antique";
+        //public const string WE_LU_14 = "Écrasement";
+        //public const string WE_LU_15 = "Dracochoc";
+        //public const string WE_LU_16 = "Provoc";
+
+        public const string StringFormat_Oval_Stone_EN = "Level up while holding an {0} during the day";
+        public const string StringFormat_Oval_Stone_ES = "Sube de nivel mientras mantienes un {0} durante el día";
+        public const string StringFormat_Oval_Stone_IT = "Sali di livello tenendo premuto un {0} durante il giorno";
+        public const string StringFormat_Oval_Stone_DE = "Steige im Level auf, während du einen {0} Tag hältst";
+        public const string StringFormat_Oval_Stone_RU = "Повышайте уровень, удерживая {0} в течение дня";
+        public const string StringFormat_Oval_Stone_CO = "{0} 일을 잡고 레벨업";
+        public const string StringFormat_Oval_Stone_CN = "白天按住 {0} 升級";
+        public const string StringFormat_Oval_Stone_JP = "日中に{0}を押しながらレベルアップ";
+        
+        public const string Oval_Stone_FR = "Monter un niveau en tenant une Pierre Ovale le jour";
+        public const string Oval_Stone_URL = "https://bulbapedia.bulbagarden.net/wiki/Oval_Stone";
+        public const string Oval_Stone_RU = "Овальный камень";
+
+        public const string StringFormat_Razor_EN = "Level up while holding {0} at night";
+        public const string StringFormat_Razor_ES = "Sube de nivel mientras mantienes {0} en la noche";
+        public const string StringFormat_Razor_IT = "Sali di livello tenendo premuto {0} di notte";
+        public const string StringFormat_Razor_DE = "Steige im Level auf, während du nachts {0} gedrückt hältst";
+        public const string StringFormat_Razor_RU = "Повышайте уровень, удерживая {0} ночью";
+        public const string StringFormat_Razor_CO = "밤에 {0} 키를 누른 상태에서 레벨 올리기";
+        public const string StringFormat_Razor_CN = "晚上按住 {0} 升級";
+        public const string StringFormat_Razor_JP = "夜に{0}を押しながらレベルアップ";
+        
+        public const string Razor_Claw_FR = "Monter un niveau en tenant Griffe Rasoir la nuit";
+        public const string Razor_Claw_URL = "https://bulbapedia.bulbagarden.net/wiki/Razor_Claw";
+        public const string Razor_Claw_RU = "Коготь бритвы";
+
+        public const string Razor_Fang_FR = "Monter un niveau en tenant Croc Rasoir la nuit";
+        public const string Razor_Fang_URL = "https://bulbapedia.bulbagarden.net/wiki/Razor_Fang";
+        public const string Razor_Fang_RU = "Клык бритвы";
+
+        public const string UseA_EN = "Use a {0}";
+        public const string UseA_ES = "Usa un {0}";
+        public const string UseA_IT = "Usa un {0}";
+        public const string UseA_DE = "Verwenden Sie ein {0}";
+        public const string UseA_RU = "Используйте {0}";
+        public const string UseA_CO = "{0} 사용";
+        public const string UseA_CN = "使用 {0}";
+        public const string UseA_JP = "{0} を使用";
+        
+        public const string Galarica_Cuff_FR = "Utiliser un Bracelet Galanoa";
+        public const string Galarica_Cuff_URL = "https://bulbapedia.bulbagarden.net/wiki/Galarica_Cuff";
+        public const string Galarica_Cuff_RU = "Галарическая манжета";
+        
+        public const string Galarica_Wreath_FR = "Utiliser une Couronne Galanoa";
+        public const string Galarica_Wreath_URL = "https://bulbapedia.bulbagarden.net/wiki/Galarica_Wreath";
+        public const string Galarica_Wreath_RU = "Галарический венок";
+
+        public const string stringFormatNotEvolve_EN = "{0} does not evolve";
+        public const string stringFormatNotEvolve_ES = "{0} no evoluciona";
+        public const string stringFormatNotEvolve_IT = "{0} non si evolve";
+        public const string stringFormatNotEvolve_DE = "{0} entwickelt sich nicht";
+        public const string stringFormatNotEvolve_RU = "{0} не развивается";
+        public const string stringFormatNotEvolve_CO = "{0}은(는) 진화하지 않습니다.";
+        public const string stringFormatNotEvolve_CN = "{0} 沒有進化";
+        public const string stringFormatNotEvolve_JP = "{0} は進化しません";
+        public const string Phione_FR = "Phione";
+        public const string Phione_URL = "https://bulbapedia.bulbagarden.net/wiki/Phione_(Pok%C3%A9mon)";
+
+        public const string LvlUpLanakila_FR = "7G : Monter un niveau au Mont Lanakila";
+        public const string LvlUpLanakila_EN = "7G : Level up on Mount Lanakila";
+        public const string LvlUpLanakila_ES = "7G : Sube de nivel en el monte Lanakila";
+        public const string LvlUpLanakila_IT = "7G : Sali di livello sul Monte Lanakila";
+        public const string LvlUpLanakila_DE = "7G : Steige auf dem Berg Lanakila auf";
+        public const string LvlUpLanakila_RU = "7G : Повышение уровня на горе Ланакила";
+        public const string LvlUpLanakila_CO = "7G : 라나킬라 산에서 레벨업";
+        public const string LvlUpLanakila_CN = "7G : 在拉納基拉山升級";
+        public const string LvlUpLanakila_JP = "7G : ラナキラ山でレベルアップ";
+
+        public const string Tart_Apple_FR = "Pomme Acidulée";
+        public const string Tart_Apple_URL = "https://bulbapedia.bulbagarden.net/wiki/Tart_Apple";
+        public const string Tart_Apple_RU = "терпкое яблоко";
+
+
+        public const string Sweet_Apple_FR = "Pomme Sucrée";
+        public const string Sweet_Apple_URL = "https://bulbapedia.bulbagarden.net/wiki/Sweet_Apple";
+        public const string Sweet_Apple_RU = "сладкое яблоко";
+        
+        public const string Cracked_Pot_FR = "Théière Fêlée";
+        public const string Cracked_Pot_URL = "https://bulbapedia.bulbagarden.net/wiki/Cracked_Pot";
+        public const string Cracked_Pot_RU = "Треснувший горшок";
+
+        public const string Critical_Hits_FR = "Faire 3 coups critiques en un seul combat";
+        public const string Critical_Hits_EN = "Get 3 critical hits in a single fight";
+        public const string Critical_Hits_ES = "Consigue 3 golpes críticos en una sola pelea";
+        public const string Critical_Hits_IT = "Ottieni 3 colpi critici in un singolo combattimento";
+        public const string Critical_Hits_DE = "Erziele 3 kritische Treffer in einem einzigen Kampf";
+        public const string Critical_Hits_RU = "Получите 3 критических удара в одном бою";
+        public const string Critical_Hits_CO = "한 전투에서 치명타 3회 달성";
+        public const string Critical_Hits_CN = "在一場戰鬥中獲得 3 次暴擊";
+        public const string Critical_Hits_JP = "1回の戦闘で3回クリティカルヒットを出す";
+
+        public const string Mr_Mime = "Mime de Galar)";
+        public const string Mr_Mime_FR = "Mr. Mime de Galar";
+        public const string Mr_Mime_EN = "Galarian Mr. Mime";
+        public const string Mr_Mime_ES = "Mr. Mime de Galar";
+        public const string Mr_Mime_IT = "Mr. Mime di Galar";
+        public const string Mr_Mime_DE = "Herr Pantomime von Galar";
+        public const string Mr_Mime_RU = "Мистер Мим из Галара";
+        public const string Mr_Mime_CO = "마임 드 갈라 씨";
+        public const string Mr_Mime_CN = "加拉爾的啞劇先生";
+        public const string Mr_Mime_JP = "ミメ・ド・ガラル氏";
+
+        public const string SavageLands_FR = "Perdre 49 PV ou plus et passer sous l'arche en pierre dans la Fosse des Sables (Terres Sauvages)";
+        public const string SavageLands_EN = "Lose 49 or more HP and pass under the stone archway in the Pit of the Sands(Savage Lands)";
+        public const string SavageLands_ES = "Pierde 49 o más HP y pasa por debajo del arco de piedra en Pit of the Sands(Savage Lands)";
+        public const string SavageLands_IT = "Perdi 49 o più HP e passa sotto l'arco di pietra nel Sand Pit (Savage Lands)";
+        public const string SavageLands_DE = "Verliere 49 oder mehr HP und gehe unter dem steinernen Torbogen in der Sandgrube(Wilde Lande) hindurch.";
+        public const string SavageLands_RU = "Потеряйте 49 или более HP и пройдите под каменной аркой в ​​Яме песков(Дикие земли).";
+        public const string SavageLands_CO = "49 이상의 HP를 잃고 Pit of the Sands(Savage Lands)의 돌 아치 밑으로 통과";
+        public const string SavageLands_CN = "失去 49 或更多生命值並通過沙坑（野蠻之地）的石拱門下";
+        public const string SavageLands_JP = "49 以上の HP を失い、Pit of the Sands(Savage Lands) の石のアーチの下を通過する";
         #endregion
 
-        #region Reproduction
-        public const string WE_R_1 = "Reproduction de Pikachu ou Raichu";
-        public const string WE_R_2 = "Reproduction de Rondoudou ou Grodoudou";
-        public const string WE_R_3 = "Reproduction de Togetic ou Togekiss";
-        public const string WE_R_4 = "Reproduction de Tygnon, Kicklee ou Kapoera";
-        public const string WE_R_5 = "Reproduction de Lippoutou";
-        public const string WE_R_6 = "Reproduction de Élektek ou Élekable";
-        public const string WE_R_7 = "Reproduction de Magmar ou Maganon";
-        public const string WE_R_8 = "Reproduction avec Encens Mer tenu par un parent";
-        public const string WE_R_9 = "Reproduction avec Encens Doux tenu par un parent";
-        public const string WE_R_10 = "Reproduction avec Encens Pur tenu par un parent";
-        public const string WE_R_11 = "Reproduction avec Encens Roc tenu par un parent";
-        public const string WE_R_12 = "Reproduction avec Encens Bizarre tenu par un parent";
-        public const string WE_R_13 = "Reproduction avec Encens Veine tenu par un parent";
-        public const string WE_R_14 = "Reproduction avec Encens Plein tenu par un parent";
-        public const string WE_R_15 = "Reproduction de Lucario";
-        public const string WE_R_16 = "Reproduction avec Encens Vague tenu par un parent";
-        public const string WE_R_17 = "Faire tenir Encens Fleur au parent";
-        public const string WE_R_18 = "Reproduction de Salarsen";
-        #endregion
+        #region Reproduction //OK
+        public const string Reproduction_Format_1_EN = "Reproduction of {0}";
+        public const string Reproduction_Format_1_ES = "Reproducción de {0}";
+        public const string Reproduction_Format_1_IT = "Riproduzione di {0}";
+        public const string Reproduction_Format_1_DE = "Reproduktion von {0}";
+        public const string Reproduction_Format_1_RU = "Размножение {0}";
+        public const string Reproduction_Format_1_CO = "{0}의 복제";
+        public const string Reproduction_Format_1_CN = "{0}的複制";
+        public const string Reproduction_Format_1_JP = "{0}の複製";
 
-        #region Gigamax //A effacer
-        public const string WE_GM_1 = "Forme Gigamax de Florizarre";
-        public const string WE_GM_2 = "Forme Gigamax de Dracaufeu";
-        public const string WE_GM_3 = "Forme Gigamax de Tortank";
-        public const string WE_GM_4 = "Forme Gigamax de Papilusion";
-        public const string WE_GM_5 = "Forme Gigamax de Pikachu";
-        public const string WE_GM_6 = "Forme Gigamax de Miaouss";
-        public const string WE_GM_7 = "Forme Gigamax de Mackogneur";
-        public const string WE_GM_8 = "Forme Gigamax de Ectoplasma";
-        public const string WE_GM_9 = "Forme Gigamax de Krabboss";
-        public const string WE_GM_10 = "Forme Gigamax de Lokhlass";
-        public const string WE_GM_11 = "Forme Gigamax de Évoli";
-        public const string WE_GM_12 = "Forme Gigamax de Ronflex";
-        public const string WE_GM_13 = "Forme Gigamax de Miasmax";
-        public const string WE_GM_14 = "Forme Gigamax de Melmetal";
-        public const string WE_GM_15 = "Forme Gigamax de Gorythmic";
-        public const string WE_GM_16 = "Forme Gigamax de Pyrobut";
-        public const string WE_GM_17 = "Forme Gigamax de Lézargus";
-        public const string WE_GM_18 = "Forme Gigamax de Corvaillus";
-        public const string WE_GM_19 = "Forme Gigamax de Astronelle";
-        public const string WE_GM_20 = "Forme Gigamax de Torgamord";
-        public const string WE_GM_21 = "Forme Gigamax de Monthracite";
-        public const string WE_GM_22 = "Forme Gigamax de Sorcilence";
-        public const string WE_GM_23 = "Forme Gigamax de Angoliath";
-        public const string WE_GM_24 = "Forme Gigamax de Scolocentre";
-        public const string WE_GM_25 = "Forme Gigamax de Dratatin";
-        public const string WE_GM_26 = "Forme Gigamax de Dunaconda";
-        public const string WE_GM_27 = "Forme Gigamax de Pomdrapi";
-        public const string WE_GM_28 = "Forme Gigamax de Charmilly";
-        public const string WE_GM_29 = "Forme Gigamax de Pachyradjah";
-        public const string WE_GM_30 = "Forme Gigamax de Duralugon";
-        public const string WE_GM_31 = "Forme Gigamax  de Shifours Poing Final";
-        public const string WE_GM_32 = "Forme Gigamax de Shifours Mille Poings";
+        public const string Jynx_FR = "Lippoutou";
+        public const string Jynx_URL = "https://bulbapedia.bulbagarden.net/wiki/Jynx_(Pok%C3%A9mon)";
+
+        public const string Lucario_FR = "Lucario";
+        public const string Lucario_URL = "https://bulbapedia.bulbagarden.net/wiki/Lucario_(Pok%C3%A9mon)";
+
+        public const string Toxtricity_FR = "Salarsen";
+        public const string Toxtricity_URL = "https://bulbapedia.bulbagarden.net/wiki/Toxtricity_(Pok%C3%A9mon)";
+        
+        public const string Reproduction_Format_2_EN = "Reproduction of {0} or {1}";
+        public const string Reproduction_Format_2_ES = "Reproducción de {0} o {1}";
+        public const string Reproduction_Format_2_IT = "Riproduzione di {0} o {1}";
+        public const string Reproduction_Format_2_DE = "Reproduktion von {0} oder {1}";
+        public const string Reproduction_Format_2_RU = "Размножение {0} или {1}";
+        public const string Reproduction_Format_2_CO = "{0} 또는 {1} 의 복제";
+        public const string Reproduction_Format_2_CN = "{0} 或 {1} 的複制";
+        public const string Reproduction_Format_2_JP = "{0} または {1} の複製";
+
+        public const string PikachuRaichu_FR = "Pikachu ou Raichu";
+        public const string Pikachu_URL = "https://bulbapedia.bulbagarden.net/wiki/Pikachu_(Pok%C3%A9mon)";
+        public const string Raichu_URL = "https://bulbapedia.bulbagarden.net/wiki/Raichu_(Pok%C3%A9mon)";
+
+        public const string JigglypuffWigglytuff_FR = "Rondoudou ou Grodoudou";
+        public const string Jigglypuff_URL = "https://bulbapedia.bulbagarden.net/wiki/Jigglypuff_(Pok%C3%A9mon)";
+        public const string Wigglytuff_URL = "https://bulbapedia.bulbagarden.net/wiki/Wigglytuff_(Pok%C3%A9mon)";
+
+        public const string TogepiTogetic_FR = "Togetic ou Togekiss";
+        public const string Togepi_URL = "https://bulbapedia.bulbagarden.net/wiki/Togepi_(Pok%C3%A9mon)";
+        public const string Togetic_URL = "https://bulbapedia.bulbagarden.net/wiki/Togetic_(Pok%C3%A9mon)";
+
+        public const string ElectabuzzElectivire_FR = "Élektek ou Élekable";
+        public const string Electabuzz_URL = "https://bulbapedia.bulbagarden.net/wiki/Electabuzz_(Pok%C3%A9mon)";
+        public const string Electivire_URL = "https://bulbapedia.bulbagarden.net/wiki/Electivire_(Pok%C3%A9mon)";
+
+        public const string MagmarMagmortar_FR = "Magmar ou Maganon";
+        public const string Magmar_URL = "https://bulbapedia.bulbagarden.net/wiki/Magmar_(Pok%C3%A9mon)";
+        public const string Magmortar_URL = "https://bulbapedia.bulbagarden.net/wiki/Magmortar_(Pok%C3%A9mon)";
+
+        public const string Reproduction_Format_3_EN = "Reproduction of {0}, {1} or {2}";
+        public const string Reproduction_Format_3_ES = "Reproducción de {0}, {1} o {2}";
+        public const string Reproduction_Format_3_IT = "Riproduzione di {0}, {1} o {2}";
+        public const string Reproduction_Format_3_DE = "Reproduktion von {0}, {1} order {2}";
+        public const string Reproduction_Format_3_RU = "Размножение {0}, {1} или {2}";
+        public const string Reproduction_Format_3_CO = "{0}, {1} 또는 {2}의 복제";
+        public const string Reproduction_Format_3_CN = "{0}、{1} 或 {2} 的複制";
+        public const string Reproduction_Format_3_JP = "{0}、{1}、または {2} の複製";
+
+        public const string HitmonchanHitmonleeHitmontop_FR = "Tygnon, Kicklee ou Kapoera";
+        public const string Hitmonchan_URL = "https://bulbapedia.bulbagarden.net/wiki/Hitmonchan_(Pok%C3%A9mon)";
+        public const string Hitmonlee_URL = "https://bulbapedia.bulbagarden.net/wiki/Hitmonlee_(Pok%C3%A9mon)";
+        public const string Hitmontop_URL = "https://bulbapedia.bulbagarden.net/wiki/Hitmontop_(Pok%C3%A9mon)";
+
+        public const string ReproductionWithHeldByParent_Format_EN = "Reproduction with {0} held by a parent";
+        public const string ReproductionWithHeldByParent_Format_ES = "Reproducción con {0} en manos de uno de los padres";
+        public const string ReproductionWithHeldByParent_Format_IT = "Riproduzione con {0} detenuto da un genitore";
+        public const string ReproductionWithHeldByParent_Format_DE = "Reproduktion mit {0} im Besitz eines Elternteils";
+        public const string ReproductionWithHeldByParent_Format_RU = "Репродукция с {0} в руках родителей.";
+        public const string ReproductionWithHeldByParent_Format_CO = "부모가 보유한 {0} 복제";
+        public const string ReproductionWithHeldByParent_Format_CN = "與父母持有的 {0} 的複制";
+        public const string ReproductionWithHeldByParent_Format_JP = "親が持つ{0}での繁殖";
+
+        public const string Sea_Incense_FR = "Encens Mer";
+        public const string Sea_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Sea_Incense";
+        public const string Sea_Incense_RU = "Морские благовония";
+        
+        public const string Lax_Incense_FR = "Encens Doux";
+        public const string Lax_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Lax_Incense";
+        public const string Lax_Incense_RU = "Слабый ладан";
+
+        public const string Pure_Incense_FR = "Encens Pur";
+        public const string Pure_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Pure_Incense";
+        public const string Pure_Incense_RU = "Чистый ладан";
+        
+        public const string Rock_Incense_FR = "Encens Roc";
+        public const string Rock_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Rock_Incense";
+        public const string Rock_Incense_RU = "Рок Ладан";
+        
+        public const string Odd_Incense_FR = "Encens Bizarre";
+        public const string Odd_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Odd_Incense";
+        public const string Odd_Incense_RU = "Странные благовония";
+        
+        public const string Luck_Incense_FR = "Encens Veine";
+        public const string Luck_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Luck_Incense";
+        public const string Luck_Incense_RU = "Ладан удачи";
+        
+        public const string Full_Incense_FR = "Encens Plein";
+        public const string Full_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Full_Incense";
+        public const string Full_Incense_RU = "Полный ладан";
+
+        public const string Wave_Incense_FR = "Encens Vague";
+        public const string Wave_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Wave_Incense";
+        public const string Wave_Incense_RU = "Ладан волны";
+        
+        public const string Rose_Incense_FR = "Encens Fleur";
+        public const string Rose_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Rose_Incense";
+        public const string Rose_Incense_RU = "Розовые благовония";
         #endregion
         #endregion
 
@@ -1315,6 +1400,26 @@
         public const string Exchange_CO = "교환";
         public const string Exchange_CN = "交换";
         public const string Exchange_JP = "交換";
+
+        public const string SwapWH_FR = "Échange en tenant";
+        public const string SwapWH_EN = "Swap while holding";
+        public const string SwapWH_ES = "Intercambiar mientras mantiene";
+        public const string SwapWH_IT = "Scambia mentre tieni premuto";
+        public const string SwapWH_DE = "Tauschen Sie, während Sie gedrückt halten";
+        public const string SwapWH_RU = "Обмен, удерживая";
+        public const string SwapWH_CO = "누른 상태에서 교환";
+        public const string SwapWH_CN = "持有時交換";
+        public const string SwapWH_JP = "押したまま交換";
+
+        public const string ExchangeA_FR = "Échange contre";
+        public const string ExchangeA_EN = "Exchange against";
+        public const string ExchangeA_ES = "Intercambio contra";
+        public const string ExchangeA_IT = "Scambio contro";
+        public const string ExchangeA_DE = "Austausch gegen";
+        public const string ExchangeA_RU = "Обмен против";
+        public const string ExchangeA_CO = "교환 대상";
+        public const string ExchangeA_CN = "交換反對";
+        public const string ExchangeA_JP = "との交換";
 
         public const string LevelUp_FR = "Monter un niveau";
         public const string LevelUp_EN = "Level Up";
