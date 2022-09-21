@@ -1,6 +1,6 @@
 ﻿namespace WepApiScrapingData.Utils
 {
-    public class Constantes
+    public static class Constantes
     {
         #region Pokepedia
         public const string urlPokepedia = "https://www.pokepedia.fr";
@@ -35,6 +35,13 @@
         public const string urlTestCanarticho = "https://api.pokemon.com/fr/pokedex/canarticho";
         public const string urlTestCerbyllin = "https://api.pokemon.com/fr/pokedex/cerbyllin";
         public const int lastPokemonNumber = 905;
+
+        public const string urlTestSimulate_FR = "https://www.pokemon.com/fr/pokedex/Toxizap";
+        public const string urlTestSimulate_EN = "https://www.pokemon.com/us/pokedex/Toxel";
+        public const string urlTestSimulate_ES = "https://www.pokemon.com/es/pokedex/Toxel";
+        public const string urlTestSimulate_IT = "https://www.pokemon.com/it/pokedex/Toxel";
+        public const string urlTestSimulate_DE = "https://www.pokemon.com/de/pokedex/Toxel";
+        public const string urlTestSimulate_RU = "https://www.pokemon.com/ru/pokedex/Toxel";
 
         public const string urlStart1Gen = "https://api.pokemon.com/fr/pokedex/bulbizarre";
         public const string urlStart2Gen = "https://api.pokemon.com/fr/pokedex/germignon";
@@ -82,7 +89,7 @@
         public const string regionHisui_RU = "от Хисуи";
 
         public const string Meganium = "Méganium";
-        
+
         #endregion
 
         #region PokemonDB
@@ -664,7 +671,7 @@
         public const string Medichamite_FR = "Charminite";
         public const string Medichamite_URL = "https://bulbapedia.bulbagarden.net/wiki/Medichamite";
         public const string Medichamite_RU = "Медичамит";
-     
+
         public const string Manectite_FR = "Élecsprintite";
         public const string Manectite_URL = "https://bulbapedia.bulbagarden.net/wiki/Manectite";
         public const string Manectite_RU = "Манектит";
@@ -768,7 +775,7 @@
         public const string ShinyStone_RU = "Блестящий камень";
 
         public const string DuckStone_FR = "Pierre Nuit";
-        public const string DuckStone_URL = "https://bulbapedia.bulbagarden.net/wiki/Duck_Stone";
+        public const string DuckStone_URL = "https://bulbapedia.bulbagarden.net/wiki/Dusk_Stone";
         public const string DuckStone_RU = "Камень заката";
 
         public const string IceStone_FR = "Pierre Glace";
@@ -788,7 +795,7 @@
         public const string Metal_Coat_FR = "Peau Métal";
         public const string Metal_Coat_URL = "https://bulbapedia.bulbagarden.net/wiki/Metal_Coat";
         public const string Metal_Coat_RU = "Металическая оболочка";
-        
+
         public const string Dragon_Scale_FR = "Écaille Draco";
         public const string Dragon_Scale_URL = "https://bulbapedia.bulbagarden.net/wiki/Dragon_Scale";
         public const string Dragon_Scale_RU = "Чешуя дракона";
@@ -846,24 +853,90 @@
         public const string Reaper_Cloth_RU = "Ткань жнеца";
         #endregion
 
-        #region LevelUp
-        //public const string WE_LU_1 = "Monter un niveau avec";
-        //public const string WE_LU_1 = "bonheur élevé";
-        //public const string WE_LU_5 = "bonheur élevé, le jour";
-        //public const string WE_LU_6 = "bonheur élevé, la nuit";
-        //public const string WE_LU_9 = "bonheur élevé le jour";
-        //public const string WE_LU_17 = "bonheur élevé la nuit";
-        //public const string WE_LU_7 = "Rémoraid dans l'équipe";
+        #region LevelUp //OK
+        public const string LvlUpWith_FR = "Monter un niveau avec";
+        public const string LvlUpWith_EN = "Level up with {0}";
+        public const string LvlUpWith_ES = "Subir de nivel con {0}";
+        public const string LvlUpWith_IT = "Sali di livello con {0}";
+        public const string LvlUpWith_DE = "Steige mit {0} auf";
+        public const string LvlUpWith_RU = "Повысьте уровень с {0}";
+        public const string LvlUpWith_CO = "{0} 레벨업";
+        public const string LvlUpWith_CN = "使用 {0} 升級";
+        public const string LvlUpWith_JP = "{0}でレベルアップ";
 
-        //public const string WE_LU_2 = "Monter un niveau en ayant appris";
-        //public const string WE_LU_3 = "Copie(hors Galar)";
-        //public const string WE_LU_4 = "l'attaque Copie";
-        //public const string WE_LU_8 = "Coup Double";
-        //public const string WE_LU_11 = "Roulade";
-        //public const string WE_LU_12 = "Pouvoir Antique";
-        //public const string WE_LU_14 = "Écrasement";
-        //public const string WE_LU_15 = "Dracochoc";
-        //public const string WE_LU_16 = "Provoc";
+        public const string LvlUpWith_2_EN = "Level up with {0}, {1}";
+        public const string LvlUpWith_2_ES = "Subir de nivel con {0}, {1}";
+        public const string LvlUpWith_2_IT = "Sali di livello con {0}, {1}";
+        public const string LvlUpWith_2_DE = "Level aufsteigen mit {0}, {1}";
+        public const string LvlUpWith_2_RU = "Повысьте уровень с {0}, {1}";
+        public const string LvlUpWith_2_CO = "{0}, {1} 로 레벨 업";
+        public const string LvlUpWith_2_CN = "使用 {0}、{1} 升級";
+        public const string LvlUpWith_2_JP = "{0}、{1}でレベルアップ";
+
+        public const string HighHappiness_FR = "bonheur élevé";
+        public const string HighHappiness_EN = "hight happiness";
+        public const string HighHappiness_ES = "alta felicidad";
+        public const string HighHappiness_IT = "alta felicità";
+        public const string HighHappiness_DE = "hohes Glück";
+        public const string HighHappiness_RU = "высокое счастье";
+        public const string HighHappiness_CO = "높은 행복";
+        public const string HighHappiness_CN = "高幸福";
+        public const string HighHappiness_JP = "高い幸福";
+        
+        public const string HighHappinessDay_FR = "bonheur élevé, le jour";
+        public const string HighHappinessNight_FR = "bonheur élevé, la nuit";
+        
+        public const string InTeam_FR = "Rémoraid dans l'équipe";
+        public const string Remoraid_URL = "https://bulbapedia.bulbagarden.net/wiki/Remoraid";
+        public const string InTeam_EN = "{0} in team";
+        public const string InTeam_ES = "{0} en equipo";
+        public const string InTeam_IT = "{0} in squadra";
+        public const string InTeam_DE = "{0} im Team";
+        public const string InTeam_RU = "{0} в команде";
+        public const string InTeam_CO = "팀에서 {0}";
+        public const string InTeam_CN = "{0} 在團隊中";
+        public const string InTeam_JP = "チームの{0}";
+
+        public const string LvlUpLearn_FR = "Monter un niveau en ayant appris";
+        public const string LvlUpLearn_EN = "Level up having learned {0}";
+        public const string LvlUpLearn_ES = "Sube de nivel habiendo aprendido {0}";
+        public const string LvlUpLearn_IT = "Sali di livello dopo aver imparato {0}";
+        public const string LvlUpLearn_DE = "Steige auf, nachdem du {0} gelernt hast";
+        public const string LvlUpLearn_RU = "Повысьте уровень, изучив {0}";
+        public const string LvlUpLearn_CO = "{0}을(를) 배우고 레벨 업";
+        public const string LvlUpLearn_CN = "學會了升級{0}";
+        public const string LvlUpLearn_JP = "{0} を習得してレベルアップ";
+        
+        public const string MimicOutsideGalar_FR = "Copie(hors Galar)";
+        public const string Mimic_FR = "l'attaque Copie";
+        public const string Mimic_URL = "https://bulbapedia.bulbagarden.net/wiki/Mimic_(move)";
+        public const string Mimic_RU = "Копия";
+
+        public const string Double_Hit_FR = "Coup Double";
+        public const string Double_Hit_URL = "https://bulbapedia.bulbagarden.net/wiki/Double_Hit_(move)";
+        public const string Double_Hit_RU = "Coup Double";
+        
+        public const string Rollout_FR = "Roulade";
+        public const string Rollout_URL = "https://bulbapedia.bulbagarden.net/wiki/Rollout_(move)";
+        public const string Rollout_RU = "Roulade";
+        
+        public const string Ancient_Power_FR = "Pouvoir Antique";
+        public const string Ancient_Power_URL = "https://bulbapedia.bulbagarden.net/wiki/Ancient_Power_(move)";
+        public const string Ancient_Power_RU = "Pouvoir Antique";
+        
+        public const string Stomp_FR = "Écrasement";
+        public const string Stomp_URL = "https://bulbapedia.bulbagarden.net/wiki/Stomp_(move)";
+        public const string Stomp_RU = "Écrasement";
+        
+        public const string Dragon_Pulse_FR = "Dracochoc";
+        public const string Dragon_Pulse_URL = "https://bulbapedia.bulbagarden.net/wiki/Dragon_Pulse_(move)";
+        public const string Dragon_Pulse_RU = "Dracochoc";
+        
+        public const string Taunt_FR = "Provoc";
+        public const string Taunt_URL = "https://bulbapedia.bulbagarden.net/wiki/Taunt_(move)";
+        public const string Taunt_RU = "Provoc";
+
+        public const string LvlUpWH_FR = "Monter un niveau en tenant";
 
         public const string StringFormat_Oval_Stone_EN = "Level up while holding an {0} during the day";
         public const string StringFormat_Oval_Stone_ES = "Sube de nivel mientras mantienes un {0} durante el día";
@@ -922,6 +995,7 @@
         public const string stringFormatNotEvolve_JP = "{0} は進化しません";
         public const string Phione_FR = "Phione";
         public const string Phione_URL = "https://bulbapedia.bulbagarden.net/wiki/Phione_(Pok%C3%A9mon)";
+        public const string Phione_RU = "Фион";
 
         public const string LvlUpLanakila_FR = "7G : Monter un niveau au Mont Lanakila";
         public const string LvlUpLanakila_EN = "7G : Level up on Mount Lanakila";
@@ -936,7 +1010,6 @@
         public const string Tart_Apple_FR = "Pomme Acidulée";
         public const string Tart_Apple_URL = "https://bulbapedia.bulbagarden.net/wiki/Tart_Apple";
         public const string Tart_Apple_RU = "терпкое яблоко";
-
 
         public const string Sweet_Apple_FR = "Pomme Sucrée";
         public const string Sweet_Apple_URL = "https://bulbapedia.bulbagarden.net/wiki/Sweet_Apple";
@@ -996,7 +1069,8 @@
 
         public const string Toxtricity_FR = "Salarsen";
         public const string Toxtricity_URL = "https://bulbapedia.bulbagarden.net/wiki/Toxtricity_(Pok%C3%A9mon)";
-        
+        public const string Toxtricity_RU = "Токстрисити";
+
         public const string Reproduction_Format_2_EN = "Reproduction of {0} or {1}";
         public const string Reproduction_Format_2_ES = "Reproducción de {0} o {1}";
         public const string Reproduction_Format_2_IT = "Riproduzione di {0} o {1}";
@@ -1021,10 +1095,12 @@
         public const string ElectabuzzElectivire_FR = "Élektek ou Élekable";
         public const string Electabuzz_URL = "https://bulbapedia.bulbagarden.net/wiki/Electabuzz_(Pok%C3%A9mon)";
         public const string Electivire_URL = "https://bulbapedia.bulbagarden.net/wiki/Electivire_(Pok%C3%A9mon)";
+        public const string Electivire_RU = "Элективайр";
 
         public const string MagmarMagmortar_FR = "Magmar ou Maganon";
         public const string Magmar_URL = "https://bulbapedia.bulbagarden.net/wiki/Magmar_(Pok%C3%A9mon)";
         public const string Magmortar_URL = "https://bulbapedia.bulbagarden.net/wiki/Magmortar_(Pok%C3%A9mon)";
+        public const string Magmortar_RU = "Магмортар";
 
         public const string Reproduction_Format_3_EN = "Reproduction of {0}, {1} or {2}";
         public const string Reproduction_Format_3_ES = "Reproducción de {0}, {1} o {2}";

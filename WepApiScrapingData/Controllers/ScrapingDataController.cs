@@ -22,10 +22,8 @@ namespace WepApiScrapingData.Controllers
         {
             List<DataJson> dataJsons = new List<DataJson>();
 
-            getTranslateWithUrl(Constantes.Pikachu_URL, new(), true);
-
             #region Europe
-            string url_FR = Constantes.urlTestEvolution;
+            string url_FR = Constantes.urlStartFR;
             string url_EN = Constantes.urlStartEN;
             string url_ES = Constantes.urlStartES;
             string url_IT = Constantes.urlStartIT;
@@ -39,9 +37,13 @@ namespace WepApiScrapingData.Controllers
             string url_CN = Constantes.urlStartCN;
             #endregion
 
+            Debug.WriteLine("Start Scraping - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
             RecursiveGetDataJsonWithUrl(url_FR, url_EN, url_ES, url_IT, url_DE, url_RU, url_JP, url_CO, url_CN, dataJsons);
+            Debug.WriteLine("End Scraping - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
 
+            Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
             WriteToJson(dataJsons);
+            Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
         }
 
 
@@ -293,7 +295,6 @@ namespace WepApiScrapingData.Controllers
             #endregion
 
             #region Generation
-
             if ((numbPok >= 899 && numbPok <= 905) || dataJson.FR.name.Contains(Constantes.Hisui))
                 dataJson.generation = 0;
             else if (numbPok <= 151)
@@ -383,9 +384,9 @@ namespace WepApiScrapingData.Controllers
             HtmlDocument htmlDoc_DE = new HtmlDocument();
             htmlDoc_DE.LoadHtml(response_DE);
 
-            string response_RU = CallUrl(url_RU).Result;
+            //string response_RU = CallUrl(url_RU).Result;
             HtmlDocument htmlDoc_RU = new HtmlDocument();
-            htmlDoc_RU.LoadHtml(response_RU);
+            //htmlDoc_RU.LoadHtml(response_RU);
             #endregion
 
             #region Asia
@@ -411,6 +412,7 @@ namespace WepApiScrapingData.Controllers
             {
                 dataJson = ParseHtmlToJson(htmlDoc_FR, htmlDoc_EN, htmlDoc_ES, htmlDoc_IT, htmlDoc_DE, htmlDoc_RU, htmlDoc_JP, htmlDoc_CO, htmlDoc_CN);
                 dataJsons.Add(dataJson);
+                GetTranslationWhenEvolution(dataJson);
             }
             else
             {
@@ -422,7 +424,9 @@ namespace WepApiScrapingData.Controllers
                     {
                         //A faire
                     }
+
                     dataJsons.Add(dataJson);
+                    GetTranslationWhenEvolution(dataJson);
                 }
             }
 
@@ -863,8 +867,6 @@ namespace WepApiScrapingData.Controllers
 
                     if (dataJson.FR.whenEvolution.Contains("."))
                         dataJson.FR.whenEvolution = dataJson.FR.whenEvolution.Split('.')[dataJson.FR.whenEvolution.Split('.').Length - 1];
-
-                    GetTranslationWhenEvolution(dataJson);
                 }
 
                 Debug.WriteLine("Evolution Essai: " + dataJson.number + ": " + dataJson.FR.name + " - " + dataJson.FR.whenEvolution);
@@ -887,10 +889,14 @@ namespace WepApiScrapingData.Controllers
                 Translate(dataJson, Constantes.Exchange_FR);
             else if (dataJson.FR.whenEvolution.Contains(Constantes.Reproduction_FR))
                 Translate(dataJson, Constantes.Reproduction_FR);
+            else if (dataJson.FR.whenEvolution.Contains(Constantes.LvlUpWith_FR))
+                Translate(dataJson, Constantes.LvlUpWith_FR);
+            else if (dataJson.FR.whenEvolution.Contains(Constantes.LvlUpLearn_FR))
+                Translate(dataJson, Constantes.LvlUpLearn_FR);
+            else if (dataJson.FR.whenEvolution.Contains(Constantes.LvlUpWH_FR))
+                Translate(dataJson, Constantes.LvlUpWH_FR);
             else
-            {
-                //Translate(dataJson, Constantes.Level_FR);
-            }
+                Translate(dataJson, "");
         }
 
         private void Translate(DataJson dataJson, string value)
@@ -1933,14 +1939,14 @@ namespace WepApiScrapingData.Controllers
                     break;
                 case Constantes.GigantamaxForm_FR:
                     #region Gigamax Form
-                    dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_EN, dataJson.FR.name, dataJson.EN.name);
-                    dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_ES, dataJson.FR.name, dataJson.ES.name);
-                    dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_IT, dataJson.FR.name, dataJson.IT.name);
-                    dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_DE, dataJson.FR.name, dataJson.DE.name);
-                    dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_RU, dataJson.FR.name, dataJson.RU.name);
-                    dataJson.CO.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_CO, dataJson.FR.name, dataJson.CO.name);
-                    dataJson.CN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_CN, dataJson.FR.name, dataJson.CN.name);
-                    dataJson.JP.whenEvolution = dataJson.FR.whenEvolution.translationCleanOther(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_JP, dataJson.FR.name, dataJson.JP.name);
+                    dataJson.EN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_EN, dataJson.FR.displayName, dataJson.EN.displayName);
+                    dataJson.ES.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_ES, dataJson.FR.displayName, dataJson.ES.displayName);
+                    dataJson.IT.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_IT, dataJson.FR.displayName, dataJson.IT.displayName);
+                    dataJson.DE.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_DE, dataJson.FR.displayName, dataJson.DE.displayName);
+                    dataJson.RU.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_RU, dataJson.FR.displayName, dataJson.RU.displayName);
+                    dataJson.CO.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_CO, dataJson.FR.displayName, dataJson.CO.displayName);
+                    dataJson.CN.whenEvolution = dataJson.FR.whenEvolution.translationClean(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_CN, dataJson.FR.displayName, dataJson.CN.displayName);
+                    dataJson.JP.whenEvolution = dataJson.FR.whenEvolution.translationCleanOther(Constantes.GigantamaxFormOf_FR, Constantes.GigantamaxFormOf_JP, dataJson.FR.displayName, dataJson.JP.displayName);
                     #endregion
                     break;
                 case Constantes.Exchange_FR:
@@ -2187,13 +2193,13 @@ namespace WepApiScrapingData.Controllers
                     }
                     else if (dataJson.FR.whenEvolution.Contains(Constantes.Toxtricity_FR))
                     {
-                        getTranslateWithUrl(Constantes.Toxtricity_URL, dicTranslationReproduction, true);
+                        getTranslateWithUrl(Constantes.Toxtricity_URL, dicTranslationReproduction);
 
                         dataJson.EN.whenEvolution = String.Format(Constantes.Reproduction_Format_1_EN, dicTranslationReproduction[Constantes.EN]);
                         dataJson.ES.whenEvolution = String.Format(Constantes.Reproduction_Format_1_ES, dicTranslationReproduction[Constantes.ES]);
                         dataJson.IT.whenEvolution = String.Format(Constantes.Reproduction_Format_1_IT, dicTranslationReproduction[Constantes.IT]);
                         dataJson.DE.whenEvolution = String.Format(Constantes.Reproduction_Format_1_DE, dicTranslationReproduction[Constantes.DE]);
-                        dataJson.RU.whenEvolution = String.Format(Constantes.Reproduction_Format_1_RU, dicTranslationReproduction[Constantes.RU]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.Reproduction_Format_1_RU, Constantes.Toxtricity_RU);
                         dataJson.CO.whenEvolution = String.Format(Constantes.Reproduction_Format_1_CO, dicTranslationReproduction[Constantes.CO]);
                         dataJson.CN.whenEvolution = String.Format(Constantes.Reproduction_Format_1_CN, dicTranslationReproduction[Constantes.CN]);
                         dataJson.JP.whenEvolution = String.Format(Constantes.Reproduction_Format_1_JP, dicTranslationReproduction[Constantes.JP]);
@@ -2247,13 +2253,13 @@ namespace WepApiScrapingData.Controllers
                     {
                         List<Dictionary<string, string>> listDic = new();
                         listDic.Add(getTranslateWithUrl(Constantes.Electabuzz_URL, new(), true));
-                        listDic.Add(getTranslateWithUrl(Constantes.Electivire_URL, new(), true));
+                        listDic.Add(getTranslateWithUrl(Constantes.Electivire_URL, new()));
 
                         dataJson.EN.whenEvolution = String.Format(Constantes.Reproduction_Format_2_EN, listDic[0].ContainsKey(Constantes.EN), listDic[1].ContainsKey(Constantes.EN));
                         dataJson.ES.whenEvolution = String.Format(Constantes.Reproduction_Format_2_ES, listDic[0].ContainsKey(Constantes.ES), listDic[1].ContainsKey(Constantes.ES));
                         dataJson.IT.whenEvolution = String.Format(Constantes.Reproduction_Format_2_IT, listDic[0].ContainsKey(Constantes.IT), listDic[1].ContainsKey(Constantes.IT));
                         dataJson.DE.whenEvolution = String.Format(Constantes.Reproduction_Format_2_DE, listDic[0].ContainsKey(Constantes.DE), listDic[1].ContainsKey(Constantes.DE));
-                        dataJson.RU.whenEvolution = String.Format(Constantes.Reproduction_Format_2_RU, listDic[0].ContainsKey(Constantes.RU), listDic[1].ContainsKey(Constantes.RU));
+                        dataJson.RU.whenEvolution = String.Format(Constantes.Reproduction_Format_2_RU, listDic[0].ContainsKey(Constantes.RU), Constantes.Electivire_RU);
                         dataJson.CO.whenEvolution = String.Format(Constantes.Reproduction_Format_2_CO, listDic[0].ContainsKey(Constantes.CO), listDic[1].ContainsKey(Constantes.CO));
                         dataJson.CN.whenEvolution = String.Format(Constantes.Reproduction_Format_2_CN, listDic[0].ContainsKey(Constantes.CN), listDic[1].ContainsKey(Constantes.CN));
                         dataJson.JP.whenEvolution = String.Format(Constantes.Reproduction_Format_2_JP, listDic[0].ContainsKey(Constantes.JP), listDic[1].ContainsKey(Constantes.JP));
@@ -2262,13 +2268,13 @@ namespace WepApiScrapingData.Controllers
                     {
                         List<Dictionary<string, string>> listDic = new();
                         listDic.Add(getTranslateWithUrl(Constantes.Magmar_URL, new(), true));
-                        listDic.Add(getTranslateWithUrl(Constantes.Magmortar_URL, new(), true));
+                        listDic.Add(getTranslateWithUrl(Constantes.Magmortar_URL, new()));
 
                         dataJson.EN.whenEvolution = String.Format(Constantes.Reproduction_Format_2_EN, listDic[0].ContainsKey(Constantes.EN), listDic[1].ContainsKey(Constantes.EN));
                         dataJson.ES.whenEvolution = String.Format(Constantes.Reproduction_Format_2_ES, listDic[0].ContainsKey(Constantes.ES), listDic[1].ContainsKey(Constantes.ES));
                         dataJson.IT.whenEvolution = String.Format(Constantes.Reproduction_Format_2_IT, listDic[0].ContainsKey(Constantes.IT), listDic[1].ContainsKey(Constantes.IT));
                         dataJson.DE.whenEvolution = String.Format(Constantes.Reproduction_Format_2_DE, listDic[0].ContainsKey(Constantes.DE), listDic[1].ContainsKey(Constantes.DE));
-                        dataJson.RU.whenEvolution = String.Format(Constantes.Reproduction_Format_2_RU, listDic[0].ContainsKey(Constantes.RU), listDic[1].ContainsKey(Constantes.RU));
+                        dataJson.RU.whenEvolution = String.Format(Constantes.Reproduction_Format_2_RU, listDic[0].ContainsKey(Constantes.RU), Constantes.Magmortar_RU);
                         dataJson.CO.whenEvolution = String.Format(Constantes.Reproduction_Format_2_CO, listDic[0].ContainsKey(Constantes.CO), listDic[1].ContainsKey(Constantes.CO));
                         dataJson.CN.whenEvolution = String.Format(Constantes.Reproduction_Format_2_CN, listDic[0].ContainsKey(Constantes.CN), listDic[1].ContainsKey(Constantes.CN));
                         dataJson.JP.whenEvolution = String.Format(Constantes.Reproduction_Format_2_JP, listDic[0].ContainsKey(Constantes.JP), listDic[1].ContainsKey(Constantes.JP));
@@ -2408,7 +2414,341 @@ namespace WepApiScrapingData.Controllers
                     }
                     #endregion
                     break;
+                case Constantes.LvlUpWith_FR:
+                    #region LvlUpWith
+                    Dictionary<string, string> dicTranslationLvlUp = new();
+                    if (dataJson.FR.whenEvolution.Contains(Constantes.HighHappiness_FR))
+                    {
+                        if (dataJson.FR.whenEvolution.Contains(Constantes.D_FR))
+                        {
+                            dataJson.EN.whenEvolution = String.Format(Constantes.LvlUpWith_2_EN, Constantes.HighHappiness_EN, Constantes.D_EN);
+                            dataJson.ES.whenEvolution = String.Format(Constantes.LvlUpWith_2_ES, Constantes.HighHappiness_ES, Constantes.D_ES);
+                            dataJson.IT.whenEvolution = String.Format(Constantes.LvlUpWith_2_IT, Constantes.HighHappiness_IT, Constantes.D_IT);
+                            dataJson.DE.whenEvolution = String.Format(Constantes.LvlUpWith_2_DE, Constantes.HighHappiness_DE, Constantes.D_DE);
+                            dataJson.RU.whenEvolution = String.Format(Constantes.LvlUpWith_2_RU, Constantes.HighHappiness_RU, Constantes.D_RU);
+                            dataJson.CO.whenEvolution = String.Format(Constantes.LvlUpWith_2_CO, Constantes.HighHappiness_CO, Constantes.D_CO);
+                            dataJson.CN.whenEvolution = String.Format(Constantes.LvlUpWith_2_CN, Constantes.HighHappiness_CN, Constantes.D_CN);
+                            dataJson.JP.whenEvolution = String.Format(Constantes.LvlUpWith_2_JP, Constantes.HighHappiness_JP, Constantes.D_JP);
+                        }
+                        else if (dataJson.FR.whenEvolution.Contains(Constantes.N_FR))
+                        {
+                            dataJson.EN.whenEvolution = String.Format(Constantes.LvlUpWith_2_EN, Constantes.HighHappiness_EN, Constantes.N_EN);
+                            dataJson.ES.whenEvolution = String.Format(Constantes.LvlUpWith_2_ES, Constantes.HighHappiness_ES, Constantes.N_ES);
+                            dataJson.IT.whenEvolution = String.Format(Constantes.LvlUpWith_2_IT, Constantes.HighHappiness_IT, Constantes.N_IT);
+                            dataJson.DE.whenEvolution = String.Format(Constantes.LvlUpWith_2_DE, Constantes.HighHappiness_DE, Constantes.N_DE);
+                            dataJson.RU.whenEvolution = String.Format(Constantes.LvlUpWith_2_RU, Constantes.HighHappiness_RU, Constantes.N_RU);
+                            dataJson.CO.whenEvolution = String.Format(Constantes.LvlUpWith_2_CO, Constantes.HighHappiness_CO, Constantes.N_CO);
+                            dataJson.CN.whenEvolution = String.Format(Constantes.LvlUpWith_2_CN, Constantes.HighHappiness_CN, Constantes.N_CN);
+                            dataJson.JP.whenEvolution = String.Format(Constantes.LvlUpWith_2_JP, Constantes.HighHappiness_JP, Constantes.N_JP);
+                        }
+                        else
+                        {
+                            dataJson.EN.whenEvolution = String.Format(Constantes.LvlUpWith_EN, Constantes.HighHappiness_EN);
+                            dataJson.ES.whenEvolution = String.Format(Constantes.LvlUpWith_ES, Constantes.HighHappiness_ES);
+                            dataJson.IT.whenEvolution = String.Format(Constantes.LvlUpWith_IT, Constantes.HighHappiness_IT);
+                            dataJson.DE.whenEvolution = String.Format(Constantes.LvlUpWith_DE, Constantes.HighHappiness_DE);
+                            dataJson.RU.whenEvolution = String.Format(Constantes.LvlUpWith_RU, Constantes.HighHappiness_RU);
+                            dataJson.CO.whenEvolution = String.Format(Constantes.LvlUpWith_CO, Constantes.HighHappiness_CO);
+                            dataJson.CN.whenEvolution = String.Format(Constantes.LvlUpWith_CN, Constantes.HighHappiness_CN);
+                            dataJson.JP.whenEvolution = String.Format(Constantes.LvlUpWith_JP, Constantes.HighHappiness_JP);
+                        }
+                        
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.InTeam_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Remoraid_URL, dicTranslationLvlUp, true);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.InTeam_EN, dicTranslationLvlUp[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.InTeam_ES, dicTranslationLvlUp[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.InTeam_IT, dicTranslationLvlUp[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.InTeam_DE, dicTranslationLvlUp[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.InTeam_RU, dicTranslationLvlUp[Constantes.RU]);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.InTeam_CO, dicTranslationLvlUp[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.InTeam_CN, dicTranslationLvlUp[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.InTeam_JP, dicTranslationLvlUp[Constantes.JP]);
+                    }
+                    #endregion
+                    break;
+                case Constantes.LvlUpLearn_FR:
+                    #region LvlUpLearn
+                    Dictionary<string, string> dicTranslationLvlUpLearn = new();
+                    if (dataJson.FR.whenEvolution.Contains(Constantes.MimicOutsideGalar_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Mimic_URL, dicTranslationLvlUpLearn);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.LvlUpLearn_EN, dicTranslationLvlUpLearn[Constantes.EN]) + "(" + Constantes.OSG_EN + ")";
+                        dataJson.ES.whenEvolution = String.Format(Constantes.LvlUpLearn_ES, dicTranslationLvlUpLearn[Constantes.ES]) + "(" + Constantes.OSG_ES + ")";
+                        dataJson.IT.whenEvolution = String.Format(Constantes.LvlUpLearn_IT, dicTranslationLvlUpLearn[Constantes.IT]) + "(" + Constantes.OSG_IT + ")";
+                        dataJson.DE.whenEvolution = String.Format(Constantes.LvlUpLearn_DE, dicTranslationLvlUpLearn[Constantes.DE]) + "(" + Constantes.OSG_DE + ")";
+                        dataJson.RU.whenEvolution = String.Format(Constantes.LvlUpLearn_RU, Constantes.Mimic_RU) + "(" + Constantes.OSG_RU + ")";
+                        dataJson.CO.whenEvolution = String.Format(Constantes.LvlUpLearn_CO, dicTranslationLvlUpLearn[Constantes.CO]) + "(" + Constantes.OSG_CO + ")";
+                        dataJson.CN.whenEvolution = String.Format(Constantes.LvlUpLearn_CN, dicTranslationLvlUpLearn[Constantes.CN]) + "(" + Constantes.OSG_CN + ")";
+                        dataJson.JP.whenEvolution = String.Format(Constantes.LvlUpLearn_JP, dicTranslationLvlUpLearn[Constantes.JP]) + "(" + Constantes.OSG_JP + ")";
+                    }
+                    else if(dataJson.FR.whenEvolution.Contains(Constantes.Mimic_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Mimic_URL, dicTranslationLvlUpLearn);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.LvlUpLearn_EN, dicTranslationLvlUpLearn[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.LvlUpLearn_ES, dicTranslationLvlUpLearn[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.LvlUpLearn_IT, dicTranslationLvlUpLearn[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.LvlUpLearn_DE, dicTranslationLvlUpLearn[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.LvlUpLearn_RU, Constantes.Mimic_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.LvlUpLearn_CO, dicTranslationLvlUpLearn[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.LvlUpLearn_CN, dicTranslationLvlUpLearn[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.LvlUpLearn_JP, dicTranslationLvlUpLearn[Constantes.JP]);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Double_Hit_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Double_Hit_URL, dicTranslationLvlUpLearn);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.LvlUpLearn_EN, dicTranslationLvlUpLearn[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.LvlUpLearn_ES, dicTranslationLvlUpLearn[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.LvlUpLearn_IT, dicTranslationLvlUpLearn[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.LvlUpLearn_DE, dicTranslationLvlUpLearn[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.LvlUpLearn_RU, Constantes.Double_Hit_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.LvlUpLearn_CO, dicTranslationLvlUpLearn[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.LvlUpLearn_CN, dicTranslationLvlUpLearn[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.LvlUpLearn_JP, dicTranslationLvlUpLearn[Constantes.JP]);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Rollout_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Rollout_URL, dicTranslationLvlUpLearn);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.LvlUpLearn_EN, dicTranslationLvlUpLearn[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.LvlUpLearn_ES, dicTranslationLvlUpLearn[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.LvlUpLearn_IT, dicTranslationLvlUpLearn[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.LvlUpLearn_DE, dicTranslationLvlUpLearn[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.LvlUpLearn_RU, Constantes.Rollout_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.LvlUpLearn_CO, dicTranslationLvlUpLearn[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.LvlUpLearn_CN, dicTranslationLvlUpLearn[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.LvlUpLearn_JP, dicTranslationLvlUpLearn[Constantes.JP]);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Ancient_Power_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Ancient_Power_URL, dicTranslationLvlUpLearn, true);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.LvlUpLearn_EN, dicTranslationLvlUpLearn[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.LvlUpLearn_ES, dicTranslationLvlUpLearn[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.LvlUpLearn_IT, dicTranslationLvlUpLearn[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.LvlUpLearn_DE, dicTranslationLvlUpLearn[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.LvlUpLearn_RU, Constantes.Ancient_Power_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.LvlUpLearn_CO, dicTranslationLvlUpLearn[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.LvlUpLearn_CN, dicTranslationLvlUpLearn[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.LvlUpLearn_JP, dicTranslationLvlUpLearn[Constantes.JP]);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Stomp_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Stomp_URL, dicTranslationLvlUpLearn);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.LvlUpLearn_EN, dicTranslationLvlUpLearn[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.LvlUpLearn_ES, dicTranslationLvlUpLearn[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.LvlUpLearn_IT, dicTranslationLvlUpLearn[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.LvlUpLearn_DE, dicTranslationLvlUpLearn[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.LvlUpLearn_RU, Constantes.Stomp_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.LvlUpLearn_CO, dicTranslationLvlUpLearn[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.LvlUpLearn_CN, dicTranslationLvlUpLearn[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.LvlUpLearn_JP, dicTranslationLvlUpLearn[Constantes.JP]);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Dragon_Pulse_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Dragon_Pulse_URL, dicTranslationLvlUpLearn);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.LvlUpLearn_EN, dicTranslationLvlUpLearn[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.LvlUpLearn_ES, dicTranslationLvlUpLearn[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.LvlUpLearn_IT, dicTranslationLvlUpLearn[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.LvlUpLearn_DE, dicTranslationLvlUpLearn[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.LvlUpLearn_RU, Constantes.Dragon_Pulse_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.LvlUpLearn_CO, dicTranslationLvlUpLearn[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.LvlUpLearn_CN, dicTranslationLvlUpLearn[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.LvlUpLearn_JP, dicTranslationLvlUpLearn[Constantes.JP]);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Taunt_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Taunt_URL, dicTranslationLvlUpLearn);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.LvlUpLearn_EN, dicTranslationLvlUpLearn[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.LvlUpLearn_ES, dicTranslationLvlUpLearn[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.LvlUpLearn_IT, dicTranslationLvlUpLearn[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.LvlUpLearn_DE, dicTranslationLvlUpLearn[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.LvlUpLearn_RU, Constantes.Taunt_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.LvlUpLearn_CO, dicTranslationLvlUpLearn[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.LvlUpLearn_CN, dicTranslationLvlUpLearn[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.LvlUpLearn_JP, dicTranslationLvlUpLearn[Constantes.JP]);
+                    }
+                    #endregion
+                    break;
+                case Constantes.LvlUpWH_FR:
+                    #region LvlUpWH
+                    Dictionary<string, string> dicTranslationLvlUpWH = new();
+                    if (dataJson.FR.whenEvolution.Contains(Constantes.Oval_Stone_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Oval_Stone_URL, dicTranslationLvlUpWH);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.StringFormat_Oval_Stone_EN, dicTranslationLvlUpWH[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.StringFormat_Oval_Stone_ES, dicTranslationLvlUpWH[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.StringFormat_Oval_Stone_IT, dicTranslationLvlUpWH[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.StringFormat_Oval_Stone_DE, dicTranslationLvlUpWH[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.StringFormat_Oval_Stone_RU, Constantes.Oval_Stone_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.StringFormat_Oval_Stone_CO, dicTranslationLvlUpWH[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.StringFormat_Oval_Stone_CN, dicTranslationLvlUpWH[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.StringFormat_Oval_Stone_JP, dicTranslationLvlUpWH[Constantes.JP]);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Razor_Claw_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Razor_Claw_URL, dicTranslationLvlUpWH);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.StringFormat_Razor_EN, dicTranslationLvlUpWH[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.StringFormat_Razor_ES, dicTranslationLvlUpWH[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.StringFormat_Razor_IT, dicTranslationLvlUpWH[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.StringFormat_Razor_DE, dicTranslationLvlUpWH[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.StringFormat_Razor_RU, Constantes.Razor_Claw_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.StringFormat_Razor_CO, dicTranslationLvlUpWH[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.StringFormat_Razor_CN, dicTranslationLvlUpWH[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.StringFormat_Razor_JP, dicTranslationLvlUpWH[Constantes.JP]);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Razor_Fang_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Razor_Fang_URL, dicTranslationLvlUpWH);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.StringFormat_Razor_EN, dicTranslationLvlUpWH[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.StringFormat_Razor_ES, dicTranslationLvlUpWH[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.StringFormat_Razor_IT, dicTranslationLvlUpWH[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.StringFormat_Razor_DE, dicTranslationLvlUpWH[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.StringFormat_Razor_RU, Constantes.Razor_Fang_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.StringFormat_Razor_CO, dicTranslationLvlUpWH[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.StringFormat_Razor_CN, dicTranslationLvlUpWH[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.StringFormat_Razor_JP, dicTranslationLvlUpWH[Constantes.JP]);
+                    }
+                    #endregion
+                    break;
                 default:
+                    #region Default
+                    Dictionary<string, string> dicTranslationDefault = new();
+                    if (dataJson.FR.whenEvolution.Contains(Constantes.Galarica_Cuff_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Galarica_Cuff_URL, dicTranslationDefault);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.UseA_EN, dicTranslationDefault[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.UseA_ES, dicTranslationDefault[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.UseA_IT, dicTranslationDefault[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.UseA_DE, dicTranslationDefault[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.UseA_RU, Constantes.Galarica_Cuff_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.UseA_CO, dicTranslationDefault[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.UseA_CN, dicTranslationDefault[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.UseA_JP, dicTranslationDefault[Constantes.JP]);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Galarica_Wreath_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Galarica_Wreath_URL, dicTranslationDefault);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.UseA_EN, dicTranslationDefault[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.UseA_ES, dicTranslationDefault[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.UseA_IT, dicTranslationDefault[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.UseA_DE, dicTranslationDefault[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.UseA_RU, Constantes.Galarica_Wreath_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.UseA_CO, dicTranslationDefault[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.UseA_CN, dicTranslationDefault[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.UseA_JP, dicTranslationDefault[Constantes.JP]);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Phione_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Phione_URL, dicTranslationDefault);
+
+                        dataJson.EN.whenEvolution = String.Format(Constantes.stringFormatNotEvolve_EN, dicTranslationDefault[Constantes.EN]);
+                        dataJson.ES.whenEvolution = String.Format(Constantes.stringFormatNotEvolve_ES, dicTranslationDefault[Constantes.ES]);
+                        dataJson.IT.whenEvolution = String.Format(Constantes.stringFormatNotEvolve_IT, dicTranslationDefault[Constantes.IT]);
+                        dataJson.DE.whenEvolution = String.Format(Constantes.stringFormatNotEvolve_DE, dicTranslationDefault[Constantes.DE]);
+                        dataJson.RU.whenEvolution = String.Format(Constantes.stringFormatNotEvolve_RU, Constantes.Phione_RU);
+                        dataJson.CO.whenEvolution = String.Format(Constantes.stringFormatNotEvolve_CO, dicTranslationDefault[Constantes.CO]);
+                        dataJson.CN.whenEvolution = String.Format(Constantes.stringFormatNotEvolve_CN, dicTranslationDefault[Constantes.CN]);
+                        dataJson.JP.whenEvolution = String.Format(Constantes.stringFormatNotEvolve_JP, dicTranslationDefault[Constantes.JP]);
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.LvlUpLanakila_FR))
+                    {
+                        dataJson.EN.whenEvolution = Constantes.LvlUpLanakila_EN;
+                        dataJson.ES.whenEvolution = Constantes.LvlUpLanakila_ES;
+                        dataJson.IT.whenEvolution = Constantes.LvlUpLanakila_IT;
+                        dataJson.DE.whenEvolution = Constantes.LvlUpLanakila_DE;
+                        dataJson.RU.whenEvolution = Constantes.LvlUpLanakila_RU;
+                        dataJson.CO.whenEvolution = Constantes.LvlUpLanakila_CO;
+                        dataJson.CN.whenEvolution = Constantes.LvlUpLanakila_CN;
+                        dataJson.JP.whenEvolution = Constantes.LvlUpLanakila_JP;
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Tart_Apple_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Tart_Apple_URL, dicTranslationDefault);
+
+                        dataJson.EN.whenEvolution = dicTranslationDefault[Constantes.EN];
+                        dataJson.ES.whenEvolution = dicTranslationDefault[Constantes.ES];
+                        dataJson.IT.whenEvolution = dicTranslationDefault[Constantes.IT];
+                        dataJson.DE.whenEvolution = dicTranslationDefault[Constantes.DE];
+                        dataJson.RU.whenEvolution = Constantes.Tart_Apple_RU;
+                        dataJson.CO.whenEvolution = dicTranslationDefault[Constantes.CO];
+                        dataJson.CN.whenEvolution = dicTranslationDefault[Constantes.CN];
+                        dataJson.JP.whenEvolution = dicTranslationDefault[Constantes.JP];
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Sweet_Apple_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Sweet_Apple_URL, dicTranslationDefault);
+
+                        dataJson.EN.whenEvolution = dicTranslationDefault[Constantes.EN];
+                        dataJson.ES.whenEvolution = dicTranslationDefault[Constantes.ES];
+                        dataJson.IT.whenEvolution = dicTranslationDefault[Constantes.IT];
+                        dataJson.DE.whenEvolution = dicTranslationDefault[Constantes.DE];
+                        dataJson.RU.whenEvolution = Constantes.Sweet_Apple_RU;
+                        dataJson.CO.whenEvolution = dicTranslationDefault[Constantes.CO];
+                        dataJson.CN.whenEvolution = dicTranslationDefault[Constantes.CN];
+                        dataJson.JP.whenEvolution = dicTranslationDefault[Constantes.JP];
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Cracked_Pot_FR))
+                    {
+                        getTranslateWithUrl(Constantes.Cracked_Pot_URL, dicTranslationDefault);
+
+                        dataJson.EN.whenEvolution = dicTranslationDefault[Constantes.EN];
+                        dataJson.ES.whenEvolution = dicTranslationDefault[Constantes.ES];
+                        dataJson.IT.whenEvolution = dicTranslationDefault[Constantes.IT];
+                        dataJson.DE.whenEvolution = dicTranslationDefault[Constantes.DE];
+                        dataJson.RU.whenEvolution = Constantes.Cracked_Pot_RU;
+                        dataJson.CO.whenEvolution = dicTranslationDefault[Constantes.CO];
+                        dataJson.CN.whenEvolution = dicTranslationDefault[Constantes.CN];
+                        dataJson.JP.whenEvolution = dicTranslationDefault[Constantes.JP];
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Critical_Hits_FR))
+                    {
+                        dataJson.EN.whenEvolution = Constantes.Critical_Hits_EN;
+                        dataJson.ES.whenEvolution = Constantes.Critical_Hits_ES;
+                        dataJson.IT.whenEvolution = Constantes.Critical_Hits_IT;
+                        dataJson.DE.whenEvolution = Constantes.Critical_Hits_DE;
+                        dataJson.RU.whenEvolution = Constantes.Critical_Hits_RU;
+                        dataJson.CO.whenEvolution = Constantes.Critical_Hits_CO;
+                        dataJson.CN.whenEvolution = Constantes.Critical_Hits_CN;
+                        dataJson.JP.whenEvolution = Constantes.Critical_Hits_JP;
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.Mr_Mime))
+                    {
+                        dataJson.FR.whenEvolution = Constantes.Mr_Mime_FR;
+                        dataJson.EN.whenEvolution = Constantes.Mr_Mime_EN;
+                        dataJson.ES.whenEvolution = Constantes.Mr_Mime_ES;
+                        dataJson.IT.whenEvolution = Constantes.Mr_Mime_IT;
+                        dataJson.DE.whenEvolution = Constantes.Mr_Mime_DE;
+                        dataJson.RU.whenEvolution = Constantes.Mr_Mime_RU;
+                        dataJson.CO.whenEvolution = Constantes.Mr_Mime_CO;
+                        dataJson.CN.whenEvolution = Constantes.Mr_Mime_CN;
+                        dataJson.JP.whenEvolution = Constantes.Mr_Mime_JP;
+                    }
+                    else if (dataJson.FR.whenEvolution.Contains(Constantes.SavageLands_FR))
+                    {
+                        dataJson.EN.whenEvolution = Constantes.SavageLands_EN;
+                        dataJson.ES.whenEvolution = Constantes.SavageLands_ES;
+                        dataJson.IT.whenEvolution = Constantes.SavageLands_IT;
+                        dataJson.DE.whenEvolution = Constantes.SavageLands_DE;
+                        dataJson.RU.whenEvolution = Constantes.SavageLands_RU;
+                        dataJson.CO.whenEvolution = Constantes.SavageLands_CO;
+                        dataJson.CN.whenEvolution = Constantes.SavageLands_CN;
+                        dataJson.JP.whenEvolution = Constantes.SavageLands_JP;
+                    }
+                    #endregion
                     break;
             }
         }
@@ -2451,7 +2791,14 @@ namespace WepApiScrapingData.Controllers
             dicTranslationStone.Add(Constantes.CN, value.InnerText.Split("\n")[3].Split(" ")[0]);
 
             //JP
-            value = node.Descendants("span").Where(node => node.GetAttributeValue("lang", "").Contains("ja")).First();
+            try
+            {
+                value = node.Descendants("span").Where(node => node.GetAttributeValue("lang", "").Contains("ja")).First();
+            }
+            catch
+            {
+                value = node.Descendants("span").Where(node => node.GetAttributeValue("class", "").Contains("explain")).First();
+            }
             dicTranslationStone.Add(Constantes.JP, value.InnerText);
 
             return dicTranslationStone;
@@ -2536,11 +2883,11 @@ namespace WepApiScrapingData.Controllers
             else
             {
                 dataInfo.name = value.InnerText.Trim().Split("\n")[0];
-                dataInfo.displayName = dataInfo.name;
+                dataInfo.displayName = value.InnerText.Trim().Split("\n")[0];
             }
 
             dataInfo.name = dataInfo.name.Replace("&#39;", "'").Replace(':', ' ');
-            dataInfo.displayName = dataInfo.name;
+            dataInfo.displayName = dataInfo.displayName.Replace("&#39;", "'").Replace(':', ' ');
             Debug.WriteLine(number + ": " + dataInfo.name);
             #endregion
 
