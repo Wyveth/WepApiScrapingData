@@ -45,8 +45,6 @@ namespace WepApiScrapingData.Controllers
             WriteToJson(dataJsons);
             Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
         }
-
-
         #endregion
 
         #region Private Methods
@@ -755,7 +753,7 @@ namespace WepApiScrapingData.Controllers
                             if (dataJson.FR.name.Contains("Crinière"))
                                 nameSite = dataJson.FR.displayName + "-" + dataJson.FR.name.Split(' ')[1] + "-" + dataJson.FR.name.Split(' ')[3];
                             else if (dataJson.FR.name.Contains("Ailes"))
-                                nameSite = dataJson.FR.displayName + "-" + dataJson.FR.name.Split(' ')[1] + "-" + dataJson.FR.name.Replace('\'', ' ').Split(' ')[4];
+                                nameSite = dataJson.FR.displayName + "-" + dataJson.FR.name.Split(' ')[1] + "-" + dataJson.FR.name.Split(' ')[3].Substring(2);
                             else
                                 nameSite = dataJson.FR.displayName;
                         }

@@ -36,12 +36,12 @@
         public const string urlTestCerbyllin = "https://api.pokemon.com/fr/pokedex/cerbyllin";
         public const int lastPokemonNumber = 905;
 
-        public const string urlTestSimulate_FR = "https://www.pokemon.com/fr/pokedex/Toxizap";
-        public const string urlTestSimulate_EN = "https://www.pokemon.com/us/pokedex/Toxel";
-        public const string urlTestSimulate_ES = "https://www.pokemon.com/es/pokedex/Toxel";
-        public const string urlTestSimulate_IT = "https://www.pokemon.com/it/pokedex/Toxel";
-        public const string urlTestSimulate_DE = "https://www.pokemon.com/de/pokedex/Toxel";
-        public const string urlTestSimulate_RU = "https://www.pokemon.com/ru/pokedex/Toxel";
+        public const string urlTestSimulate_FR = "https://www.pokemon.com/fr/pokedex/necrozma";
+        public const string urlTestSimulate_EN = "https://www.pokemon.com/us/pokedex/necrozma";
+        public const string urlTestSimulate_ES = "https://www.pokemon.com/es/pokedex/necrozma";
+        public const string urlTestSimulate_IT = "https://www.pokemon.com/it/pokedex/necrozma";
+        public const string urlTestSimulate_DE = "https://www.pokemon.com/de/pokedex/necrozma";
+        public const string urlTestSimulate_RU = "https://www.pokemon.com/ru/pokedex/necrozma";
 
         public const string urlStart1Gen = "https://api.pokemon.com/fr/pokedex/bulbizarre";
         public const string urlStart2Gen = "https://api.pokemon.com/fr/pokedex/germignon";
