@@ -1,9 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using WebApiScrapingData.Domain.Abstract;
-
-namespace WebApiScrapingData.Domain.Class
+﻿namespace WebApiScrapingData.Domain.ClassJson
 {
-    public class DataInfo : Identity
+    [Serializable]
+    public class DataInfoJson
     {
         //Nom du Pokémon
         public string? Name { get; set; }
@@ -46,8 +44,5 @@ namespace WebApiScrapingData.Domain.Class
 
         //Prochain Pokémon
         public string? NextUrl { get; set; }
-
-        [NotMapped]
-        public Pokemon Pokemon { get; set; }
     }
 }

@@ -11,6 +11,11 @@
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="ScrapySharp" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
@@ -18,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebApiScrapingData.Domain\WebApiScrapingData.Domain.csproj" />
+    <ProjectReference Include="..\WebApiScrapingData.Infrastructure\WebApiScrapingData.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

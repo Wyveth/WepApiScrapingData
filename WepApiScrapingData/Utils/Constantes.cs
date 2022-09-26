@@ -4,7 +4,7 @@
     {
         #region Pokepedia
         public const string urlPokepedia = "https://www.pokepedia.fr";
-        public const string urlAllSprites = "https://www.pokepedia.fr/Liste_des_Pok%C3%A9mon_dans_l'ordre_du_Pok%C3%A9dex_National";
+        public const string urlAllSprites = urlPokepedia + "/Liste_des_Pok%C3%A9mon_dans_l'ordre_du_Pok%C3%A9dex_National";
         #endregion
 
         #region Pokébip
@@ -13,44 +13,44 @@
 
         #region Api Pokemon
         public const string urlPath = "https://api.pokemon.com";
-        public const string urlStartFR = "https://api.pokemon.com/fr/pokedex/bulbizarre";
-        public const string urlStartEN = "https://api.pokemon.com/us/pokedex/bulbasaur";
-        public const string urlStartES = "https://api.pokemon.com/es/pokedex/bulbasaur";
-        public const string urlStartIT = "https://api.pokemon.com/it/pokedex/bulbasaur";
-        public const string urlStartDE = "https://api.pokemon.com/de/pokedex/bisasam";
-        public const string urlStartRU = "https://api.pokemon.com/ru/pokedex/bulbasaur";
+        public const string urlStartFR = urlPath + "/fr/pokedex/bulbizarre";
+        public const string urlStartEN = urlPath + "/us/pokedex/bulbasaur";
+        public const string urlStartES = urlPath + "/es/pokedex/bulbasaur";
+        public const string urlStartIT = urlPath + "/it/pokedex/bulbasaur";
+        public const string urlStartDE = urlPath + "/de/pokedex/bisasam";
+        public const string urlStartRU = urlPath + "/ru/pokedex/bulbasaur";
         public const string urlStartJP = "https://zukan.pokemon.co.jp/detail/001";
         public const string urlStartCO = "https://pokemonkorea.co.kr/pokedextemp/view/1";
         public const string urlStartCN = "https://www.pokemon.cn/play/pokedex/001";
-        public const string urlTestWeakness = "https://api.pokemon.com/fr/pokedex/paras";
-        public const string urlTestEvolution = "https://api.pokemon.com/fr/pokedex/aquali";
-        public const string urlTestTypeEvolution = "https://api.pokemon.com/fr/pokedex/dracaufeu";
-        public const string urlTestMime = "https://api.pokemon.com/fr/pokedex/m-mime";
-        public const string urlTestDoubleTalent = "https://api.pokemon.com/fr/pokedex/mistigrix";
-        public const string urlTestMissInfo = "https://api.pokemon.com/fr/pokedex/salarsen";
-        public const string urlTestGetSprite = "https://api.pokemon.com/fr/pokedex/deoxys";
-        public const string urlTestErrorType = "https://api.pokemon.com/fr/pokedex/type0";
-        public const string urlTestShifours = "https://api.pokemon.com/fr/pokedex/shifours";
-        public const string urlTestSylveroy = "https://api.pokemon.com/fr/pokedex/sylveroy";
-        public const string urlTestCanarticho = "https://api.pokemon.com/fr/pokedex/canarticho";
-        public const string urlTestCerbyllin = "https://api.pokemon.com/fr/pokedex/cerbyllin";
+        public const string urlTestWeakness = urlPath + "/fr/pokedex/paras";
+        public const string urlTestEvolution = urlPath + "/fr/pokedex/aquali";
+        public const string urlTestTypeEvolution = urlPath + "/fr/pokedex/dracaufeu";
+        public const string urlTestMime = urlPath + "/fr/pokedex/m-mime";
+        public const string urlTestDoubleTalent = urlPath + "/fr/pokedex/mistigrix";
+        public const string urlTestMissInfo = urlPath + "/fr/pokedex/salarsen";
+        public const string urlTestGetSprite = urlPath + "/fr/pokedex/deoxys";
+        public const string urlTestErrorType = urlPath + "/fr/pokedex/type0";
+        public const string urlTestShifours = urlPath + "/fr/pokedex/shifours";
+        public const string urlTestSylveroy = urlPath + "/fr/pokedex/sylveroy";
+        public const string urlTestCanarticho = urlPath + "/fr/pokedex/canarticho";
+        public const string urlTestCerbyllin = urlPath + "/fr/pokedex/cerbyllin";
         public const int lastPokemonNumber = 905;
 
-        public const string urlTestSimulate_FR = "https://www.pokemon.com/fr/pokedex/necrozma";
-        public const string urlTestSimulate_EN = "https://www.pokemon.com/us/pokedex/necrozma";
-        public const string urlTestSimulate_ES = "https://www.pokemon.com/es/pokedex/necrozma";
-        public const string urlTestSimulate_IT = "https://www.pokemon.com/it/pokedex/necrozma";
-        public const string urlTestSimulate_DE = "https://www.pokemon.com/de/pokedex/necrozma";
-        public const string urlTestSimulate_RU = "https://www.pokemon.com/ru/pokedex/necrozma";
+        public const string urlTestSimulate_FR = urlPath + "/fr/pokedex/necrozma";
+        public const string urlTestSimulate_EN = urlPath + "/us/pokedex/necrozma";
+        public const string urlTestSimulate_ES = urlPath + "/es/pokedex/necrozma";
+        public const string urlTestSimulate_IT = urlPath + "/it/pokedex/necrozma";
+        public const string urlTestSimulate_DE = urlPath + "/de/pokedex/necrozma";
+        public const string urlTestSimulate_RU = urlPath + "/ru/pokedex/necrozma";
 
-        public const string urlStart1Gen = "https://api.pokemon.com/fr/pokedex/bulbizarre";
-        public const string urlStart2Gen = "https://api.pokemon.com/fr/pokedex/germignon";
-        public const string urlStart3Gen = "https://api.pokemon.com/fr/pokedex/arcko";
-        public const string urlStart4Gen = "https://api.pokemon.com/fr/pokedex/tortipouss";
-        public const string urlStart5Gen = "https://api.pokemon.com/fr/pokedex/vipelierre";
-        public const string urlStart6Gen = "https://api.pokemon.com/fr/pokedex/marisson";
-        public const string urlStart7Gen = "https://api.pokemon.com/fr/pokedex/brindibou";
-        public const string urlStart8Gen = "https://api.pokemon.com/fr/pokedex/ouistempo";
+        public const string urlStart1Gen = urlPath + "/fr/pokedex/bulbizarre";
+        public const string urlStart2Gen = urlPath + "/fr/pokedex/germignon";
+        public const string urlStart3Gen = urlPath + "/fr/pokedex/arcko";
+        public const string urlStart4Gen = urlPath + "/fr/pokedex/tortipouss";
+        public const string urlStart5Gen = urlPath + "/fr/pokedex/vipelierre";
+        public const string urlStart6Gen = urlPath + "/fr/pokedex/marisson";
+        public const string urlStart7Gen = urlPath + "/fr/pokedex/brindibou";
+        public const string urlStart8Gen = urlPath + "/fr/pokedex/ouistempo";
 
         public const string MegaEvolution = "Méga";
         public const string MegaLevel = "Mega";
@@ -334,6 +334,24 @@
 
         #region WhenEvolution
         #region Niveau //OK
+        public const string Level_Format_EN = "Level {0}";
+        public const string Level_Format_ES = "Nivel {0}";
+        public const string Level_Format_IT = "Livello {0}";
+        public const string Level_Format_DE = "Eben {0}";
+        public const string Level_Format_RU = "{0} Yровень";
+        public const string Level_Format_CO = "수준 {0}";
+        public const string Level_Format_CN = "{0} 等级";
+        public const string Level_Format_JP = "レベル {0}";
+
+        //public const string Level_Format_EN = "Level {0}";
+        //public const string Level_Format_ES = "Nivel {0}";
+        //public const string Level_Format_IT = "Livello {0}";
+        //public const string Level_Format_DE = "Eben {0}";
+        //public const string Level_Format_RU = "{0} Yровень";
+        //public const string Level_Format_CO = "수준 {0}";
+        //public const string Level_Format_CN = "{0} 等级";
+        //public const string Level_Format_JP = "レベル {0}";
+
         public const string PID_FR = "dépend d'un numéro aléatoire calculé à la capture, le PID";
         public const string PID_EN = "depends on a random number calculated on capture, the PID";
         public const string PID_ES = "depende de un número aleatorio calculado en la captura, el PID";
@@ -855,23 +873,23 @@
 
         #region LevelUp //OK
         public const string LvlUpWith_FR = "Monter un niveau avec";
-        public const string LvlUpWith_EN = "Level up with {0}";
-        public const string LvlUpWith_ES = "Subir de nivel con {0}";
-        public const string LvlUpWith_IT = "Sali di livello con {0}";
-        public const string LvlUpWith_DE = "Steige mit {0} auf";
-        public const string LvlUpWith_RU = "Повысьте уровень с {0}";
-        public const string LvlUpWith_CO = "{0} 레벨업";
-        public const string LvlUpWith_CN = "使用 {0} 升級";
-        public const string LvlUpWith_JP = "{0}でレベルアップ";
+        public const string LvlUpWith_Format_EN = "Level up with {0}";
+        public const string LvlUpWith_Format_ES = "Subir de nivel con {0}";
+        public const string LvlUpWith_Format_IT = "Sali di livello con {0}";
+        public const string LvlUpWith_Format_DE = "Steige mit {0} auf";
+        public const string LvlUpWith_Format_RU = "Повысьте уровень с {0}";
+        public const string LvlUpWith_Format_CO = "{0} 레벨업";
+        public const string LvlUpWith_Format_CN = "使用 {0} 升級";
+        public const string LvlUpWith_Format_JP = "{0}でレベルアップ";
 
-        public const string LvlUpWith_2_EN = "Level up with {0}, {1}";
-        public const string LvlUpWith_2_ES = "Subir de nivel con {0}, {1}";
-        public const string LvlUpWith_2_IT = "Sali di livello con {0}, {1}";
-        public const string LvlUpWith_2_DE = "Level aufsteigen mit {0}, {1}";
-        public const string LvlUpWith_2_RU = "Повысьте уровень с {0}, {1}";
-        public const string LvlUpWith_2_CO = "{0}, {1} 로 레벨 업";
-        public const string LvlUpWith_2_CN = "使用 {0}、{1} 升級";
-        public const string LvlUpWith_2_JP = "{0}、{1}でレベルアップ";
+        public const string LvlUpWith_Format_2_EN = "Level up with {0}, {1}";
+        public const string LvlUpWith_Format_2_ES = "Subir de nivel con {0}, {1}";
+        public const string LvlUpWith_Format_2_IT = "Sali di livello con {0}, {1}";
+        public const string LvlUpWith_Format_2_DE = "Level aufsteigen mit {0}, {1}";
+        public const string LvlUpWith_Format_2_RU = "Повысьте уровень с {0}, {1}";
+        public const string LvlUpWith_Format_2_CO = "{0}, {1} 로 레벨 업";
+        public const string LvlUpWith_Format_2_CN = "使用 {0}、{1} 升級";
+        public const string LvlUpWith_Format_2_JP = "{0}、{1}でレベルアップ";
 
         public const string HighHappiness_FR = "bonheur élevé";
         public const string HighHappiness_EN = "hight happiness";
@@ -888,24 +906,24 @@
         
         public const string InTeam_FR = "Rémoraid dans l'équipe";
         public const string Remoraid_URL = "https://bulbapedia.bulbagarden.net/wiki/Remoraid";
-        public const string InTeam_EN = "{0} in team";
-        public const string InTeam_ES = "{0} en equipo";
-        public const string InTeam_IT = "{0} in squadra";
-        public const string InTeam_DE = "{0} im Team";
-        public const string InTeam_RU = "{0} в команде";
-        public const string InTeam_CO = "팀에서 {0}";
-        public const string InTeam_CN = "{0} 在團隊中";
-        public const string InTeam_JP = "チームの{0}";
+        public const string InTeam_Format_EN = "{0} in team";
+        public const string InTeam_Format_ES = "{0} en equipo";
+        public const string InTeam_Format_IT = "{0} in squadra";
+        public const string InTeam_Format_DE = "{0} im Team";
+        public const string InTeam_Format_RU = "{0} в команде";
+        public const string InTeam_Format_CO = "팀에서 {0}";
+        public const string InTeam_Format_CN = "{0} 在團隊中";
+        public const string InTeam_Format_JP = "チームの{0}";
 
         public const string LvlUpLearn_FR = "Monter un niveau en ayant appris";
-        public const string LvlUpLearn_EN = "Level up having learned {0}";
-        public const string LvlUpLearn_ES = "Sube de nivel habiendo aprendido {0}";
-        public const string LvlUpLearn_IT = "Sali di livello dopo aver imparato {0}";
-        public const string LvlUpLearn_DE = "Steige auf, nachdem du {0} gelernt hast";
-        public const string LvlUpLearn_RU = "Повысьте уровень, изучив {0}";
-        public const string LvlUpLearn_CO = "{0}을(를) 배우고 레벨 업";
-        public const string LvlUpLearn_CN = "學會了升級{0}";
-        public const string LvlUpLearn_JP = "{0} を習得してレベルアップ";
+        public const string LvlUpLearn_Format_EN = "Level up having learned {0}";
+        public const string LvlUpLearn_Format_ES = "Sube de nivel habiendo aprendido {0}";
+        public const string LvlUpLearn_Format_IT = "Sali di livello dopo aver imparato {0}";
+        public const string LvlUpLearn_Format_DE = "Steige auf, nachdem du {0} gelernt hast";
+        public const string LvlUpLearn_Format_RU = "Повысьте уровень, изучив {0}";
+        public const string LvlUpLearn_Format_CO = "{0}을(를) 배우고 레벨 업";
+        public const string LvlUpLearn_Format_CN = "學會了升級{0}";
+        public const string LvlUpLearn_Format_JP = "{0} を習得してレベルアップ";
         
         public const string MimicOutsideGalar_FR = "Copie(hors Galar)";
         public const string Mimic_FR = "l'attaque Copie";
@@ -938,27 +956,27 @@
 
         public const string LvlUpWH_FR = "Monter un niveau en tenant";
 
-        public const string StringFormat_Oval_Stone_EN = "Level up while holding an {0} during the day";
-        public const string StringFormat_Oval_Stone_ES = "Sube de nivel mientras mantienes un {0} durante el día";
-        public const string StringFormat_Oval_Stone_IT = "Sali di livello tenendo premuto un {0} durante il giorno";
-        public const string StringFormat_Oval_Stone_DE = "Steige im Level auf, während du einen {0} Tag hältst";
-        public const string StringFormat_Oval_Stone_RU = "Повышайте уровень, удерживая {0} в течение дня";
-        public const string StringFormat_Oval_Stone_CO = "{0} 일을 잡고 레벨업";
-        public const string StringFormat_Oval_Stone_CN = "白天按住 {0} 升級";
-        public const string StringFormat_Oval_Stone_JP = "日中に{0}を押しながらレベルアップ";
+        public const string Oval_Stone_Format_EN = "Level up while holding an {0} during the day";
+        public const string Oval_Stone_Format_ES = "Sube de nivel mientras mantienes un {0} durante el día";
+        public const string Oval_Stone_Format_IT = "Sali di livello tenendo premuto un {0} durante il giorno";
+        public const string Oval_Stone_Format_DE = "Steige im Level auf, während du einen {0} Tag hältst";
+        public const string Oval_Stone_Format_RU = "Повышайте уровень, удерживая {0} в течение дня";
+        public const string Oval_Stone_Format_CO = "{0} 일을 잡고 레벨업";
+        public const string Oval_Stone_Format_CN = "白天按住 {0} 升級";
+        public const string Oval_Stone_Format_JP = "日中に{0}を押しながらレベルアップ";
         
         public const string Oval_Stone_FR = "Monter un niveau en tenant une Pierre Ovale le jour";
         public const string Oval_Stone_URL = "https://bulbapedia.bulbagarden.net/wiki/Oval_Stone";
         public const string Oval_Stone_RU = "Овальный камень";
 
-        public const string StringFormat_Razor_EN = "Level up while holding {0} at night";
-        public const string StringFormat_Razor_ES = "Sube de nivel mientras mantienes {0} en la noche";
-        public const string StringFormat_Razor_IT = "Sali di livello tenendo premuto {0} di notte";
-        public const string StringFormat_Razor_DE = "Steige im Level auf, während du nachts {0} gedrückt hältst";
-        public const string StringFormat_Razor_RU = "Повышайте уровень, удерживая {0} ночью";
-        public const string StringFormat_Razor_CO = "밤에 {0} 키를 누른 상태에서 레벨 올리기";
-        public const string StringFormat_Razor_CN = "晚上按住 {0} 升級";
-        public const string StringFormat_Razor_JP = "夜に{0}を押しながらレベルアップ";
+        public const string Razor_Format_EN = "Level up while holding {0} at night";
+        public const string Razor_Format_ES = "Sube de nivel mientras mantienes {0} en la noche";
+        public const string Razor_Format_IT = "Sali di livello tenendo premuto {0} di notte";
+        public const string Razor_Format_DE = "Steige im Level auf, während du nachts {0} gedrückt hältst";
+        public const string Razor_Format_RU = "Повышайте уровень, удерживая {0} ночью";
+        public const string Razor_Format_CO = "밤에 {0} 키를 누른 상태에서 레벨 올리기";
+        public const string Razor_Format_CN = "晚上按住 {0} 升級";
+        public const string Razor_Format_JP = "夜に{0}を押しながらレベルアップ";
         
         public const string Razor_Claw_FR = "Monter un niveau en tenant Griffe Rasoir la nuit";
         public const string Razor_Claw_URL = "https://bulbapedia.bulbagarden.net/wiki/Razor_Claw";
@@ -968,14 +986,14 @@
         public const string Razor_Fang_URL = "https://bulbapedia.bulbagarden.net/wiki/Razor_Fang";
         public const string Razor_Fang_RU = "Клык бритвы";
 
-        public const string UseA_EN = "Use a {0}";
-        public const string UseA_ES = "Usa un {0}";
-        public const string UseA_IT = "Usa un {0}";
-        public const string UseA_DE = "Verwenden Sie ein {0}";
-        public const string UseA_RU = "Используйте {0}";
-        public const string UseA_CO = "{0} 사용";
-        public const string UseA_CN = "使用 {0}";
-        public const string UseA_JP = "{0} を使用";
+        public const string UseA_Format_EN = "Use a {0}";
+        public const string UseA_Format_ES = "Usa un {0}";
+        public const string UseA_Format_IT = "Usa un {0}";
+        public const string UseA_Format_DE = "Verwenden Sie ein {0}";
+        public const string UseA_Format_RU = "Используйте {0}";
+        public const string UseA_Format_CO = "{0} 사용";
+        public const string UseA_Format_CN = "使用 {0}";
+        public const string UseA_Format_JP = "{0} を使用";
         
         public const string Galarica_Cuff_FR = "Utiliser un Bracelet Galanoa";
         public const string Galarica_Cuff_URL = "https://bulbapedia.bulbagarden.net/wiki/Galarica_Cuff";
@@ -985,14 +1003,14 @@
         public const string Galarica_Wreath_URL = "https://bulbapedia.bulbagarden.net/wiki/Galarica_Wreath";
         public const string Galarica_Wreath_RU = "Галарический венок";
 
-        public const string stringFormatNotEvolve_EN = "{0} does not evolve";
-        public const string stringFormatNotEvolve_ES = "{0} no evoluciona";
-        public const string stringFormatNotEvolve_IT = "{0} non si evolve";
-        public const string stringFormatNotEvolve_DE = "{0} entwickelt sich nicht";
-        public const string stringFormatNotEvolve_RU = "{0} не развивается";
-        public const string stringFormatNotEvolve_CO = "{0}은(는) 진화하지 않습니다.";
-        public const string stringFormatNotEvolve_CN = "{0} 沒有進化";
-        public const string stringFormatNotEvolve_JP = "{0} は進化しません";
+        public const string NotEvolve_Format_EN = "{0} does not evolve";
+        public const string NotEvolve_Format_ES = "{0} no evoluciona";
+        public const string NotEvolve_Format_IT = "{0} non si evolve";
+        public const string NotEvolve_Format_DE = "{0} entwickelt sich nicht";
+        public const string NotEvolve_Format_RU = "{0} не развивается";
+        public const string NotEvolve_Format_CO = "{0}은(는) 진화하지 않습니다.";
+        public const string NotEvolve_Format_CN = "{0} 沒有進化";
+        public const string NotEvolve_Format_JP = "{0} は進化しません";
         public const string Phione_FR = "Phione";
         public const string Phione_URL = "https://bulbapedia.bulbagarden.net/wiki/Phione_(Pok%C3%A9mon)";
         public const string Phione_RU = "Фион";

@@ -1,30 +1,63 @@
 ﻿using HtmlAgilityPack;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net;
-using WebApiScrapingData.Domain;
+using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Domain.ClassJson;
 using WepApiScrapingData.Utils;
 
 namespace WepApiScrapingData.Controllers
 {
     [Route("api/v1.0/[controller]")]
     [ApiController]
-    public class TypeController : ControllerBase
+    public class TypePokController : ControllerBase
     {
+        #region Fields
+        private readonly IRepository<TypePok> _repository;
+        #endregion
+
+        #region Constructors
+        public TypePokController(IRepository<TypePok> repository)
+        {
+            _repository = repository;
+        }
+        #endregion
+
         #region Public Methods
         [HttpGet]
+        [Route("ScrapingAll")]
         public void ScrapingAll()
         {
-            List<TypeJson> typeJsons = new List<TypeJson>();
+            List<TypePokJson> typeJsons = new List<TypePokJson>();
             PopulateTypes(typeJsons);
             WriteToJsonType(typeJsons);
+        }
+
+        [HttpGet]
+        [Route("GetAllInDB")]
+        public IEnumerable<TypePok> GetAllinDB()
+        {
+            return _repository.GetAll();
+        }
+
+        [HttpPost]
+        [Route("SaveInDB")]
+        public void SaveInDB()
+        {
+            string json;
+            using (StreamReader sr = new StreamReader("TypeScrap.json"))
+            {
+                json = sr.ReadToEnd();
+                _repository.SaveJsonInDb(json);
+            }
+
+            _repository.UnitOfWork.SaveChanges();
         }
         #endregion
 
         #region Json
-        private void PopulateTypes(List<TypeJson> typeJsons)
+        private void PopulateTypes(List<TypePokJson> typeJsons)
         {
             List<string> types = new List<string>();
             types.Add(Constantes.Steel_FR);
@@ -48,21 +81,21 @@ namespace WepApiScrapingData.Controllers
 
             foreach (string type in types)
             {
-                TypeJson typeJson = new TypeJson();
-                typeJson.name_FR = type;
-                typeJson.name_EN = GetNameTypeByLanguage(type, Constantes.EN);
-                typeJson.name_ES = GetNameTypeByLanguage(type, Constantes.ES);
-                typeJson.name_IT = GetNameTypeByLanguage(type, Constantes.IT);
-                typeJson.name_DE = GetNameTypeByLanguage(type, Constantes.DE);
-                typeJson.name_RU = GetNameTypeByLanguage(type, Constantes.RU);
-                typeJson.name_JP = GetNameTypeByLanguage(type, Constantes.JP);
-                typeJson.name_CO = GetNameTypeByLanguage(type, Constantes.CO);
-                typeJson.name_CN = GetNameTypeByLanguage(type, Constantes.CN);
-                typeJson.urlMiniGo = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Miniature_Type_" + type + "_GO.png");
-                typeJson.urlFondGo = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Fond_Type_" + type + "_GO.png");
-                typeJson.urlMiniHome = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Miniature_Type_" + type + "_HOME.png");
-                typeJson.urlIconHome = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Icône_Type_" + type + "_HOME.png");
-                typeJson.urlAutoHome = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Autocollant_Type_" + type + "_HOME.png");
+                TypePokJson typeJson = new TypePokJson();
+                typeJson.Name_FR = type;
+                typeJson.Name_EN = GetNameTypeByLanguage(type, Constantes.EN);
+                typeJson.Name_ES = GetNameTypeByLanguage(type, Constantes.ES);
+                typeJson.Name_IT = GetNameTypeByLanguage(type, Constantes.IT);
+                typeJson.Name_DE = GetNameTypeByLanguage(type, Constantes.DE);
+                typeJson.Name_RU = GetNameTypeByLanguage(type, Constantes.RU);
+                typeJson.Name_JP = GetNameTypeByLanguage(type, Constantes.JP);
+                typeJson.Name_CO = GetNameTypeByLanguage(type, Constantes.CO);
+                typeJson.Name_CN = GetNameTypeByLanguage(type, Constantes.CN);
+                typeJson.UrlMiniGo = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Miniature_Type_" + type + "_GO.png");
+                typeJson.UrlFondGo = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Fond_Type_" + type + "_GO.png");
+                typeJson.UrlMiniHome = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Miniature_Type_" + type + "_HOME.png");
+                typeJson.UrlIconHome = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Icône_Type_" + type + "_HOME.png");
+                typeJson.UrlAutoHome = Constantes.urlPokepedia + GetUrlImg(Constantes.urlPokepedia + "/Fichier:Autocollant_Type_" + type + "_HOME.png");
                 GetColor(typeJson);
                 typeJsons.Add(typeJson);
             }
@@ -76,99 +109,99 @@ namespace WepApiScrapingData.Controllers
             var response = client.GetStringAsync(fullUrl);
             return await response;
         }
-        private void GetColor(TypeJson typeJson)
+        private void GetColor(TypePokJson typeJson)
         {
-            switch (typeJson.name_FR)
+            switch (typeJson.Name_FR)
             {
                 case Constantes.Steel_FR:
-                    typeJson.imgColor = Constantes.ImgColorSteel;
-                    typeJson.infoColor = Constantes.InfoColorSteel;
-                    typeJson.typeColor = Constantes.TypeColorSteel;
+                    typeJson.ImgColor = Constantes.ImgColorSteel;
+                    typeJson.InfoColor = Constantes.InfoColorSteel;
+                    typeJson.TypeColor = Constantes.TypeColorSteel;
                     break;
                 case Constantes.Fighting_FR:
-                    typeJson.imgColor = Constantes.ImgColorFighting;
-                    typeJson.infoColor = Constantes.InfoColorFighting;
-                    typeJson.typeColor = Constantes.TypeColorFighting;
+                    typeJson.ImgColor = Constantes.ImgColorFighting;
+                    typeJson.InfoColor = Constantes.InfoColorFighting;
+                    typeJson.TypeColor = Constantes.TypeColorFighting;
                     break;
                 case Constantes.Dragon_FR:
-                    typeJson.imgColor = Constantes.ImgColorDragon;
-                    typeJson.infoColor = Constantes.InfoColorDragon;
-                    typeJson.typeColor = Constantes.TypeColorDragon;
+                    typeJson.ImgColor = Constantes.ImgColorDragon;
+                    typeJson.InfoColor = Constantes.InfoColorDragon;
+                    typeJson.TypeColor = Constantes.TypeColorDragon;
                     break;
                 case Constantes.Water_FR:
-                    typeJson.imgColor = Constantes.ImgColorWater;
-                    typeJson.infoColor = Constantes.InfoColorWater;
-                    typeJson.typeColor = Constantes.TypeColorWater;
+                    typeJson.ImgColor = Constantes.ImgColorWater;
+                    typeJson.InfoColor = Constantes.InfoColorWater;
+                    typeJson.TypeColor = Constantes.TypeColorWater;
                     break;
                 case Constantes.Electric_FR:
-                    typeJson.imgColor = Constantes.ImgColorElectric;
-                    typeJson.infoColor = Constantes.InfoColorElectric;
-                    typeJson.typeColor = Constantes.TypeColorElectric;
+                    typeJson.ImgColor = Constantes.ImgColorElectric;
+                    typeJson.InfoColor = Constantes.InfoColorElectric;
+                    typeJson.TypeColor = Constantes.TypeColorElectric;
                     break;
                 case Constantes.Fairy_FR:
-                    typeJson.imgColor = Constantes.ImgColorFairy;
-                    typeJson.infoColor = Constantes.InfoColorFairy;
-                    typeJson.typeColor = Constantes.TypeColorFairy;
+                    typeJson.ImgColor = Constantes.ImgColorFairy;
+                    typeJson.InfoColor = Constantes.InfoColorFairy;
+                    typeJson.TypeColor = Constantes.TypeColorFairy;
                     break;
                 case Constantes.Fire_FR:
-                    typeJson.imgColor = Constantes.ImgColorFire;
-                    typeJson.infoColor = Constantes.InfoColorFire;
-                    typeJson.typeColor = Constantes.TypeColorFire;
+                    typeJson.ImgColor = Constantes.ImgColorFire;
+                    typeJson.InfoColor = Constantes.InfoColorFire;
+                    typeJson.TypeColor = Constantes.TypeColorFire;
                     break;
                 case Constantes.Ice_FR:
-                    typeJson.imgColor = Constantes.ImgColorIce;
-                    typeJson.infoColor = Constantes.InfoColorIce;
-                    typeJson.typeColor = Constantes.TypeColorIce;
+                    typeJson.ImgColor = Constantes.ImgColorIce;
+                    typeJson.InfoColor = Constantes.InfoColorIce;
+                    typeJson.TypeColor = Constantes.TypeColorIce;
                     break;
                 case Constantes.Bug_FR:
-                    typeJson.imgColor = Constantes.ImgColorBug;
-                    typeJson.infoColor = Constantes.InfoColorBug;
-                    typeJson.typeColor = Constantes.TypeColorBug;
+                    typeJson.ImgColor = Constantes.ImgColorBug;
+                    typeJson.InfoColor = Constantes.InfoColorBug;
+                    typeJson.TypeColor = Constantes.TypeColorBug;
                     break;
                 case Constantes.Normal_FR:
-                    typeJson.imgColor = Constantes.ImgColorNormal;
-                    typeJson.infoColor = Constantes.InfoColorNormal;
-                    typeJson.typeColor = Constantes.TypeColorNormal;
+                    typeJson.ImgColor = Constantes.ImgColorNormal;
+                    typeJson.InfoColor = Constantes.InfoColorNormal;
+                    typeJson.TypeColor = Constantes.TypeColorNormal;
                     break;
                 case Constantes.Grass_FR:
-                    typeJson.imgColor = Constantes.ImgColorGrass;
-                    typeJson.infoColor = Constantes.InfoColorGrass;
-                    typeJson.typeColor = Constantes.TypeColorGrass;
+                    typeJson.ImgColor = Constantes.ImgColorGrass;
+                    typeJson.InfoColor = Constantes.InfoColorGrass;
+                    typeJson.TypeColor = Constantes.TypeColorGrass;
                     break;
                 case Constantes.Poison_FR:
-                    typeJson.imgColor = Constantes.ImgColorPoison;
-                    typeJson.infoColor = Constantes.InfoColorPoison;
-                    typeJson.typeColor = Constantes.TypeColorPoison;
+                    typeJson.ImgColor = Constantes.ImgColorPoison;
+                    typeJson.InfoColor = Constantes.InfoColorPoison;
+                    typeJson.TypeColor = Constantes.TypeColorPoison;
                     break;
                 case Constantes.Psychic_FR:
-                    typeJson.imgColor = Constantes.ImgColorPsychic;
-                    typeJson.infoColor = Constantes.InfoColorPsychic;
-                    typeJson.typeColor = Constantes.TypeColorPsychic;
+                    typeJson.ImgColor = Constantes.ImgColorPsychic;
+                    typeJson.InfoColor = Constantes.InfoColorPsychic;
+                    typeJson.TypeColor = Constantes.TypeColorPsychic;
                     break;
                 case Constantes.Rock_FR:
-                    typeJson.imgColor = Constantes.ImgColorRock;
-                    typeJson.infoColor = Constantes.InfoColorRock;
-                    typeJson.typeColor = Constantes.TypeColorRock;
+                    typeJson.ImgColor = Constantes.ImgColorRock;
+                    typeJson.InfoColor = Constantes.InfoColorRock;
+                    typeJson.TypeColor = Constantes.TypeColorRock;
                     break;
                 case Constantes.Ground_FR:
-                    typeJson.imgColor = Constantes.ImgColorGround;
-                    typeJson.infoColor = Constantes.InfoColorGround;
-                    typeJson.typeColor = Constantes.TypeColorGround;
+                    typeJson.ImgColor = Constantes.ImgColorGround;
+                    typeJson.InfoColor = Constantes.InfoColorGround;
+                    typeJson.TypeColor = Constantes.TypeColorGround;
                     break;
                 case Constantes.Ghost_FR:
-                    typeJson.imgColor = Constantes.ImgColorGhost;
-                    typeJson.infoColor = Constantes.InfoColorGhost;
-                    typeJson.typeColor = Constantes.TypeColorGhost;
+                    typeJson.ImgColor = Constantes.ImgColorGhost;
+                    typeJson.InfoColor = Constantes.InfoColorGhost;
+                    typeJson.TypeColor = Constantes.TypeColorGhost;
                     break;
                 case Constantes.Dark_FR:
-                    typeJson.imgColor = Constantes.ImgColorDark;
-                    typeJson.infoColor = Constantes.InfoColorDark;
-                    typeJson.typeColor = Constantes.TypeColorDark;
+                    typeJson.ImgColor = Constantes.ImgColorDark;
+                    typeJson.InfoColor = Constantes.InfoColorDark;
+                    typeJson.TypeColor = Constantes.TypeColorDark;
                     break;
                 case Constantes.Flying_FR:
-                    typeJson.imgColor = Constantes.ImgColorFlying;
-                    typeJson.infoColor = Constantes.InfoColorFlying;
-                    typeJson.typeColor = Constantes.TypeColorFlying;
+                    typeJson.ImgColor = Constantes.ImgColorFlying;
+                    typeJson.InfoColor = Constantes.InfoColorFlying;
+                    typeJson.TypeColor = Constantes.TypeColorFlying;
                     break;
             }
         }
@@ -180,12 +213,12 @@ namespace WepApiScrapingData.Controllers
             htmlDoc.LoadHtml(html);
 
             var value = htmlDoc.DocumentNode.Descendants("div")
-                .Where(node => node.GetAttributeValue("class", "").Contains("fullMedia")).First();
+                .First(node => node.GetAttributeValue("class", "").Contains("fullMedia"));
 
             return value.OuterHtml.Split('"')[3];
         }
 
-        private void WriteToJsonType(List<TypeJson> typeJsons)
+        private void WriteToJsonType(List<TypePokJson> typeJsons)
         {
             string json = JsonConvert.SerializeObject(typeJsons, Formatting.Indented);
             System.IO.File.WriteAllText("TypeScrap.json", json);
