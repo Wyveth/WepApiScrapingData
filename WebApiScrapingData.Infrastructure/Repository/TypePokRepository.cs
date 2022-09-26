@@ -30,14 +30,13 @@ namespace WebApiScrapingData.Infrastructure.Repository
             entity.UserModification = "System";
             entity.DateModification = DateTime.Now;
             entity.versionModification = 1;
-            
+
             this._context.TypesPok.Add(entity);
         }
 
         public void AddRange(IEnumerable<TypePok> entities)
         {
-            foreach (TypePok entity in entities)
-                this.Add(entity);
+            this._context.TypesPok.AddRange(entities);
         }
 
         public void SaveJsonInDb(string json)
@@ -55,14 +54,14 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #region Read
         public IEnumerable<TypePok> Find(Expression<Func<TypePok, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this._context.TypesPok.Where(predicate).AsQueryable();
         }
 
         public TypePok Get(int id)
         {
-            throw new NotImplementedException();
+            return this._context.TypesPok.Single(x => x.Id.Equals(id));
         }
-        
+
         public IEnumerable<TypePok> GetAll()
         {
             return this._context.TypesPok.AsQueryable();
@@ -81,25 +80,24 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
         public void EditRange(IEnumerable<TypePok> entities)
         {
-            foreach (TypePok entity in entities)
-                this.Edit(entity);
+            this._context.TypesPok.UpdateRange(entities);
         }
         #endregion
 
         #region Delete
         public void Remove(TypePok entity)
         {
-            throw new NotImplementedException();
+            this._context.TypesPok.Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<TypePok> entities)
         {
-            throw new NotImplementedException();
+            this._context.TypesPok.RemoveRange(entities);
         }
 
-        public TypePok SingleOrDefault(Expression<Func<TypePok, bool>> predicate)
+        public TypePok? SingleOrDefault(Expression<Func<TypePok, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this._context.TypesPok.SingleOrDefault(predicate);
         }
         #endregion
         #endregion
@@ -124,7 +122,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
             typePok.ImgColor = typePokJson.ImgColor;
             typePok.InfoColor = typePokJson.InfoColor;
             typePok.TypeColor = typePokJson.TypeColor;
-    }
+        }
         #endregion
 
         #region Properties

@@ -10,8 +10,6 @@ namespace WebApiScrapingData.Framework
 {
     public interface IUnitOfWork : IDisposable
     {
-        //IRepository<TypePok> TypesPok { get; set; }
-        //IRepository<Pokemon> Pokemons { get; set; }
         int SaveChanges();
     }
 }

@@ -47,8 +47,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
         public void AddRange(IEnumerable<DataInfo> entities)
         {
-            foreach (DataInfo entity in entities)
-                this.Add(entity);
+            this._context.DataInfos.AddRange(entities);
         }
 
         public void SaveJsonInDb(string json)
@@ -73,12 +72,12 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #region Read
         public IEnumerable<DataInfo> Find(Expression<Func<DataInfo, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this._context.DataInfos.Where(predicate).AsQueryable();
         }
 
         public DataInfo Get(int id)
         {
-            throw new NotImplementedException();
+            return this._context.DataInfos.Single(x => x.Id.Equals(id));
         }
         
         public IEnumerable<DataInfo> GetAll()
@@ -99,25 +98,24 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
         public void EditRange(IEnumerable<DataInfo> entities)
         {
-            foreach (DataInfo entity in entities)
-                this.Edit(entity);
+            this._context.DataInfos.UpdateRange(entities);
         }
         #endregion
 
         #region Delete
         public void Remove(DataInfo entity)
         {
-            throw new NotImplementedException();
+            this._context.DataInfos.Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<DataInfo> entities)
         {
-            throw new NotImplementedException();
+            this._context.DataInfos.RemoveRange(entities);
         }
 
-        public DataInfo SingleOrDefault(Expression<Func<DataInfo, bool>> predicate)
+        public DataInfo? SingleOrDefault(Expression<Func<DataInfo, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this._context.DataInfos.SingleOrDefault(predicate);
         }
         #endregion
         #endregion

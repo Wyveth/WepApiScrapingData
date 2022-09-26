@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Linq.Expressions;
 using System.Net;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
@@ -35,10 +36,24 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllInDB")]
-        public IEnumerable<TypePok> GetAllinDB()
+        [Route("GetAll")]
+        public IEnumerable<TypePok> GetAllInDB()
         {
             return _repository.GetAll();
+        }
+        
+        [HttpGet]
+        [Route("GetSingle")]
+        public TypePok GetSingleInDB(int id)
+        {
+            return _repository.Get(id);
+        }
+
+        [HttpGet]
+        [Route("Find")]
+        public IEnumerable<TypePok> GetFindInDB(Expression<Func<TypePok, bool>> predicate)
+        {
+            return _repository.Find(predicate);
         }
 
         [HttpPost]

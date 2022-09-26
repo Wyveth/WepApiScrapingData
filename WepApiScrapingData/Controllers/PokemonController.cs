@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using ScrapySharp.Extensions;
 using ScrapySharp.Network;
 using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Net;
 using System.Text;
 using WebApiScrapingData.Core.Repositories;
@@ -62,10 +63,24 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllInDB")]
+        [Route("GetAll")]
         public IEnumerable<Pokemon> GetAllinDB()
         {
-            return _repository.GetAll();
+            return _repository.GetAll().Where(x => x.Id < 20);
+        }
+
+        [HttpGet]
+        [Route("GetSingle")]
+        public Pokemon GetSingleInDB(int id)
+        {
+            return _repository.Get(id);
+        }
+
+        [HttpGet]
+        [Route("Find")]
+        public IEnumerable<Pokemon> GetFindInDB(Expression<Func<Pokemon, bool>> predicate)
+        {
+            return _repository.Find(predicate);
         }
 
         [HttpPost]

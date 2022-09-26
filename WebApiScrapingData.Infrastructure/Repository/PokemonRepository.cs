@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
@@ -38,8 +39,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
         public void AddRange(IEnumerable<Pokemon> entities)
         {
-            foreach (Pokemon entity in entities)
-                this.Add(entity);
+            this._context.Pokemons.AddRange(entities);
         }
 
         public void SaveJsonInDb(string json)
@@ -57,17 +57,48 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #region Read
         public IEnumerable<Pokemon> Find(Expression<Func<Pokemon, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this._context.Pokemons
+                .Include("FR")
+                .Include("EN")
+                .Include("ES")
+                .Include("IT")
+                .Include("DE")
+                .Include("RU")
+                .Include("CO")
+                .Include("CN")
+                .Include("JP")
+                .Where(predicate)
+                .AsQueryable();
         }
 
         public Pokemon Get(int id)
         {
-            throw new NotImplementedException();
+            return this._context.Pokemons
+                .Include("FR")
+                .Include("EN")
+                .Include("ES")
+                .Include("IT")
+                .Include("DE")
+                .Include("RU")
+                .Include("CO")
+                .Include("CN")
+                .Include("JP")
+                .Single(x => x.Id.Equals(id));
         }
         
         public IEnumerable<Pokemon> GetAll()
         {
-            return this._context.Pokemons.AsQueryable();
+            return this._context.Pokemons
+                .Include("FR")
+                .Include("EN")
+                .Include("ES")
+                .Include("IT")
+                .Include("DE")
+                .Include("RU")
+                .Include("CO")
+                .Include("CN")
+                .Include("JP")
+                .AsQueryable();
         }
         #endregion
 
@@ -83,25 +114,24 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
         public void EditRange(IEnumerable<Pokemon> entities)
         {
-            foreach (Pokemon entity in entities)
-                this.Edit(entity);
+            this._context.Pokemons.UpdateRange(entities);
         }
         #endregion
 
         #region Delete
         public void Remove(Pokemon entity)
         {
-            throw new NotImplementedException();
+            this._context.Pokemons.Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<Pokemon> entities)
         {
-            throw new NotImplementedException();
+            this._context.Pokemons.RemoveRange(entities);
         }
 
-        public Pokemon SingleOrDefault(Expression<Func<Pokemon, bool>> predicate)
+        public Pokemon? SingleOrDefault(Expression<Func<Pokemon, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this._context.Pokemons.SingleOrDefault(predicate);
         }
         #endregion
         #endregion
