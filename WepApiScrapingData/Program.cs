@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebApiScrapingData.Infrastructure.Data;
+using WebApiScrapingData.Infrastructure.GraphQL;
 using WepApiScrapingData.ExtensionMethods;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,11 +13,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Ajout du DBContext
-builder.Services.AddDbContext<ScrapingContext>(options => {
+builder.Services.AddDbContextFactory<ScrapingContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("PokemonDataBase"), sqlOptions => { });
 });
 
 builder.Services.AddInjections();
+
+builder.Services.AddGraphQLServer().AddQueryType<Query>().AddProjections().AddFiltering().AddSorting();
 
 var app = builder.Build();
 
@@ -32,5 +35,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGraphQL("/graphql");
 
 app.Run();

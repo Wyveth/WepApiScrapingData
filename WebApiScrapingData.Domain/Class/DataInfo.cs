@@ -48,6 +48,6 @@ namespace WebApiScrapingData.Domain.Class
         public string? NextUrl { get; set; }
 
         [NotMapped]
-        public Pokemon Pokemon { get; set; }
+        public Pokemon? Pokemon { get; set; }
     }
 }

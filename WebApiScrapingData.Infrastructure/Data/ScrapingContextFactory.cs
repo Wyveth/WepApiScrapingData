@@ -13,7 +13,7 @@ namespace WebApiScrapingData.Infrastructure.Data
             string path = Directory.GetCurrentDirectory() + "x";
             path = path.Replace(Directory.GetCurrentDirectory().Split('\\')[Directory.GetCurrentDirectory().Split('\\').Length - 1] + "x", "WebApiScrapingData.Infrastructure");
 
-            configurationBuilder.AddJsonFile(Path.Combine(path, "Settings", "appSettings.json"));
+            configurationBuilder.AddJsonFile(System.IO.Path.Combine(path, "Settings", "appSettings.json"));
 
             IConfigurationRoot configurationRoot = configurationBuilder.Build();
 
