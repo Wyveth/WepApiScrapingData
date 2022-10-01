@@ -22,15 +22,21 @@ namespace WepApiScrapingData.Controllers
     {
         #region Fields
         private readonly IRepository<Pokemon> _repository;
+        private readonly IRepository<TypePok> _repositoryTP;
+        private readonly IRepository<Pokemon_TypePok> _repositoryPTP;
+        private readonly IRepository<Pokemon_Weakness> _repositoryWN;
         #endregion
 
         #region Constructors
-        public PokemonController(IRepository<Pokemon> repository)
+        public PokemonController(IRepository<Pokemon> repository, IRepository<TypePok> repositoryTP, IRepository<Pokemon_TypePok> repositoryPTP, IRepository<Pokemon_Weakness> repositoryWN)
         {
             _repository = repository;
+            _repositoryTP = repositoryTP;
+            _repositoryPTP = repositoryPTP;
+            _repositoryWN = repositoryWN;
         }
         #endregion
-        
+
         #region Public Methods
         [HttpGet]
         [Route("ScrapingAll")]
@@ -63,24 +69,31 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
-        public IEnumerable<Pokemon> GetAllinDB()
+        [Route("GetAll/{limit}/{max}")]
+        public IEnumerable<Pokemon> GetAllinDB(int max = 20, bool limit = true)
         {
-            return _repository.GetAll().Where(x => x.Id < 20);
+            if (limit)
+            {
+                return _repository.GetAll().Take(max);
+            }
+            else
+            {
+                return _repository.GetAll();
+            }
         }
 
         [HttpGet]
-        [Route("GetSingle")]
+        [Route("GetSingle/{id}")]
         public Pokemon GetSingleInDB(int id)
         {
             return _repository.Get(id);
         }
 
         [HttpGet]
-        [Route("Find")]
-        public IEnumerable<Pokemon> GetFindInDB(Expression<Func<Pokemon, bool>> predicate)
+        [Route("FindByName/{name}")]
+        public IEnumerable<Pokemon> GetFindInDB(string name)
         {
-            return _repository.Find(predicate);
+            return _repository.Find(m => m.FR.Name.Equals(name));
         }
 
         [HttpPost]
@@ -95,6 +108,63 @@ namespace WepApiScrapingData.Controllers
             }
 
             _repository.UnitOfWork.SaveChanges();
+        }
+
+        [HttpPut]
+        [Route("UpdateTypePokInDB")]
+        public void UpdateTypePokInDB()
+        {
+            foreach (Pokemon pokemon in _repository.GetAll().ToList())
+            {
+                List<Pokemon_TypePok> Pokemon_TypePoks = new();
+
+                foreach (string type in pokemon.FR.Types.Split(','))
+                {
+                    Pokemon_TypePok pokemon_TypePok = new()
+                    {
+                        PokemonId = pokemon.Id,
+                        TypePokId = _repositoryTP.GetAll().Where(x => x.Name_FR.Equals(type)).FirstOrDefault().Id
+                    };
+
+                    Pokemon_TypePoks.Add(pokemon_TypePok);
+                }
+
+                _repositoryPTP.AddRange(Pokemon_TypePoks);
+            }
+
+            _repository.UnitOfWork.SaveChanges();
+        }
+
+        [HttpPut]
+        [Route("UpdateWeaknessInDB")]
+        public void UpdateWeaknessInDB()
+        {
+            try
+            {
+                foreach (Pokemon pokemon in _repository.GetAll().ToList())
+                {
+                    List<Pokemon_Weakness> Pokemon_Weaknesses = new();
+
+                    foreach (string weakness in pokemon.FR.Weakness.Split(','))
+                    {
+                        Pokemon_Weakness pokemon_Weakness = new()
+                        {
+                            PokemonId = pokemon.Id,
+                            TypePokId = _repositoryTP.GetAll().Where(x => x.Name_FR.Equals(weakness)).FirstOrDefault().Id
+                        };
+
+                        Pokemon_Weaknesses.Add(pokemon_Weakness);
+                    }
+
+                    _repositoryWN.AddRange(Pokemon_Weaknesses);
+                }
+
+                _repository.UnitOfWork.SaveChanges();
+            }
+            catch(Exception e)
+            {
+               Console.WriteLine(e.InnerException.ToString());
+            }
         }
         #endregion
     }

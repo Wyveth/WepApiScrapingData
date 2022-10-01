@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
+using WebApiScrapingData.Domain.Abstract;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
 using WebApiScrapingData.Framework;
@@ -14,6 +15,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #region Fields
         private readonly ScrapingContext _context;
         private readonly DataInfoRepository _dataInfoRepository;
+        private readonly TypePokRepository _typePokRepository;
         #endregion
 
         #region Constructor
@@ -21,6 +23,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
         {
             this._context = context;
             this._dataInfoRepository = new DataInfoRepository(context);
+            this._typePokRepository = new TypePokRepository(context);
         }
         #endregion
 
@@ -28,17 +31,15 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #region Create
         public void Add(Pokemon entity)
         {
-            entity.UserCreation = "System";
-            entity.DateCreation = DateTime.Now;
-            entity.UserModification = "System";
-            entity.DateModification = DateTime.Now;
-            entity.versionModification = 1;
-            
+            UpdateInfo(entity);
             this._context.Pokemons.Add(entity);
         }
 
         public void AddRange(IEnumerable<Pokemon> entities)
         {
+            foreach (var entity in entities)
+                UpdateInfo(entity);
+
             this._context.Pokemons.AddRange(entities);
         }
 
@@ -74,15 +75,17 @@ namespace WebApiScrapingData.Infrastructure.Repository
         public Pokemon Get(int id)
         {
             return this._context.Pokemons
-                .Include("FR")
-                .Include("EN")
-                .Include("ES")
-                .Include("IT")
-                .Include("DE")
-                .Include("RU")
-                .Include("CO")
-                .Include("CN")
-                .Include("JP")
+                .Include(m => m.FR)
+                .Include(m => m.EN)
+                .Include(m => m.ES)
+                .Include(m => m.IT)
+                .Include(m => m.DE)
+                .Include(m => m.RU)
+                .Include(m => m.CO)
+                .Include(m => m.CN)
+                .Include(m => m.JP)
+                //.Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                //.Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Single(x => x.Id.Equals(id));
         }
         
@@ -105,15 +108,15 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #region Update
         public void Edit(Pokemon entity)
         {
-            entity.UserModification = "System";
-            entity.DateModification = DateTime.Now;
-            entity.versionModification += 1;
-
+            UpdateInfo(entity, true);
             this._context.Update(entity);
         }
 
         public void EditRange(IEnumerable<Pokemon> entities)
         {
+            foreach (var entity in entities)
+                UpdateInfo(entity, true);
+
             this._context.Pokemons.UpdateRange(entities);
         }
         #endregion
@@ -160,6 +163,21 @@ namespace WebApiScrapingData.Infrastructure.Repository
             pokemon.Generation = pokemonJson.Generation;
             pokemon.UrlImg = pokemonJson.UrlImg;
             pokemon.UrlSprite = pokemonJson.UrlSprite;
+        }
+
+        private void UpdateInfo(Pokemon entity, bool edit = false)
+        {
+            entity.UserModification = "System";
+            entity.DateModification = DateTime.Now;
+
+            if (!edit)
+            {
+                entity.UserCreation = "System";
+                entity.DateCreation = DateTime.Now;
+                entity.versionModification = 1;
+            }
+            else
+                entity.versionModification += 1;
         }
         #endregion
 

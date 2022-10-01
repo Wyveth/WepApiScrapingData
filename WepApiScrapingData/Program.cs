@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.GraphQL;
 using WepApiScrapingData.ExtensionMethods;

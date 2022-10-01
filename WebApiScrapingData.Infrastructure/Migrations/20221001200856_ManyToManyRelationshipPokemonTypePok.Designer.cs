@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiScrapingData.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using WebApiScrapingData.Infrastructure.Data;
 namespace WebApiScrapingData.Infrastructure.Migrations
 {
     [DbContext(typeof(ScrapingContext))]
-    partial class ScrapingContextModelSnapshot : ModelSnapshot
+    [Migration("20221001200856_ManyToManyRelationshipPokemonTypePok")]
+    partial class ManyToManyRelationshipPokemonTypePok
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,10 +221,10 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<DateTime>("DateModification")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("PokemonId")
+                    b.Property<long>("IdPokemon")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("TypePokId")
+                    b.Property<long>("IdTypePok")
                         .HasColumnType("bigint");
 
                     b.Property<string>("UserCreation")
@@ -238,51 +240,11 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PokemonId");
+                    b.HasIndex("IdPokemon");
 
-                    b.HasIndex("TypePokId");
+                    b.HasIndex("IdTypePok");
 
                     b.ToTable("Pokemon_TypePok");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_Weakness", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("PokemonId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TypePokId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserCreation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserModification")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("versionModification")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PokemonId");
-
-                    b.HasIndex("TypePokId");
-
-                    b.ToTable("Pokemon_Weakness");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.TypePok", b =>
@@ -445,32 +407,13 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                 {
                     b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "Pokemon")
                         .WithMany("Pokemon_TypePoks")
-                        .HasForeignKey("PokemonId")
+                        .HasForeignKey("IdPokemon")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("WebApiScrapingData.Domain.Class.TypePok", "TypePok")
-                        .WithMany("Pokemon_TypePoks")
-                        .HasForeignKey("TypePokId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Pokemon");
-
-                    b.Navigation("TypePok");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_Weakness", b =>
-                {
-                    b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "Pokemon")
-                        .WithMany("Pokemon_Weaknesses")
-                        .HasForeignKey("PokemonId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("WebApiScrapingData.Domain.Class.TypePok", "TypePok")
-                        .WithMany("Pokemon_Weaknesses")
-                        .HasForeignKey("TypePokId")
+                        .WithMany("Pokemon_TypePok")
+                        .HasForeignKey("IdTypePok")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -482,15 +425,11 @@ namespace WebApiScrapingData.Infrastructure.Migrations
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>
                 {
                     b.Navigation("Pokemon_TypePoks");
-
-                    b.Navigation("Pokemon_Weaknesses");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.TypePok", b =>
                 {
-                    b.Navigation("Pokemon_TypePoks");
-
-                    b.Navigation("Pokemon_Weaknesses");
+                    b.Navigation("Pokemon_TypePok");
                 });
 #pragma warning restore 612, 618
         }

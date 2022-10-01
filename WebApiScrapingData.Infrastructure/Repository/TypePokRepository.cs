@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
+using WebApiScrapingData.Domain.Abstract;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
 using WebApiScrapingData.Framework;
@@ -25,17 +26,15 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #region Create
         public void Add(TypePok entity)
         {
-            entity.UserCreation = "System";
-            entity.DateCreation = DateTime.Now;
-            entity.UserModification = "System";
-            entity.DateModification = DateTime.Now;
-            entity.versionModification = 1;
-
+            UpdateInfo(entity);
             this._context.TypesPok.Add(entity);
         }
 
         public void AddRange(IEnumerable<TypePok> entities)
         {
+            foreach (var entity in entities)
+                UpdateInfo(entity);
+
             this._context.TypesPok.AddRange(entities);
         }
 
@@ -54,7 +53,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #region Read
         public IEnumerable<TypePok> Find(Expression<Func<TypePok, bool>> predicate)
         {
-            return this._context.TypesPok.Where(predicate).AsQueryable();
+            return this._context.TypesPok.Where(predicate ?? (s => true)).AsQueryable();
         }
 
         public TypePok Get(int id)
@@ -71,15 +70,15 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #region Update
         public void Edit(TypePok entity)
         {
-            entity.UserModification = "System";
-            entity.DateModification = DateTime.Now;
-            entity.versionModification += 1;
-
+            UpdateInfo(entity, true);
             this._context.TypesPok.Update(entity);
         }
 
         public void EditRange(IEnumerable<TypePok> entities)
         {
+            foreach (var entity in entities)
+                UpdateInfo(entity, true);
+
             this._context.TypesPok.UpdateRange(entities);
         }
         #endregion
@@ -122,6 +121,21 @@ namespace WebApiScrapingData.Infrastructure.Repository
             typePok.ImgColor = typePokJson.ImgColor;
             typePok.InfoColor = typePokJson.InfoColor;
             typePok.TypeColor = typePokJson.TypeColor;
+        }
+
+        private void UpdateInfo(TypePok entity, bool edit = false)
+        {
+            entity.UserModification = "System";
+            entity.DateModification = DateTime.Now;
+
+            if (!edit)
+            {
+                entity.UserCreation = "System";
+                entity.DateCreation = DateTime.Now;
+                entity.versionModification = 1;
+            }
+            else
+                entity.versionModification += 1;
         }
         #endregion
 

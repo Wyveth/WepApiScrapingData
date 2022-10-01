@@ -9,7 +9,8 @@ namespace WebApiScrapingData.Infrastructure.Data
         #region Constructor
         public ScrapingContext(DbContextOptions options) : base(options)
         {
-            Database.EnsureCreated();
+            //Use without Migration
+            //Database.EnsureCreated();
         }
         #endregion
 
@@ -20,7 +21,7 @@ namespace WebApiScrapingData.Infrastructure.Data
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
-            
+
             base.OnModelCreating(modelBuilder);
         }
         #endregion
@@ -29,6 +30,8 @@ namespace WebApiScrapingData.Infrastructure.Data
         public virtual DbSet<Pokemon> Pokemons { get; set; }
         public virtual DbSet<DataInfo> DataInfos { get; set; }
         public virtual DbSet<TypePok> TypesPok { get; set; }
+        public virtual DbSet<Pokemon_TypePok> Pokemon_TypePok { get; set; }
+        public virtual DbSet<Pokemon_Weakness> Pokemon_Weakness { get; set; }
         #endregion
     }
 }

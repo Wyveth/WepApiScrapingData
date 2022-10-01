@@ -43,7 +43,7 @@ namespace WepApiScrapingData.Controllers
         }
         
         [HttpGet]
-        [Route("GetSingle")]
+        [Route("GetSingle/{id}")]
         public TypePok GetSingleInDB(int id)
         {
             return _repository.Get(id);

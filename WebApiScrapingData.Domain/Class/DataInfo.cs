@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using WebApiScrapingData.Domain.Abstract;
 
 namespace WebApiScrapingData.Domain.Class
@@ -48,6 +49,7 @@ namespace WebApiScrapingData.Domain.Class
         public string? NextUrl { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public Pokemon? Pokemon { get; set; }
     }
 }

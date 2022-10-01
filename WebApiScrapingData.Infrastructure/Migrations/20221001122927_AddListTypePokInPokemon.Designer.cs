@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiScrapingData.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using WebApiScrapingData.Infrastructure.Data;
 namespace WebApiScrapingData.Infrastructure.Migrations
 {
     [DbContext(typeof(ScrapingContext))]
-    partial class ScrapingContextModelSnapshot : ModelSnapshot
+    [Migration("20221001122927_AddListTypePokInPokemon")]
+    partial class AddListTypePokInPokemon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,86 +207,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.ToTable("Pokemons");
                 });
 
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_TypePok", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("PokemonId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TypePokId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserCreation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserModification")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("versionModification")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PokemonId");
-
-                    b.HasIndex("TypePokId");
-
-                    b.ToTable("Pokemon_TypePok");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_Weakness", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("PokemonId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TypePokId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserCreation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserModification")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("versionModification")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PokemonId");
-
-                    b.HasIndex("TypePokId");
-
-                    b.ToTable("Pokemon_Weakness");
-                });
-
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.TypePok", b =>
                 {
                     b.Property<long>("Id")
@@ -332,6 +254,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<string>("Name_RU")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("PokemonId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("TypeColor")
                         .HasColumnType("nvarchar(max)");
 
@@ -362,6 +287,8 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PokemonId");
 
                     b.ToTable("TypesPok");
                 });
@@ -441,56 +368,17 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Navigation("RU");
                 });
 
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_TypePok", b =>
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.TypePok", b =>
                 {
-                    b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "Pokemon")
-                        .WithMany("Pokemon_TypePoks")
+                    b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", null)
+                        .WithMany("TypesPok")
                         .HasForeignKey("PokemonId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("WebApiScrapingData.Domain.Class.TypePok", "TypePok")
-                        .WithMany("Pokemon_TypePoks")
-                        .HasForeignKey("TypePokId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Pokemon");
-
-                    b.Navigation("TypePok");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_Weakness", b =>
-                {
-                    b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "Pokemon")
-                        .WithMany("Pokemon_Weaknesses")
-                        .HasForeignKey("PokemonId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("WebApiScrapingData.Domain.Class.TypePok", "TypePok")
-                        .WithMany("Pokemon_Weaknesses")
-                        .HasForeignKey("TypePokId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Pokemon");
-
-                    b.Navigation("TypePok");
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>
                 {
-                    b.Navigation("Pokemon_TypePoks");
-
-                    b.Navigation("Pokemon_Weaknesses");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.TypePok", b =>
-                {
-                    b.Navigation("Pokemon_TypePoks");
-
-                    b.Navigation("Pokemon_Weaknesses");
+                    b.Navigation("TypesPok");
                 });
 #pragma warning restore 612, 618
         }
