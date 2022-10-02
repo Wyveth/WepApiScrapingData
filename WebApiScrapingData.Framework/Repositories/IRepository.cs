@@ -11,6 +11,7 @@ namespace WebApiScrapingData.Core.Repositories
         IUnitOfWork UnitOfWork { get; }
         
         TEntity Get(int id);
+        IQueryable<TEntity> Query();
         IEnumerable<TEntity> GetAll();
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
 

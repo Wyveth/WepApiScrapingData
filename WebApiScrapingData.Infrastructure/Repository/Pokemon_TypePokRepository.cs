@@ -56,9 +56,14 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return this._context.Pokemon_TypePok.Single(x => x.Id.Equals(id));
         }
 
-        public IEnumerable<Pokemon_TypePok> GetAll()
+        public IQueryable<Pokemon_TypePok> Query()
         {
             return this._context.Pokemon_TypePok.AsQueryable();
+        }
+
+        public IEnumerable<Pokemon_TypePok> GetAll()
+        {
+            return this._context.Pokemon_TypePok.ToList();
         }
         #endregion
 

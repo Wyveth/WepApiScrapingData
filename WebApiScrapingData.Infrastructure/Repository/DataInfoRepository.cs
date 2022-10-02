@@ -79,10 +79,15 @@ namespace WebApiScrapingData.Infrastructure.Repository
         {
             return this._context.DataInfos.Single(x => x.Id.Equals(id));
         }
-        
-        public IEnumerable<DataInfo> GetAll()
+
+        public IQueryable<DataInfo> Query()
         {
             return this._context.DataInfos.AsQueryable();
+        }
+
+        public IEnumerable<DataInfo> GetAll()
+        {
+            return this._context.DataInfos.ToList();
         }
         #endregion
 

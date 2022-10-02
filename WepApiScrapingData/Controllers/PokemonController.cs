@@ -69,6 +69,36 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
+        [Route("Scraping/{FR}/{EN}/{ES}/{IT}/{DE}/{RU}/{JP}/{CO}/{CN}")]
+        public void Scraping(string FR, string EN, string ES, string IT, string DE, string RU, string CO, string CN, string JP)
+        {
+            List<PokemonJson> dataJsons = new List<PokemonJson>();
+
+            #region Europe
+            string url_FR = Constantes.urlPathFR + FR;
+            string url_EN = Constantes.urlPathEN + EN;
+            string url_ES = Constantes.urlPathES + ES;
+            string url_IT = Constantes.urlPathIT + IT;
+            string url_DE = Constantes.urlPathDE + DE;
+            string url_RU = Constantes.urlPathRU + RU;
+            #endregion
+
+            #region Asia
+            string url_CO = Constantes.urlStartCO + CO;
+            string url_CN = Constantes.urlStartCN + CN;
+            string url_JP = Constantes.urlStartJP + JP;
+            #endregion
+
+            Debug.WriteLine("Start Scraping - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            ScrapingDataUtils.RecursiveGetDataJsonWithUrl(url_FR, url_EN, url_ES, url_IT, url_DE, url_RU, url_JP, url_CO, url_CN, dataJsons, true);
+            Debug.WriteLine("End Scraping - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+
+            Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            ScrapingDataUtils.WriteToJson(dataJsons, true);
+            Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+        }
+
+        [HttpGet]
         [Route("GetAll/{limit}/{max}")]
         public IEnumerable<Pokemon> GetAllinDB(int max = 20, bool limit = true)
         {

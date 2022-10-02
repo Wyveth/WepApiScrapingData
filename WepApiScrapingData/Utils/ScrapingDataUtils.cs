@@ -1,6 +1,8 @@
 ﻿using HtmlAgilityPack;
+using Microsoft.FSharp.Control;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Numerics;
 using System.Text;
 using WebApiScrapingData.Domain.ClassJson;
 
@@ -200,13 +202,13 @@ namespace WepApiScrapingData.Utils
             }
             dataJson.FR.Evolutions = builder.ToString();
             #endregion
-
+            
             #region Stats + WhenEvolution
             GetStats(Constantes.urlStatsPB, dataJson, option);
             #endregion
 
             #region Type Evolution
-            if (dataJson.FR.Name.Contains(Constantes.MegaEvolution) && !dataJson.FR.Name.Contains(Constantes.Meganium))
+            if (dataJson.FR.Name.Contains(Constantes.MegaEvolution) && (!dataJson.FR.Name.Contains(Constantes.Meganium) && !dataJson.FR.Name.Contains(Constantes.Megapagos)))
                 dataJson.TypeEvolution = Constantes.MegaLevel;
             else if (dataJson.FR.Name.Contains(Constantes.GigaEvolution))
                 dataJson.TypeEvolution = Constantes.GigaLevel;
@@ -291,7 +293,7 @@ namespace WepApiScrapingData.Utils
             return dataJson;
         }
 
-        public static void RecursiveGetDataJsonWithUrl(string url_FR, string url_EN, string url_ES, string url_IT, string url_DE, string url_RU, string url_CO, string url_CN, string url_JP, List<PokemonJson> dataJsons)
+        public static void RecursiveGetDataJsonWithUrl(string url_FR, string url_EN, string url_ES, string url_IT, string url_DE, string url_RU, string url_CO, string url_CN, string url_JP, List<PokemonJson> dataJsons, bool limit = false)
         {
             #region Europe
             string response_FR = HttpClientUtils.CallUrl(url_FR).Result;
@@ -352,22 +354,223 @@ namespace WepApiScrapingData.Utils
 
                     if (i > 0)
                     {
-                        //A faire
+                        //A faire pour les sites asiatiques
                     }
 
                     dataJsons.Add(dataJson);
                     GetTranslationWhenEvolution(dataJson);
+
+                    if (dataJson.FR.Name.Contains(Constantes.Prismillon) && i.Equals(countImg - 1))
+                    {
+                        #region Archipel
+                        dataJson.FR.Name = Constantes.Vivillon_Archipelago_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_Archipelago_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_Archipelago_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_Archipelago_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_Archipelago_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_Archipelago_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_Archipelago_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_Archipelago_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_Archipelago_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_Archipelago_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_Archipelago_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+                        
+                        #region Banquise
+                        dataJson.FR.Name = Constantes.Vivillon_Polar_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_Polar_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_Polar_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_Polar_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_Polar_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_Polar_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_Polar_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_Polar_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_Polar_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_Polar_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_Polar_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+                        
+                        #region Blizzard
+                        dataJson.FR.Name = Constantes.Vivillon_IceSnow_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_IceSnow_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_IceSnow_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_IceSnow_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_IceSnow_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_IceSnow_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_IceSnow_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_IceSnow_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_IceSnow_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_IceSnow_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_IceSnow_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+                        
+                        #region Cyclone
+                        dataJson.FR.Name = Constantes.Vivillon_Monsoon_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_Monsoon_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_Monsoon_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_Monsoon_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_Monsoon_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_Monsoon_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_Monsoon_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_Monsoon_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_Monsoon_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_Monsoon_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_Monsoon_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+                        
+                        #region Glace
+                        dataJson.FR.Name = Constantes.Vivillon_Tundra_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_Tundra_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_Tundra_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_Tundra_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_Tundra_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_Tundra_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_Tundra_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_Tundra_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_Tundra_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_Tundra_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_Tundra_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+                        
+                        #region Jungle
+                        dataJson.FR.Name = Constantes.Vivillon_Jungle_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_Jungle_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_Jungle_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_Jungle_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_Jungle_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_Jungle_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_Jungle_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_Jungle_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_Jungle_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_Jungle_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_Jungle_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+                        
+                        #region Mangrove
+                        dataJson.FR.Name = Constantes.Vivillon_Savanna_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_Savanna_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_Savanna_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_Savanna_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_Savanna_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_Savanna_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_Savanna_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_Savanna_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_Savanna_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_Savanna_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_Savanna_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+                        
+                        #region Métropole
+                        dataJson.FR.Name = Constantes.Vivillon_Modern_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_Modern_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_Modern_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_Modern_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_Modern_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_Modern_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_Modern_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_Modern_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_Modern_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_Modern_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_Modern_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+                        
+                        #region Sable
+                        dataJson.FR.Name = Constantes.Vivillon_Sandstorm_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_Sandstorm_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_Sandstorm_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_Sandstorm_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_Sandstorm_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_Sandstorm_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_Sandstorm_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_Sandstorm_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_Sandstorm_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_Sandstorm_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_Sandstorm_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+                        
+                        #region Soleil Levant
+                        dataJson.FR.Name = Constantes.Vivillon_Ocean_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_Ocean_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_Ocean_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_Ocean_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_Ocean_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_Ocean_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_Ocean_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_Ocean_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_Ocean_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_Ocean_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_Ocean_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+
+                        #region Zénith
+                        dataJson.FR.Name = Constantes.Vivillon_Sun_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_Sun_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_Sun_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_Sun_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_Sun_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_Sun_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_Sun_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_Sun_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_Sun_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_Sun_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_Sun_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+
+                        #region Fantaisie
+                        dataJson.FR.Name = Constantes.Vivillon_Fancy_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_Fancy_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_Fancy_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_Fancy_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_Fancy_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_Fancy_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_Fancy_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_Fancy_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_Fancy_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_Fancy_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_Fancy_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+
+                        #region Pokéball
+                        dataJson.FR.Name = Constantes.Vivillon_PokeBall_Pattern_FR;
+                        dataJson.EN.Name = Constantes.Vivillon_PokeBall_Pattern_EN;
+                        dataJson.ES.Name = Constantes.Vivillon_PokeBall_Pattern_ES;
+                        dataJson.IT.Name = Constantes.Vivillon_PokeBall_Pattern_IT;
+                        dataJson.DE.Name = Constantes.Vivillon_PokeBall_Pattern_DE;
+                        dataJson.RU.Name = Constantes.Vivillon_PokeBall_Pattern_RU;
+                        dataJson.CO.Name = Constantes.Vivillon_PokeBall_Pattern_CO;
+                        dataJson.CN.Name = Constantes.Vivillon_PokeBall_Pattern_CN;
+                        dataJson.JP.Name = Constantes.Vivillon_PokeBall_Pattern_JP;
+                        dataJson.UrlImg = Constantes.Vivillon_PokeBall_Pattern_UrlImg;
+                        dataJson.UrlSprite = Constantes.Vivillon_PokeBall_Pattern_UrlSprite;
+                        dataJsons.Add(dataJson);
+                        #endregion
+                    }
                 }
             }
 
-            if (!string.IsNullOrEmpty(dataJson.FR.NextUrl))
+            if (!string.IsNullOrEmpty(dataJson.FR.NextUrl) && !limit)
                 RecursiveGetDataJsonWithUrl(dataJson.FR.NextUrl, dataJson.EN.NextUrl, dataJson.ES.NextUrl, dataJson.IT.NextUrl, dataJson.DE.NextUrl, dataJson.RU.NextUrl, dataJson.CO.NextUrl, dataJson.CN.NextUrl, dataJson.JP.NextUrl, dataJsons);
         }
 
-        public static void WriteToJson(List<PokemonJson> dataJsons)
+        public static void WriteToJson(List<PokemonJson> dataJsons, bool limit = false)
         {
             string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
-            System.IO.File.WriteAllText("PokeScrap.json", json);
+            if(limit)
+                System.IO.File.WriteAllText("PokeScrapUnique.json", json);
+            else
+                System.IO.File.WriteAllText("PokeScrap.json", json);
         }
         #endregion
 

@@ -1,4 +1,6 @@
-﻿namespace WepApiScrapingData.Utils
+﻿using Microsoft.Extensions.FileSystemGlobbing.Internal;
+
+namespace WepApiScrapingData.Utils
 {
     public static class Constantes
     {
@@ -13,44 +15,55 @@
 
         #region Api Pokemon
         public const string urlPath = "https://api.pokemon.com";
-        public const string urlStartFR = urlPath + "/fr/pokedex/bulbizarre";
-        public const string urlStartEN = urlPath + "/us/pokedex/bulbasaur";
-        public const string urlStartES = urlPath + "/es/pokedex/bulbasaur";
-        public const string urlStartIT = urlPath + "/it/pokedex/bulbasaur";
-        public const string urlStartDE = urlPath + "/de/pokedex/bisasam";
-        public const string urlStartRU = urlPath + "/ru/pokedex/bulbasaur";
-        public const string urlStartJP = "https://zukan.pokemon.co.jp/detail/001";
-        public const string urlStartCO = "https://pokemonkorea.co.kr/pokedextemp/view/1";
-        public const string urlStartCN = "https://www.pokemon.cn/play/pokedex/001";
-        public const string urlTestWeakness = urlPath + "/fr/pokedex/paras";
-        public const string urlTestEvolution = urlPath + "/fr/pokedex/aquali";
-        public const string urlTestTypeEvolution = urlPath + "/fr/pokedex/dracaufeu";
-        public const string urlTestMime = urlPath + "/fr/pokedex/m-mime";
-        public const string urlTestDoubleTalent = urlPath + "/fr/pokedex/mistigrix";
-        public const string urlTestMissInfo = urlPath + "/fr/pokedex/salarsen";
-        public const string urlTestGetSprite = urlPath + "/fr/pokedex/deoxys";
-        public const string urlTestErrorType = urlPath + "/fr/pokedex/type0";
-        public const string urlTestShifours = urlPath + "/fr/pokedex/shifours";
-        public const string urlTestSylveroy = urlPath + "/fr/pokedex/sylveroy";
-        public const string urlTestCanarticho = urlPath + "/fr/pokedex/canarticho";
-        public const string urlTestCerbyllin = urlPath + "/fr/pokedex/cerbyllin";
+        public const string urlPathFR = "https://api.pokemon.com/fr/pokedex/";
+        public const string urlPathEN = "https://api.pokemon.com/us/pokedex/";
+        public const string urlPathES = "https://api.pokemon.com/es/pokedex/";
+        public const string urlPathIT = "https://api.pokemon.com/it/pokedex/";
+        public const string urlPathDE = "https://api.pokemon.com/de/pokedex/";
+        public const string urlPathRU = "https://api.pokemon.com/ru/pokedex/";
+        public const string urlPathCO = "https://pokemonkorea.co.kr/pokedextemp/view/";
+        public const string urlPathCN = "https://www.pokemon.cn/play/pokedex/";
+        public const string urlPathJP = "https://zukan.pokemon.co.jp/detail/";
+        
+        public const string urlStartFR = urlPathFR + "bulbizarre";
+        public const string urlStartEN = urlPathEN + "bulbasaur";
+        public const string urlStartES = urlPathES + "bulbasaur";
+        public const string urlStartIT = urlPathIT + "bulbasaur";
+        public const string urlStartDE = urlPathDE + "bisasam";
+        public const string urlStartRU = urlPathRU + "bulbasaur";
+        public const string urlStartCO = urlPathCO + "1";
+        public const string urlStartCN = urlPathCN + "001";
+        public const string urlStartJP = urlPathJP + "001";
+        
+        public const string urlTestWeakness = urlPathFR + "paras";
+        public const string urlTestEvolution = urlPathFR + "aquali";
+        public const string urlTestTypeEvolution = urlPathFR + "dracaufeu";
+        public const string urlTestMime = urlPathFR + "m-mime";
+        public const string urlTestDoubleTalent = urlPathFR + "mistigrix";
+        public const string urlTestMissInfo = urlPathFR + "salarsen";
+        public const string urlTestGetSprite = urlPathFR + "deoxys";
+        public const string urlTestErrorType = urlPathFR + "type0";
+        public const string urlTestShifours = urlPathFR + "shifours";
+        public const string urlTestSylveroy = urlPathFR + "sylveroy";
+        public const string urlTestCanarticho = urlPathFR + "canarticho";
+        public const string urlTestCerbyllin = urlPathFR + "cerbyllin";
         public const int lastPokemonNumber = 905;
 
-        public const string urlTestSimulate_FR = urlPath + "/fr/pokedex/necrozma";
-        public const string urlTestSimulate_EN = urlPath + "/us/pokedex/necrozma";
-        public const string urlTestSimulate_ES = urlPath + "/es/pokedex/necrozma";
-        public const string urlTestSimulate_IT = urlPath + "/it/pokedex/necrozma";
-        public const string urlTestSimulate_DE = urlPath + "/de/pokedex/necrozma";
-        public const string urlTestSimulate_RU = urlPath + "/ru/pokedex/necrozma";
+        public const string urlTestSimulate_FR = urlPathFR + "necrozma";
+        public const string urlTestSimulate_EN = urlPathEN + "necrozma";
+        public const string urlTestSimulate_ES = urlPathES + "necrozma";
+        public const string urlTestSimulate_IT = urlPathIT + "necrozma";
+        public const string urlTestSimulate_DE = urlPathDE + "necrozma";
+        public const string urlTestSimulate_RU = urlPathRU + "necrozma";
 
-        public const string urlStart1Gen = urlPath + "/fr/pokedex/bulbizarre";
-        public const string urlStart2Gen = urlPath + "/fr/pokedex/germignon";
-        public const string urlStart3Gen = urlPath + "/fr/pokedex/arcko";
-        public const string urlStart4Gen = urlPath + "/fr/pokedex/tortipouss";
-        public const string urlStart5Gen = urlPath + "/fr/pokedex/vipelierre";
-        public const string urlStart6Gen = urlPath + "/fr/pokedex/marisson";
-        public const string urlStart7Gen = urlPath + "/fr/pokedex/brindibou";
-        public const string urlStart8Gen = urlPath + "/fr/pokedex/ouistempo";
+        public const string urlStart1Gen = urlPathFR + "bulbizarre";
+        public const string urlStart2Gen = urlPathFR + "germignon";
+        public const string urlStart3Gen = urlPathFR + "arcko";
+        public const string urlStart4Gen = urlPathFR + "tortipouss";
+        public const string urlStart5Gen = urlPathFR + "vipelierre";
+        public const string urlStart6Gen = urlPathFR + "marisson";
+        public const string urlStart7Gen = urlPathFR + "brindibou";
+        public const string urlStart8Gen = urlPathFR + "ouistempo";
 
         public const string MegaEvolution = "Méga";
         public const string MegaLevel = "Mega";
@@ -89,7 +102,8 @@
         public const string regionHisui_RU = "от Хисуи";
 
         public const string Meganium = "Méganium";
-
+        public const string Megapagos = "Mégapagos";
+        public const string Prismillon = "Prismillon";
         #endregion
 
         #region PokemonDB
@@ -342,15 +356,6 @@
         public const string Level_Format_CO = "수준 {0}";
         public const string Level_Format_CN = "{0} 等级";
         public const string Level_Format_JP = "レベル {0}";
-
-        //public const string Level_Format_EN = "Level {0}";
-        //public const string Level_Format_ES = "Nivel {0}";
-        //public const string Level_Format_IT = "Livello {0}";
-        //public const string Level_Format_DE = "Eben {0}";
-        //public const string Level_Format_RU = "{0} Yровень";
-        //public const string Level_Format_CO = "수준 {0}";
-        //public const string Level_Format_CN = "{0} 等级";
-        //public const string Level_Format_JP = "レベル {0}";
 
         public const string PID_FR = "dépend d'un numéro aléatoire calculé à la capture, le PID";
         public const string PID_EN = "depends on a random number calculated on capture, the PID";
@@ -1576,6 +1581,190 @@
         public const string CO_Lib = "Korean";
         public const string CN = "CN";
         public const string CN_Lib = "Mandarin";
+        #endregion
+
+        #region Prismillon
+        #region Archipel
+        public const string Vivillon_Archipelago_Pattern_FR = "Prismillon Motif Archipel";
+        public const string Vivillon_Archipelago_Pattern_EN = "Vivillon Archipelago Pattern";
+        public const string Vivillon_Archipelago_Pattern_ES = "Vivillon Motivo Isleño";
+        public const string Vivillon_Archipelago_Pattern_IT = "Vivillon Motivo Arcipelago";
+        public const string Vivillon_Archipelago_Pattern_DE = "Vivillon Archipelmuster";
+        public const string Vivillon_Archipelago_Pattern_RU = "Вивийон архипелаг рисунок";
+        public const string Vivillon_Archipelago_Pattern_CO = "비비용 군도의 모양";
+        public const string Vivillon_Archipelago_Pattern_CN = "彩粉蝶群島花紋";
+        public const string Vivillon_Archipelago_Pattern_JP = "ビビヨン ぐんとうのもよう";
+        public const string Vivillon_Archipelago_Pattern_UrlImg = "https://www.pokepedia.fr/images/1/12/Sprite_666_Archipel_HOME.png";
+        public const string Vivillon_Archipelago_Pattern_UrlSprite = "https://www.pokepedia.fr/images/2/2d/Miniature_666_Archipel_XY.png";
+        #endregion
+
+        #region Banquise
+        public const string Vivillon_Polar_Pattern_FR = "Prismillon Motif Banquise";
+        public const string Vivillon_Polar_Pattern_EN = "Vivillon Polar Pattern";
+        public const string Vivillon_Polar_Pattern_ES = "Vivillon Motivo Taiga";
+        public const string Vivillon_Polar_Pattern_IT = "Vivillon Motivo Nordico";
+        public const string Vivillon_Polar_Pattern_DE = "Vivillon Schneefeldmuster";
+        public const string Vivillon_Polar_Pattern_RU = "Вивийон Полярный рисунок";
+        public const string Vivillon_Polar_Pattern_CO = "비비용 설국의 모양";
+        public const string Vivillon_Polar_Pattern_CN = "彩粉蝶雪國花紋";
+        public const string Vivillon_Polar_Pattern_JP = "ビビヨン ゆきぐにのもよう";
+        public const string Vivillon_Polar_Pattern_UrlImg = "https://www.pokepedia.fr/images/5/5d/Sprite_666_Banquise_HOME.png";
+        public const string Vivillon_Polar_Pattern_UrlSprite = "https://www.pokepedia.fr/images/1/1c/Miniature_666_Banquise_XY.png";
+        #endregion
+
+        #region Blizzard
+        public const string Vivillon_IceSnow_Pattern_FR = "Prismillon Motif Blizzard";
+        public const string Vivillon_IceSnow_Pattern_EN = "Vivillon Icy Snow Pattern";
+        public const string Vivillon_IceSnow_Pattern_ES = "Vivillon Motivo Polar";
+        public const string Vivillon_IceSnow_Pattern_IT = "Vivillon Motivo Nevi Perenni";
+        public const string Vivillon_IceSnow_Pattern_DE = "Vivillon Frostmuster";
+        public const string Vivillon_IceSnow_Pattern_RU = "Вивийон Ледяной снег рисунок";
+        public const string Vivillon_IceSnow_Pattern_CO = "비비용 빙설의 모양";
+        public const string Vivillon_IceSnow_Pattern_CN = "彩粉蝶冰雪花紋";
+        public const string Vivillon_IceSnow_Pattern_JP = "ビビヨン ひょうせつのもよう";
+        public const string Vivillon_IceSnow_Pattern_UrlImg = "https://www.pokepedia.fr/images/d/d7/Sprite_666_Blizzard_HOME.png";
+        public const string Vivillon_IceSnow_Pattern_UrlSprite = "https://www.pokepedia.fr/images/8/85/Miniature_666_Blizzard_XY.png";
+        #endregion
+
+        #region Cyclone
+        public const string Vivillon_Monsoon_Pattern_FR = "Prismillon Motif Cyclone";
+        public const string Vivillon_Monsoon_Pattern_EN = "Vivillon Monsoon Pattern";
+        public const string Vivillon_Monsoon_Pattern_ES = "Vivillon Motivo Monzón";
+        public const string Vivillon_Monsoon_Pattern_IT = "Vivillon Motivo Pluviale";
+        public const string Vivillon_Monsoon_Pattern_DE = "Vivillon Monsunmuster";
+        public const string Vivillon_Monsoon_Pattern_RU = "Вивийон муссон рисунок";
+        public const string Vivillon_Monsoon_Pattern_CO = "비비용 스콜의 모양";
+        public const string Vivillon_Monsoon_Pattern_CN = "彩粉蝶驟雨花紋";
+        public const string Vivillon_Monsoon_Pattern_JP = "ビビヨン スコールのもよう";
+        public const string Vivillon_Monsoon_Pattern_UrlImg = "https://www.pokepedia.fr/images/6/68/Sprite_666_Cyclone_HOME.png";
+        public const string Vivillon_Monsoon_Pattern_UrlSprite = "https://www.pokepedia.fr/images/2/2a/Miniature_666_Cyclone_XY.png";
+        #endregion
+
+        #region Glace
+        public const string Vivillon_Tundra_Pattern_FR = "Prismillon Motif Glace";
+        public const string Vivillon_Tundra_Pattern_EN = "Vivillon Tundra Pattern";
+        public const string Vivillon_Tundra_Pattern_ES = "Vivillon Motivo Tundra";
+        public const string Vivillon_Tundra_Pattern_IT = "Vivillon Motivo Manto di Neve";
+        public const string Vivillon_Tundra_Pattern_DE = "Vivillon Flockenmuster";
+        public const string Vivillon_Tundra_Pattern_RU = "Вивийон тундра рисунок";
+        public const string Vivillon_Tundra_Pattern_CO = "비비용 설원의 모양";
+        public const string Vivillon_Tundra_Pattern_CN = "彩粉蝶雪原花紋";
+        public const string Vivillon_Tundra_Pattern_JP = "ビビヨン せつげんのもよう";
+        public const string Vivillon_Tundra_Pattern_UrlImg = "https://www.pokepedia.fr/images/1/10/Sprite_666_Glace_HOME.png";
+        public const string Vivillon_Tundra_Pattern_UrlSprite = "https://www.pokepedia.fr/images/6/66/Miniature_666_Glace_XY.png";
+        #endregion
+
+        #region Jungle
+        public const string Vivillon_Jungle_Pattern_FR = "Prismillon Motif Jungle";
+        public const string Vivillon_Jungle_Pattern_EN = "Vivillon Jungle Pattern";
+        public const string Vivillon_Jungle_Pattern_ES = "Vivillon Motivo Jungla";
+        public const string Vivillon_Jungle_Pattern_IT = "Vivillon Motivo Giungla";
+        public const string Vivillon_Jungle_Pattern_DE = "Vivillon Dschungelmuster";
+        public const string Vivillon_Jungle_Pattern_RU = "Вивийон джунгли рисунок";
+        public const string Vivillon_Jungle_Pattern_CO = "비비용 정글의 모양";
+        public const string Vivillon_Jungle_Pattern_CN = "彩粉蝶熱帶雨林花紋";
+        public const string Vivillon_Jungle_Pattern_JP = "ビビヨン ジャングルのもよう";
+        public const string Vivillon_Jungle_Pattern_UrlImg = "https://www.pokepedia.fr/images/6/68/Sprite_666_Jungle_HOME.png";
+        public const string Vivillon_Jungle_Pattern_UrlSprite = "https://www.pokepedia.fr/images/2/20/Miniature_666_Jungle_XY.png";
+        #endregion
+
+        #region Mangrove
+        public const string Vivillon_Savanna_Pattern_FR = "Prismillon Motif Mangrove";
+        public const string Vivillon_Savanna_Pattern_EN = "Vivillon Savanna Pattern";
+        public const string Vivillon_Savanna_Pattern_ES = "Vivillon Motivo Pantano";
+        public const string Vivillon_Savanna_Pattern_IT = "Vivillon Motivo Savana";
+        public const string Vivillon_Savanna_Pattern_DE = "Vivillon Savannenmuster";
+        public const string Vivillon_Savanna_Pattern_RU = "Вивийон саванна рисунок";
+        public const string Vivillon_Savanna_Pattern_CO = "비비용 사바나의 모양";
+        public const string Vivillon_Savanna_Pattern_CN = "彩粉蝶熱帶草原花紋";
+        public const string Vivillon_Savanna_Pattern_JP = "ビビヨン サバンナのもよう";
+        public const string Vivillon_Savanna_Pattern_UrlImg = "https://www.pokepedia.fr/images/8/80/Sprite_666_Mangrove_HOME.png";
+        public const string Vivillon_Savanna_Pattern_UrlSprite = "https://www.pokepedia.fr/images/6/67/Miniature_666_Mangrove_XY.png";
+        #endregion
+
+        #region Métropole
+        public const string Vivillon_Modern_Pattern_FR = "Prismillon Motif Métropole";
+        public const string Vivillon_Modern_Pattern_EN = "Vivillon Modern Pattern";
+        public const string Vivillon_Modern_Pattern_ES = "Vivillon Motivo Moderno";
+        public const string Vivillon_Modern_Pattern_IT = "Vivillon Motivo Trendy";
+        public const string Vivillon_Modern_Pattern_DE = "Vivillon Innovationsmuster";
+        public const string Vivillon_Modern_Pattern_RU = "Вивийон современный рисунок";
+        public const string Vivillon_Modern_Pattern_CO = "비비용 모던한 모양";
+        public const string Vivillon_Modern_Pattern_CN = "彩粉蝶摩登花紋";
+        public const string Vivillon_Modern_Pattern_JP = "ビビヨン モダンなもよう";
+        public const string Vivillon_Modern_Pattern_UrlImg = "https://www.pokepedia.fr/images/c/c1/Sprite_666_M%C3%A9tropole_HOME.png";
+        public const string Vivillon_Modern_Pattern_UrlSprite = "https://www.pokepedia.fr/images/1/15/Miniature_666_M%C3%A9tropole_XY.png";
+        #endregion
+
+        #region Sable
+        public const string Vivillon_Sandstorm_Pattern_FR = "Prismillon Motif Sable";
+        public const string Vivillon_Sandstorm_Pattern_EN = "Vivillon Sandstorm Pattern";
+        public const string Vivillon_Sandstorm_Pattern_ES = "Vivillon Motivo Desierto";
+        public const string Vivillon_Sandstorm_Pattern_IT = "Vivillon Motivo Sabbia";
+        public const string Vivillon_Sandstorm_Pattern_DE = "Vivillon Sandmuster";
+        public const string Vivillon_Sandstorm_Pattern_RU = "Вивийон песчаная буря рисунок";
+        public const string Vivillon_Sandstorm_Pattern_CO = "비비용 사진의 모양";
+        public const string Vivillon_Sandstorm_Pattern_CN = "彩粉蝶沙塵花紋";
+        public const string Vivillon_Sandstorm_Pattern_JP = "ビビヨン さじんのもよう";
+        public const string Vivillon_Sandstorm_Pattern_UrlImg = "https://www.pokepedia.fr/images/c/c9/Sprite_666_Sable_HOME.png";
+        public const string Vivillon_Sandstorm_Pattern_UrlSprite = "https://www.pokepedia.fr/images/9/93/Miniature_666_Sable_XY.png";
+        #endregion
+
+        #region Soleil Levant
+        public const string Vivillon_Ocean_Pattern_FR = "Prismillon Motif Soleil Levant";
+        public const string Vivillon_Ocean_Pattern_EN = "Vivillon Ocean Pattern";
+        public const string Vivillon_Ocean_Pattern_ES = "Vivillon Motivo Océano";
+        public const string Vivillon_Ocean_Pattern_IT = "Vivillon Motivo Oceanico";
+        public const string Vivillon_Ocean_Pattern_DE = "Vivillon Ozeanmuster";
+        public const string Vivillon_Ocean_Pattern_RU = "Вивийон океан рисунок";
+        public const string Vivillon_Ocean_Pattern_CO = "비비용 오션의 모양";
+        public const string Vivillon_Ocean_Pattern_CN = "彩粉蝶大洋花紋";
+        public const string Vivillon_Ocean_Pattern_JP = "ビビヨン オーシャンのもよう";
+        public const string Vivillon_Ocean_Pattern_UrlImg = "https://www.pokepedia.fr/images/2/25/Sprite_666_Soleil_Levant_HOME.png";
+        public const string Vivillon_Ocean_Pattern_UrlSprite = "https://www.pokepedia.fr/images/f/f0/Miniature_666_Soleil_Levant_XY.png";
+        #endregion
+
+        #region Zénith
+        public const string Vivillon_Sun_Pattern_FR = "Prismillon Motif Zénith";
+        public const string Vivillon_Sun_Pattern_EN = "Vivillon Sun Pattern";
+        public const string Vivillon_Sun_Pattern_ES = "Vivillon Motivo Solar";
+        public const string Vivillon_Sun_Pattern_IT = "Vivillon Motivo Solare";
+        public const string Vivillon_Sun_Pattern_DE = "Vivillon Sonnenmuster";
+        public const string Vivillon_Sun_Pattern_RU = "Вивийон солнце рисунок";
+        public const string Vivillon_Sun_Pattern_CO = "비비용 태양의 모양";
+        public const string Vivillon_Sun_Pattern_CN = "彩粉蝶太陽花紋";
+        public const string Vivillon_Sun_Pattern_JP = "ビビヨン たいようのもよう";
+        public const string Vivillon_Sun_Pattern_UrlImg = "https://www.pokepedia.fr/images/5/53/Sprite_666_Z%C3%A9nith_HOME.png";
+        public const string Vivillon_Sun_Pattern_UrlSprite = "https://www.pokepedia.fr/images/9/9c/Miniature_666_Z%C3%A9nith_XY.png";
+        #endregion
+
+        #region Fantaisie
+        public const string Vivillon_Fancy_Pattern_FR = "Prismillon Motif Fantaisie";
+        public const string Vivillon_Fancy_Pattern_EN = "Vivillon Fancy Pattern";
+        public const string Vivillon_Fancy_Pattern_ES = "Vivillon Motivo Fantasía";
+        public const string Vivillon_Fancy_Pattern_IT = "Vivillon Motivo Sbarazzino";
+        public const string Vivillon_Fancy_Pattern_DE = "Vivillon Fantasiemuster";
+        public const string Vivillon_Fancy_Pattern_RU = "Вивийон фантазия рисунок";
+        public const string Vivillon_Fancy_Pattern_CO = "비비용 팬시한 모양";
+        public const string Vivillon_Fancy_Pattern_CN = "彩粉蝶 幻彩花紋";
+        public const string Vivillon_Fancy_Pattern_JP = "ビビヨン ファンシーなもよう";
+        public const string Vivillon_Fancy_Pattern_UrlImg = "https://www.pokepedia.fr/images/0/00/Sprite_666_Fantaisie_HOME.png";
+        public const string Vivillon_Fancy_Pattern_UrlSprite = "https://www.pokepedia.fr/images/c/c1/Miniature_666_Fantaisie_XY.png";
+        #endregion
+
+        #region Pokéball
+        public const string Vivillon_PokeBall_Pattern_FR = "Prismillon Motif PokéBall";
+        public const string Vivillon_PokeBall_Pattern_EN = "Vivillon PokeBall Pattern";
+        public const string Vivillon_PokeBall_Pattern_ES = "Vivillon Motivo Poké Ball";
+        public const string Vivillon_PokeBall_Pattern_IT = "Vivillon Motivo Poké Ball";
+        public const string Vivillon_PokeBall_Pattern_DE = "Vivillon Pokéball-Muster";
+        public const string Vivillon_PokeBall_Pattern_RU = "Вивийон покебол рисунок";
+        public const string Vivillon_PokeBall_Pattern_CO = "비비용 볼의 모양";
+        public const string Vivillon_PokeBall_Pattern_CN = "彩粉蝶球球花紋";
+        public const string Vivillon_PokeBall_Pattern_JP = "ビビヨン ボールのもよう";
+        public const string Vivillon_PokeBall_Pattern_UrlImg = "https://www.pokepedia.fr/images/4/43/Sprite_666_Pok%C3%A9_Ball_HOME.png";
+        public const string Vivillon_PokeBall_Pattern_UrlSprite = "https://www.pokepedia.fr/images/1/11/Miniature_666_Pok%C3%A9_Ball_XY.png";
+        #endregion
         #endregion
     }
 }

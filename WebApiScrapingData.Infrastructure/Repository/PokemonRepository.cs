@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Abstract;
 using WebApiScrapingData.Domain.Class;
@@ -84,12 +85,12 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 .Include(m => m.CO)
                 .Include(m => m.CN)
                 .Include(m => m.JP)
-                //.Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
-                //.Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Single(x => x.Id.Equals(id));
         }
-        
-        public IEnumerable<Pokemon> GetAll()
+
+        public IQueryable<Pokemon> Query()
         {
             return this._context.Pokemons
                 .Include("FR")
@@ -102,6 +103,21 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 .Include("CN")
                 .Include("JP")
                 .AsQueryable();
+        }
+
+        public IEnumerable<Pokemon> GetAll()
+        {
+            return this._context.Pokemons
+                .Include("FR")
+                .Include("EN")
+                .Include("ES")
+                .Include("IT")
+                .Include("DE")
+                .Include("RU")
+                .Include("CO")
+                .Include("CN")
+                .Include("JP")
+                .ToList();
         }
         #endregion
 

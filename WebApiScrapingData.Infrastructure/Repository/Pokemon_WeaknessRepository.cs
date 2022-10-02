@@ -56,9 +56,14 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return this._context.Pokemon_Weakness.Single(x => x.Id.Equals(id));
         }
 
-        public IEnumerable<Pokemon_Weakness> GetAll()
+        public IQueryable<Pokemon_Weakness> Query()
         {
             return this._context.Pokemon_Weakness.AsQueryable();
+        }
+
+        public IEnumerable<Pokemon_Weakness> GetAll()
+        {
+            return this._context.Pokemon_Weakness.ToList();
         }
         #endregion
 

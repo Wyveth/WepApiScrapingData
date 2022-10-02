@@ -61,9 +61,14 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return this._context.TypesPok.Single(x => x.Id.Equals(id));
         }
 
-        public IEnumerable<TypePok> GetAll()
+        public IQueryable<TypePok> Query()
         {
             return this._context.TypesPok.AsQueryable();
+        }
+
+        public IEnumerable<TypePok> GetAll()
+        {
+            return this._context.TypesPok.ToList();
         }
         #endregion
 
