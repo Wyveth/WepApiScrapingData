@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace WebApiScrapingData.Domain.ClassJson
 {
@@ -19,10 +15,20 @@ namespace WebApiScrapingData.Domain.ClassJson
         public string? Name_CN { get; set; }
         public string? Name_JP { get; set; }
         public string? UrlMiniGo { get; set; }
+        [JsonIgnore]
+        public byte[]? DataMiniGo { get; set; }
         public string? UrlFondGo { get; set; }
+        [JsonIgnore]
+        public byte[]? DataFondGo { get; set; }
+        [JsonIgnore]
         public string? UrlMiniHome { get; set; }
+        [JsonIgnore]
+        public byte[]? DataMiniHome { get; set; }
         public string? UrlIconHome { get; set; }
+        [JsonIgnore]
+        public byte[]? DataIconHome { get; set; }
         public string? UrlAutoHome { get; set; }
+        public byte[]? DataAutoHome { get; set; }
         public string? ImgColor { get; set; }
         public string? InfoColor { get; set; }
         public string? TypeColor { get; set; }

@@ -77,9 +77,13 @@ namespace WebApiScrapingData.Domain.Class
 
         //Url de l'Image
         public string? UrlImg { get; set; }
+        //Url de l'Image
+        public byte[]? DataImg { get; set; }
 
         //Url du Sprite
         public string? UrlSprite { get; set; }
+        //Url de l'Image
+        public byte[]? DataSprite { get; set; }
 
         public Pokemon()
         {

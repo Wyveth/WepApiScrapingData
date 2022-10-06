@@ -11,7 +11,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
 {
     public class TypePokRepository : IRepository<TypePok>
     {
-        #region Fields
+        #region Fields        
         private readonly ScrapingContext _context;
         #endregion
 

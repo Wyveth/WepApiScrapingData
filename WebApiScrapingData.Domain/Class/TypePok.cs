@@ -34,10 +34,19 @@ namespace WebApiScrapingData.Domain.Class
         public string? Name_JP { get; set; }
 
         public string? UrlMiniGo { get; set; }
+        public byte[]? DataMiniGo { get; set; }
+        
         public string? UrlFondGo { get; set; }
+        public byte[]? DataFondGo { get; set; }
+
         public string? UrlMiniHome { get; set; }
+        public byte[]? DataMiniHome { get; set; }
+
         public string? UrlIconHome { get; set; }
+        public byte[]? DataIconHome { get; set; }
+
         public string? UrlAutoHome { get; set; }
+        public byte[]? DataAutoHome { get; set; }
 
         public string? ImgColor { get; set; }
         public string? InfoColor { get; set; }

@@ -102,6 +102,12 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
+                    b.Property<byte[]>("DataImg")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("DataSprite")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
 
@@ -292,6 +298,21 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .HasColumnType("bigint");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<byte[]>("DataAutoHome")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("DataFondGo")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("DataIconHome")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("DataMiniGo")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("DataMiniHome")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");

@@ -41,7 +41,7 @@ namespace WepApiScrapingData.Controllers
         {
             return _repository.GetAll();
         }
-        
+
         [HttpGet]
         [Route("GetSingle/{id}")]
         public TypePok GetSingleInDB(int id)
@@ -68,6 +68,28 @@ namespace WepApiScrapingData.Controllers
             }
 
             _repository.UnitOfWork.SaveChanges();
+        }
+
+        [HttpPut]
+        [Route("UpdateDataByteWithUrl")]
+        public async Task UpdateDataByteWithUrl()
+        {
+            var httpClient = new HttpClient();
+            
+            foreach (TypePok typePok in _repository.GetAll().ToList())
+            {
+                typePok.DataMiniGo = await httpClient.DownloadImageAsync(typePok.UrlMiniGo);
+                typePok.DataFondGo = await httpClient.DownloadImageAsync(typePok.UrlFondGo);
+                typePok.DataMiniHome = await httpClient.DownloadImageAsync(typePok.UrlMiniHome);
+                typePok.DataIconHome = await httpClient.DownloadImageAsync(typePok.UrlIconHome);
+                typePok.DataAutoHome = await httpClient.DownloadImageAsync(typePok.UrlAutoHome);
+
+                _repository.Edit(typePok);
+            }
+
+            _repository.UnitOfWork.SaveChanges();
+
+            httpClient.Dispose();
         }
         #endregion
 
@@ -241,7 +263,7 @@ namespace WepApiScrapingData.Controllers
 
         private string GetNameTypeByLanguage(string type, string Language)
         {
-            if(Language.Equals(Constantes.EN))
+            if (Language.Equals(Constantes.EN))
                 switch (type)
                 {
                     case Constantes.Steel_FR:

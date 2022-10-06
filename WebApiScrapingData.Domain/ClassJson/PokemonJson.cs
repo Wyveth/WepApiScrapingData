@@ -1,4 +1,5 @@
-﻿using WebApiScrapingData.Domain.Class;
+﻿using System.Text.Json.Serialization;
+using WebApiScrapingData.Domain.Class;
 
 namespace WebApiScrapingData.Domain.ClassJson
 {
@@ -56,8 +57,16 @@ namespace WebApiScrapingData.Domain.ClassJson
         //Url de l'Image
         public string? UrlImg { get; set; }
 
+        //Data de l'image
+        [JsonIgnore]
+        public byte? DataImg { get; set; }
+
         //Url du Sprite
         public string? UrlSprite { get; set; }
+
+        //Data du Sprite
+        [JsonIgnore]
+        public byte[]? DataSprite { get; set; }
 
         public PokemonJson()
         {

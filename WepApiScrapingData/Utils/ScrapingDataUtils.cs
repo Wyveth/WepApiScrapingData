@@ -362,199 +362,311 @@ namespace WepApiScrapingData.Utils
 
                     if (dataJson.FR.Name.Contains(Constantes.Prismillon) && i.Equals(countImg - 1))
                     {
+
                         #region Archipel
-                        dataJson.FR.Name = Constantes.Vivillon_Archipelago_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_Archipelago_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_Archipelago_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_Archipelago_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_Archipelago_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_Archipelago_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_Archipelago_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_Archipelago_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_Archipelago_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_Archipelago_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_Archipelago_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        PokemonJson pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_Archipelago_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_Archipelago_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_Archipelago_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_Archipelago_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_Archipelago_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_Archipelago_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_Archipelago_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_Archipelago_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_Archipelago_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_Archipelago_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_Archipelago_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
-                        
+
                         #region Banquise
-                        dataJson.FR.Name = Constantes.Vivillon_Polar_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_Polar_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_Polar_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_Polar_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_Polar_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_Polar_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_Polar_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_Polar_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_Polar_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_Polar_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_Polar_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_Polar_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_Polar_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_Polar_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_Polar_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_Polar_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_Polar_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_Polar_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_Polar_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_Polar_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_Polar_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_Polar_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
-                        
+
                         #region Blizzard
-                        dataJson.FR.Name = Constantes.Vivillon_IceSnow_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_IceSnow_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_IceSnow_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_IceSnow_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_IceSnow_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_IceSnow_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_IceSnow_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_IceSnow_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_IceSnow_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_IceSnow_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_IceSnow_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_IceSnow_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_IceSnow_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_IceSnow_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_IceSnow_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_IceSnow_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_IceSnow_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_IceSnow_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_IceSnow_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_IceSnow_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_IceSnow_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_IceSnow_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
-                        
+
                         #region Cyclone
-                        dataJson.FR.Name = Constantes.Vivillon_Monsoon_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_Monsoon_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_Monsoon_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_Monsoon_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_Monsoon_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_Monsoon_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_Monsoon_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_Monsoon_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_Monsoon_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_Monsoon_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_Monsoon_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_Monsoon_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_Monsoon_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_Monsoon_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_Monsoon_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_Monsoon_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_Monsoon_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_Monsoon_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_Monsoon_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_Monsoon_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_Monsoon_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_Monsoon_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
-                        
+
                         #region Glace
-                        dataJson.FR.Name = Constantes.Vivillon_Tundra_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_Tundra_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_Tundra_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_Tundra_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_Tundra_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_Tundra_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_Tundra_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_Tundra_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_Tundra_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_Tundra_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_Tundra_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_Tundra_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_Tundra_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_Tundra_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_Tundra_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_Tundra_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_Tundra_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_Tundra_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_Tundra_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_Tundra_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_Tundra_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_Tundra_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
-                        
+
                         #region Jungle
-                        dataJson.FR.Name = Constantes.Vivillon_Jungle_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_Jungle_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_Jungle_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_Jungle_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_Jungle_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_Jungle_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_Jungle_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_Jungle_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_Jungle_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_Jungle_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_Jungle_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_Jungle_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_Jungle_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_Jungle_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_Jungle_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_Jungle_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_Jungle_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_Jungle_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_Jungle_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_Jungle_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_Jungle_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_Jungle_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
-                        
+
                         #region Mangrove
-                        dataJson.FR.Name = Constantes.Vivillon_Savanna_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_Savanna_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_Savanna_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_Savanna_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_Savanna_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_Savanna_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_Savanna_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_Savanna_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_Savanna_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_Savanna_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_Savanna_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_Savanna_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_Savanna_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_Savanna_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_Savanna_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_Savanna_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_Savanna_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_Savanna_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_Savanna_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_Savanna_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_Savanna_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_Savanna_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
-                        
+
                         #region Métropole
-                        dataJson.FR.Name = Constantes.Vivillon_Modern_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_Modern_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_Modern_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_Modern_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_Modern_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_Modern_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_Modern_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_Modern_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_Modern_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_Modern_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_Modern_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_Modern_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_Modern_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_Modern_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_Modern_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_Modern_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_Modern_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_Modern_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_Modern_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_Modern_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_Modern_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_Modern_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
-                        
+
                         #region Sable
-                        dataJson.FR.Name = Constantes.Vivillon_Sandstorm_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_Sandstorm_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_Sandstorm_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_Sandstorm_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_Sandstorm_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_Sandstorm_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_Sandstorm_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_Sandstorm_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_Sandstorm_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_Sandstorm_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_Sandstorm_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_Sandstorm_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_Sandstorm_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_Sandstorm_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_Sandstorm_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_Sandstorm_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_Sandstorm_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_Sandstorm_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_Sandstorm_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_Sandstorm_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_Sandstorm_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_Sandstorm_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
-                        
+
                         #region Soleil Levant
-                        dataJson.FR.Name = Constantes.Vivillon_Ocean_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_Ocean_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_Ocean_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_Ocean_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_Ocean_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_Ocean_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_Ocean_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_Ocean_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_Ocean_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_Ocean_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_Ocean_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_Ocean_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_Ocean_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_Ocean_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_Ocean_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_Ocean_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_Ocean_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_Ocean_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_Ocean_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_Ocean_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_Ocean_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_Ocean_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
 
                         #region Zénith
-                        dataJson.FR.Name = Constantes.Vivillon_Sun_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_Sun_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_Sun_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_Sun_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_Sun_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_Sun_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_Sun_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_Sun_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_Sun_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_Sun_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_Sun_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_Sun_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_Sun_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_Sun_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_Sun_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_Sun_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_Sun_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_Sun_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_Sun_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_Sun_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_Sun_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_Sun_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
 
                         #region Fantaisie
-                        dataJson.FR.Name = Constantes.Vivillon_Fancy_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_Fancy_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_Fancy_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_Fancy_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_Fancy_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_Fancy_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_Fancy_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_Fancy_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_Fancy_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_Fancy_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_Fancy_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_Fancy_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_Fancy_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_Fancy_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_Fancy_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_Fancy_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_Fancy_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_Fancy_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_Fancy_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_Fancy_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_Fancy_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_Fancy_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
 
                         #region Pokéball
-                        dataJson.FR.Name = Constantes.Vivillon_PokeBall_Pattern_FR;
-                        dataJson.EN.Name = Constantes.Vivillon_PokeBall_Pattern_EN;
-                        dataJson.ES.Name = Constantes.Vivillon_PokeBall_Pattern_ES;
-                        dataJson.IT.Name = Constantes.Vivillon_PokeBall_Pattern_IT;
-                        dataJson.DE.Name = Constantes.Vivillon_PokeBall_Pattern_DE;
-                        dataJson.RU.Name = Constantes.Vivillon_PokeBall_Pattern_RU;
-                        dataJson.CO.Name = Constantes.Vivillon_PokeBall_Pattern_CO;
-                        dataJson.CN.Name = Constantes.Vivillon_PokeBall_Pattern_CN;
-                        dataJson.JP.Name = Constantes.Vivillon_PokeBall_Pattern_JP;
-                        dataJson.UrlImg = Constantes.Vivillon_PokeBall_Pattern_UrlImg;
-                        dataJson.UrlSprite = Constantes.Vivillon_PokeBall_Pattern_UrlSprite;
-                        dataJsons.Add(dataJson);
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Vivillon_PokeBall_Pattern_FR;
+                        pokemonJson.EN.Name = Constantes.Vivillon_PokeBall_Pattern_EN;
+                        pokemonJson.ES.Name = Constantes.Vivillon_PokeBall_Pattern_ES;
+                        pokemonJson.IT.Name = Constantes.Vivillon_PokeBall_Pattern_IT;
+                        pokemonJson.DE.Name = Constantes.Vivillon_PokeBall_Pattern_DE;
+                        pokemonJson.RU.Name = Constantes.Vivillon_PokeBall_Pattern_RU;
+                        pokemonJson.CO.Name = Constantes.Vivillon_PokeBall_Pattern_CO;
+                        pokemonJson.CN.Name = Constantes.Vivillon_PokeBall_Pattern_CN;
+                        pokemonJson.JP.Name = Constantes.Vivillon_PokeBall_Pattern_JP;
+                        pokemonJson.UrlImg = Constantes.Vivillon_PokeBall_Pattern_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Vivillon_PokeBall_Pattern_UrlSprite;
+                        dataJsons.Add(pokemonJson);
+                        #endregion
+                    }
+                    else if(dataJson.FR.Name.Contains(Constantes.Couafarel) && i.Equals(countImg - 1))
+                    {
+                        #region Demoiselle
+                        PokemonJson pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Furfrou_Debutante_Trim_FR;
+                        pokemonJson.EN.Name = Constantes.Furfrou_Debutante_Trim_EN;
+                        pokemonJson.ES.Name = Constantes.Furfrou_Debutante_Trim_ES;
+                        pokemonJson.IT.Name = Constantes.Furfrou_Debutante_Trim_IT;
+                        pokemonJson.DE.Name = Constantes.Furfrou_Debutante_Trim_DE;
+                        pokemonJson.RU.Name = Constantes.Furfrou_Debutante_Trim_RU;
+                        pokemonJson.CO.Name = Constantes.Furfrou_Debutante_Trim_CO;
+                        pokemonJson.CN.Name = Constantes.Furfrou_Debutante_Trim_CN;
+                        pokemonJson.JP.Name = Constantes.Furfrou_Debutante_Trim_JP;
+                        pokemonJson.UrlImg = Constantes.Furfrou_Debutante_Trim_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Furfrou_Debutante_Trim_UrlSprite;
+                        dataJsons.Add(pokemonJson);
+                        #endregion
+
+                        #region Madame
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Furfrou_Matron_Trim_FR;
+                        pokemonJson.EN.Name = Constantes.Furfrou_Matron_Trim_EN;
+                        pokemonJson.ES.Name = Constantes.Furfrou_Matron_Trim_ES;
+                        pokemonJson.IT.Name = Constantes.Furfrou_Matron_Trim_IT;
+                        pokemonJson.DE.Name = Constantes.Furfrou_Matron_Trim_DE;
+                        pokemonJson.RU.Name = Constantes.Furfrou_Matron_Trim_RU;
+                        pokemonJson.CO.Name = Constantes.Furfrou_Matron_Trim_CO;
+                        pokemonJson.CN.Name = Constantes.Furfrou_Matron_Trim_CN;
+                        pokemonJson.JP.Name = Constantes.Furfrou_Matron_Trim_JP;
+                        pokemonJson.UrlImg = Constantes.Furfrou_Matron_Trim_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Furfrou_Matron_Trim_UrlSprite;
+                        dataJsons.Add(pokemonJson);
+                        #endregion
+
+                        #region Monsieur
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Furfrou_Dandy_Trim_FR;
+                        pokemonJson.EN.Name = Constantes.Furfrou_Dandy_Trim_EN;
+                        pokemonJson.ES.Name = Constantes.Furfrou_Dandy_Trim_ES;
+                        pokemonJson.IT.Name = Constantes.Furfrou_Dandy_Trim_IT;
+                        pokemonJson.DE.Name = Constantes.Furfrou_Dandy_Trim_DE;
+                        pokemonJson.RU.Name = Constantes.Furfrou_Dandy_Trim_RU;
+                        pokemonJson.CO.Name = Constantes.Furfrou_Dandy_Trim_CO;
+                        pokemonJson.CN.Name = Constantes.Furfrou_Dandy_Trim_CN;
+                        pokemonJson.JP.Name = Constantes.Furfrou_Dandy_Trim_JP;
+                        pokemonJson.UrlImg = Constantes.Furfrou_Dandy_Trim_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Furfrou_Dandy_Trim_UrlSprite;
+                        dataJsons.Add(pokemonJson);
+                        #endregion
+
+                        #region Reine
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Furfrou_Queen_Trim_FR;
+                        pokemonJson.EN.Name = Constantes.Furfrou_Queen_Trim_EN;
+                        pokemonJson.ES.Name = Constantes.Furfrou_Queen_Trim_ES;
+                        pokemonJson.IT.Name = Constantes.Furfrou_Queen_Trim_IT;
+                        pokemonJson.DE.Name = Constantes.Furfrou_Queen_Trim_DE;
+                        pokemonJson.RU.Name = Constantes.Furfrou_Queen_Trim_RU;
+                        pokemonJson.CO.Name = Constantes.Furfrou_Queen_Trim_CO;
+                        pokemonJson.CN.Name = Constantes.Furfrou_Queen_Trim_CN;
+                        pokemonJson.JP.Name = Constantes.Furfrou_Queen_Trim_JP;
+                        pokemonJson.UrlImg = Constantes.Furfrou_Queen_Trim_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Furfrou_Queen_Trim_UrlSprite;
+                        dataJsons.Add(pokemonJson);
+                        #endregion
+
+                        #region Kabuki
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Furfrou_Kabuki_Trim_FR;
+                        pokemonJson.EN.Name = Constantes.Furfrou_Kabuki_Trim_EN;
+                        pokemonJson.ES.Name = Constantes.Furfrou_Kabuki_Trim_ES;
+                        pokemonJson.IT.Name = Constantes.Furfrou_Kabuki_Trim_IT;
+                        pokemonJson.DE.Name = Constantes.Furfrou_Kabuki_Trim_DE;
+                        pokemonJson.RU.Name = Constantes.Furfrou_Kabuki_Trim_RU;
+                        pokemonJson.CO.Name = Constantes.Furfrou_Kabuki_Trim_CO;
+                        pokemonJson.CN.Name = Constantes.Furfrou_Kabuki_Trim_CN;
+                        pokemonJson.JP.Name = Constantes.Furfrou_Kabuki_Trim_JP;
+                        pokemonJson.UrlImg = Constantes.Furfrou_Kabuki_Trim_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Furfrou_Kabuki_Trim_UrlSprite;
+                        dataJsons.Add(pokemonJson);
+                        #endregion
+
+                        #region Pharaon
+                        pokemonJson = MapToCopy(dataJson);
+                        pokemonJson.FR.Name = Constantes.Furfrou_Pharaoh_Trim_FR;
+                        pokemonJson.EN.Name = Constantes.Furfrou_Pharaoh_Trim_EN;
+                        pokemonJson.ES.Name = Constantes.Furfrou_Pharaoh_Trim_ES;
+                        pokemonJson.IT.Name = Constantes.Furfrou_Pharaoh_Trim_IT;
+                        pokemonJson.DE.Name = Constantes.Furfrou_Pharaoh_Trim_DE;
+                        pokemonJson.RU.Name = Constantes.Furfrou_Pharaoh_Trim_RU;
+                        pokemonJson.CO.Name = Constantes.Furfrou_Pharaoh_Trim_CO;
+                        pokemonJson.CN.Name = Constantes.Furfrou_Pharaoh_Trim_CN;
+                        pokemonJson.JP.Name = Constantes.Furfrou_Pharaoh_Trim_JP;
+                        pokemonJson.UrlImg = Constantes.Furfrou_Pharaoh_Trim_UrlImg;
+                        pokemonJson.UrlSprite = Constantes.Furfrou_Pharaoh_Trim_UrlSprite;
+                        dataJsons.Add(pokemonJson);
                         #endregion
                     }
                 }
@@ -1546,6 +1658,197 @@ namespace WepApiScrapingData.Utils
                 }
                 #endregion
             }
+        }
+        #endregion
+
+        #region Private Methods
+        private static PokemonJson MapToCopy(PokemonJson dataJson)
+        {
+            PokemonJson pokemonJson = new PokemonJson();
+
+            pokemonJson.Number = dataJson.Number;
+
+            pokemonJson.FR = new()
+            {
+                Name = dataJson.FR.Name,
+                DisplayName = dataJson.FR.DisplayName,
+                DescriptionVx = dataJson.FR.DescriptionVx,
+                DescriptionVy = dataJson.FR.DescriptionVy,
+                Size = dataJson.FR.Size,
+                Category = dataJson.FR.Category,
+                Weight = dataJson.FR.Weight,
+                Talent = dataJson.FR.Talent,
+                DescriptionTalent = dataJson.FR.DescriptionTalent,
+                Types = dataJson.FR.Types,
+                Weakness = dataJson.FR.Weakness,
+                Evolutions = dataJson.FR.Evolutions,
+                WhenEvolution = dataJson.FR.WhenEvolution,
+                NextUrl = dataJson.FR.NextUrl
+            };
+
+            pokemonJson.EN = new()
+            {
+                Name = dataJson.EN.Name,
+                DisplayName = dataJson.EN.DisplayName,
+                DescriptionVx = dataJson.EN.DescriptionVx,
+                DescriptionVy = dataJson.EN.DescriptionVy,
+                Size = dataJson.EN.Size,
+                Category = dataJson.EN.Category,
+                Weight = dataJson.EN.Weight,
+                Talent = dataJson.EN.Talent,
+                DescriptionTalent = dataJson.EN.DescriptionTalent,
+                Types = dataJson.EN.Types,
+                Weakness = dataJson.EN.Weakness,
+                Evolutions = dataJson.EN.Evolutions,
+                WhenEvolution = dataJson.EN.WhenEvolution,
+                NextUrl = dataJson.EN.NextUrl
+            };
+
+            pokemonJson.ES = new()
+            {
+                Name = dataJson.ES.Name,
+                DisplayName = dataJson.ES.DisplayName,
+                DescriptionVx = dataJson.ES.DescriptionVx,
+                DescriptionVy = dataJson.ES.DescriptionVy,
+                Size = dataJson.ES.Size,
+                Category = dataJson.ES.Category,
+                Weight = dataJson.ES.Weight,
+                Talent = dataJson.ES.Talent,
+                DescriptionTalent = dataJson.ES.DescriptionTalent,
+                Types = dataJson.ES.Types,
+                Weakness = dataJson.ES.Weakness,
+                Evolutions = dataJson.ES.Evolutions,
+                WhenEvolution = dataJson.ES.WhenEvolution,
+                NextUrl = dataJson.ES.NextUrl
+            };
+
+            pokemonJson.IT = new()
+            {
+                Name = dataJson.IT.Name,
+                DisplayName = dataJson.IT.DisplayName,
+                DescriptionVx = dataJson.IT.DescriptionVx,
+                DescriptionVy = dataJson.IT.DescriptionVy,
+                Size = dataJson.IT.Size,
+                Category = dataJson.IT.Category,
+                Weight = dataJson.IT.Weight,
+                Talent = dataJson.IT.Talent,
+                DescriptionTalent = dataJson.IT.DescriptionTalent,
+                Types = dataJson.IT.Types,
+                Weakness = dataJson.IT.Weakness,
+                Evolutions = dataJson.IT.Evolutions,
+                WhenEvolution = dataJson.IT.WhenEvolution,
+                NextUrl = dataJson.IT.NextUrl
+            };
+
+            pokemonJson.DE = new()
+            {
+                Name = dataJson.DE.Name,
+                DisplayName = dataJson.DE.DisplayName,
+                DescriptionVx = dataJson.DE.DescriptionVx,
+                DescriptionVy = dataJson.DE.DescriptionVy,
+                Size = dataJson.DE.Size,
+                Category = dataJson.DE.Category,
+                Weight = dataJson.DE.Weight,
+                Talent = dataJson.DE.Talent,
+                DescriptionTalent = dataJson.DE.DescriptionTalent,
+                Types = dataJson.DE.Types,
+                Weakness = dataJson.DE.Weakness,
+                Evolutions = dataJson.DE.Evolutions,
+                WhenEvolution = dataJson.DE.WhenEvolution,
+                NextUrl = dataJson.DE.NextUrl
+            };
+
+            pokemonJson.RU = new()
+            {
+                Name = dataJson.RU.Name,
+                DisplayName = dataJson.RU.DisplayName,
+                DescriptionVx = dataJson.RU.DescriptionVx,
+                DescriptionVy = dataJson.RU.DescriptionVy,
+                Size = dataJson.RU.Size,
+                Category = dataJson.RU.Category,
+                Weight = dataJson.RU.Weight,
+                Talent = dataJson.RU.Talent,
+                DescriptionTalent = dataJson.RU.DescriptionTalent,
+                Types = dataJson.RU.Types,
+                Weakness = dataJson.RU.Weakness,
+                Evolutions = dataJson.RU.Evolutions,
+                WhenEvolution = dataJson.RU.WhenEvolution,
+                NextUrl = dataJson.RU.NextUrl
+            };
+
+            pokemonJson.CO = new()
+            {
+                Name = dataJson.CO.Name,
+                DisplayName = dataJson.CO.DisplayName,
+                DescriptionVx = dataJson.CO.DescriptionVx,
+                DescriptionVy = dataJson.CO.DescriptionVy,
+                Size = dataJson.CO.Size,
+                Category = dataJson.CO.Category,
+                Weight = dataJson.CO.Weight,
+                Talent = dataJson.CO.Talent,
+                DescriptionTalent = dataJson.CO.DescriptionTalent,
+                Types = dataJson.CO.Types,
+                Weakness = dataJson.CO.Weakness,
+                Evolutions = dataJson.CO.Evolutions,
+                WhenEvolution = dataJson.CO.WhenEvolution,
+                NextUrl = dataJson.CO.NextUrl
+            };
+
+            pokemonJson.CN = new()
+            {
+                Name = dataJson.CN.Name,
+                DisplayName = dataJson.CN.DisplayName,
+                DescriptionVx = dataJson.CN.DescriptionVx,
+                DescriptionVy = dataJson.CN.DescriptionVy,
+                Size = dataJson.CN.Size,
+                Category = dataJson.CN.Category,
+                Weight = dataJson.CN.Weight,
+                Talent = dataJson.CN.Talent,
+                DescriptionTalent = dataJson.CN.DescriptionTalent,
+                Types = dataJson.CN.Types,
+                Weakness = dataJson.CN.Weakness,
+                Evolutions = dataJson.CN.Evolutions,
+                WhenEvolution = dataJson.CN.WhenEvolution,
+                NextUrl = dataJson.CN.NextUrl
+            };
+
+            pokemonJson.JP = new()
+            {
+                Name = dataJson.JP.Name,
+                DisplayName = dataJson.JP.DisplayName,
+                DescriptionVx = dataJson.JP.DescriptionVx,
+                DescriptionVy = dataJson.JP.DescriptionVy,
+                Size = dataJson.JP.Size,
+                Category = dataJson.JP.Category,
+                Weight = dataJson.JP.Weight,
+                Talent = dataJson.JP.Talent,
+                DescriptionTalent = dataJson.JP.DescriptionTalent,
+                Types = dataJson.JP.Types,
+                Weakness = dataJson.JP.Weakness,
+                Evolutions = dataJson.JP.Evolutions,
+                WhenEvolution = dataJson.JP.WhenEvolution,
+                NextUrl = dataJson.JP.NextUrl
+            };
+
+            pokemonJson.TypeEvolution = dataJson.TypeEvolution;
+
+            pokemonJson.StatPv = dataJson.StatPv;
+
+            pokemonJson.StatAttaque = dataJson.StatAttaque;
+
+            pokemonJson.StatDefense = dataJson.StatDefense;
+
+            pokemonJson.StatAttaqueSpe = dataJson.StatAttaqueSpe;
+
+            pokemonJson.StatDefenseSpe = dataJson.StatDefenseSpe;
+
+            pokemonJson.StatVitesse = dataJson.StatVitesse;
+
+            pokemonJson.StatTotal = dataJson.StatTotal;
+
+            pokemonJson.Generation = dataJson.Generation;
+
+            return pokemonJson;
         }
         #endregion
     }

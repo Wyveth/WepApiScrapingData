@@ -1,15 +1,8 @@
 ﻿using HtmlAgilityPack;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using ScrapySharp.Extensions;
-using ScrapySharp.Network;
+using PuppeteerSharp;
 using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Net;
-using System.Text;
 using WebApiScrapingData.Core.Repositories;
-using WebApiScrapingData.Domain;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
 using WepApiScrapingData.Utils;
@@ -195,6 +188,88 @@ namespace WepApiScrapingData.Controllers
             {
                Console.WriteLine(e.InnerException.ToString());
             }
+        }
+
+        [HttpPut]
+        [Route("UpdateDataByteWithUrl")]
+        public async Task UpdateDataByteWithUrl()
+        {
+            var httpClient = new HttpClient();
+
+            foreach (Pokemon pokemon in _repository.GetAll().ToList())
+            {
+                pokemon.DataImg = await httpClient.DownloadImageAsync(pokemon.UrlImg);
+                pokemon.DataSprite = await httpClient.DownloadImageAsync(pokemon.UrlSprite);
+
+                _repository.Edit(pokemon);
+            }
+
+            _repository.UnitOfWork.SaveChanges();
+
+            httpClient.Dispose();
+        }
+
+        [HttpGet]
+        [Route("TestUrlStaticOrDynamic/{language}")]
+        public async void TestUrlStaticOrDynamic(string language)
+        {
+            string response = "";
+            HtmlDocument htmlDoc = new HtmlDocument();
+            string value = "";
+            
+            switch (language)
+            {
+                case Constantes.RU:
+                    response = HttpClientUtils.CallUrl(Constantes.urlStartRU).Result;
+                    htmlDoc.LoadHtml(response);
+                    value = htmlDoc.DocumentNode.Descendants("b").First().InnerText;
+                    //if (value.Equals("Бульбазавр"))
+                    //    return true;
+                    break;
+                case Constantes.CO:
+                    response = HttpClientUtils.CallUrl(Constantes.urlStartCO).Result;
+                    htmlDoc.LoadHtml(response);
+                    value = htmlDoc.DocumentNode.Descendants("h3").First().InnerText;
+                    //if (value.Contains("이상해씨"))
+                    //    return true;
+                    break;
+                case Constantes.CN:
+                    response = HttpClientUtils.CallUrl(Constantes.urlStartCN).Result;
+                    htmlDoc.LoadHtml(response);
+                    value = htmlDoc.DocumentNode.Descendants("p").First(node => node.GetAttributeValue("class", "").Contains("pokemon-slider__main-name")).InnerText;
+                    //if (value.Equals("妙蛙种子"))
+                    //    return true;
+                    break;
+                case Constantes.JP:
+                    //try
+                    //{
+                    //    await new BrowserFetcher(Product.Chrome).DownloadAsync();
+                    //    var lol = new LaunchOptions
+                    //    {
+                    //        Headless = true,
+                    //        Product = Product.Chrome,
+                    //        ExecutablePath = @"C:\Program Files\Google\Chrome\Application\chrome.exe"
+                    //    };
+                    //    var browser = await Puppeteer.LaunchAsync(lol);
+                    //    var page = await browser.NewPageAsync();
+                    //    await page.GoToAsync("http://www.google.com");
+                    //    await page.ScreenshotAsync("./google.png");
+
+                    //    var webpage = await HttpClientUtils.CallUrlDynamicTest(Constantes.urlStartJP);
+                    //    //List<HtmlNode> values = htmlNode.Descendants("img").ToList();
+                    //    //if (value.Contains("フシギダネ"))
+                    //    //    return true;
+                    //}
+                    //catch (Exception e)
+                    //{
+                    //    Console.WriteLine(e.ToString());
+                    //}
+                    break;
+                default:
+                    break;
+            }
+
+            //return true;
         }
         #endregion
     }

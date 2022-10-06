@@ -20,7 +20,7 @@ namespace WepApiScrapingData.Utils
         public const string urlPathES = "https://api.pokemon.com/es/pokedex/";
         public const string urlPathIT = "https://api.pokemon.com/it/pokedex/";
         public const string urlPathDE = "https://api.pokemon.com/de/pokedex/";
-        public const string urlPathRU = "https://api.pokemon.com/ru/pokedex/";
+        public const string urlPathRU = "https://pokemon.fandom.com/ru/wiki/";
         public const string urlPathCO = "https://pokemonkorea.co.kr/pokedextemp/view/";
         public const string urlPathCN = "https://www.pokemon.cn/play/pokedex/";
         public const string urlPathJP = "https://zukan.pokemon.co.jp/detail/";
@@ -30,7 +30,7 @@ namespace WepApiScrapingData.Utils
         public const string urlStartES = urlPathES + "bulbasaur";
         public const string urlStartIT = urlPathIT + "bulbasaur";
         public const string urlStartDE = urlPathDE + "bisasam";
-        public const string urlStartRU = urlPathRU + "bulbasaur";
+        public const string urlStartRU = urlPathRU + "Бульбазавр";
         public const string urlStartCO = urlPathCO + "1";
         public const string urlStartCN = urlPathCN + "001";
         public const string urlStartJP = urlPathJP + "001";
@@ -104,6 +104,7 @@ namespace WepApiScrapingData.Utils
         public const string Meganium = "Méganium";
         public const string Megapagos = "Mégapagos";
         public const string Prismillon = "Prismillon";
+        public const string Couafarel = "Couafarel";
         #endregion
 
         #region PokemonDB
@@ -1764,6 +1765,92 @@ namespace WepApiScrapingData.Utils
         public const string Vivillon_PokeBall_Pattern_JP = "ビビヨン ボールのもよう";
         public const string Vivillon_PokeBall_Pattern_UrlImg = "https://www.pokepedia.fr/images/4/43/Sprite_666_Pok%C3%A9_Ball_HOME.png";
         public const string Vivillon_PokeBall_Pattern_UrlSprite = "https://www.pokepedia.fr/images/1/11/Miniature_666_Pok%C3%A9_Ball_XY.png";
+        #endregion
+        #endregion
+
+        #region Couafarel
+        #region Demoiselle
+        public const string Furfrou_Debutante_Trim_FR = "Couafarel Coupe Demoiselle";
+        public const string Furfrou_Debutante_Trim_EN = "Furfrou Debutante Trim";
+        public const string Furfrou_Debutante_Trim_ES = "Furfrou Corte Señorita";
+        public const string Furfrou_Debutante_Trim_IT = "Furfrou Taglio Signorina";
+        public const string Furfrou_Debutante_Trim_DE = "Coiffwaff Fräuleinschnitt";
+        public const string Furfrou_Debutante_Trim_RU = "Фурфу Дебютантка Трим";
+        public const string Furfrou_Debutante_Trim_CO = "트리미앙 레이디컷";
+        public const string Furfrou_Debutante_Trim_CN = "多麗米亞 淑女造型";
+        public const string Furfrou_Debutante_Trim_JP = "トリミアン レディカット";
+        public const string Furfrou_Debutante_Trim_UrlImg = "https://www.pokepedia.fr/images/9/9e/Sprite_676_Demoiselle_HOME.png";
+        public const string Furfrou_Debutante_Trim_UrlSprite = "https://www.pokepedia.fr/images/8/8b/Miniature_676_Demoiselle_XY.png";
+        #endregion
+
+        #region Madame
+        public const string Furfrou_Matron_Trim_FR = "Couafarel Coupe Madame";
+        public const string Furfrou_Matron_Trim_EN = "Furfrou Matron Trim";
+        public const string Furfrou_Matron_Trim_ES = "Furfrou Corte Dama";
+        public const string Furfrou_Matron_Trim_IT = "Furfrou Taglio Gentildonna";
+        public const string Furfrou_Matron_Trim_DE = "Coiffwaff Damenschnitt";
+        public const string Furfrou_Matron_Trim_RU = "Фурфу Матрона Трим";
+        public const string Furfrou_Matron_Trim_CO = "트리미앙 마담컷";
+        public const string Furfrou_Matron_Trim_CN = "多麗米亞 貴婦造型";
+        public const string Furfrou_Matron_Trim_JP = "トリミアン マダムカット";
+        public const string Furfrou_Matron_Trim_UrlImg = "https://www.pokepedia.fr/images/0/09/Sprite_676_Madame_HOME.png";
+        public const string Furfrou_Matron_Trim_UrlSprite = "https://www.pokepedia.fr/images/c/c7/Miniature_676_Madame_XY.png";
+        #endregion
+
+        #region Monsieur
+        public const string Furfrou_Dandy_Trim_FR = "Couafarel Coupe Monsieur";
+        public const string Furfrou_Dandy_Trim_EN = "Furfrou Dandy Trim";
+        public const string Furfrou_Dandy_Trim_ES = "Furfrou Corte Caballero";
+        public const string Furfrou_Dandy_Trim_IT = "Furfrou Taglio Gentiluomo";
+        public const string Furfrou_Dandy_Trim_DE = "Coiffwaff Kavaliersschnitt";
+        public const string Furfrou_Dandy_Trim_RU = "Фурфу Денди Трим";
+        public const string Furfrou_Dandy_Trim_CO = "트리미앙 젠틀컷";
+        public const string Furfrou_Dandy_Trim_CN = "多麗米亞 紳士造型";
+        public const string Furfrou_Dandy_Trim_JP = "トリミアン ジェントルカット";
+        public const string Furfrou_Dandy_Trim_UrlImg = "https://www.pokepedia.fr/images/a/a2/Sprite_676_Monsieur_HOME.png";
+        public const string Furfrou_Dandy_Trim_UrlSprite = "https://www.pokepedia.fr/images/b/b7/Miniature_676_Monsieur_XY.png";
+        #endregion
+
+        #region Reine
+        public const string Furfrou_Queen_Trim_FR = "Couafarel Coupe Reine";
+        public const string Furfrou_Queen_Trim_EN = "Furfrou Queen Trim";
+        public const string Furfrou_Queen_Trim_ES = "Furfrou Corte Aristocrático";
+        public const string Furfrou_Queen_Trim_IT = "Furfrou Taglio Regina";
+        public const string Furfrou_Queen_Trim_DE = "Coiffwaff Königinnenschnitt";
+        public const string Furfrou_Queen_Trim_RU = "Фурфу Королева Трим";
+        public const string Furfrou_Queen_Trim_CO = "트리미앙 퀸컷";
+        public const string Furfrou_Queen_Trim_CN = "多麗米亞 女王造型";
+        public const string Furfrou_Queen_Trim_JP = "トリミアン クイーンカット";
+        public const string Furfrou_Queen_Trim_UrlImg = "https://www.pokepedia.fr/images/2/23/Sprite_676_Reine_HOME.png";
+        public const string Furfrou_Queen_Trim_UrlSprite = "https://www.pokepedia.fr/images/c/cc/Miniature_676_Reine_XY.png";
+        #endregion
+
+        #region Kabuki
+        public const string Furfrou_Kabuki_Trim_FR = "Couafarel Coupe Kabuki";
+        public const string Furfrou_Kabuki_Trim_EN = "Furfrou Kabuki Trim";
+        public const string Furfrou_Kabuki_Trim_ES = "Furfrou Corte Kabuki";
+        public const string Furfrou_Kabuki_Trim_IT = "Furfrou Taglio Kabuki";
+        public const string Furfrou_Kabuki_Trim_DE = "Coiffwaff Kabuki-Schnitt";
+        public const string Furfrou_Kabuki_Trim_RU = "Фурфу Кабуки Трим";
+        public const string Furfrou_Kabuki_Trim_CO = "트리미앙 가부키컷";
+        public const string Furfrou_Kabuki_Trim_CN = "多麗米亞 歌舞伎造型";
+        public const string Furfrou_Kabuki_Trim_JP = "トリミアン カブキカット";
+        public const string Furfrou_Kabuki_Trim_UrlImg = "https://www.pokepedia.fr/images/7/77/Sprite_676_Kabuki_HOME.png";
+        public const string Furfrou_Kabuki_Trim_UrlSprite = "https://www.pokepedia.fr/images/9/92/Miniature_676_Kabuki_XY.png";
+        #endregion
+
+        #region Pharaon
+        public const string Furfrou_Pharaoh_Trim_FR = "Couafarel Coupe Pharaon";
+        public const string Furfrou_Pharaoh_Trim_EN = "Furfrou Pharaoh Trim";
+        public const string Furfrou_Pharaoh_Trim_ES = "Furfrou Corte Faraónico";
+        public const string Furfrou_Pharaoh_Trim_IT = "Furfrou Taglio Faraone";
+        public const string Furfrou_Pharaoh_Trim_DE = "Coiffwaff Herrscherschnitt";
+        public const string Furfrou_Pharaoh_Trim_RU = "Фурфу Фараон Трим";
+        public const string Furfrou_Pharaoh_Trim_CO = "트리미앙 킹덤컷";
+        public const string Furfrou_Pharaoh_Trim_CN = "多麗米亞 國王造型";
+        public const string Furfrou_Pharaoh_Trim_JP = "トリミアン キングダムカット";
+        public const string Furfrou_Pharaoh_Trim_UrlImg = "https://www.pokepedia.fr/images/5/5d/Sprite_676_Pharaon_HOME.png";
+        public const string Furfrou_Pharaoh_Trim_UrlSprite = "https://www.pokepedia.fr/images/7/7f/Miniature_676_Pharaon_XY.png";
         #endregion
         #endregion
     }
