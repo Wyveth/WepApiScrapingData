@@ -1,16 +1,18 @@
 ﻿using HtmlAgilityPack;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using PuppeteerSharp;
 using System.Diagnostics;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
+using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
 namespace WepApiScrapingData.Controllers
 {
-    [Route("api/v1.0/[controller]")]
     [ApiController]
+    [Route("api/v1.0/[controller]")]
+    [EnableCors(SecurityMethods.DEFAULT_POLICY)]
     public class PokemonController : ControllerBase
     {
         #region Fields
@@ -92,29 +94,33 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll/{limit}/{max}")]
-        public IEnumerable<Pokemon> GetAllinDB(int max = 20, bool limit = true)
+        [EnableCors(SecurityMethods.DEFAULT_POLICY)]
+        public async Task<IEnumerable<Pokemon>> GetAll()
         {
-            if (limit)
-            {
-                return _repository.GetAll().Take(max);
-            }
-            else
-            {
-                return _repository.GetAll();
-            }
+            return await _repository.GetAll();
         }
 
         [HttpGet]
-        [Route("GetSingle/{id}")]
-        public Pokemon GetSingleInDB(int id)
+        [Route("{limit}/{max}")]
+        public async Task<IEnumerable<Pokemon>> GetAllinDB(int max = 20, bool limit = true)
         {
-            return _repository.Get(id);
+            IEnumerable<Pokemon> pokemons = await _repository.GetAll();
+            if (limit)
+                return pokemons.Take(max);
+            else
+                return pokemons;
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<Pokemon> GetSingle(int id)
+        {
+            return await _repository.Get(id);
         }
 
         [HttpGet]
         [Route("FindByName/{name}")]
-        public IEnumerable<Pokemon> GetFindInDB(string name)
+        public IEnumerable<Pokemon> GetFindByName(string name)
         {
             return _repository.Find(m => m.FR.Name.Equals(name));
         }
@@ -135,18 +141,20 @@ namespace WepApiScrapingData.Controllers
 
         [HttpPut]
         [Route("UpdateTypePokInDB")]
-        public void UpdateTypePokInDB()
+        public async Task UpdateTypePokInDB()
         {
-            foreach (Pokemon pokemon in _repository.GetAll().ToList())
+            IEnumerable<Pokemon> pokemons = await _repository.GetAll();
+            foreach (Pokemon pokemon in pokemons.ToList())
             {
                 List<Pokemon_TypePok> Pokemon_TypePoks = new();
 
                 foreach (string type in pokemon.FR.Types.Split(','))
                 {
+                    TypePok typePok = await _repositoryTP.SingleOrDefault(x => x.Name_FR.Equals(type));
                     Pokemon_TypePok pokemon_TypePok = new()
                     {
                         PokemonId = pokemon.Id,
-                        TypePokId = _repositoryTP.GetAll().Where(x => x.Name_FR.Equals(type)).FirstOrDefault().Id
+                        TypePokId = typePok.Id
                     };
 
                     Pokemon_TypePoks.Add(pokemon_TypePok);
@@ -160,26 +168,28 @@ namespace WepApiScrapingData.Controllers
 
         [HttpPut]
         [Route("UpdateWeaknessInDB")]
-        public void UpdateWeaknessInDB()
+        public async Task UpdateWeaknessInDB()
         {
             try
             {
-                foreach (Pokemon pokemon in _repository.GetAll().ToList())
+                List<Pokemon> pokemons = _repository.GetAll().Result.ToList();
+                foreach (Pokemon pokemon in pokemons)
                 {
                     List<Pokemon_Weakness> Pokemon_Weaknesses = new();
 
                     foreach (string weakness in pokemon.FR.Weakness.Split(','))
                     {
+                        TypePok typePok = await _repositoryTP.SingleOrDefault(m => m.Name_FR.Equals(weakness));
                         Pokemon_Weakness pokemon_Weakness = new()
                         {
                             PokemonId = pokemon.Id,
-                            TypePokId = _repositoryTP.GetAll().Where(x => x.Name_FR.Equals(weakness)).FirstOrDefault().Id
+                            TypePokId = typePok.Id
                         };
-
+                        
                         Pokemon_Weaknesses.Add(pokemon_Weakness);
                     }
 
-                    _repositoryWN.AddRange(Pokemon_Weaknesses);
+                    await _repositoryWN.AddRange(Pokemon_Weaknesses);
                 }
 
                 _repository.UnitOfWork.SaveChanges();
@@ -191,17 +201,15 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateDataByteWithUrl")]
-        public async Task UpdateDataByteWithUrl()
+        [Route("DlUpdatePathUrl")]
+        public async Task DlUpdatePathUrl()
         {
             var httpClient = new HttpClient();
-
-            foreach (Pokemon pokemon in _repository.GetAll().ToList())
+            IEnumerable<Pokemon> pokemons = await _repository.GetAll();
+            foreach (Pokemon pokemon in pokemons)
             {
-                pokemon.DataImg = await httpClient.DownloadImageAsync(pokemon.UrlImg);
-                pokemon.DataSprite = await httpClient.DownloadImageAsync(pokemon.UrlSprite);
-
-                _repository.Edit(pokemon);
+                pokemon.PathImg = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlImg, pokemon.EN.Name.Replace(" ","_"), pokemon.Generation);
+                pokemon.PathSprite = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlSprite, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation, true);
             }
 
             _repository.UnitOfWork.SaveChanges();

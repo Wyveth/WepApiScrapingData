@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
@@ -6,12 +7,14 @@ using System.Net;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
+using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
 namespace WepApiScrapingData.Controllers
 {
-    [Route("api/v1.0/[controller]")]
     [ApiController]
+    [Route("api/v1.0/[controller]")]
+    [EnableCors(SecurityMethods.DEFAULT_POLICY)]
     public class TypePokController : ControllerBase
     {
         #region Fields
@@ -36,22 +39,21 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
-        public IEnumerable<TypePok> GetAllInDB()
+        public async Task<IEnumerable<TypePok>> GetAll()
         {
-            return _repository.GetAll();
+            return await _repository.GetAll();
         }
 
         [HttpGet]
-        [Route("GetSingle/{id}")]
-        public TypePok GetSingleInDB(int id)
+        [Route("{id}")]
+        public async Task<TypePok> GetSingle(int id)
         {
-            return _repository.Get(id);
+            return await _repository.Get(id);
         }
 
         [HttpGet]
         [Route("Find")]
-        public IEnumerable<TypePok> GetFindInDB(Expression<Func<TypePok, bool>> predicate)
+        public IEnumerable<TypePok> GetFind(Expression<Func<TypePok, bool>> predicate)
         {
             return _repository.Find(predicate);
         }
@@ -71,20 +73,26 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateDataByteWithUrl")]
-        public async Task UpdateDataByteWithUrl()
+        [Route("DlUpdatePathUrl")]
+        public async Task DlUpdatePathUrl()
         {
             var httpClient = new HttpClient();
-            
-            foreach (TypePok typePok in _repository.GetAll().ToList())
+            IEnumerable<TypePok> typesPok = await _repository.GetAll();
+            foreach (TypePok typePok in typesPok)
             {
-                typePok.DataMiniGo = await httpClient.DownloadImageAsync(typePok.UrlMiniGo);
-                typePok.DataFondGo = await httpClient.DownloadImageAsync(typePok.UrlFondGo);
-                typePok.DataMiniHome = await httpClient.DownloadImageAsync(typePok.UrlMiniHome);
-                typePok.DataIconHome = await httpClient.DownloadImageAsync(typePok.UrlIconHome);
-                typePok.DataAutoHome = await httpClient.DownloadImageAsync(typePok.UrlAutoHome);
-
-                _repository.Edit(typePok);
+                typePok.PathMiniGo = await HttpClientUtils.DownloadFileTaskAsync(httpClient, typePok.UrlMiniGo, typePok.Name_EN + "_" + Constantes.MiniGo, Constantes.MiniGo);
+                typePok.PathFondGo = await HttpClientUtils.DownloadFileTaskAsync(httpClient, typePok.UrlFondGo, typePok.Name_EN + "_" + Constantes.FondGo, Constantes.FondGo);
+                typePok.PathMiniHome_FR = await HttpClientUtils.DownloadFileTaskAsync(httpClient, typePok.UrlMiniHome, typePok.Name_EN + "_" + Constantes.MiniHome, Constantes.MiniHome);
+                typePok.PathMiniHome_EN = "Content/Types/MiniHome/EN/" + typePok.Name_EN + "_" + Constantes.MiniHome + ".png";
+                typePok.PathMiniHome_ES = "Content/Types/MiniHome/ES/" + typePok.Name_EN + "_" + Constantes.MiniHome + ".png";
+                typePok.PathMiniHome_IT = "Content/Types/MiniHome/IT/" + typePok.Name_EN + "_" + Constantes.MiniHome + ".png";
+                typePok.PathMiniHome_DE = "Content/Types/MiniHome/DE/" + typePok.Name_EN + "_" + Constantes.MiniHome + ".png";
+                typePok.PathMiniHome_RU = "Content/Types/MiniHome/RU/" + typePok.Name_EN + "_" + Constantes.MiniHome + ".png";
+                typePok.PathMiniHome_CO = "Content/Types/MiniHome/CO/" + typePok.Name_EN + "_" + Constantes.MiniHome + ".png";
+                typePok.PathMiniHome_CN = "Content/Types/MiniHome/CN/" + typePok.Name_EN + "_" + Constantes.MiniHome + ".png";
+                typePok.PathMiniHome_JP = "Content/Types/MiniHome/JP/" + typePok.Name_EN + "_" + Constantes.MiniHome + ".png";
+                typePok.PathIconHome = await HttpClientUtils.DownloadFileTaskAsync(httpClient, typePok.UrlIconHome, typePok.Name_EN + "_" + Constantes.IconHome, Constantes.IconHome);
+                typePok.PathAutoHome = await HttpClientUtils.DownloadFileTaskAsync(httpClient, typePok.UrlAutoHome, typePok.Name_EN + "_" + Constantes.AutoHome, Constantes.AutoHome);
             }
 
             _repository.UnitOfWork.SaveChanges();

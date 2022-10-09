@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Content\NewFolder\**" />
+    <Compile Remove="Content\Sprites\Gen1\**" />
+    <Content Remove="Content\NewFolder\**" />
+    <Content Remove="Content\Sprites\Gen1\**" />
+    <EmbeddedResource Remove="Content\NewFolder\**" />
+    <EmbeddedResource Remove="Content\Sprites\Gen1\**" />
+    <None Remove="Content\NewFolder\**" />
+    <None Remove="Content\Sprites\Gen1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.14.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.4" />
@@ -26,6 +37,34 @@
   <ItemGroup>
     <ProjectReference Include="..\WebApiScrapingData.Domain\WebApiScrapingData.Domain.csproj" />
     <ProjectReference Include="..\WebApiScrapingData.Infrastructure\WebApiScrapingData.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Content\Images\G0\" />
+    <Folder Include="Content\Images\G1\" />
+    <Folder Include="Content\Images\G2\" />
+    <Folder Include="Content\Images\G3\" />
+    <Folder Include="Content\Images\G4\" />
+    <Folder Include="Content\Images\G5\" />
+    <Folder Include="Content\Images\G6\" />
+    <Folder Include="Content\Images\G7\" />
+    <Folder Include="Content\Images\G8\" />
+    <Folder Include="Content\Images\G9\" />
+    <Folder Include="Content\Sprites\G0\" />
+    <Folder Include="Content\Sprites\G1\" />
+    <Folder Include="Content\Sprites\G2\" />
+    <Folder Include="Content\Sprites\G3\" />
+    <Folder Include="Content\Sprites\G4\" />
+    <Folder Include="Content\Sprites\G5\" />
+    <Folder Include="Content\Sprites\G6\" />
+    <Folder Include="Content\Sprites\G7\" />
+    <Folder Include="Content\Sprites\G8\" />
+    <Folder Include="Content\Sprites\G9\" />
+    <Folder Include="Content\Types\AutoHome\" />
+    <Folder Include="Content\Types\FondGo\" />
+    <Folder Include="Content\Types\IconHome\" />
+    <Folder Include="Content\Types\MiniGo\" />
+    <Folder Include="Content\Types\MiniHome\FR\" />
   </ItemGroup>
 
 </Project>

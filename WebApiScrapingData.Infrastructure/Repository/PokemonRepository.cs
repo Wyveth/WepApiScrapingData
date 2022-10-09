@@ -1,14 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 using WebApiScrapingData.Core.Repositories;
-using WebApiScrapingData.Domain.Abstract;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
 using WebApiScrapingData.Framework;
 using WebApiScrapingData.Infrastructure.Data;
-
 namespace WebApiScrapingData.Infrastructure.Repository
 {
     public class PokemonRepository : IRepository<Pokemon>
@@ -30,28 +27,28 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
         #region Public Methods
         #region Create
-        public void Add(Pokemon entity)
+        public async Task Add(Pokemon entity)
         {
             UpdateInfo(entity);
-            this._context.Pokemons.Add(entity);
+            await this._context.Pokemons.AddAsync(entity);
         }
 
-        public void AddRange(IEnumerable<Pokemon> entities)
+        public async Task AddRange(IEnumerable<Pokemon> entities)
         {
             foreach (var entity in entities)
                 UpdateInfo(entity);
 
-            this._context.Pokemons.AddRange(entities);
+            await this._context.Pokemons.AddRangeAsync(entities);
         }
 
-        public void SaveJsonInDb(string json)
+        public async Task SaveJsonInDb(string json)
         {
             List<PokemonJson> pokemonsJson = JsonConvert.DeserializeObject<List<PokemonJson>>(json);
             foreach (PokemonJson pokemonJson in pokemonsJson)
             {
                 Pokemon pokemon = new();
                 this.MapToInstance(pokemon, pokemonJson);
-                this.Add(pokemon);
+                await this.Add(pokemon);
             }
         }
         #endregion
@@ -69,13 +66,15 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 .Include("CO")
                 .Include("CN")
                 .Include("JP")
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Where(predicate)
                 .AsQueryable();
         }
 
-        public Pokemon Get(int id)
+        public async Task<Pokemon> Get(int id)
         {
-            return this._context.Pokemons
+            return await this._context.Pokemons
                 .Include(m => m.FR)
                 .Include(m => m.EN)
                 .Include(m => m.ES)
@@ -87,7 +86,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 .Include(m => m.JP)
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Single(x => x.Id.Equals(id));
+                .SingleAsync(x => x.Id.Equals(id));
         }
 
         public IQueryable<Pokemon> Query()
@@ -105,19 +104,21 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 .AsQueryable();
         }
 
-        public IEnumerable<Pokemon> GetAll()
+        public async Task<IEnumerable<Pokemon>> GetAll()
         {
-            return this._context.Pokemons
-                .Include("FR")
-                .Include("EN")
-                .Include("ES")
-                .Include("IT")
-                .Include("DE")
-                .Include("RU")
-                .Include("CO")
-                .Include("CN")
-                .Include("JP")
-                .ToList();
+            return await this._context.Pokemons
+                .Include(m => m.FR)
+                .Include(m => m.EN)
+                .Include(m => m.ES)
+                .Include(m => m.IT)
+                .Include(m => m.DE)
+                .Include(m => m.RU)
+                .Include(m => m.CO)
+                .Include(m => m.CN)
+                .Include(m => m.JP)
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .ToListAsync();
         }
         #endregion
 
@@ -148,26 +149,26 @@ namespace WebApiScrapingData.Infrastructure.Repository
             this._context.Pokemons.RemoveRange(entities);
         }
 
-        public Pokemon? SingleOrDefault(Expression<Func<Pokemon, bool>> predicate)
+        public async Task<Pokemon?> SingleOrDefault(Expression<Func<Pokemon, bool>> predicate)
         {
-            return this._context.Pokemons.SingleOrDefault(predicate);
+            return await this._context.Pokemons.SingleOrDefaultAsync(predicate);
         }
         #endregion
         #endregion
 
         #region Private Methods
-        public void MapToInstance(Pokemon pokemon, PokemonJson pokemonJson)
+        public async Task MapToInstance(Pokemon pokemon, PokemonJson pokemonJson)
         {
             pokemon.Number = pokemonJson.Number;
-            pokemon.FR = _dataInfoRepository.SaveJsonInDb(pokemonJson.FR);
-            pokemon.EN = _dataInfoRepository.SaveJsonInDb(pokemonJson.EN);
-            pokemon.ES = _dataInfoRepository.SaveJsonInDb(pokemonJson.ES);
-            pokemon.IT = _dataInfoRepository.SaveJsonInDb(pokemonJson.IT);
-            pokemon.DE = _dataInfoRepository.SaveJsonInDb(pokemonJson.DE);
-            pokemon.RU = _dataInfoRepository.SaveJsonInDb(pokemonJson.RU);
-            pokemon.CO = _dataInfoRepository.SaveJsonInDb(pokemonJson.CO);
-            pokemon.CN = _dataInfoRepository.SaveJsonInDb(pokemonJson.CN);
-            pokemon.JP = _dataInfoRepository.SaveJsonInDb(pokemonJson.JP);
+            pokemon.FR = await _dataInfoRepository.SaveJsonInDb(pokemonJson.FR);
+            pokemon.EN = await _dataInfoRepository.SaveJsonInDb(pokemonJson.EN);
+            pokemon.ES = await _dataInfoRepository.SaveJsonInDb(pokemonJson.ES);
+            pokemon.IT = await _dataInfoRepository.SaveJsonInDb(pokemonJson.IT);
+            pokemon.DE = await _dataInfoRepository.SaveJsonInDb(pokemonJson.DE);
+            pokemon.RU = await _dataInfoRepository.SaveJsonInDb(pokemonJson.RU);
+            pokemon.CO = await _dataInfoRepository.SaveJsonInDb(pokemonJson.CO);
+            pokemon.CN = await _dataInfoRepository.SaveJsonInDb(pokemonJson.CN);
+            pokemon.JP = await _dataInfoRepository.SaveJsonInDb(pokemonJson.JP);
             pokemon.TypeEvolution = pokemonJson.TypeEvolution;
             pokemon.StatPv = pokemonJson.StatPv;
             pokemon.StatAttaque = pokemonJson.StatAttaque;

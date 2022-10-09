@@ -38,15 +38,71 @@ namespace WepApiScrapingData.Utils
         #endregion
 
         #region Download File
-        public static async Task DownloadFileTaskAsync(this HttpClient client, Uri uri, string FileName)
+        public static async Task<string> DownloadFileTaskAsync(this HttpClient client, string uri, string FileName, int Generation, bool Sprite = false)
         {
-            using (var s = await client.GetStreamAsync(uri))
+            string path = "Content/Images/G" + Generation + "/" + FileName + ".png";
+            if (Sprite)
+                path = "Content/Sprites/G" + Generation + "/" + FileName + ".png";
+            
+            if (!File.Exists(path))
             {
-                using (var fs = new FileStream(FileName, FileMode.CreateNew))
+                using (var response = await client.GetAsync(uri))
                 {
-                    await s.CopyToAsync(fs);
+                    response.EnsureSuccessStatusCode();
+                    using (var stream = await response.Content.ReadAsStreamAsync())
+                    {
+                        using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                        {
+                            await stream.CopyToAsync(fileStream);
+                        }
+                    }
                 }
             }
+
+            return path;
+        }
+
+        public static async Task<string> DownloadFileTaskAsync(this HttpClient client, string uri, string FileName, string typeFile)
+        {
+            string path = "";
+
+            switch (typeFile)
+            {
+                case Constantes.MiniGo:
+                    path = "Content/Types/MiniGo/" + FileName + ".png";
+                    break;
+                case Constantes.FondGo:
+                    path = "Content/Types/FondGo/" + FileName + ".png";
+                    break;
+                case Constantes.MiniHome:
+                    path = "Content/Types/MiniHome/FR/" + FileName + ".png";
+                    break;
+                case Constantes.IconHome:
+                    path = "Content/Types/IconHome/" + FileName + ".png";
+                    break;
+                case Constantes.AutoHome:
+                    path = "Content/Types/AutoHome/" + FileName + ".png";
+                    break;
+                default:
+                    break;
+            }
+
+            if (!File.Exists(path))
+            {
+                using (var response = await client.GetAsync(uri))
+                {
+                    response.EnsureSuccessStatusCode();
+                    using (var stream = await response.Content.ReadAsStreamAsync())
+                    {
+                        using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                        {
+                            await stream.CopyToAsync(fileStream);
+                        }
+                    }
+                }
+            }
+
+            return path;
         }
 
         public static async Task<byte[]?> DownloadImageAsync(this HttpClient client, string url)

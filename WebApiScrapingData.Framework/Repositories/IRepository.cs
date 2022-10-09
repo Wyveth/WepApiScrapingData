@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Framework;
 
 namespace WebApiScrapingData.Core.Repositories
@@ -10,16 +11,16 @@ namespace WebApiScrapingData.Core.Repositories
     {
         IUnitOfWork UnitOfWork { get; }
         
-        TEntity Get(int id);
+        Task<TEntity> Get(int id);
         IQueryable<TEntity> Query();
-        IEnumerable<TEntity> GetAll();
+        Task<IEnumerable<TEntity>> GetAll();
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
 
-        TEntity? SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity?> SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
 
-        void Add(TEntity entity);
-        void AddRange(IEnumerable<TEntity> entities);
-        void SaveJsonInDb(string json);
+        Task Add(TEntity entity);
+        Task AddRange(IEnumerable<TEntity> entities);
+        Task SaveJsonInDb(string json);
 
         void Edit(TEntity entity);
         void EditRange(IEnumerable<TEntity> entities);

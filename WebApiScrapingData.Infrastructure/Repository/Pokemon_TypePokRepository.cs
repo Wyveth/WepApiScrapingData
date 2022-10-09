@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using WebApiScrapingData.Core.Repositories;
@@ -25,21 +26,21 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
         #region Public Methods
         #region Create
-        public void Add(Pokemon_TypePok entity)
+        public async Task Add(Pokemon_TypePok entity)
         {
             UpdateInfo(entity);
-            this._context.Pokemon_TypePok.Add(entity);
+            await this._context.Pokemon_TypePok.AddAsync(entity);
         }
 
-        public void AddRange(IEnumerable<Pokemon_TypePok> entities)
+        public async Task AddRange(IEnumerable<Pokemon_TypePok> entities)
         {
             foreach (var entity in entities)
                 UpdateInfo(entity);
 
-            this._context.Pokemon_TypePok.AddRange(entities);
+            await this._context.Pokemon_TypePok.AddRangeAsync(entities);
         }
 
-        public void SaveJsonInDb(string json)
+        public Task SaveJsonInDb(string json)
         {
             throw new NotImplementedException();
         }
@@ -51,9 +52,9 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return this._context.Pokemon_TypePok.Where(predicate ?? (s => true)).AsQueryable();
         }
 
-        public Pokemon_TypePok Get(int id)
+        public async Task<Pokemon_TypePok> Get(int id)
         {
-            return this._context.Pokemon_TypePok.Single(x => x.Id.Equals(id));
+            return await this._context.Pokemon_TypePok.SingleAsync(x => x.Id.Equals(id));
         }
 
         public IQueryable<Pokemon_TypePok> Query()
@@ -61,9 +62,9 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return this._context.Pokemon_TypePok.AsQueryable();
         }
 
-        public IEnumerable<Pokemon_TypePok> GetAll()
+        public async Task<IEnumerable<Pokemon_TypePok>> GetAll()
         {
-            return this._context.Pokemon_TypePok.ToList();
+            return await this._context.Pokemon_TypePok.ToListAsync();
         }
         #endregion
 
@@ -94,9 +95,9 @@ namespace WebApiScrapingData.Infrastructure.Repository
             this._context.Pokemon_TypePok.RemoveRange(entities);
         }
 
-        public Pokemon_TypePok? SingleOrDefault(Expression<Func<Pokemon_TypePok, bool>> predicate)
+        public async Task<Pokemon_TypePok?> SingleOrDefault(Expression<Func<Pokemon_TypePok, bool>> predicate)
         {
-            return this._context.Pokemon_TypePok.SingleOrDefault(predicate);
+            return await this._context.Pokemon_TypePok.SingleOrDefaultAsync(predicate);
         }
         #endregion
         #endregion

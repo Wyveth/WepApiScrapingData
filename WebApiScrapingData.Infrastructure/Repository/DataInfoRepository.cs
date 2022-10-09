@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
@@ -23,49 +24,41 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
         #region Public Methods
         #region Create
-        public void Add(DataInfo entity)
+        public async Task Add(DataInfo entity)
         {
-            entity.UserCreation = "System";
-            entity.DateCreation = DateTime.Now;
-            entity.UserModification = "System";
-            entity.DateModification = DateTime.Now;
-            entity.versionModification = 1;
-            
-            this._context.DataInfos.Add(entity);
+            UpdateInfo(entity);
+            await this._context.DataInfos.AddAsync(entity);
         }
-
         public DataInfo AddInPokemon(DataInfo entity)
         {
-            entity.UserCreation = "System";
-            entity.DateCreation = DateTime.Now;
-            entity.UserModification = "System";
-            entity.DateModification = DateTime.Now;
-            entity.versionModification = 1;
-
+            UpdateInfo(entity);
             return this._context.DataInfos.Add(entity).Entity;
         }
 
-        public void AddRange(IEnumerable<DataInfo> entities)
+        public async Task AddRange(IEnumerable<DataInfo> entities)
         {
-            this._context.DataInfos.AddRange(entities);
-        }
+            foreach (var entity in entities)
+                UpdateInfo(entity);
 
-        public void SaveJsonInDb(string json)
+            await this._context.DataInfos.AddRangeAsync(entities);
+        }
+        
+        public async Task SaveJsonInDb(string json)
         {
             List<DataInfoJson> dataInfosJson = JsonConvert.DeserializeObject<List<DataInfoJson>>(json);
             foreach (DataInfoJson dataInfoJson in dataInfosJson)
             {
                 DataInfo dataInfo = new();
                 this.MapToInstance(dataInfo, dataInfoJson);
-                this.Add(dataInfo);
+                await this.Add(dataInfo);
             }
         }
         
-        public DataInfo SaveJsonInDb(DataInfoJson dataInfoJson)
+        public Task<DataInfo> SaveJsonInDb(DataInfoJson dataInfoJson)
         {
             DataInfo dataInfo = new();
             this.MapToInstance(dataInfo, dataInfoJson);
-            return this.AddInPokemon(dataInfo);
+            return Task.FromResult(this.AddInPokemon(dataInfo));
         }
         #endregion
 
@@ -75,9 +68,9 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return this._context.DataInfos.Where(predicate).AsQueryable();
         }
 
-        public DataInfo Get(int id)
+        public async Task<DataInfo> Get(int id)
         {
-            return this._context.DataInfos.Single(x => x.Id.Equals(id));
+            return await this._context.DataInfos.SingleAsync(x => x.Id.Equals(id));
         }
 
         public IQueryable<DataInfo> Query()
@@ -85,9 +78,9 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return this._context.DataInfos.AsQueryable();
         }
 
-        public IEnumerable<DataInfo> GetAll()
+        public async Task<IEnumerable<DataInfo>> GetAll()
         {
-            return this._context.DataInfos.ToList();
+            return await this._context.DataInfos.ToListAsync();
         }
         #endregion
 
@@ -118,14 +111,29 @@ namespace WebApiScrapingData.Infrastructure.Repository
             this._context.DataInfos.RemoveRange(entities);
         }
 
-        public DataInfo? SingleOrDefault(Expression<Func<DataInfo, bool>> predicate)
+        public async Task<DataInfo?> SingleOrDefault(Expression<Func<DataInfo, bool>> predicate)
         {
-            return this._context.DataInfos.SingleOrDefault(predicate);
+            return await this._context.DataInfos.SingleOrDefaultAsync(predicate);
         }
         #endregion
         #endregion
 
         #region Private Methods
+        private void UpdateInfo(DataInfo dataInfo, bool edit = false)
+        {
+            dataInfo.UserModification = "System";
+            dataInfo.DateModification = DateTime.Now;
+
+            if (!edit)
+            {
+                dataInfo.UserCreation = "System";
+                dataInfo.DateCreation = DateTime.Now;
+                dataInfo.versionModification = 1;
+            }
+            else
+                dataInfo.versionModification += 1;
+        }
+        
         public void MapToInstance(DataInfo dataInfo, DataInfoJson dataInfoJson)
         {
             dataInfo.Name = dataInfoJson.Name;

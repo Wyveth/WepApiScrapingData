@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using WebApiScrapingData.Core.Repositories;
@@ -25,21 +26,21 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
         #region Public Methods
         #region Create
-        public void Add(Pokemon_Weakness entity)
+        public async Task Add(Pokemon_Weakness entity)
         {
             UpdateInfo(entity);
-            this._context.Pokemon_Weakness.Add(entity);
+            await this._context.Pokemon_Weakness.AddAsync(entity);
         }
 
-        public void AddRange(IEnumerable<Pokemon_Weakness> entities)
+        public async Task AddRange(IEnumerable<Pokemon_Weakness> entities)
         {
             foreach (var entity in entities)
                 UpdateInfo(entity);
 
-            this._context.Pokemon_Weakness.AddRange(entities);
+            await this._context.Pokemon_Weakness.AddRangeAsync(entities);
         }
-
-        public void SaveJsonInDb(string json)
+        
+        public Task SaveJsonInDb(string json)
         {
             throw new NotImplementedException();
         }
@@ -51,9 +52,9 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return this._context.Pokemon_Weakness.Where(predicate ?? (s => true)).AsQueryable();
         }
 
-        public Pokemon_Weakness Get(int id)
+        public async Task<Pokemon_Weakness> Get(int id)
         {
-            return this._context.Pokemon_Weakness.Single(x => x.Id.Equals(id));
+            return await this._context.Pokemon_Weakness.SingleAsync(x => x.Id.Equals(id));
         }
 
         public IQueryable<Pokemon_Weakness> Query()
@@ -61,9 +62,9 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return this._context.Pokemon_Weakness.AsQueryable();
         }
 
-        public IEnumerable<Pokemon_Weakness> GetAll()
+        public async Task<IEnumerable<Pokemon_Weakness>> GetAll()
         {
-            return this._context.Pokemon_Weakness.ToList();
+            return await this._context.Pokemon_Weakness.ToListAsync();
         }
         #endregion
 
@@ -94,9 +95,9 @@ namespace WebApiScrapingData.Infrastructure.Repository
             this._context.Pokemon_Weakness.RemoveRange(entities);
         }
 
-        public Pokemon_Weakness? SingleOrDefault(Expression<Func<Pokemon_Weakness, bool>> predicate)
+        public async Task<Pokemon_Weakness?> SingleOrDefault(Expression<Func<Pokemon_Weakness, bool>> predicate)
         {
-            return this._context.Pokemon_Weakness.SingleOrDefault(predicate);
+            return await this._context.Pokemon_Weakness.SingleOrDefaultAsync(predicate);
         }
         #endregion
         #endregion

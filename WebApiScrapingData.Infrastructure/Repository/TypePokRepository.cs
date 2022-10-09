@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Abstract;
@@ -24,28 +25,28 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
         #region Public Methods
         #region Create
-        public void Add(TypePok entity)
+        public async Task Add(TypePok entity)
         {
             UpdateInfo(entity);
-            this._context.TypesPok.Add(entity);
+            await this._context.TypesPok.AddAsync(entity);
         }
 
-        public void AddRange(IEnumerable<TypePok> entities)
+        public async Task AddRange(IEnumerable<TypePok> entities)
         {
             foreach (var entity in entities)
                 UpdateInfo(entity);
 
-            this._context.TypesPok.AddRange(entities);
+            await this._context.TypesPok.AddRangeAsync(entities);
         }
 
-        public void SaveJsonInDb(string json)
+        public async Task SaveJsonInDb(string json)
         {
             List<TypePokJson> typesPokJson = JsonConvert.DeserializeObject<List<TypePokJson>>(json);
             foreach (TypePokJson typePokJson in typesPokJson)
             {
                 TypePok typePok = new();
                 this.MapToInstance(typePok, typePokJson);
-                this.Add(typePok);
+                await this.Add(typePok);
             }
         }
         #endregion
@@ -56,9 +57,14 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return this._context.TypesPok.Where(predicate ?? (s => true)).AsQueryable();
         }
 
-        public TypePok Get(int id)
+        public async Task<TypePok> Get(int id)
         {
-            return this._context.TypesPok.Single(x => x.Id.Equals(id));
+            return await this._context.TypesPok.SingleAsync(x => x.Id.Equals(id));
+        }
+        
+        public async Task<TypePok> GetByName(string name)
+        {
+            return await this._context.TypesPok.SingleAsync(x => x.Name_FR.Equals(name));
         }
 
         public IQueryable<TypePok> Query()
@@ -66,9 +72,9 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return this._context.TypesPok.AsQueryable();
         }
 
-        public IEnumerable<TypePok> GetAll()
+        public async Task<IEnumerable<TypePok>> GetAll()
         {
-            return this._context.TypesPok.ToList();
+            return await this._context.TypesPok.ToListAsync();
         }
         #endregion
 
@@ -99,9 +105,9 @@ namespace WebApiScrapingData.Infrastructure.Repository
             this._context.TypesPok.RemoveRange(entities);
         }
 
-        public TypePok? SingleOrDefault(Expression<Func<TypePok, bool>> predicate)
+        public async Task<TypePok?> SingleOrDefault(Expression<Func<TypePok, bool>> predicate)
         {
-            return this._context.TypesPok.SingleOrDefault(predicate);
+            return await this._context.TypesPok.SingleOrDefaultAsync(predicate);
         }
         #endregion
         #endregion

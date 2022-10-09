@@ -4,6 +4,10 @@ namespace WepApiScrapingData.Utils
 {
     public static class Constantes
     {
+        #region Configuration
+        public const string CorsOption = "Cors";
+        #endregion
+        
         #region Pokepedia
         public const string urlPokepedia = "https://www.pokepedia.fr";
         public const string urlAllSprites = urlPokepedia + "/Liste_des_Pok%C3%A9mon_dans_l'ordre_du_Pok%C3%A9dex_National";
@@ -1852,6 +1856,14 @@ namespace WepApiScrapingData.Utils
         public const string Furfrou_Pharaoh_Trim_UrlImg = "https://www.pokepedia.fr/images/5/5d/Sprite_676_Pharaon_HOME.png";
         public const string Furfrou_Pharaoh_Trim_UrlSprite = "https://www.pokepedia.fr/images/7/7f/Miniature_676_Pharaon_XY.png";
         #endregion
+        #endregion
+
+        #region Type Image
+        public const string MiniGo = "MiniGo";
+        public const string FondGo = "FondGo";
+        public const string MiniHome = "MiniHome";
+        public const string IconHome = "IconHome";
+        public const string AutoHome = "AutoHome";
         #endregion
     }
 }
