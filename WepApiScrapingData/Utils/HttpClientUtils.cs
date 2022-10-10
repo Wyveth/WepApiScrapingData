@@ -4,6 +4,7 @@ using ScrapySharp.Network;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Reflection.Metadata;
 
 namespace WepApiScrapingData.Utils
 {
@@ -40,10 +41,15 @@ namespace WepApiScrapingData.Utils
         #region Download File
         public static async Task<string> DownloadFileTaskAsync(this HttpClient client, string uri, string FileName, int Generation, bool Sprite = false)
         {
-            string path = "Content/Images/G" + Generation + "/" + FileName + ".png";
+            string path = "Content/Images/G" + Generation;
             if (Sprite)
-                path = "Content/Sprites/G" + Generation + "/" + FileName + ".png";
-            
+                path = "Content/Sprites/G" + Generation;
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            path = Path.Combine(path, FileName + ".png");
+
             if (!File.Exists(path))
             {
                 using (var response = await client.GetAsync(uri))
@@ -69,23 +75,28 @@ namespace WepApiScrapingData.Utils
             switch (typeFile)
             {
                 case Constantes.MiniGo:
-                    path = "Content/Types/MiniGo/" + FileName + ".png";
+                    path = "Content/Types/MiniGo/";
                     break;
                 case Constantes.FondGo:
-                    path = "Content/Types/FondGo/" + FileName + ".png";
+                    path = "Content/Types/FondGo/";
                     break;
                 case Constantes.MiniHome:
-                    path = "Content/Types/MiniHome/FR/" + FileName + ".png";
+                    path = "Content/Types/MiniHome/FR/";
                     break;
                 case Constantes.IconHome:
-                    path = "Content/Types/IconHome/" + FileName + ".png";
+                    path = "Content/Types/IconHome/";
                     break;
                 case Constantes.AutoHome:
-                    path = "Content/Types/AutoHome/" + FileName + ".png";
+                    path = "Content/Types/AutoHome/";
                     break;
                 default:
                     break;
             }
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            path = Path.Combine(path, FileName + ".png");
 
             if (!File.Exists(path))
             {

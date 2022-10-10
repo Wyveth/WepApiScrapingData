@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting.Internal;
 using Newtonsoft.Json;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.GraphQL;
@@ -30,11 +31,17 @@ builder.Services.AddGraphQLServer().AddQueryType<Query>().AddProjections().AddFi
 
 var app = builder.Build();
 
+string content = Path.Combine(app.Environment.ContentRootPath, "Content");
+if (!Directory.Exists(content))
+{
+    Directory.CreateDirectory(Path.Combine(app.Environment.ContentRootPath, "Content"));
+}
+
 app.UseStaticFiles();
 
 app.UseStaticFiles(new StaticFileOptions()
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Content")),
+    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "Content")),
     RequestPath = new PathString("/Content")
 });
 
