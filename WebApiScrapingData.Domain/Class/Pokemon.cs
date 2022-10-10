@@ -60,9 +60,9 @@ namespace WebApiScrapingData.Domain.Class
         [ForeignKey("Id_JP")]
         public DataInfo JP { get; set; }
 
-        //[DataMember(Name = "Types")]
+        [DataMember(Name = "Types")]
         public List<Pokemon_TypePok> Pokemon_TypePoks { get; set; }
-        //[DataMember(Name = "Weaknesses")]
+        [DataMember(Name = "Weaknesses")]
         public List<Pokemon_Weakness> Pokemon_Weaknesses { get; set; }
 
         //Type Evolution : Normal, Méga, Gigamax, Alola, Galar, Hisui
