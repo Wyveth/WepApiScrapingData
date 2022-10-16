@@ -5,6 +5,7 @@ namespace WepApiScrapingData.Utils
     public static class Constantes
     {
         #region Configuration
+        public const string SecurityOption = "Jwt";
         public const string CorsOption = "Cors";
         #endregion
         

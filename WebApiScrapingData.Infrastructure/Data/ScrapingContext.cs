@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Framework;
 
 namespace WebApiScrapingData.Infrastructure.Data
 {
-    public class ScrapingContext : DbContext, IUnitOfWork
+    public class ScrapingContext : IdentityDbContext, IUnitOfWork
     {
         #region Constructor
         public ScrapingContext(DbContextOptions options) : base(options)
@@ -15,14 +16,14 @@ namespace WebApiScrapingData.Infrastructure.Data
         #endregion
 
         #region Internal Methods
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(builder);
         }
         #endregion
 
