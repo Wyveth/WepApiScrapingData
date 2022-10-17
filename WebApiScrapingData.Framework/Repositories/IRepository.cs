@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Framework;
 
 namespace WebApiScrapingData.Core.Repositories

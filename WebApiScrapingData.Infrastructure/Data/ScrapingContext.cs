@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Framework;
 
 namespace WebApiScrapingData.Infrastructure.Data
@@ -33,6 +34,14 @@ namespace WebApiScrapingData.Infrastructure.Data
         public virtual DbSet<TypePok> TypesPok { get; set; }
         public virtual DbSet<Pokemon_TypePok> Pokemon_TypePok { get; set; }
         public virtual DbSet<Pokemon_Weakness> Pokemon_Weakness { get; set; }
+
+        public virtual DbSet<Quizz> Quizzs { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<QuestionAnswer> QuestionAnswers { get; set; }
+        public virtual DbSet<Answer> Answers { get; set; }
+        public virtual DbSet<Difficulty> Difficulties { get; set; }
+        public virtual DbSet<QuestionType> QuestionTypes { get; set; }
+        public virtual DbSet<QuizzDifficulty> QuizzDifficulties { get; set; }
         #endregion
     }
 }

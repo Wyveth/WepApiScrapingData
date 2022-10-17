@@ -29,11 +29,6 @@ namespace WebApiScrapingData.Infrastructure.Repository
             UpdateInfo(entity);
             await this._context.DataInfos.AddAsync(entity);
         }
-        public DataInfo AddInPokemon(DataInfo entity)
-        {
-            UpdateInfo(entity);
-            return this._context.DataInfos.Add(entity).Entity;
-        }
 
         public async Task AddRange(IEnumerable<DataInfo> entities)
         {
@@ -119,6 +114,12 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #endregion
 
         #region Private Methods
+        private DataInfo AddInPokemon(DataInfo entity)
+        {
+            UpdateInfo(entity);
+            return this._context.DataInfos.Add(entity).Entity;
+        }
+        
         private void UpdateInfo(DataInfo dataInfo, bool edit = false)
         {
             dataInfo.UserModification = "System";
