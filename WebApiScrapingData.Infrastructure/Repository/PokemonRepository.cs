@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
-using WebApiScrapingData.Core.Repositories;
+using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
 using WebApiScrapingData.Framework;
 using WebApiScrapingData.Infrastructure.Data;
 namespace WebApiScrapingData.Infrastructure.Repository
 {
-    public class PokemonRepository : IRepository<Pokemon>
+    public class PokemonRepository : IRepositoryExtendsPokemon<Pokemon>
     {
         #region Fields
         private readonly ScrapingContext _context;
@@ -68,6 +68,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 .Include("JP")
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
                 .Where(predicate)
                 .AsQueryable();
         }
@@ -86,6 +87,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 .Include(m => m.JP)
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
                 .SingleAsync(x => x.Id.Equals(id));
         }
 
@@ -118,6 +120,23 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 .Include(m => m.JP)
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Pokemon>> GetAllLight()
+        {
+            return await this._context.Pokemons
+                .Include(m => m.FR)
+                .Include(m => m.EN)
+                .Include(m => m.ES)
+                .Include(m => m.IT)
+                .Include(m => m.DE)
+                .Include(m => m.RU)
+                .Include(m => m.CO)
+                .Include(m => m.CN)
+                .Include(m => m.JP)
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .ToListAsync();
         }
         #endregion

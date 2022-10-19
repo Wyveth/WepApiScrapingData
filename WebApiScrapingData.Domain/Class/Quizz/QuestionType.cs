@@ -32,6 +32,6 @@ namespace WebApiScrapingData.Domain.Class.Quizz
         public bool IsSameType { get; set; }
 
         //Difficulté
-        public QuizzDifficulty? DifficultyID { get; set; }
+        public Difficulty? DifficultyID { get; set; }
     }
 }

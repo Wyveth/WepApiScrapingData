@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebApiScrapingData.Core.Repositories;
+using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
 using WepApiScrapingData.ExtensionMethods;
@@ -16,22 +17,26 @@ namespace WepApiScrapingData.Controllers
     public class PokemonController : ControllerBase
     {
         #region Fields
-        private readonly IRepository<Pokemon> _repository;
+        private readonly IRepositoryExtendsPokemon<Pokemon> _repository;
         private readonly IRepository<TypePok> _repositoryTP;
+        private readonly IRepository<Talent> _repositoryTL;
         private readonly IRepository<Pokemon_TypePok> _repositoryPTP;
-        private readonly IRepository<Pokemon_Weakness> _repositoryWN;
+        private readonly IRepository<Pokemon_Weakness> _repositoryPWN;
+        private readonly IRepository<Pokemon_Talent> _repositoryPTL;
         #endregion
 
         #region Constructors
-        public PokemonController(IRepository<Pokemon> repository, IRepository<TypePok> repositoryTP, IRepository<Pokemon_TypePok> repositoryPTP, IRepository<Pokemon_Weakness> repositoryWN)
+        public PokemonController(IRepositoryExtendsPokemon<Pokemon> repository, IRepository<TypePok> repositoryTP, IRepository<Talent> repositoryTL, IRepository<Pokemon_TypePok> repositoryPTP, IRepository<Pokemon_Weakness> repositoryPWN, IRepository<Pokemon_Talent> repositoryPTL)
         {
             _repository = repository;
             _repositoryTP = repositoryTP;
+            _repositoryTL = repositoryTL;
             _repositoryPTP = repositoryPTP;
-            _repositoryWN = repositoryWN;
+            _repositoryPWN = repositoryPWN;
+            _repositoryPTL = repositoryPTL;
         }
         #endregion
-
+        
         #region Public Methods
         [HttpGet]
         [Route("ScrapingAll")]
@@ -64,7 +69,7 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
-        [Route("Scraping/{FR}/{EN}/{ES}/{IT}/{DE}/{RU}/{JP}/{CO}/{CN}")]
+        [Route("Scraping/{FR}/{EN}/{ES}/{IT}/{DE}/{RU}/{CO}/{CN}/{JP}")]
         public void Scraping(string FR, string EN, string ES, string IT, string DE, string RU, string CO, string CN, string JP)
         {
             List<PokemonJson> dataJsons = new List<PokemonJson>();
@@ -112,6 +117,17 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
+        [Route("Light/{limit}/{max}")]
+        public async Task<IEnumerable<Pokemon>> GetAllLight(int max = 20, bool limit = true)
+        {
+            IEnumerable<Pokemon> pokemons = await _repository.GetAllLight();
+            if (limit)
+                return pokemons.Take(max);
+            else
+                return pokemons;
+        }
+
+        [HttpGet]
         [Route("{id}")]
         public async Task<Pokemon> GetSingle(int id)
         {
@@ -146,7 +162,7 @@ namespace WepApiScrapingData.Controllers
             IEnumerable<Pokemon> pokemons = await _repository.GetAll();
             foreach (Pokemon pokemon in pokemons.ToList())
             {
-                List<Pokemon_TypePok> Pokemon_TypePoks = new();
+                List<Pokemon_TypePok> pokemon_TypePoks = new();
 
                 foreach (string type in pokemon.FR.Types.Split(','))
                 {
@@ -157,10 +173,10 @@ namespace WepApiScrapingData.Controllers
                         TypePokId = typePok.Id
                     };
 
-                    Pokemon_TypePoks.Add(pokemon_TypePok);
+                    pokemon_TypePoks.Add(pokemon_TypePok);
                 }
 
-                _repositoryPTP.AddRange(Pokemon_TypePoks);
+                _repositoryPTP.AddRange(pokemon_TypePoks);
             }
 
             _repository.UnitOfWork.SaveChanges();
@@ -175,7 +191,7 @@ namespace WepApiScrapingData.Controllers
                 List<Pokemon> pokemons = _repository.GetAll().Result.ToList();
                 foreach (Pokemon pokemon in pokemons)
                 {
-                    List<Pokemon_Weakness> Pokemon_Weaknesses = new();
+                    List<Pokemon_Weakness> pokemon_Weaknesses = new();
 
                     foreach (string weakness in pokemon.FR.Weakness.Split(','))
                     {
@@ -185,11 +201,11 @@ namespace WepApiScrapingData.Controllers
                             PokemonId = pokemon.Id,
                             TypePokId = typePok.Id
                         };
-                        
-                        Pokemon_Weaknesses.Add(pokemon_Weakness);
+
+                        pokemon_Weaknesses.Add(pokemon_Weakness);
                     }
 
-                    await _repositoryWN.AddRange(Pokemon_Weaknesses);
+                    await _repositoryPWN.AddRange(pokemon_Weaknesses);
                 }
 
                 _repository.UnitOfWork.SaveChanges();
@@ -198,6 +214,33 @@ namespace WepApiScrapingData.Controllers
             {
                Console.WriteLine(e.InnerException.ToString());
             }
+        }
+
+        [HttpPut]
+        [Route("UpdateTalentInDB")]
+        public async Task UpdateTalentInDB()
+        {
+            IEnumerable<Pokemon> pokemons = await _repository.GetAll();
+            foreach (Pokemon pokemon in pokemons.ToList())
+            {
+                List<Pokemon_Talent> pokemon_Talents = new();
+
+                foreach (string type in pokemon.FR.Talent.Split(','))
+                {
+                    Talent talentPok = await _repositoryTL.SingleOrDefault(x => x.Name_FR.Equals(type));
+                    Pokemon_Talent pokemon_Talent = new()
+                    {
+                        PokemonId = pokemon.Id,
+                        TalentId = talentPok.Id
+                    };
+
+                    pokemon_Talents.Add(pokemon_Talent);
+                }
+
+                _repositoryPTL.AddRange(pokemon_Talents);
+            }
+
+            _repository.UnitOfWork.SaveChanges();
         }
 
         [HttpPut]

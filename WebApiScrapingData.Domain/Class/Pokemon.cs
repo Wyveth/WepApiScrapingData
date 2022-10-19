@@ -64,6 +64,8 @@ namespace WebApiScrapingData.Domain.Class
         public List<Pokemon_TypePok> Pokemon_TypePoks { get; set; }
         [DataMember(Name = "Weaknesses")]
         public List<Pokemon_Weakness> Pokemon_Weaknesses { get; set; }
+        [DataMember(Name = "Talents")]
+        public List<Pokemon_Talent> Pokemon_Talents { get; set; }
 
         //Type Evolution : Normal, Méga, Gigamax, Alola, Galar, Hisui
         [DataMember(Name = DataMember.TypeEvolution)]
@@ -129,6 +131,7 @@ namespace WebApiScrapingData.Domain.Class
 
             Pokemon_TypePoks = new();
             Pokemon_Weaknesses = new();
+            Pokemon_Talents = new();
         }
     }
 }

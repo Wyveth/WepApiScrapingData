@@ -138,5 +138,25 @@ namespace WebApiScrapingData.Domain.Constantes
 
         public const string DataSprite = "DataSprite";
         #endregion
+
+        #region Talent
+        public const string Description_FR = "Description_FR";
+
+        public const string Description_EN = "Description_EN";
+
+        public const string Description_ES = "Description_ES";
+
+        public const string Description_IT = "Description_IT";
+
+        public const string Description_DE = "Description_DE";
+
+        public const string Description_RU = "Description_RU";
+
+        public const string Description_CO = "Description_CO";
+
+        public const string Description_CN = "Description_CN";
+
+        public const string Description_JP = "Description_JP";
+        #endregion
     }
 }

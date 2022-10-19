@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using WebApiScrapingData.Core.Repositories;
+using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
+using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Framework;
 using WebApiScrapingData.Infrastructure.Data;
 
 namespace WebApiScrapingData.Infrastructure.Repository
 {
-    public class AnswerRepository : IRepository<Answer>
+    public class AnswerRepository : IRepositoryExtendsAnswer<Answer>
     {
         #region Fields
         private readonly ScrapingContext _context;
@@ -34,11 +35,6 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 UpdateInfo(entity);
 
             await this._context.Answers.AddRangeAsync(entities);
-        }
-
-        public Task SaveJsonInDb(string json)
-        {
-            throw new NotImplementedException();
         }
         #endregion
 
@@ -112,6 +108,51 @@ namespace WebApiScrapingData.Infrastructure.Repository
             }
             else
                 answer.versionModification += 1;
+        }
+
+        public Task<string> GenerateCorrectAnswers(QuestionType questionType, List<Pokemon> pokemonsAnswer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GenerateCorrectAnswers(QuestionType questionType, List<TypePok> typesAnswer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GenerateCorrectAnswers(QuestionType questionType, List<Talent> talentsAnswer, bool Reverse)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GenerateCorrectAnswers(QuestionType questionType, List<Talent> talentsAnswer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GenerateCorrectAnswersDesc(QuestionType questionType, List<Pokemon> pokemonsAnswer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GenerateCorrectAnswersStat(QuestionType questionType, List<Pokemon> pokemonsAnswer, string typeStat)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Answer>> GenerateAnswers(Quizz quizz, QuestionType questionType, List<Answer> answers)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> ConvertDescription(Pokemon pokemon)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveJsonInDb(string json)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 

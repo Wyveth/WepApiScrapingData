@@ -48,6 +48,6 @@ namespace WebApiScrapingData.Domain.Class.Quizz
         public bool Done { get; set; }
 
         //Identifiant du Profil
-        public IdentityUser identityUser { get; set; }
+        public IdentityUser? IdentityUser { get; set; }
     }
 }

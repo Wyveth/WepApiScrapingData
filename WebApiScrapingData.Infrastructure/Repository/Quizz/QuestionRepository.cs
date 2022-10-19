@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using WebApiScrapingData.Core.Repositories;
+using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Framework;
 using WebApiScrapingData.Infrastructure.Data;
 
 namespace WebApiScrapingData.Infrastructure.Repository
 {
-    public class QuestionRepository : IRepository<Question>
+    public class QuestionRepository : IRepositoryExtendsQuestion<Question>
     {
         #region Fields
         private readonly ScrapingContext _context;
@@ -34,11 +34,6 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 UpdateInfo(entity);
 
             await this._context.Questions.AddRangeAsync(entities);
-        }
-
-        public Task SaveJsonInDb(string json)
-        {
-            throw new NotImplementedException();
         }
         #endregion
 
@@ -112,6 +107,21 @@ namespace WebApiScrapingData.Infrastructure.Repository
             }
             else
                 dataInfo.versionModification += 1;
+        }
+
+        public Task<string> GenerateQuestions(bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool genArceus, bool easy, bool normal, bool hard)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetNbQuestionByDifficulty(bool easy, bool normal, bool hard)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveJsonInDb(string json)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 

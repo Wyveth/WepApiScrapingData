@@ -1,13 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using WebApiScrapingData.Core.Repositories;
+using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Framework;
 using WebApiScrapingData.Infrastructure.Data;
 
 namespace WebApiScrapingData.Infrastructure.Repository
 {
-    public class QuizzRepository : IRepository<Quizz>
+    public class QuizzRepository : IRepositoryExtendsQuizz<Quizz>
     {
         #region Fields
         private readonly ScrapingContext _context;
@@ -34,11 +35,6 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 UpdateInfo(entity);
 
             await this._context.Quizzs.AddRangeAsync(entities);
-        }
-
-        public Task SaveJsonInDb(string json)
-        {
-            throw new NotImplementedException();
         }
         #endregion
 
@@ -112,6 +108,16 @@ namespace WebApiScrapingData.Infrastructure.Repository
             }
             else
                 dataInfo.versionModification += 1;
+        }
+
+        public Task<Quizz> GenerateQuizz(IdentityUser profile, bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool genArceus, bool easy, bool normal, bool hard)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveJsonInDb(string json)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
