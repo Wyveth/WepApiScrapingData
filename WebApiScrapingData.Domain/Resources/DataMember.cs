@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using WebApiScrapingData.Domain.Class;
-
-namespace WebApiScrapingData.Domain.Constantes
+﻿namespace WebApiScrapingData.Domain.Resources
 {
     public static class DataMember
     {

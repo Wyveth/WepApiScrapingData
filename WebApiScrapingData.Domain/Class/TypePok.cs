@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using WebApiScrapingData.Domain.Abstract;
-using WebApiScrapingData.Domain.Constantes;
+using WebApiScrapingData.Domain.Resources;
 
 namespace WebApiScrapingData.Domain.Class
 {

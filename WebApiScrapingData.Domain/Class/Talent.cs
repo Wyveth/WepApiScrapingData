@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using WebApiScrapingData.Domain.Abstract;
-using WebApiScrapingData.Domain.Constantes;
+using WebApiScrapingData.Domain.Resources;
 
 namespace WebApiScrapingData.Domain.Class
 {

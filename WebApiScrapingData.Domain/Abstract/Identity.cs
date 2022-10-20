@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using WebApiScrapingData.Domain.Constantes;
+using WebApiScrapingData.Domain.Resources;
 
 namespace WebApiScrapingData.Domain.Abstract
 {
