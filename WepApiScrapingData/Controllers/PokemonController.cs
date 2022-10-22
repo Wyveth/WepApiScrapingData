@@ -141,6 +141,20 @@ namespace WepApiScrapingData.Controllers
             return _repository.Find(m => m.FR.Name.Equals(name));
         }
 
+        [HttpGet]
+        [Route("GetEvol/{family}")]
+        public async Task<IEnumerable<Pokemon>> GetEvol(string family)
+        {
+            return await _repository.GetFamilyWithoutVariantAsync(family);
+        }
+
+        [HttpGet]
+        [Route("GetVariant/{number}")]
+        public async Task<IEnumerable<Pokemon>> GetVariant(string number)
+        {
+            return await _repository.GetAllVariantAsync(number);
+        }
+
         [HttpPost]
         [Route("SaveInDB")]
         public void SaveInDB()

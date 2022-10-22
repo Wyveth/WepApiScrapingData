@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GreenDonut;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
@@ -139,6 +140,40 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .ToListAsync();
         }
+
+        public async Task<List<Pokemon>> GetFamilyWithoutVariantAsync(string family)
+        {
+            string[] vs = family.Split(',');
+            List<Pokemon> result = new List<Pokemon>();
+
+            foreach (var item in vs)
+            {
+                Pokemon pokemon = Find(m => m.FR.Name.Equals(item)).FirstOrDefault();
+                if (pokemon != null)
+                    result.Add(pokemon);
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<Pokemon>> GetAllVariantAsync(string number)
+        {
+            return await this._context.Pokemons
+                .Where(m => m.Number.Equals(number) && !m.TypeEvolution.Equals("Normal")).OrderBy(m => m.Number)
+                .Include(m => m.FR)
+                .Include(m => m.EN)
+                .Include(m => m.ES)
+                .Include(m => m.IT)
+                .Include(m => m.DE)
+                .Include(m => m.RU)
+                .Include(m => m.CO)
+                .Include(m => m.CN)
+                .Include(m => m.JP)
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .ToListAsync();
+        }
         #endregion
 
         #region Update
@@ -176,7 +211,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #endregion
 
         #region Private Methods
-        public async Task MapToInstance(Pokemon pokemon, PokemonJson pokemonJson)
+        private async Task MapToInstance(Pokemon pokemon, PokemonJson pokemonJson)
         {
             pokemon.Number = pokemonJson.Number;
             pokemon.FR = await _dataInfoRepository.SaveJsonInDb(pokemonJson.FR);

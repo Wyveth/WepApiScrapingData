@@ -103,6 +103,10 @@
         
         public const string JP = "JP";
 
+        public const string Weaknesses = "Weaknesses";
+
+        public const string Talents = "Talents";
+
         public const string TypeEvolution = "TypeEvolution";
 
         public const string StatPv = "StatPv";
