@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
+using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
 using WepApiScrapingData.ExtensionMethods;
 
@@ -15,11 +16,11 @@ namespace WepApiScrapingData.Controllers
     {
         #region Fields
         private readonly IRepository<Talent> _repository;
-        private readonly IRepository<Pokemon> _repositoryPokemon;
+        private readonly IRepositoryExtendsPokemon<Pokemon> _repositoryPokemon;
         #endregion
 
         #region Constructors
-        public TalentController(IRepository<Talent> repository, IRepository<Pokemon> repositoryPokemon)
+        public TalentController(IRepository<Talent> repository, IRepositoryExtendsPokemon<Pokemon> repositoryPokemon)
         {
             _repository = repository;
             _repositoryPokemon = repositoryPokemon;
