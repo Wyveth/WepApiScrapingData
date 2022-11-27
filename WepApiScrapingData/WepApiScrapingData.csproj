@@ -677,6 +677,7 @@
     <Folder Include="Content\Images\G7\" />
     <Folder Include="Content\Images\G8\" />
     <Folder Include="Content\Images\G9\" />
+    <Folder Include="Content\Sound\G0\" />
     <Folder Include="Content\Sprites\G0\" />
     <Folder Include="Content\Sprites\G1\" />
     <Folder Include="Content\Sprites\G2\" />

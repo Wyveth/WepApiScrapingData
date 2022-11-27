@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Net.Http;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
@@ -271,6 +272,23 @@ namespace WepApiScrapingData.Controllers
 
             _repository.UnitOfWork.SaveChanges();
 
+            httpClient.Dispose();
+        }
+
+        [HttpPut]
+        [Route("UpdateSprite")]
+        public async Task UpdateSprite()
+        {
+            string response = HttpClientUtils.CallUrl(Constantes.urlAllSprites).Result;
+            ScrapingDataUtils.GetUrlsMini(response, _repository);
+        }
+
+        [HttpGet]
+        [Route("GetSound")]
+        public async Task GetSound()
+        {
+            var httpClient = new HttpClient();
+            await HttpClientUtils.DownloadSoundFileTaskAsync(httpClient, "https://www.pokepedia.fr/images/9/97/Cri_6_x_001.ogg", "test");
             httpClient.Dispose();
         }
 

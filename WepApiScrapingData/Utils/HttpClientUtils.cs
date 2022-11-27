@@ -116,6 +116,33 @@ namespace WepApiScrapingData.Utils
             return path;
         }
 
+        public static async Task<string> DownloadSoundFileTaskAsync(this HttpClient client, string uri, string FileName)
+        {
+            string path = "Content/Sound/G0/";
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            path = Path.Combine(path, FileName + ".ogg");
+
+            if (!File.Exists(path))
+            {
+                using (var response = await client.GetAsync(uri))
+                {
+                    response.EnsureSuccessStatusCode();
+                    using (var stream = await response.Content.ReadAsStreamAsync())
+                    {
+                        using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                        {
+                            await stream.CopyToAsync(fileStream);
+                        }
+                    }
+                }
+            }
+
+            return path;
+        }
+
         public static async Task<byte[]?> DownloadImageAsync(this HttpClient client, string url)
         {
             try

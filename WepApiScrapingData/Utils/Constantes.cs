@@ -11,7 +11,8 @@ namespace WepApiScrapingData.Utils
         
         #region Pokepedia
         public const string urlPokepedia = "https://www.pokepedia.fr";
-        public const string urlAllSprites = urlPokepedia + "/Liste_des_Pok%C3%A9mon_dans_l'ordre_du_Pok%C3%A9dex_National";
+        public const string urlAllSpritesOld = urlPokepedia + "/Liste_des_Pok%C3%A9mon_dans_l'ordre_du_Pok%C3%A9dex_National";
+        public const string urlAllSprites = urlPokepedia + "/Liste_des_miniatures_par_Pokémon";
         #endregion
 
         #region Pokébip
@@ -106,6 +107,7 @@ namespace WepApiScrapingData.Utils
         public const string regionGalar_RU = "от галарского";
         public const string regionHisui_RU = "от Хисуи";
 
+        public const string Ultra = "Ultra";
         public const string Meganium = "Méganium";
         public const string Megapagos = "Mégapagos";
         public const string Prismillon = "Prismillon";
@@ -1856,6 +1858,178 @@ namespace WepApiScrapingData.Utils
         public const string Furfrou_Pharaoh_Trim_JP = "トリミアン キングダムカット";
         public const string Furfrou_Pharaoh_Trim_UrlImg = "https://www.pokepedia.fr/images/5/5d/Sprite_676_Pharaon_HOME.png";
         public const string Furfrou_Pharaoh_Trim_UrlSprite = "https://www.pokepedia.fr/images/7/7f/Miniature_676_Pharaon_XY.png";
+        #endregion
+        #endregion
+
+        #region Pikachu
+        #region Pikachu Rockeur
+        public const string Pikachu_Rocker_FR = "Pikachu Rockeur";
+        public const string Pikachu_Rocker_EN = "Pikachu Rocker";
+        public const string Pikachu_Rocker_ES = "";
+        public const string Pikachu_Rocker_IT = "";
+        public const string Pikachu_Rocker_DE = "";
+        public const string Pikachu_Rocker_RU = "";
+        public const string Pikachu_Rocker_CO = "";
+        public const string Pikachu_Rocker_CN = "";
+        public const string Pikachu_Rocker_JP = "";
+        public const string Pikachu_Rocker_UrlImg = "https://www.pokepedia.fr/images/c/c5/Pikachu_%28Rockeur%29-ROSA.png";
+        public const string Pikachu_Rocker_UrlSprite = "https://www.pokepedia.fr/images/1/1b/Miniature_025_Rockeur_ROSA.png";
+        #endregion
+        #region Pikachu Lady
+        public const string Pikachu_Lady_FR = "Pikachu Lady";
+        public const string Pikachu_Lady_EN = "Pikachu Lady";
+        public const string Pikachu_Lady_ES = "";
+        public const string Pikachu_Lady_IT = "";
+        public const string Pikachu_Lady_DE = "";
+        public const string Pikachu_Lady_RU = "";
+        public const string Pikachu_Lady_CO = "";
+        public const string Pikachu_Lady_CN = "";
+        public const string Pikachu_Lady_JP = "";
+        public const string Pikachu_Lady_UrlImg = "https://www.pokepedia.fr/images/2/2a/Pikachu_%28Lady%29-ROSA.png";
+        public const string Pikachu_Lady_UrlSprite = "https://www.pokepedia.fr/images/b/bb/Miniature_025_Lady_ROSA.png";
+        #endregion
+        #region Pikachu Star
+        public const string Pikachu_Star_FR = "Pikachu Star";
+        public const string Pikachu_Star_EN = "Pikachu Star";
+        public const string Pikachu_Star_ES = "";
+        public const string Pikachu_Star_IT = "";
+        public const string Pikachu_Star_DE = "";
+        public const string Pikachu_Star_RU = "";
+        public const string Pikachu_Star_CO = "";
+        public const string Pikachu_Star_CN = "";
+        public const string Pikachu_Star_JP = "";
+        public const string Pikachu_Star_UrlImg = "https://www.pokepedia.fr/images/8/84/Pikachu_%28Star%29-ROSA.png";
+        public const string Pikachu_Star_UrlSprite = "https://www.pokepedia.fr/images/0/05/Miniature_025_Star_ROSA.png";
+        #endregion
+        #region Pikachu Docteur
+        public const string Pikachu_Doctor_FR = "Pikachu Docteur";
+        public const string Pikachu_Doctor_EN = "Pikachu Doctor";
+        public const string Pikachu_Doctor_ES = "";
+        public const string Pikachu_Doctor_IT = "";
+        public const string Pikachu_Doctor_DE = "";
+        public const string Pikachu_Doctor_RU = "";
+        public const string Pikachu_Doctor_CO = "";
+        public const string Pikachu_Doctor_CN = "";
+        public const string Pikachu_Doctor_JP = "";
+        public const string Pikachu_Doctor_UrlImg = "https://www.pokepedia.fr/images/5/53/Pikachu_%28Docteur%29-ROSA.png";
+        public const string Pikachu_Doctor_UrlSprite = "https://www.pokepedia.fr/images/d/d5/Miniature_025_Docteur_ROSA.png";
+        #endregion
+        #region Pikachu Catcheur
+        public const string Pikachu_Wrestler_FR = "Pikachu Catcheur";
+        public const string Pikachu_Wrestler_EN = "Pikachu Wrestler";
+        public const string Pikachu_Wrestler_ES = "";
+        public const string Pikachu_Wrestler_IT = "";
+        public const string Pikachu_Wrestler_DE = "";
+        public const string Pikachu_Wrestler_RU = "";
+        public const string Pikachu_Wrestler_CO = "";
+        public const string Pikachu_Wrestler_CN = "";
+        public const string Pikachu_Wrestler_JP = "";
+        public const string Pikachu_Wrestler_UrlImg = "https://www.pokepedia.fr/images/f/f2/Pikachu_%28Catcheur%29-ROSA.png";
+        public const string Pikachu_Wrestler_UrlSprite = "https://www.pokepedia.fr/images/3/31/Miniature_025_Catcheur_ROSA.png";
+        #endregion
+        #region Pikachu Casquette Originale
+        public const string Pikachu_Original_Cap_FR = "Pikachu (Casquette Originale)";
+        public const string Pikachu_Original_Cap_EN = "Pikachu (Original Cap)";
+        public const string Pikachu_Original_Cap_ES = "";
+        public const string Pikachu_Original_Cap_IT = "";
+        public const string Pikachu_Original_Cap_DE = "";
+        public const string Pikachu_Original_Cap_RU = "";
+        public const string Pikachu_Original_Cap_CO = "";
+        public const string Pikachu_Original_Cap_CN = "";
+        public const string Pikachu_Original_Cap_JP = "";
+        public const string Pikachu_Original_Cap_UrlImg = "https://www.pokepedia.fr/images/1/15/Pikachu_%28Casquette_Originale%29-SL.png";
+        public const string Pikachu_Original_Cap_UrlSprite = "https://www.pokepedia.fr/images/7/7a/Miniature_025_Casquette_Originale_SL.png";
+        #endregion
+        #region Pikachu Casquette de Hoenn
+        public const string Pikachu_Hoenn_Cap_FR = "Pikachu (Casquette de Hoenn)";
+        public const string Pikachu_Hoenn_Cap_EN = "Pikachu (Hoenn Cap)";
+        public const string Pikachu_Hoenn_Cap_ES = "";
+        public const string Pikachu_Hoenn_Cap_IT = "";
+        public const string Pikachu_Hoenn_Cap_DE = "";
+        public const string Pikachu_Hoenn_Cap_RU = "";
+        public const string Pikachu_Hoenn_Cap_CO = "";
+        public const string Pikachu_Hoenn_Cap_CN = "";
+        public const string Pikachu_Hoenn_Cap_JP = "";
+        public const string Pikachu_Hoenn_Cap_UrlImg = "https://www.pokepedia.fr/images/b/b3/Pikachu_%28Casquette_de_Hoenn%29-SL.png";
+        public const string Pikachu_Hoenn_Cap_UrlSprite = "https://www.pokepedia.fr/images/1/17/Miniature_025_Casquette_de_Hoenn_SL.png";
+        #endregion
+        #region Pikachu Casquette de Sinnoh
+        public const string Pikachu_Sinnoh_Cap_FR = "Pikachu (Casquette de Sinnoh)";
+        public const string Pikachu_Sinnoh_Cap_EN = "Pikachu (Sinnoh Cap)";
+        public const string Pikachu_Sinnoh_Cap_ES = "";
+        public const string Pikachu_Sinnoh_Cap_IT = "";
+        public const string Pikachu_Sinnoh_Cap_DE = "";
+        public const string Pikachu_Sinnoh_Cap_RU = "";
+        public const string Pikachu_Sinnoh_Cap_CO = "";
+        public const string Pikachu_Sinnoh_Cap_CN = "";
+        public const string Pikachu_Sinnoh_Cap_JP = "";
+        public const string Pikachu_Sinnoh_Cap_UrlImg = "https://www.pokepedia.fr/images/1/1b/Pikachu_%28Casquette_de_Sinnoh%29-SL.png";
+        public const string Pikachu_Sinnoh_Cap_UrlSprite = "https://www.pokepedia.fr/images/4/4b/Miniature_025_Casquette_de_Sinnoh_SL.png";
+        #endregion
+        #region Pikachu Casquette d'Unys
+        public const string Pikachu_Unys_Cap_FR = "Pikachu (Casquette d'Unys)";
+        public const string Pikachu_Unys_Cap_EN = "Pikachu (Unys Cap)";
+        public const string Pikachu_Unys_Cap_ES = "";
+        public const string Pikachu_Unys_Cap_IT = "";
+        public const string Pikachu_Unys_Cap_DE = "";
+        public const string Pikachu_Unys_Cap_RU = "";
+        public const string Pikachu_Unys_Cap_CO = "";
+        public const string Pikachu_Unys_Cap_CN = "";
+        public const string Pikachu_Unys_Cap_JP = "";
+        public const string Pikachu_Unys_Cap_UrlImg = "https://www.pokepedia.fr/images/3/37/Pikachu_%28Casquette_d%27Unys%29-SL.png";
+        public const string Pikachu_Unys_Cap_UrlSprite = "https://www.pokepedia.fr/images/e/ec/Miniature_025_Casquette_d%27Unys_SL.png";
+        #endregion
+        #region Pikachu Casquette de Kalos
+        public const string Pikachu_Kalos_Cap_FR = "Pikachu (Casquette de Kalos)";
+        public const string Pikachu_Kalos_Cap_EN = "Pikachu (Kalos Cap)";
+        public const string Pikachu_Kalos_Cap_ES = "";
+        public const string Pikachu_Kalos_Cap_IT = "";
+        public const string Pikachu_Kalos_Cap_DE = "";
+        public const string Pikachu_Kalos_Cap_RU = "";
+        public const string Pikachu_Kalos_Cap_CO = "";
+        public const string Pikachu_Kalos_Cap_CN = "";
+        public const string Pikachu_Kalos_Cap_JP = "";
+        public const string Pikachu_Kalos_Cap_UrlImg = "https://www.pokepedia.fr/images/1/10/Pikachu_%28Casquette_de_Kalos%29-SL.png";
+        public const string Pikachu_Kalos_Cap_UrlSprite = "https://www.pokepedia.fr/images/6/6a/Miniature_025_Casquette_de_Kalos_SL.png";
+        #endregion
+        #region Pikachu Casquette d'Alola
+        public const string Pikachu_Alola_Cap_FR = "Pikachu (Casquette d'Alola)";
+        public const string Pikachu_Alola_Cap_EN = "Pikachu (Alola Cap)";
+        public const string Pikachu_Alola_Cap_ES = "";
+        public const string Pikachu_Alola_Cap_IT = "";
+        public const string Pikachu_Alola_Cap_DE = "";
+        public const string Pikachu_Alola_Cap_RU = "";
+        public const string Pikachu_Alola_Cap_CO = "";
+        public const string Pikachu_Alola_Cap_CN = "";
+        public const string Pikachu_Alola_Cap_JP = "";
+        public const string Pikachu_Alola_Cap_UrlImg = "https://www.pokepedia.fr/images/a/a7/Pikachu_%28Casquette_d%27Alola%29-SL.png";
+        public const string Pikachu_Alola_Cap_UrlSprite = "https://www.pokepedia.fr/images/2/2f/Miniature_025_Casquette_d%27Alola_SL.png";
+        #endregion
+        #region Pikachu Casquette Partenaire
+        public const string Pikachu_Partner_Cap_FR = "Pikachu (Casquette Partenaire)";
+        public const string Pikachu_Partner_Cap_EN = "Pikachu (Partner Cap)";
+        public const string Pikachu_Partner_Cap_ES = "";
+        public const string Pikachu_Partner_Cap_IT = "";
+        public const string Pikachu_Partner_Cap_DE = "";
+        public const string Pikachu_Partner_Cap_RU = "";
+        public const string Pikachu_Partner_Cap_CO = "";
+        public const string Pikachu_Partner_Cap_CN = "";
+        public const string Pikachu_Partner_Cap_JP = "";
+        public const string Pikachu_Partner_Cap_UrlImg = "https://www.pokepedia.fr/images/8/87/Pikachu_%28Casquette_Partenaire%29-USUL.png";
+        public const string Pikachu_Partner_Cap_UrlSprite = "https://www.pokepedia.fr/images/2/23/Miniature_025_Casquette_Partenaire_USUL.png";
+        #endregion
+        #region Pikachu Casquette Monde
+        public const string Pikachu_World_Cap_FR = "Pikachu (Casquette Monde)";
+        public const string Pikachu_World_Cap_EN = "Pikachu (World Cap)";
+        public const string Pikachu_World_Cap_ES = "";
+        public const string Pikachu_World_Cap_IT = "";
+        public const string Pikachu_World_Cap_DE = "";
+        public const string Pikachu_World_Cap_RU = "";
+        public const string Pikachu_World_Cap_CO = "";
+        public const string Pikachu_World_Cap_CN = "";
+        public const string Pikachu_World_Cap_JP = "";
+        public const string Pikachu_World_Cap_UrlImg = "https://www.pokepedia.fr/images/e/ed/Pikachu_%28Casquette_Monde%29-EB.png";
+        public const string Pikachu_World_Cap_UrlSprite = "https://www.pokepedia.fr/images/4/4c/Miniature_025_Casquette_Monde_EB.png";
         #endregion
         #endregion
 
