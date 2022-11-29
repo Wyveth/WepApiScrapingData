@@ -116,7 +116,14 @@ namespace WebApiScrapingData.Domain.Class
         //Url du Sprite
         [DataMember(Name = DataMember.UrlSprite)]
         public string? PathSprite { get; set; }
-        
+
+        //Url du Sound Scrap
+        public string? UrlSound { get; set; }
+
+        //Url du Sound
+        [DataMember(Name = DataMember.UrlSound)]
+        public string? PathSound { get; set; }
+
         public Pokemon()
         {
             FR = new();

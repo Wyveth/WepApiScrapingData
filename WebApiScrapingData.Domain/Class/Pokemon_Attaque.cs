@@ -4,25 +4,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using WebApiScrapingData.Domain.Abstract;
 
 namespace WebApiScrapingData.Domain.Class
 {
     [DataContract]
-    public class Pokemon_Talent : Identity
+    public class Pokemon_Attaque: Identity
     {
         public long PokemonId { get; set; }
         [ForeignKey("PokemonId")]
         public virtual Pokemon? Pokemon { get; set; }
 
-        public long TalentId { get; set; }
-        [ForeignKey("TalentId")]
+        public long AttaqueId { get; set; }
+        [ForeignKey("AttaqueId")]
         [DataMember]
-        public virtual Talent? Talent { get; set; }
-
-        [DataMember]
-        public bool IsHidden { get; set; }
+        public virtual Attaque? Attaque { get; set; }
     }
 }

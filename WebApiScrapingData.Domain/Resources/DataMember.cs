@@ -132,6 +132,10 @@
         public const string UrlSprite = "UrlSprite";
 
         public const string DataSprite = "DataSprite";
+        
+        public const string UrlSound = "UrlSound";
+
+        public const string DataSound = "DataSound";
         #endregion
 
         #region Talent
