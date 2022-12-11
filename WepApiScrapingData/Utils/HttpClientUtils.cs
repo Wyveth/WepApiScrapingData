@@ -54,6 +54,7 @@ namespace WepApiScrapingData.Utils
             {
                 using (var response = await client.GetAsync(uri))
                 {
+                    Console.WriteLine(FileName);
                     response.EnsureSuccessStatusCode();
                     using (var stream = await response.Content.ReadAsStreamAsync())
                     {

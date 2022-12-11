@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
@@ -685,9 +686,9 @@ namespace WepApiScrapingData.Utils
         {
             string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
             if(limit)
-                System.IO.File.WriteAllText("PokeScrapUnique.json", json);
+                File.WriteAllText("PokeScrapUnique.json", json);
             else
-                System.IO.File.WriteAllText("PokeScrap.json", json);
+                File.WriteAllText("PokeScrap.json", json);
         }
         #endregion
 
@@ -1119,7 +1120,14 @@ namespace WepApiScrapingData.Utils
                     }
                     else if (name.Contains("Shifours"))
                     {
-                        name = "Shifours Style Poing Final";
+                        if (name.Equals("Shifours"))
+                            name = name.Replace("Shifours", "Shifours Style Poing Final");
+                        else if (name.Contains("Shifours Gigamax")) {
+                            if(name.Contains("Poing Final"))
+                                name = "Shifours Gigamax(Style Poing Final)";
+                            else if(name.Contains("Mille Poings"))
+                                name = "Shifours Gigamax(Style Mille Poings)";
+                        }
                     }
                     else if (name.Contains("Salarsen"))
                     {
@@ -1131,6 +1139,18 @@ namespace WepApiScrapingData.Utils
                     else if (name.Contains("Amovénus"))
                     {
                         name = name.Replace("Forme", " Forme");
+                    }
+                    else if (name.Equals("Flabébé Fleur Rouge"))
+                    {
+                        name = "Flabébé";
+                    }
+                    else if (name.Equals("Floette Fleur Rouge"))
+                    {
+                        name = "Floette";
+                    }
+                    else if (name.Equals("Florges Fleur Rouge"))
+                    {
+                        name = "Florges";
                     }
 
                     try
@@ -1144,6 +1164,8 @@ namespace WepApiScrapingData.Utils
                                 updates.Add(name);
                                 updates.Add("Old Url: " + pokemon.UrlSprite);
                                 updates.Add("New Url: " + checkUrl);
+
+                                pokemon.UrlSprite = checkUrl;
                             }
                         }
                         else
@@ -1173,6 +1195,8 @@ namespace WepApiScrapingData.Utils
                 Console.WriteLine(update);
             }
             Console.WriteLine("Fin Updates");
+
+            repositoryPkm.UnitOfWork.SaveChanges();
         }
 
         public static string GetUrlSound(string html, string number, string name)
