@@ -157,5 +157,9 @@
 
         public const string Description_JP = "Description_JP";
         #endregion
+
+        #region TypeAttaque
+        public const string TypeAttaque = "TypeAttaque";
+        #endregion
     }
 }

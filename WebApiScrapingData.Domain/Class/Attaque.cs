@@ -67,7 +67,11 @@ namespace WebApiScrapingData.Domain.Class
         [DataMember(Name = DataMember.Description_JP)]
         public string? Description_JP { get; set; }
 
+        [DataMember(Name = DataMember.TypeAttaque)]
         public TypeAttaque? typeAttaque { get; set; }
+        
+        [DataMember(Name = DataMember.Types)]
+        public TypePok? typePok { get; set; }
 
         public List<Pokemon_Attaque>? Pokemon_Attaques { get; set; }
     }

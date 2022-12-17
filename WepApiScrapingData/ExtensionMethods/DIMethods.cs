@@ -18,9 +18,12 @@ namespace WepApiScrapingData.ExtensionMethods
             services.AddScoped<IRepositoryExtendsPokemon<Pokemon>, PokemonRepository>();
             services.AddScoped<IRepository<TypePok>, TypePokRepository>();
             services.AddScoped<IRepository<Talent>, TalentRepository>();
+            services.AddScoped<IRepository<TypeAttaque>, TypeAttaqueRepository>();
+            services.AddScoped<IRepository<Attaque>, AttaqueRepository>();
             services.AddScoped<IRepository<Pokemon_TypePok>, Pokemon_TypePokRepository>();
             services.AddScoped<IRepository<Pokemon_Weakness>, Pokemon_WeaknessRepository>();
             services.AddScoped<IRepository<Pokemon_Talent>, Pokemon_TalentRepository>();
+            services.AddScoped<IRepository<Pokemon_Attaque>, Pokemon_AttaqueRepository>();
 
             #region Quizz
             services.AddScoped<IRepositoryExtendsQuizz<Quizz>, QuizzRepository>();
