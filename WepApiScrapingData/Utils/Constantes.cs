@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.FileSystemGlobbing.Internal;
+using WebApiScrapingData.Domain.Class;
 
 namespace WepApiScrapingData.Utils
 {
@@ -8,7 +9,7 @@ namespace WepApiScrapingData.Utils
         public const string SecurityOption = "Jwt";
         public const string CorsOption = "Cors";
         #endregion
-        
+
         #region Pokepedia
         public const string urlPokepedia = "https://www.pokepedia.fr";
         public const string urlAllSpritesOld = urlPokepedia + "/Liste_des_Pok%C3%A9mon_dans_l'ordre_du_Pok%C3%A9dex_National";
@@ -30,7 +31,7 @@ namespace WepApiScrapingData.Utils
         public const string urlPathCO = "https://pokemonkorea.co.kr/pokedextemp/view/";
         public const string urlPathCN = "https://www.pokemon.cn/play/pokedex/";
         public const string urlPathJP = "https://zukan.pokemon.co.jp/detail/";
-        
+
         public const string urlStartFR = urlPathFR + "bulbizarre";
         public const string urlStartEN = urlPathEN + "bulbasaur";
         public const string urlStartES = urlPathES + "bulbasaur";
@@ -40,7 +41,7 @@ namespace WepApiScrapingData.Utils
         public const string urlStartCO = urlPathCO + "1";
         public const string urlStartCN = urlPathCN + "001";
         public const string urlStartJP = urlPathJP + "001";
-        
+
         public const string urlTestWeakness = urlPathFR + "paras";
         public const string urlTestEvolution = urlPathFR + "aquali";
         public const string urlTestTypeEvolution = urlPathFR + "dracaufeu";
@@ -62,14 +63,125 @@ namespace WepApiScrapingData.Utils
         public const string urlTestSimulate_DE = urlPathDE + "necrozma";
         public const string urlTestSimulate_RU = urlPathRU + "necrozma";
 
-        public const string urlStart1Gen = urlPathFR + "bulbizarre";
-        public const string urlStart2Gen = urlPathFR + "germignon";
-        public const string urlStart3Gen = urlPathFR + "arcko";
-        public const string urlStart4Gen = urlPathFR + "tortipouss";
-        public const string urlStart5Gen = urlPathFR + "vipelierre";
-        public const string urlStart6Gen = urlPathFR + "marisson";
-        public const string urlStart7Gen = urlPathFR + "brindibou";
-        public const string urlStart8Gen = urlPathFR + "ouistempo";
+        #region Url Start Gen Arceus
+        public const string urlStart0Gen_FR = urlPathFR + "cerbyllin";
+        public const string urlStart0Gen_EN = urlPathEN + "wyrdeer";
+        public const string urlStart0Gen_ES = urlPathES + "wyrdeer";
+        public const string urlStart0Gen_IT = urlPathIT + "wyrdeer";
+        public const string urlStart0Gen_DE = urlPathDE + "damythir";
+        public const string urlStart0Gen_RU = urlPathRU + "Вирдир";
+        public const string urlStart0Gen_CO = urlPathCO + "1097";
+        public const string urlStart0Gen_CN = urlPathCN + "899";
+        public const string urlStart0Gen_JP = urlPathJP + "899";
+        #endregion
+
+        #region Url Start Gen 1
+        public const string urlStart1Gen_FR = urlPathFR + "bulbizarre";
+        public const string urlStart1Gen_EN = urlPathEN + "bulbasaur";
+        public const string urlStart1Gen_ES = urlPathES + "bulbasaur";
+        public const string urlStart1Gen_IT = urlPathIT + "bulbasaur";
+        public const string urlStart1Gen_DE = urlPathDE + "bisasam";
+        public const string urlStart1Gen_RU = urlPathRU + "Бульбазавр";
+        public const string urlStart1Gen_CO = urlPathCO + "1";
+        public const string urlStart1Gen_CN = urlPathCN + "001";
+        public const string urlStart1Gen_JP = urlPathJP + "001";
+        #endregion
+
+        #region Url Start Gen 2
+        public const string urlStart2Gen_FR = urlPathFR + "germignon";
+        public const string urlStart2Gen_EN = urlPathEN + "chikorita";
+        public const string urlStart2Gen_ES = urlPathES + "chikorita";
+        public const string urlStart2Gen_IT = urlPathIT + "chikorita";
+        public const string urlStart2Gen_DE = urlPathDE + "endivie";
+        public const string urlStart2Gen_RU = urlPathRU + "Чикорита";
+        public const string urlStart2Gen_CO = urlPathCO + "209";
+        public const string urlStart2Gen_CN = urlPathCN + "152";
+        public const string urlStart2Gen_JP = urlPathJP + "152";
+        #endregion
+
+        #region Url Start Gen 3
+        public const string urlStart3Gen_FR = urlPathFR + "arcko";
+        public const string urlStart3Gen_EN = urlPathEN + "treecko";
+        public const string urlStart3Gen_ES = urlPathES + "treecko";
+        public const string urlStart3Gen_IT = urlPathIT + "treecko";
+        public const string urlStart3Gen_DE = urlPathDE + "geckarbor";
+        public const string urlStart3Gen_RU = urlPathRU + "Трико";
+        public const string urlStart3Gen_CO = urlPathCO + "319";
+        public const string urlStart3Gen_CN = urlPathCN + "252";
+        public const string urlStart3Gen_JP = urlPathJP + "252";
+        #endregion
+
+        #region Url Start Gen 4
+        public const string urlStart4Gen_FR = urlPathFR + "tortipouss";
+        public const string urlStart4Gen_EN = urlPathEN + "turtwig";
+        public const string urlStart4Gen_ES = urlPathES + "turtwig";
+        public const string urlStart4Gen_IT = urlPathIT + "turtwig";
+        public const string urlStart4Gen_DE = urlPathDE + "chelast";
+        public const string urlStart4Gen_RU = urlPathRU + "Тортвиг";
+        public const string urlStart4Gen_CO = urlPathCO + "481";
+        public const string urlStart4Gen_CN = urlPathCN + "387";
+        public const string urlStart4Gen_JP = urlPathJP + "387";
+        #endregion
+
+        #region Url Start Gen 5
+        public const string urlStart5Gen_FR = urlPathFR + "vipelierre";
+        public const string urlStart5Gen_EN = urlPathEN + "snivy";
+        public const string urlStart5Gen_ES = urlPathES + "snivy";
+        public const string urlStart5Gen_IT = urlPathIT + "snivy";
+        public const string urlStart5Gen_DE = urlPathDE + "serpifeu";
+        public const string urlStart5Gen_RU = urlPathRU + "Снайви";
+        public const string urlStart5Gen_CO = urlPathCO + "610";
+        public const string urlStart5Gen_CN = urlPathCN + "495";
+        public const string urlStart5Gen_JP = urlPathJP + "495";
+        #endregion
+
+        #region Url Start Gen 6
+        public const string urlStart6Gen_FR = urlPathFR + "marisson";
+        public const string urlStart6Gen_EN = urlPathEN + "chespin";
+        public const string urlStart6Gen_ES = urlPathES + "chespin";
+        public const string urlStart6Gen_IT = urlPathIT + "chespin";
+        public const string urlStart6Gen_DE = urlPathDE + "igamaro";
+        public const string urlStart6Gen_RU = urlPathRU + "Чеспин";
+        public const string urlStart6Gen_CO = urlPathCO + "796";
+        public const string urlStart6Gen_CN = urlPathCN + "650";
+        public const string urlStart6Gen_JP = urlPathJP + "650";
+        #endregion
+
+        #region Url Start Gen 7
+        public const string urlStart7Gen_FR = urlPathFR + "brindibou";
+        public const string urlStart7Gen_EN = urlPathEN + "rowlet";
+        public const string urlStart7Gen_ES = urlPathES + "rowlet";
+        public const string urlStart7Gen_IT = urlPathIT + "rowlet";
+        public const string urlStart7Gen_DE = urlPathDE + "bauz";
+        public const string urlStart7Gen_RU = urlPathRU + "Роулет";
+        public const string urlStart7Gen_CO = urlPathCO + "878";
+        public const string urlStart7Gen_CN = urlPathCN + "722";
+        public const string urlStart7Gen_JP = urlPathJP + "722";
+        #endregion
+
+        #region Url Start Gen 8
+        public const string urlStart8Gen_FR = urlPathFR + "ouistempo";
+        public const string urlStart8Gen_EN = urlPathEN + "grookey";
+        public const string urlStart8Gen_ES = urlPathES + "grookey";
+        public const string urlStart8Gen_IT = urlPathIT + "grookey";
+        public const string urlStart8Gen_DE = urlPathDE + "chimpep";
+        public const string urlStart8Gen_RU = urlPathRU + "Груки";
+        public const string urlStart8Gen_CO = urlPathCO + "977";
+        public const string urlStart8Gen_CN = urlPathCN + "810";
+        public const string urlStart8Gen_JP = urlPathJP + "810";
+        #endregion
+
+        #region Url Start Gen 9
+        public const string urlStart9Gen_FR = urlPathFR + "poussacha";
+        public const string urlStart9Gen_EN = urlPathEN + "sprigatito";
+        public const string urlStart9Gen_ES = urlPathES + "sprigatito";
+        public const string urlStart9Gen_IT = urlPathIT + "sprigatito";
+        public const string urlStart9Gen_DE = urlPathDE + "felori";
+        public const string urlStart9Gen_RU = urlPathRU + "";
+        public const string urlStart9Gen_CO = urlPathCO + "1106";
+        public const string urlStart9Gen_CN = urlPathCN + "906";
+        public const string urlStart9Gen_JP = urlPathJP + "906";
+        #endregion
 
         public const string MegaEvolution = "Méga";
         public const string MegaLevel = "Mega";
@@ -913,10 +1025,10 @@ namespace WepApiScrapingData.Utils
         public const string HighHappiness_CO = "높은 행복";
         public const string HighHappiness_CN = "高幸福";
         public const string HighHappiness_JP = "高い幸福";
-        
+
         public const string HighHappinessDay_FR = "bonheur élevé, le jour";
         public const string HighHappinessNight_FR = "bonheur élevé, la nuit";
-        
+
         public const string InTeam_FR = "Rémoraid dans l'équipe";
         public const string Remoraid_URL = "https://bulbapedia.bulbagarden.net/wiki/Remoraid";
         public const string InTeam_Format_EN = "{0} in team";
@@ -937,7 +1049,7 @@ namespace WepApiScrapingData.Utils
         public const string LvlUpLearn_Format_CO = "{0}을(를) 배우고 레벨 업";
         public const string LvlUpLearn_Format_CN = "學會了升級{0}";
         public const string LvlUpLearn_Format_JP = "{0} を習得してレベルアップ";
-        
+
         public const string MimicOutsideGalar_FR = "Copie(hors Galar)";
         public const string Mimic_FR = "l'attaque Copie";
         public const string Mimic_URL = "https://bulbapedia.bulbagarden.net/wiki/Mimic_(move)";
@@ -946,23 +1058,23 @@ namespace WepApiScrapingData.Utils
         public const string Double_Hit_FR = "Coup Double";
         public const string Double_Hit_URL = "https://bulbapedia.bulbagarden.net/wiki/Double_Hit_(move)";
         public const string Double_Hit_RU = "Coup Double";
-        
+
         public const string Rollout_FR = "Roulade";
         public const string Rollout_URL = "https://bulbapedia.bulbagarden.net/wiki/Rollout_(move)";
         public const string Rollout_RU = "Roulade";
-        
+
         public const string Ancient_Power_FR = "Pouvoir Antique";
         public const string Ancient_Power_URL = "https://bulbapedia.bulbagarden.net/wiki/Ancient_Power_(move)";
         public const string Ancient_Power_RU = "Pouvoir Antique";
-        
+
         public const string Stomp_FR = "Écrasement";
         public const string Stomp_URL = "https://bulbapedia.bulbagarden.net/wiki/Stomp_(move)";
         public const string Stomp_RU = "Écrasement";
-        
+
         public const string Dragon_Pulse_FR = "Dracochoc";
         public const string Dragon_Pulse_URL = "https://bulbapedia.bulbagarden.net/wiki/Dragon_Pulse_(move)";
         public const string Dragon_Pulse_RU = "Dracochoc";
-        
+
         public const string Taunt_FR = "Provoc";
         public const string Taunt_URL = "https://bulbapedia.bulbagarden.net/wiki/Taunt_(move)";
         public const string Taunt_RU = "Provoc";
@@ -977,7 +1089,7 @@ namespace WepApiScrapingData.Utils
         public const string Oval_Stone_Format_CO = "{0} 일을 잡고 레벨업";
         public const string Oval_Stone_Format_CN = "白天按住 {0} 升級";
         public const string Oval_Stone_Format_JP = "日中に{0}を押しながらレベルアップ";
-        
+
         public const string Oval_Stone_FR = "Monter un niveau en tenant une Pierre Ovale le jour";
         public const string Oval_Stone_URL = "https://bulbapedia.bulbagarden.net/wiki/Oval_Stone";
         public const string Oval_Stone_RU = "Овальный камень";
@@ -990,7 +1102,7 @@ namespace WepApiScrapingData.Utils
         public const string Razor_Format_CO = "밤에 {0} 키를 누른 상태에서 레벨 올리기";
         public const string Razor_Format_CN = "晚上按住 {0} 升級";
         public const string Razor_Format_JP = "夜に{0}を押しながらレベルアップ";
-        
+
         public const string Razor_Claw_FR = "Monter un niveau en tenant Griffe Rasoir la nuit";
         public const string Razor_Claw_URL = "https://bulbapedia.bulbagarden.net/wiki/Razor_Claw";
         public const string Razor_Claw_RU = "Коготь бритвы";
@@ -1007,11 +1119,11 @@ namespace WepApiScrapingData.Utils
         public const string UseA_Format_CO = "{0} 사용";
         public const string UseA_Format_CN = "使用 {0}";
         public const string UseA_Format_JP = "{0} を使用";
-        
+
         public const string Galarica_Cuff_FR = "Utiliser un Bracelet Galanoa";
         public const string Galarica_Cuff_URL = "https://bulbapedia.bulbagarden.net/wiki/Galarica_Cuff";
         public const string Galarica_Cuff_RU = "Галарическая манжета";
-        
+
         public const string Galarica_Wreath_FR = "Utiliser une Couronne Galanoa";
         public const string Galarica_Wreath_URL = "https://bulbapedia.bulbagarden.net/wiki/Galarica_Wreath";
         public const string Galarica_Wreath_RU = "Галарический венок";
@@ -1045,7 +1157,7 @@ namespace WepApiScrapingData.Utils
         public const string Sweet_Apple_FR = "Pomme Sucrée";
         public const string Sweet_Apple_URL = "https://bulbapedia.bulbagarden.net/wiki/Sweet_Apple";
         public const string Sweet_Apple_RU = "сладкое яблоко";
-        
+
         public const string Cracked_Pot_FR = "Théière Fêlée";
         public const string Cracked_Pot_URL = "https://bulbapedia.bulbagarden.net/wiki/Cracked_Pot";
         public const string Cracked_Pot_RU = "Треснувший горшок";
@@ -1159,7 +1271,7 @@ namespace WepApiScrapingData.Utils
         public const string Sea_Incense_FR = "Encens Mer";
         public const string Sea_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Sea_Incense";
         public const string Sea_Incense_RU = "Морские благовония";
-        
+
         public const string Lax_Incense_FR = "Encens Doux";
         public const string Lax_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Lax_Incense";
         public const string Lax_Incense_RU = "Слабый ладан";
@@ -1167,19 +1279,19 @@ namespace WepApiScrapingData.Utils
         public const string Pure_Incense_FR = "Encens Pur";
         public const string Pure_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Pure_Incense";
         public const string Pure_Incense_RU = "Чистый ладан";
-        
+
         public const string Rock_Incense_FR = "Encens Roc";
         public const string Rock_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Rock_Incense";
         public const string Rock_Incense_RU = "Рок Ладан";
-        
+
         public const string Odd_Incense_FR = "Encens Bizarre";
         public const string Odd_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Odd_Incense";
         public const string Odd_Incense_RU = "Странные благовония";
-        
+
         public const string Luck_Incense_FR = "Encens Veine";
         public const string Luck_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Luck_Incense";
         public const string Luck_Incense_RU = "Ладан удачи";
-        
+
         public const string Full_Incense_FR = "Encens Plein";
         public const string Full_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Full_Incense";
         public const string Full_Incense_RU = "Полный ладан";
@@ -1187,7 +1299,7 @@ namespace WepApiScrapingData.Utils
         public const string Wave_Incense_FR = "Encens Vague";
         public const string Wave_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Wave_Incense";
         public const string Wave_Incense_RU = "Ладан волны";
-        
+
         public const string Rose_Incense_FR = "Encens Fleur";
         public const string Rose_Incense_URL = "https://bulbapedia.bulbagarden.net/wiki/Rose_Incense";
         public const string Rose_Incense_RU = "Розовые благовония";
@@ -1277,7 +1389,7 @@ namespace WepApiScrapingData.Utils
         public const string Skills_CO = "특성";
         public const string Skills_CN = "特性";
         public const string Skills_JP = "スキル";
-        
+
         public const string HP_FR = "PV";
         public const string HP_EN = "HP";
         public const string HP_ES = "PS";
@@ -2039,6 +2151,71 @@ namespace WepApiScrapingData.Utils
         public const string MiniHome = "MiniHome";
         public const string IconHome = "IconHome";
         public const string AutoHome = "AutoHome";
+        #endregion
+
+        #region Type Attaque
+        public const string Physical = "Physical";
+        public const string Physical_Name_FR = "Capacités Physiques";
+        public const string Physical_Description_FR = "Les capacités physiques utilisent les statistiques physiques (attaque et défense)";
+        public const string Physical_Name_EN = "Physical Abilities";
+        public const string Physical_Description_EN = "Physical abilities use physical stats (attack & defense)";
+        public const string Physical_Name_ES = "Habilidades Fisicas";
+        public const string Physical_Description_ES = "Las habilidades físicas usan estadísticas físicas (ataque y defensa)";
+        public const string Physical_Name_IT = "Abilità Fisiche";
+        public const string Physical_Description_IT = "Le abilità fisiche usano le statistiche fisiche (attacco e difesa)";
+        public const string Physical_Name_DE = "Körperliche Fähigkeiten";
+        public const string Physical_Description_DE = "Physische Fähigkeiten verwenden physische Werte (angriff & verteidigung)";
+        public const string Physical_Name_RU = "Физические способности";
+        public const string Physical_Description_RU = "Физические способности используют физические характеристики (атака и защита)";
+        public const string Physical_Name_CO = "신체적 능력";
+        public const string Physical_Description_CO = "신체 능력은 신체 능력치(공격 및 방어)를 사용합니다";
+        public const string Physical_Name_CN = "体能";
+        public const string Physical_Description_CN = "物理能力使用物理统计（攻击和防御）";
+        public const string Physical_Name_JP = "身体能力";
+        public const string Physical_Description_JP = "物理アビリティは物理ステータスを使用します (攻撃と防御)";
+        public const string Physical_UrlImg = "https://www.pokepedia.fr/images/1/11/Miniature_Cat%C3%A9gorie_Physique_DEPS.png";
+
+        public const string Special = "Special";
+        public const string Special_Name_FR = "Capacités Spéciales";
+        public const string Special_Description_FR = "Les capacités spéciales utilisent les statistiques spéciales (attaque spéciale et défense spéciale, ou uniquement le spécial dans la première génération)";
+        public const string Special_Name_EN = "Special Abilities";
+        public const string Special_Description_EN = "Special abilities use special stats (special attack and special defense, or only the special in the first generation)";
+        public const string Special_Name_ES = "Habilidades Especiales";
+        public const string Special_Description_ES = "Las habilidades especiales usan estadísticas especiales (ataque especial y defensa especial, o solo las especiales en la primera generación)";
+        public const string Special_Name_IT = "Abilità Speciali";
+        public const string Special_Description_IT = "Le abilità speciali usano statistiche speciali (attacco speciale e difesa speciale, o solo lo speciale nella prima generazione)";
+        public const string Special_Name_DE = "Spezielle Fähigkeiten";
+        public const string Special_Description_DE = "Spezialfähigkeiten verwenden Spezialstatistiken (Spezialangriff und Spezialverteidigung oder nur das Spezial in der ersten Generation)";
+        public const string Special_Name_RU = "Специальные возможности";
+        public const string Special_Description_RU = "Специальные способности используют специальные характеристики (специальная атака и специальная защита или только специальные в первом поколении)";
+        public const string Special_Name_CO = "특수 능력";
+        public const string Special_Description_CO = "특수 능력은 특수 능력치를 사용합니다(특수 공격과 특수 방어, 또는 1세대에서 특수만 사용)";
+        public const string Special_Name_CN = "特殊的能力";
+        public const string Special_Description_CN = "特殊能力使用特殊属性（特攻特防，或者只有初代特攻）";
+        public const string Special_Name_JP = "特殊能力";
+        public const string Special_Description_JP = "特殊能力は特殊な統計を使用します（特殊攻撃と特殊防御、または第一世代の特殊のみ）";
+        public const string Special_UrlImg = "https://www.pokepedia.fr/images/d/da/Miniature_Cat%C3%A9gorie_Sp%C3%A9ciale_DEPS.png";
+
+        public const string Status = "Status";
+        public const string Status_Name_FR = "Capacités de Statut";
+        public const string Status_Description_FR = "Les capacités de statut sont toutes les autres capacités, celles qui ne provoquent pas de dégâts selon la formule habituelle (dégâts fixes, augmentation de statistiques, changement de statut, etc.)";
+        public const string Status_Name_EN = "Status Abilities";
+        public const string Status_Description_EN = "Status abilities are all other abilities, those that don't deal damage in the usual formula (fixed damage, stat increase, status change, etc.)";
+        public const string Status_Name_ES = "Habilidades de Estado";
+        public const string Status_Description_ES = "Las habilidades de estado son todas las demás habilidades, aquellas que no infligen daño en la fórmula habitual (daño fijo, aumento de estadísticas, cambio de estado, etc.)";
+        public const string Status_Name_IT = "Abilità di Stato";
+        public const string Status_Description_IT = "Le abilità di stato sono tutte le altre abilità, quelle che non infliggono danno nella solita formula (danno fisso, aumento delle statistiche, cambio di stato, ecc.)";
+        public const string Status_Name_DE = "Statusfähigkeiten";
+        public const string Status_Description_DE = "Statusfähigkeiten sind alle anderen Fähigkeiten, die keinen Schaden in der üblichen Formel (fester Schaden, Statuserhöhung, Statusänderung usw.)";
+        public const string Status_Name_RU = "Способности статуса";
+        public const string Status_Description_RU = "Статусные способности — это все остальные способности, которые не наносят урон в обычной формуле (фиксированный урон, повышение характеристик, изменение статуса и т.д.)";
+        public const string Status_Name_CO = "상태 능력";
+        public const string Status_Description_CO = "스테이터스 능력은 일반적인 공식(데미지 고정, 스탯 증가, 스테이터스 변경 등)으로 피해를 입히지 않는 다른 모든 능력입니다.";
+        public const string Status_Name_CN = "状态能力";
+        public const string Status_Description_CN = "状态能力是所有其他能力，那些在通常的公式中不造成伤害的能力（固定伤害、属性增加、状态改变等）";
+        public const string Status_Name_JP = "ステータスアビリティ";
+        public const string Status_Description_JP = "ステータスアビリティは、通常の公式ではダメージを与えないアビリティ（固定ダメージ、ステータス上昇、ステータス変化など）です。";
+        public const string Status_UrlImg = "https://www.pokepedia.fr/images/b/b5/Miniature_Cat%C3%A9gorie_Statut_DEPS.png";
         #endregion
     }
 }

@@ -20,6 +20,17 @@ namespace WepApiScrapingData.Utils
             return await response.Content.ReadAsStringAsync();
         }
 
+        public static async Task<string> CallUrlNoRedirect(string fullUrl)
+        {
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            httpClientHandler.AllowAutoRedirect = false;
+            HttpClient client = new HttpClient(httpClientHandler);
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls13;
+            client.DefaultRequestHeaders.Accept.Clear();
+            var response = await client.GetAsync(fullUrl);
+            return await response.Content.ReadAsStringAsync();
+        }
+
         public static HtmlNode CallUrlDynamic(string fullUrl)
         {
             ScrapingBrowser _scrapBrowser = new ScrapingBrowser() { IgnoreCookies = true, Timeout = TimeSpan.FromMinutes(5), };
@@ -117,6 +128,34 @@ namespace WepApiScrapingData.Utils
             return path;
         }
 
+        public static async Task<string> DownloadTypeAttackFileTaskAsync(this HttpClient client, string uri, string FileName)
+        {
+            string path = "Content/TypeAttaque";
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            path = Path.Combine(path, FileName + ".png");
+
+            if (!File.Exists(path))
+            {
+                using (var response = await client.GetAsync(uri))
+                {
+                    Console.WriteLine(FileName);
+                    response.EnsureSuccessStatusCode();
+                    using (var stream = await response.Content.ReadAsStreamAsync())
+                    {
+                        using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                        {
+                            await stream.CopyToAsync(fileStream);
+                        }
+                    }
+                }
+            }
+
+            return path;
+        }
+
         public static async Task<string> DownloadSoundFileTaskAsync(this HttpClient client, string uri, string FileName)
         {
             string path = "Content/Sound/G0/";
@@ -154,7 +193,7 @@ namespace WepApiScrapingData.Utils
                     {
                         return await httpResponse.Content.ReadAsByteArrayAsync();
                     }
-                    
+
                     return null;
                 }
             }

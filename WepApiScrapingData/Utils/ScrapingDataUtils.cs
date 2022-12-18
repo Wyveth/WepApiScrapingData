@@ -17,7 +17,7 @@ namespace WepApiScrapingData.Utils
     public static class ScrapingDataUtils
     {
         #region Json
-        public static PokemonJson ParseHtmlToJson(HtmlDocument htmlDoc_FR, HtmlDocument htmlDoc_EN, HtmlDocument htmlDoc_ES, HtmlDocument htmlDoc_IT, HtmlDocument htmlDoc_DE, HtmlDocument htmlDoc_RU, HtmlDocument htmlDoc_JP, HtmlDocument htmlDoc_CO, HtmlDocument htmlDoc_CN, bool many = false, int option = 0)
+        public static PokemonJson ParseHtmlToJson(HtmlDocument htmlDoc_FR, HtmlDocument htmlDoc_EN, HtmlDocument htmlDoc_ES, HtmlDocument htmlDoc_IT, HtmlDocument htmlDoc_DE, HtmlDocument htmlDoc_RU, HtmlDocument htmlDoc_CO, HtmlDocument htmlDoc_CN, HtmlDocument htmlDoc_JP, bool many = false, int option = 0)
         {
             List<HtmlNode> values;
             HtmlNode value;
@@ -111,7 +111,7 @@ namespace WepApiScrapingData.Utils
             #endregion
 
             #region Get Sprite/Sound Pokemon
-            GetUrlSprite(Constantes.urlAllSprites, dataJson);
+            //GetUrlSprite(Constantes.urlAllSprites, dataJson);
             #endregion
 
             #region Get Size, Category, Weight, Talent
@@ -209,7 +209,7 @@ namespace WepApiScrapingData.Utils
             dataJson.FR.Evolutions = builder.ToString();
             #endregion
             
-            #region Stats + WhenEvolution
+            #region Stats + TalentHidden + Attack  + WhenEvolution
             GetStats(Constantes.urlStatsPB, dataJson, option);
             #endregion
 
@@ -295,11 +295,11 @@ namespace WepApiScrapingData.Utils
             #region CN
             //GetDataByAsia(htmlDoc_CN, dataJson.CN, dataJson.Number, numbPok, values, value, i, many, option, Constantes.CN);
             #endregion
-
+            
             return dataJson;
         }
 
-        public static void RecursiveGetDataJsonWithUrl(string url_FR, string url_EN, string url_ES, string url_IT, string url_DE, string url_RU, string url_CO, string url_CN, string url_JP, List<PokemonJson> dataJsons, bool limit = false)
+        public static void RecursiveGetDataJsonWithUrl(string url_FR, string url_EN, string url_ES, string url_IT, string url_DE, string url_RU, string url_CO, string url_CN, string url_JP, List<PokemonJson> dataJsons, bool limit = false, int gen = -1)
         {
             #region Europe
             string response_FR = HttpClientUtils.CallUrl(url_FR).Result;
@@ -348,7 +348,7 @@ namespace WepApiScrapingData.Utils
             PokemonJson dataJson = new PokemonJson();
             if (countImg.Equals(1))
             {
-                dataJson = ParseHtmlToJson(htmlDoc_FR, htmlDoc_EN, htmlDoc_ES, htmlDoc_IT, htmlDoc_DE, htmlDoc_RU, htmlDoc_JP, htmlDoc_CO, htmlDoc_CN);
+                dataJson = ParseHtmlToJson(htmlDoc_FR, htmlDoc_EN, htmlDoc_ES, htmlDoc_IT, htmlDoc_DE, htmlDoc_RU, htmlDoc_CO, htmlDoc_CN, htmlDoc_JP);
                 dataJsons.Add(dataJson);
                 GetTranslationWhenEvolution(dataJson);
             }
@@ -356,7 +356,7 @@ namespace WepApiScrapingData.Utils
             {
                 for (int i = 0; i < countImg; i++)
                 {
-                    dataJson = ParseHtmlToJson(htmlDoc_FR, htmlDoc_EN, htmlDoc_ES, htmlDoc_IT, htmlDoc_DE, htmlDoc_RU, htmlDoc_JP, htmlDoc_CO, htmlDoc_CN, true, i);
+                    dataJson = ParseHtmlToJson(htmlDoc_FR, htmlDoc_EN, htmlDoc_ES, htmlDoc_IT, htmlDoc_DE, htmlDoc_RU, htmlDoc_CO, htmlDoc_CN, htmlDoc_JP, true, i);
 
                     if (i > 0)
                     {
@@ -577,7 +577,7 @@ namespace WepApiScrapingData.Utils
                         dataJsons.Add(pokemonJson);
                         #endregion
                     }
-                    else if(dataJson.FR.Name.Contains(Constantes.Couafarel) && i.Equals(countImg - 1))
+                    else if (dataJson.FR.Name.Contains(Constantes.Couafarel) && i.Equals(countImg - 1))
                     {
                         #region Demoiselle
                         PokemonJson pokemonJson = MapToCopy(dataJson);
@@ -678,17 +678,40 @@ namespace WepApiScrapingData.Utils
                 }
             }
 
-            if (!string.IsNullOrEmpty(dataJson.FR.NextUrl) && !limit)
+            int numPok = int.Parse(dataJson.Number);
+            bool keepGoing = true;
+
+            if ((gen == 0 && !(numPok >= 899 && numPok <= 905))
+                || (gen == 1 && !(numPok >= 1 && numPok <= 151))
+                || (gen == 2 && !(numPok >= 152 && numPok <= 251))
+                || (gen == 3 && !(numPok >= 252 && numPok <= 386))
+                || (gen == 4 && !(numPok >= 387 && numPok <= 494))
+                || (gen == 5 && !(numPok >= 495 && numPok <= 649))
+                || (gen == 6 && !(numPok >= 650 && numPok <= 721))
+                || (gen == 7 && !(numPok >= 722 && numPok <= 809))
+                || (gen == 8 && !(numPok >= 810 && numPok <= 898))
+                || (gen == 9 && !(numPok >= 906 && numPok <= 1008)))
+            {
+                keepGoing = false;
+            }
+
+            if (!string.IsNullOrEmpty(dataJson.FR.NextUrl) && !limit && keepGoing)
                 RecursiveGetDataJsonWithUrl(dataJson.FR.NextUrl, dataJson.EN.NextUrl, dataJson.ES.NextUrl, dataJson.IT.NextUrl, dataJson.DE.NextUrl, dataJson.RU.NextUrl, dataJson.CO.NextUrl, dataJson.CN.NextUrl, dataJson.JP.NextUrl, dataJsons);
         }
 
-        public static void WriteToJson(List<PokemonJson> dataJsons, bool limit = false)
+        public static void WriteToJson(List<PokemonJson> dataJsons, bool limit = false, int gen = -1)
         {
-            string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
-            if(limit)
-                File.WriteAllText("PokeScrapUnique.json", json);
+            StringBuilder nameFile = new StringBuilder();
+            if(gen != -1)
+                nameFile.Append("PokeScrapGen" + gen.ToString() + ".json");
             else
-                File.WriteAllText("PokeScrap.json", json);
+                if (limit)
+                    nameFile.Append("PokeScrapUnique.json");
+                else
+                    nameFile.Append("PokeScrap.json");
+
+            string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
+            File.WriteAllText(nameFile.ToString(), json);
         }
         #endregion
 
@@ -1411,10 +1434,16 @@ namespace WepApiScrapingData.Utils
         public static void GetStats(string urlStats, PokemonJson dataJson, int option)
         {
             string name = GetNamePokebip(dataJson, option);
-            string response = HttpClientUtils.CallUrl(urlStats + name).Result;
+            string response = HttpClientUtils.CallUrlNoRedirect(urlStats + name).Result; //**New** Redirection because update on the website
+
+            string newUrl = response.Split("'")[1];
+            response = HttpClientUtils.CallUrl(newUrl).Result;
+
+            Debug.WriteLine(newUrl);
+
             GetStatsPokemon(response, dataJson);
             GetTalentHidden(response, dataJson);
-            GetAttackPokemon(response, dataJson);
+            //GetAttackPokemon(response, dataJson);
         }
 
         public static string GetNamePokebip(PokemonJson dataJson, int option)
@@ -1562,13 +1591,15 @@ namespace WepApiScrapingData.Utils
 
             return nameSite;
         }
-
+        
         public static void GetStatsPokemon(string html, PokemonJson dataJson)
         {
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(html);
-
-            var stats = htmlDoc.DocumentNode.Descendants("div")
+            
+            List<HtmlNode> tabOptions = htmlDoc.DocumentNode.Descendants("div").Where(node => node.GetAttributeValue("class", "").Contains("tab-pane")).ToList();
+            
+            var stats = tabOptions[0].Descendants("div")
                 .Where(node => node.GetAttributeValue("class", "").Contains("progress-bar")).ToList();
 
             if (stats.Count >= 6)
@@ -1654,26 +1685,33 @@ namespace WepApiScrapingData.Utils
 
         public static void GetTranslationWhenEvolution(PokemonJson dataJson)
         {
-            if (dataJson.FR.WhenEvolution.Contains(Constantes.Level_FR))
-                TranslationUtils.Translate(dataJson, Constantes.Level_FR);
-            else if (dataJson.FR.WhenEvolution.Contains(Constantes.Stone_FR))
-                TranslationUtils.Translate(dataJson, Constantes.Stone_FR);
-            else if (dataJson.FR.WhenEvolution.Contains(Constantes.MegaEvolutionWith_FR))
-                TranslationUtils.Translate(dataJson, Constantes.MegaEvolutionWith_FR);
-            else if (dataJson.FR.WhenEvolution.Contains(Constantes.GigantamaxForm_FR))
-                TranslationUtils.Translate(dataJson, Constantes.GigantamaxForm_FR);
-            else if (dataJson.FR.WhenEvolution.Contains(Constantes.Exchange_FR))
-                TranslationUtils.Translate(dataJson, Constantes.Exchange_FR);
-            else if (dataJson.FR.WhenEvolution.Contains(Constantes.Reproduction_FR))
-                TranslationUtils.Translate(dataJson, Constantes.Reproduction_FR);
-            else if (dataJson.FR.WhenEvolution.Contains(Constantes.LvlUpWith_FR))
-                TranslationUtils.Translate(dataJson, Constantes.LvlUpWith_FR);
-            else if (dataJson.FR.WhenEvolution.Contains(Constantes.LvlUpLearn_FR))
-                TranslationUtils.Translate(dataJson, Constantes.LvlUpLearn_FR);
-            else if (dataJson.FR.WhenEvolution.Contains(Constantes.LvlUpWH_FR))
-                TranslationUtils.Translate(dataJson, Constantes.LvlUpWH_FR);
+            if (dataJson.FR.WhenEvolution != null)
+            {
+                if (dataJson.FR.WhenEvolution.Contains(Constantes.Level_FR))
+                    TranslationUtils.Translate(dataJson, Constantes.Level_FR);
+                else if (dataJson.FR.WhenEvolution.Contains(Constantes.Stone_FR))
+                    TranslationUtils.Translate(dataJson, Constantes.Stone_FR);
+                else if (dataJson.FR.WhenEvolution.Contains(Constantes.MegaEvolutionWith_FR))
+                    TranslationUtils.Translate(dataJson, Constantes.MegaEvolutionWith_FR);
+                else if (dataJson.FR.WhenEvolution.Contains(Constantes.GigantamaxForm_FR))
+                    TranslationUtils.Translate(dataJson, Constantes.GigantamaxForm_FR);
+                else if (dataJson.FR.WhenEvolution.Contains(Constantes.Exchange_FR))
+                    TranslationUtils.Translate(dataJson, Constantes.Exchange_FR);
+                else if (dataJson.FR.WhenEvolution.Contains(Constantes.Reproduction_FR))
+                    TranslationUtils.Translate(dataJson, Constantes.Reproduction_FR);
+                else if (dataJson.FR.WhenEvolution.Contains(Constantes.LvlUpWith_FR))
+                    TranslationUtils.Translate(dataJson, Constantes.LvlUpWith_FR);
+                else if (dataJson.FR.WhenEvolution.Contains(Constantes.LvlUpLearn_FR))
+                    TranslationUtils.Translate(dataJson, Constantes.LvlUpLearn_FR);
+                else if (dataJson.FR.WhenEvolution.Contains(Constantes.LvlUpWH_FR))
+                    TranslationUtils.Translate(dataJson, Constantes.LvlUpWH_FR);
+                else
+                    TranslationUtils.Translate(dataJson, "");
+            }
             else
-                TranslationUtils.Translate(dataJson, "");
+            {
+                Debug.WriteLine("Error WhenEvolution: " + dataJson.FR.Name);
+            }
         }
 
         public static void GetDataByEurope(HtmlDocument htmlDoc, DataInfoJson dataInfo, string number, int numbPok, bool many = false, int option = 0, string region = "")

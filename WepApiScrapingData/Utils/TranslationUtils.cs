@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using PuppeteerSharp;
 using WebApiScrapingData.Domain.ClassJson;
 
 namespace WepApiScrapingData.Utils
@@ -1862,49 +1863,52 @@ namespace WepApiScrapingData.Utils
 
         public static Dictionary<string, string> getTranslateWithUrl(string url, Dictionary<string, string> dicTranslation, bool RU = false)
         {
-            HtmlNode node = HttpClientUtils.CallUrlDynamic(url);
+            string response = HttpClientUtils.CallUrl(url).Result;
 
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(response);
+                
             //EN
-            HtmlNode value = node.Descendants("h1").First(node => node.GetAttributeValue("lang", "").Contains("en"));
+            HtmlNode value = htmlDoc.DocumentNode.Descendants("h1").First(node => node.GetAttributeValue("lang", "").Contains("en"));
             dicTranslation.Add(Constantes.EN, value.InnerText.Replace("(Pokémon)", ""));
             //ES
-            value = node.Descendants("table").Last(node => node.InnerHtml.Contains("Language")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.ES_Lib));
+            value = htmlDoc.DocumentNode.Descendants("table").Last(node => node.InnerHtml.Contains("Language")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.ES_Lib));
             dicTranslation.Add(Constantes.ES, value.InnerText.Split("\n")[3]);
             //IT
-            value = node.Descendants("table").Last(node => node.InnerHtml.Contains("Language")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.IT_Lib));
+            value = htmlDoc.DocumentNode.Descendants("table").Last(node => node.InnerHtml.Contains("Language")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.IT_Lib));
             dicTranslation.Add(Constantes.IT, value.InnerText.Split("\n")[3]);
             //DE
-            value = node.Descendants("table").Last(node => node.InnerHtml.Contains("Language")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.DE_Lib));
+            value = htmlDoc.DocumentNode.Descendants("table").Last(node => node.InnerHtml.Contains("Language")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.DE_Lib));
             dicTranslation.Add(Constantes.DE, value.InnerText.Split("\n")[3]);
             //RU
             if (RU)
             {
                 try
                 {
-                    value = node.Descendants("table").Last(node => node.InnerHtml.Contains("Language")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.RU_Lib));
+                    value = htmlDoc.DocumentNode.Descendants("table").Last(node => node.InnerHtml.Contains("Language")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.RU_Lib));
                 }
                 catch
                 {
-                    value = node.Descendants("table").Last(node => node.InnerHtml.Contains("More languages")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.RU_Lib));
+                    value = htmlDoc.DocumentNode.Descendants("table").Last(node => node.InnerHtml.Contains("More languages")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.RU_Lib));
                 }
 
                 dicTranslation.Add(Constantes.RU, value.InnerText.Split("\n")[3].Split(" ")[0]);
             }
             //CO
-            value = node.Descendants("table").Last(node => node.InnerHtml.Contains("Language")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.CO_Lib));
+            value = htmlDoc.DocumentNode.Descendants("table").Last(node => node.InnerHtml.Contains("Language")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.CO_Lib));
             dicTranslation.Add(Constantes.CO, value.InnerText.Split("\n")[3].Split(" ")[0]);
             //CN
-            value = node.Descendants("table").Last(node => node.InnerHtml.Contains("Language")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.CN_Lib));
+            value = htmlDoc.DocumentNode.Descendants("table").Last(node => node.InnerHtml.Contains("Language")).Descendants("tr").Last(node => node.InnerHtml.Contains(Constantes.CN_Lib));
             dicTranslation.Add(Constantes.CN, value.InnerText.Split("\n")[3].Split(" ")[0]);
 
             //JP
             try
             {
-                value = node.Descendants("span").First(node => node.GetAttributeValue("lang", "").Contains("ja"));
+                value = htmlDoc.DocumentNode.Descendants("span").First(node => node.GetAttributeValue("lang", "").Contains("ja"));
             }
             catch
             {
-                value = node.Descendants("span").First(node => node.GetAttributeValue("class", "").Contains("explain"));
+                value = htmlDoc.DocumentNode.Descendants("span").First(node => node.GetAttributeValue("class", "").Contains("explain"));
             }
             dicTranslation.Add(Constantes.JP, value.InnerText);
 
