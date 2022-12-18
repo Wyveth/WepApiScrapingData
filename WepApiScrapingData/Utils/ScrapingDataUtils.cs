@@ -1442,7 +1442,7 @@ namespace WepApiScrapingData.Utils
             Debug.WriteLine(newUrl);
 
             GetStatsPokemon(response, dataJson);
-            GetTalentHidden(response, dataJson);
+            //GetTalentHidden(response, dataJson);
             //GetAttackPokemon(response, dataJson);
         }
 
