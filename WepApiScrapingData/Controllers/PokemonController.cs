@@ -37,7 +37,7 @@ namespace WepApiScrapingData.Controllers
             _repositoryPTL = repositoryPTL;
         }
         #endregion
-        
+
         #region Public Methods
         [HttpGet]
         [Route("ScrapingAll")]
@@ -55,7 +55,7 @@ namespace WepApiScrapingData.Controllers
                 Constantes.urlStartCO,
                 Constantes.urlStartCN,
                 Constantes.urlStartJP,
-                dataJsons); 
+                dataJsons);
             Debug.WriteLine("End Scraping - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
 
             Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
@@ -199,7 +199,7 @@ namespace WepApiScrapingData.Controllers
             }
 
             Debug.WriteLine("Start Scraping Gen - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
-            ScrapingDataUtils.RecursiveGetDataJsonWithUrl(urlStartFR, urlStartEN, urlStartES, urlStartIT, urlStartDE, urlStartRU, urlStartCO, urlStartCN, urlStartJP, dataJsons,gen: gen);
+            ScrapingDataUtils.RecursiveGetDataJsonWithUrl(urlStartFR, urlStartEN, urlStartES, urlStartIT, urlStartDE, urlStartRU, urlStartCO, urlStartCN, urlStartJP, dataJsons, gen: gen);
             Debug.WriteLine("End Scraping - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
 
             Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
@@ -363,9 +363,9 @@ namespace WepApiScrapingData.Controllers
 
                 _repository.UnitOfWork.SaveChanges();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-               Console.WriteLine(e.InnerException.ToString());
+                Console.WriteLine(e.InnerException.ToString());
             }
         }
 
@@ -404,7 +404,7 @@ namespace WepApiScrapingData.Controllers
             IEnumerable<Pokemon> pokemons = await _repository.GetAll();
             foreach (Pokemon pokemon in pokemons)
             {
-                pokemon.PathImg = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlImg, pokemon.EN.Name.Replace(" ","_"), pokemon.Generation);
+                pokemon.PathImg = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlImg, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation);
                 pokemon.PathSprite = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlSprite, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation, true);
             }
 
@@ -421,14 +421,31 @@ namespace WepApiScrapingData.Controllers
             ScrapingDataUtils.GetUrlsMini(response, _repository);
         }
 
-        [HttpGet]
-        [Route("GetSound")]
-        public async Task GetSound()
+        [HttpPut]
+        [Route("DlUpdatePathUrlSound")]
+        public async Task DlUpdatePathUrlSound()
         {
             var httpClient = new HttpClient();
-            await HttpClientUtils.DownloadSoundFileTaskAsync(httpClient, "https://www.pokepedia.fr/images/9/97/Cri_6_x_001.ogg", "test");
+            IEnumerable<Pokemon> pokemons = await _repository.GetAll();
+            foreach (Pokemon pokemon in pokemons)
+            {
+                pokemon.PathSound = await HttpClientUtils.DownloadSoundFileTaskAsync(httpClient, pokemon.UrlSound, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation);
+            }
+
+            _repository.UnitOfWork.SaveChanges();
+
             httpClient.Dispose();
         }
+
+        [HttpPut]
+        [Route("UpdateSound")]
+        public async Task UpdateSound()
+        {
+            string response = HttpClientUtils.CallUrl(Constantes.urlAllSprites).Result;
+            ScrapingDataUtils.GetUrlsSound(response, _repository);
+        }
+
+        
 
         [HttpGet]
         [Route("TestUrlStaticOrDynamic/{language}")]
@@ -437,7 +454,7 @@ namespace WepApiScrapingData.Controllers
             string response = "";
             HtmlDocument htmlDoc = new HtmlDocument();
             string value = "";
-            
+
             switch (language)
             {
                 case Constantes.RU:

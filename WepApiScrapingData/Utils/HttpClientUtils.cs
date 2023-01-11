@@ -156,16 +156,16 @@ namespace WepApiScrapingData.Utils
             return path;
         }
 
-        public static async Task<string> DownloadSoundFileTaskAsync(this HttpClient client, string uri, string FileName)
+        public static async Task<string> DownloadSoundFileTaskAsync(this HttpClient client, string uri, string FileName, int Generation)
         {
-            string path = "Content/Sound/G0/";
+            string path = "Content/Sound/G" + Generation;
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
             path = Path.Combine(path, FileName + ".ogg");
 
-            if (!File.Exists(path))
+            if (!File.Exists(path) && !string.IsNullOrEmpty(uri))
             {
                 using (var response = await client.GetAsync(uri))
                 {
