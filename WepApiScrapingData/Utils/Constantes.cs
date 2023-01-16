@@ -181,6 +181,16 @@ namespace WepApiScrapingData.Utils
         public const string urlStart9Gen_CO = urlPathCO + "1106";
         public const string urlStart9Gen_CN = urlPathCN + "906";
         public const string urlStart9Gen_JP = urlPathJP + "906";
+
+        public const string urlStart9GenTest_FR = urlPathFR + "famignol";
+        public const string urlStart9GenTest_EN = urlPathEN + "maushold";
+        public const string urlStart9GenTest_ES = urlPathES + "maushold";
+        public const string urlStart9GenTest_IT = urlPathIT + "maushold";
+        public const string urlStart9GenTest_DE = urlPathDE + "famieps";
+        public const string urlStart9GenTest_RU = urlPathRU + "";
+        public const string urlStart9GenTest_CO = urlPathCO + "1106";
+        public const string urlStart9GenTest_CN = urlPathCN + "906";
+        public const string urlStart9GenTest_JP = urlPathJP + "906";
         #endregion
 
         public const string MegaEvolution = "Méga";

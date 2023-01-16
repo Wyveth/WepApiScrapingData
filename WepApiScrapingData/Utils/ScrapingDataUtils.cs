@@ -1,18 +1,11 @@
-﻿using HotChocolate.Utilities;
-using HtmlAgilityPack;
-using Microsoft.FSharp.Control;
+﻿using HtmlAgilityPack;
+using Microsoft.FSharp.Data.UnitSystems.SI.UnitNames;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Numerics;
 using System.Text;
-using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WepApiScrapingData.Utils
 {
@@ -110,10 +103,6 @@ namespace WepApiScrapingData.Utils
                 .First(node => node.GetAttributeValue("class", "").Contains("profile-images")).Descendants("img").ToList();
 
             dataJson.UrlImg = values[option].Attributes["src"].Value;
-            #endregion
-
-            #region Get Sprite/Sound Pokemon
-            //GetUrlSprite(Constantes.urlAllSprites, dataJson);
             #endregion
 
             #region Get Size, Category, Weight, Talent
@@ -253,6 +242,17 @@ namespace WepApiScrapingData.Utils
                 dataJson.Generation = 7;
             else if (numbPok <= 898)
                 dataJson.Generation = 8;
+            else if (numbPok <= 905)
+                dataJson.Generation = 0;
+            else if (numbPok <= 1008)
+                dataJson.Generation = 9;
+            #endregion
+
+            #region Get Sprite/Sound Pokemon
+            if (dataJson.Generation != 9)
+                GetUrlSprite(Constantes.urlAllSprites, dataJson);
+            else
+                GetUrlSpriteGen9(Constantes.urlAllSpritesOld, dataJson);
             #endregion
 
             #region Next Url
@@ -683,16 +683,16 @@ namespace WepApiScrapingData.Utils
             int numPok = int.Parse(dataJson.Number);
             bool keepGoing = true;
 
-            if ((gen == 0 && !(numPok >= 899 && numPok <= 905))
-                || (gen == 1 && !(numPok >= 1 && numPok <= 151))
-                || (gen == 2 && !(numPok >= 152 && numPok <= 251))
-                || (gen == 3 && !(numPok >= 252 && numPok <= 386))
-                || (gen == 4 && !(numPok >= 387 && numPok <= 494))
-                || (gen == 5 && !(numPok >= 495 && numPok <= 649))
-                || (gen == 6 && !(numPok >= 650 && numPok <= 721))
-                || (gen == 7 && !(numPok >= 722 && numPok <= 809))
-                || (gen == 8 && !(numPok >= 810 && numPok <= 898))
-                || (gen == 9 && !(numPok >= 906 && numPok <= 1008)))
+            if ((gen == 0 && !(numPok >= 899 && numPok < 905))
+                || (gen == 1 && !(numPok >= 1 && numPok < 151))
+                || (gen == 2 && !(numPok >= 152 && numPok < 251))
+                || (gen == 3 && !(numPok >= 252 && numPok < 386))
+                || (gen == 4 && !(numPok >= 387 && numPok < 494))
+                || (gen == 5 && !(numPok >= 495 && numPok < 649))
+                || (gen == 6 && !(numPok >= 650 && numPok < 721))
+                || (gen == 7 && !(numPok >= 722 && numPok < 809))
+                || (gen == 8 && !(numPok >= 810 && numPok < 898))
+                || (gen == 9 && !(numPok >= 906 && numPok < 1008)))
             {
                 keepGoing = false;
             }
@@ -939,7 +939,7 @@ namespace WepApiScrapingData.Utils
             htmlDoc.LoadHtml(html);
 
             HtmlNode? TR = htmlDoc.DocumentNode.Descendants("tr").FirstOrDefault(m => m.InnerText.Contains(name));
-
+            
             List<HtmlNode>? listTD = TR?.Descendants("td").ToList();
 
             string url = "";
@@ -972,6 +972,119 @@ namespace WepApiScrapingData.Utils
             
             if(!url.Contains("images"))
                 Console.WriteLine("Error Sprite: " + number + " - " + name);
+
+            return Constantes.urlPokepedia + url;
+        }
+
+        public static void GetUrlSpriteGen9(string spitesPkmDB, PokemonJson dataJson)
+        {
+            string response = HttpClientUtils.CallUrl(spitesPkmDB).Result;
+            dataJson.UrlSprite = Constantes.urlPokepedia + GetUrlMiniGen9(response, dataJson.Number, dataJson.FR.Name);
+            if (dataJson.UrlSprite == Constantes.urlPokepedia)
+                Debug.WriteLine(dataJson.FR.Name);
+        }
+
+        public static string GetUrlMiniGen9(string html, string number, string name)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(html);
+
+            HtmlNode? table = htmlDoc.DocumentNode.Descendants("table").First(node => node.GetAttributeValue("class", "").Contains("tableaustandard"));
+
+            var nameSearch = "";
+            switch (name)
+            {
+                case "Fragroin Mâle":
+                    name = "FragroinMâle";
+                    break;
+                case "Fragroin Femelle":
+                    name = "FragroinFemelle";
+                    break;
+                case "Famignol Famille de Trois":
+                    name = "FamignolFamille de Trois";
+                    break;
+                case "Famignol Famille de Quatre":
+                    name = "FamignolFamille de Quatre";
+                    break;
+                case "Tapatoès Plumage Vert":
+                    name = "Plumage Vert";
+                    break;
+                case "Tapatoès Plumage Bleu":
+                    name = "TapatoèsPlumage Bleu";
+                    break;
+                case "Tapatoès Plumage Jaune":
+                    name = "TapatoèsPlumage Jaune";
+                    break;
+                case "Tapatoès Plumage Blanc":
+                    name = "TapatoèsPlumage Blanc";
+                    break;
+                case "Superdofin Forme Ordinaire":
+                    name = "SuperdofinForme Ordinaire";
+                    break;
+                case "Superdofin Forme Super":
+                    name = "SuperdofinForme Super";
+                    break;
+                case "Nigirigon Forme Courbée":
+                    name = "NigirigonForme Courbée";
+                    break;
+                case "Nigirigon Forme Affalée":
+                    name = "NigirigonForme Affalée";
+                    break;
+                case "Nigirigon Forme Raide":
+                    name = "NigirigonForme Raide";
+                    break;
+                case "Deusolourdo Forme Double":
+                    name = "DeusolourdoForme Double";
+                    break;
+                case "Deusolourdo Forme Triple":
+                    name = "DeusolourdoForme Triple";
+                    break;
+                case "Mordudor Forme Coffre":
+                    name = "MordudorForme Coffre";
+                    break;
+                case "Mordudor Forme Marche":
+                    name = "MordudorForme Marche";
+                    break;
+                default:
+                    nameSearch = name;
+                    break;
+            }
+            
+
+            HtmlNode? TR = table.Descendants("tr").FirstOrDefault(m => m.InnerText.Contains(name));
+
+            List<HtmlNode>? listTD = TR?.Descendants("td").ToList();
+
+            string url = "";
+
+            if (listTD != null)
+            {
+                if (listTD.Count <= 7)
+                {
+                    if (listTD[0].InnerHtml.Contains("images"))
+                    {
+                        url = listTD[0].Descendants("img").Select(node => node.GetAttributeValue("src", "")).FirstOrDefault();
+                    }
+                    else
+                    {
+                        url = listTD[1].Descendants("img").Select(node => node.GetAttributeValue("src", "")).FirstOrDefault();
+                    }
+                }
+                else if (listTD.Count >= 8)
+                {
+                    if (listTD[1].InnerHtml.Contains("images"))
+                    {
+                        url = listTD[1].Descendants("img").Select(node => node.GetAttributeValue("src", "")).FirstOrDefault();
+                    }
+                    else
+                    {
+                        url = listTD[2].Descendants("img").Select(node => node.GetAttributeValue("src", "")).FirstOrDefault();
+                    }
+                }
+            }
+
+            if (!url.Contains("images"))
+                Console.WriteLine("Error Sprite Gen 9: " + number + " - " + name);
 
             return Constantes.urlPokepedia + url;
         }
@@ -1536,7 +1649,7 @@ namespace WepApiScrapingData.Utils
             Debug.WriteLine(newUrl);
 
             GetStatsPokemon(response, dataJson);
-            GetTalentHidden(response, dataJson);
+            //GetTalentHidden(response, dataJson);
             //GetAttackPokemon(response, dataJson);
         }
 
@@ -1572,7 +1685,7 @@ namespace WepApiScrapingData.Utils
             }
             else if (dataJson.FR.Name.Contains("Mâle") || dataJson.FR.Name.Contains("Femelle"))
             {
-                if (dataJson.FR.Name.Contains("Déflaisan") || dataJson.FR.Name.Contains("Viskuse") || dataJson.FR.Name.Contains("Moyade") || dataJson.FR.Name.Contains("Mistigrix") || dataJson.FR.Name.Contains("Wimessir"))
+                if (dataJson.FR.Name.Contains("Déflaisan") || dataJson.FR.Name.Contains("Viskuse") || dataJson.FR.Name.Contains("Moyade") || dataJson.FR.Name.Contains("Mistigrix") || dataJson.FR.Name.Contains("Wimessir") || dataJson.FR.Name.Contains("Fragroin"))
                 {
                     if (dataJson.FR.Name.Contains("Mâle"))
                         nameSite = dataJson.FR.DisplayName;
@@ -1646,6 +1759,13 @@ namespace WepApiScrapingData.Utils
                         {
                             nameSite = dataJson.FR.DisplayName + "-" + dataJson.FR.Name.Replace('’', ' ').Split(' ')[1] + "-" + dataJson.FR.Name.Replace("’", " ").Split(' ')[3];
                         }
+                        else if (dataJson.FR.Name.Contains("Superdofin"))
+                        {
+                            if (dataJson.FR.Name.Contains("Forme Ordinaire"))
+                                nameSite = "superdofin";
+                            else if (dataJson.FR.Name.Contains("Forme Super"))
+                                nameSite = "superdofin-super";
+                        }
                         else
                         {
                             nameSite = dataJson.FR.DisplayName + "-" + dataJson.FR.Name.Split(' ')[2];
@@ -1661,7 +1781,25 @@ namespace WepApiScrapingData.Utils
                 }
                 else
                 {
-                    if (!dataJson.FR.Name.Contains("Mime Jr."))
+                    if (dataJson.FR.Name.Contains("Famignol"))
+                    {
+                        if (dataJson.FR.Name.Contains("Famille de Trois"))
+                            nameSite = "famignol";
+                        else if (dataJson.FR.Name.Contains("Famille de Quatre"))
+                            nameSite = "famignol-famille-quatre";
+                    }
+                    else if (dataJson.FR.Name.Contains("Tapatoès"))
+                    {
+                        if(dataJson.FR.Name.Contains("Plumage Vert"))
+                            nameSite = "tapatoes";
+                        else if (dataJson.FR.Name.Contains("Plumage Bleu"))
+                            nameSite = "tapatoes-bleu";
+                        else if (dataJson.FR.Name.Contains("Plumage Jaune"))
+                            nameSite = "tapatoes-jaune";
+                        else if (dataJson.FR.Name.Contains("Plumage Blanc"))
+                            nameSite = "tapatoes-blanc";
+                    }
+                    else if (!dataJson.FR.Name.Contains("Mime Jr."))
                         nameSite = dataJson.FR.Name.Replace(' ', '-');
                     else
                         nameSite = dataJson.FR.Name.Split(" ")[0] + "-" + dataJson.FR.Name.Split(" ")[1].Split('.')[0];
