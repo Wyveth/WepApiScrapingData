@@ -1856,6 +1856,127 @@ namespace WepApiScrapingData.Utils
                         dataJson.CN.WhenEvolution = Constantes.SavageLands_CN;
                         dataJson.JP.WhenEvolution = Constantes.SavageLands_JP;
                     }
+                    else if (dataJson.FR.WhenEvolution.Contains(Constantes.AfterFightOnePercent_FR))
+                    {
+                        dataJson.EN.WhenEvolution = Constantes.AfterFightOnePercent_EN;
+                        dataJson.ES.WhenEvolution = Constantes.AfterFightOnePercent_ES;
+                        dataJson.IT.WhenEvolution = Constantes.AfterFightOnePercent_IT;
+                        dataJson.DE.WhenEvolution = Constantes.AfterFightOnePercent_DE;
+                        dataJson.RU.WhenEvolution = Constantes.AfterFightOnePercent_RU;
+                        dataJson.CO.WhenEvolution = Constantes.AfterFightOnePercent_CO;
+                        dataJson.CN.WhenEvolution = Constantes.AfterFightOnePercent_CN;
+                        dataJson.JP.WhenEvolution = Constantes.AfterFightOnePercent_JP;
+                    }
+                    else if (dataJson.FR.WhenEvolution.Contains(Constantes.AfterFightNineNinePercent_FR))
+                    {
+                        dataJson.EN.WhenEvolution = Constantes.AfterFightNineNinePercent_EN;
+                        dataJson.ES.WhenEvolution = Constantes.AfterFightNineNinePercent_ES;
+                        dataJson.IT.WhenEvolution = Constantes.AfterFightNineNinePercent_IT;
+                        dataJson.DE.WhenEvolution = Constantes.AfterFightNineNinePercent_DE;
+                        dataJson.RU.WhenEvolution = Constantes.AfterFightNineNinePercent_RU;
+                        dataJson.CO.WhenEvolution = Constantes.AfterFightNineNinePercent_CO;
+                        dataJson.CN.WhenEvolution = Constantes.AfterFightNineNinePercent_CN;
+                        dataJson.JP.WhenEvolution = Constantes.AfterFightNineNinePercent_JP;
+                    }
+                    else if (dataJson.FR.WhenEvolution.Contains(Constantes.LevelUpWorld_FR))
+                    {
+                        dataJson.EN.WhenEvolution = Constantes.LevelUpWorld_EN;
+                        dataJson.ES.WhenEvolution = Constantes.LevelUpWorld_ES;
+                        dataJson.IT.WhenEvolution = Constantes.LevelUpWorld_IT;
+                        dataJson.DE.WhenEvolution = Constantes.LevelUpWorld_DE;
+                        dataJson.RU.WhenEvolution = Constantes.LevelUpWorld_RU;
+                        dataJson.CO.WhenEvolution = Constantes.LevelUpWorld_CO;
+                        dataJson.CN.WhenEvolution = Constantes.LevelUpWorld_CN;
+                        dataJson.JP.WhenEvolution = Constantes.LevelUpWorld_JP;
+                    }
+                    else if (dataJson.FR.WhenEvolution.Contains(Constantes.LevelUpHyperdrill_FR))
+                    {
+                        dataJson.EN.WhenEvolution = Constantes.LevelUpHyperdrill_EN;
+                        dataJson.ES.WhenEvolution = Constantes.LevelUpHyperdrill_ES;
+                        dataJson.IT.WhenEvolution = Constantes.LevelUpHyperdrill_IT;
+                        dataJson.DE.WhenEvolution = Constantes.LevelUpHyperdrill_DE;
+                        dataJson.RU.WhenEvolution = Constantes.LevelUpHyperdrill_RU;
+                        dataJson.CO.WhenEvolution = Constantes.LevelUpHyperdrill_CO;
+                        dataJson.CN.WhenEvolution = Constantes.LevelUpHyperdrill_CN;
+                        dataJson.JP.WhenEvolution = Constantes.LevelUpHyperdrill_JP;
+                    }
+                    else if (dataJson.FR.WhenEvolution.Contains(Constantes.LevelUpHyperdrillOnePercent_FR))
+                    {
+                        dataJson.EN.WhenEvolution = Constantes.LevelUpHyperdrillOnePercent_EN;
+                        dataJson.ES.WhenEvolution = Constantes.LevelUpHyperdrillOnePercent_ES;
+                        dataJson.IT.WhenEvolution = Constantes.LevelUpHyperdrillOnePercent_IT;
+                        dataJson.DE.WhenEvolution = Constantes.LevelUpHyperdrillOnePercent_DE;
+                        dataJson.RU.WhenEvolution = Constantes.LevelUpHyperdrillOnePercent_RU;
+                        dataJson.CO.WhenEvolution = Constantes.LevelUpHyperdrillOnePercent_CO;
+                        dataJson.CN.WhenEvolution = Constantes.LevelUpHyperdrillOnePercent_CN;
+                        dataJson.JP.WhenEvolution = Constantes.LevelUpHyperdrillOnePercent_JP;
+                    }
+                    else if (dataJson.FR.WhenEvolution.Contains(Constantes.WalkOneHundred_FR))
+                    {
+                        dataJson.EN.WhenEvolution = Constantes.WalkOneHundred_EN;
+                        dataJson.ES.WhenEvolution = Constantes.WalkOneHundred_ES;
+                        dataJson.IT.WhenEvolution = Constantes.WalkOneHundred_IT;
+                        dataJson.DE.WhenEvolution = Constantes.WalkOneHundred_DE;
+                        dataJson.RU.WhenEvolution = Constantes.WalkOneHundred_RU;
+                        dataJson.CO.WhenEvolution = Constantes.WalkOneHundred_CO;
+                        dataJson.CN.WhenEvolution = Constantes.WalkOneHundred_CN;
+                        dataJson.JP.WhenEvolution = Constantes.WalkOneHundred_JP;
+                    }
+                    else if (dataJson.FR.WhenEvolution.Contains(Constantes.ArmorOfFortune_FR))
+                    {
+                        dataJson.EN.WhenEvolution = Constantes.ArmorOfFortune_EN;
+                        dataJson.ES.WhenEvolution = Constantes.ArmorOfFortune_ES;
+                        dataJson.IT.WhenEvolution = Constantes.ArmorOfFortune_IT;
+                        dataJson.DE.WhenEvolution = Constantes.ArmorOfFortune_DE;
+                        dataJson.RU.WhenEvolution = Constantes.ArmorOfFortune_RU;
+                        dataJson.CO.WhenEvolution = Constantes.ArmorOfFortune_CO;
+                        dataJson.CN.WhenEvolution = Constantes.ArmorOfFortune_CN;
+                        dataJson.JP.WhenEvolution = Constantes.ArmorOfFortune_JP;
+                    }
+                    else if (dataJson.FR.WhenEvolution.Contains(Constantes.GrudgeArmor_FR))
+                    {
+                        dataJson.EN.WhenEvolution = Constantes.GrudgeArmor_EN;
+                        dataJson.ES.WhenEvolution = Constantes.GrudgeArmor_ES;
+                        dataJson.IT.WhenEvolution = Constantes.GrudgeArmor_IT;
+                        dataJson.DE.WhenEvolution = Constantes.GrudgeArmor_DE;
+                        dataJson.RU.WhenEvolution = Constantes.GrudgeArmor_RU;
+                        dataJson.CO.WhenEvolution = Constantes.GrudgeArmor_CO;
+                        dataJson.CN.WhenEvolution = Constantes.GrudgeArmor_CN;
+                        dataJson.JP.WhenEvolution = Constantes.GrudgeArmor_JP;
+                    }
+                    else if (dataJson.FR.WhenEvolution.Contains(Constantes.RageFist_FR))
+                    {
+                        dataJson.EN.WhenEvolution = Constantes.RageFist_EN;
+                        dataJson.ES.WhenEvolution = Constantes.RageFist_ES;
+                        dataJson.IT.WhenEvolution = Constantes.RageFist_IT;
+                        dataJson.DE.WhenEvolution = Constantes.RageFist_DE;
+                        dataJson.RU.WhenEvolution = Constantes.RageFist_RU;
+                        dataJson.CO.WhenEvolution = Constantes.RageFist_CO;
+                        dataJson.CN.WhenEvolution = Constantes.RageFist_CN;
+                        dataJson.JP.WhenEvolution = Constantes.RageFist_JP;
+                    }
+                    else if (dataJson.FR.WhenEvolution.Contains(Constantes.PawniardEvol_FR))
+                    {
+                        dataJson.EN.WhenEvolution = Constantes.PawniardEvol_EN;
+                        dataJson.ES.WhenEvolution = Constantes.PawniardEvol_ES;
+                        dataJson.IT.WhenEvolution = Constantes.PawniardEvol_IT;
+                        dataJson.DE.WhenEvolution = Constantes.PawniardEvol_DE;
+                        dataJson.RU.WhenEvolution = Constantes.PawniardEvol_RU;
+                        dataJson.CO.WhenEvolution = Constantes.PawniardEvol_CO;
+                        dataJson.CN.WhenEvolution = Constantes.PawniardEvol_CN;
+                        dataJson.JP.WhenEvolution = Constantes.PawniardEvol_JP;
+                    }
+                    else if (dataJson.FR.WhenEvolution.Contains(Constantes.GimmighoulEvol_FR))
+                    {
+                        dataJson.EN.WhenEvolution = Constantes.GimmighoulEvol_EN;
+                        dataJson.ES.WhenEvolution = Constantes.GimmighoulEvol_ES;
+                        dataJson.IT.WhenEvolution = Constantes.GimmighoulEvol_IT;
+                        dataJson.DE.WhenEvolution = Constantes.GimmighoulEvol_DE;
+                        dataJson.RU.WhenEvolution = Constantes.GimmighoulEvol_RU;
+                        dataJson.CO.WhenEvolution = Constantes.GimmighoulEvol_CO;
+                        dataJson.CN.WhenEvolution = Constantes.GimmighoulEvol_CN;
+                        dataJson.JP.WhenEvolution = Constantes.GimmighoulEvol_JP;
+                    }
                     #endregion
                     break;
             }

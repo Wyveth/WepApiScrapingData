@@ -299,7 +299,21 @@ namespace WepApiScrapingData.Controllers
         public void SaveInDB()
         {
             string json;
-            using (StreamReader sr = new StreamReader("PokeScrap.json"))
+            using (StreamReader sr = new StreamReader("PokeScrap/PokeScrap.json"))
+            {
+                json = sr.ReadToEnd();
+                _repository.SaveJsonInDb(json);
+            }
+
+            _repository.UnitOfWork.SaveChanges();
+        }
+
+        [HttpPost]
+        [Route("SaveGenInDB/{gen}")]
+        public void SaveGenInDB(int gen)
+        {
+            string json;
+            using (StreamReader sr = new StreamReader("PokeScrap/PokeScrapGen" + gen + ".json"))
             {
                 json = sr.ReadToEnd();
                 _repository.SaveJsonInDb(json);
@@ -402,7 +416,7 @@ namespace WepApiScrapingData.Controllers
         {
             var httpClient = new HttpClient();
             IEnumerable<Pokemon> pokemons = await _repository.GetAll();
-            foreach (Pokemon pokemon in pokemons)
+            foreach (Pokemon pokemon in pokemons.Where(m => m.PathImg == null))
             {
                 pokemon.PathImg = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlImg, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation);
                 pokemon.PathSprite = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlSprite, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation, true);
@@ -445,7 +459,7 @@ namespace WepApiScrapingData.Controllers
             ScrapingDataUtils.GetUrlsSound(response, _repository);
         }
 
-        
+
 
         [HttpGet]
         [Route("TestUrlStaticOrDynamic/{language}")]

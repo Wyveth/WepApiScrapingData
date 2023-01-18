@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.FileSystemGlobbing.Internal;
+using Microsoft.FSharp.Data.UnitSystems.SI.UnitNames;
+using System.Threading.Channels;
 using WebApiScrapingData.Domain.Class;
 
 namespace WepApiScrapingData.Utils
@@ -1202,6 +1204,126 @@ namespace WepApiScrapingData.Utils
         public const string SavageLands_CO = "49 이상의 HP를 잃고 Pit of the Sands(Savage Lands)의 돌 아치 밑으로 통과";
         public const string SavageLands_CN = "失去 49 或更多生命值並通過沙坑（野蠻之地）的石拱門下";
         public const string SavageLands_JP = "49 以上の HP を失い、Pit of the Sands(Savage Lands) の石のアーチの下を通過する";
+
+        public const string AfterFightOnePercent_FR = "après un combat (1 chance sur 100)";
+        public const string AfterFightOnePercent_EN = "after a fight (1 in 100 chance)";
+        public const string AfterFightOnePercent_ES = "después de una pelea (1 en 100 posibilidades)";
+        public const string AfterFightOnePercent_IT = "dopo un litigio (1 possibilità su 100)";
+        public const string AfterFightOnePercent_DE = "nach einem Kampf (1 zu 100 Chance)";
+        public const string AfterFightOnePercent_RU = "после боя (1 шанс из 100)";
+        public const string AfterFightOnePercent_CO = "싸움 후(1/100 확률)";
+        public const string AfterFightOnePercent_CN = "打架后（100 分之一的机会）";
+        public const string AfterFightOnePercent_JP = "戦いの後（100分の1の確率）";
+
+        public const string AfterFightNineNinePercent_FR = "après un combat (99 chances sur 100)";
+        public const string AfterFightNineNinePercent_EN = "after a fight (99 out of 100 chance)";
+        public const string AfterFightNineNinePercent_ES = "después de una pelea (99 de 100 posibilidades)";
+        public const string AfterFightNineNinePercent_IT = "dopo un litigio (99 possibilità su 100)";
+        public const string AfterFightNineNinePercent_DE = "nach einem Kampf (99 von 100 Chance)";
+        public const string AfterFightNineNinePercent_RU = "после боя (шанс 99 из 100)";
+        public const string AfterFightNineNinePercent_CO = "싸움 후 (100중 99 확률)";
+        public const string AfterFightNineNinePercent_CN = "战斗后（100 次机会中有 99 次";
+        public const string AfterFightNineNinePercent_JP = "戦いの後（100分の99の確率";
+
+        public const string LevelUpWorld_FR = "Faire monter d'un niveau alors que vous êtes plusieurs dans le même monde";
+        public const string LevelUpWorld_EN = "Leveling up when there are several of you in the same world";
+        public const string LevelUpWorld_ES = "Subir de nivel cuando sois varios en el mismo mundo";
+        public const string LevelUpWorld_IT = "Salire di livello quando ci sono molti di voi nello stesso mondo";
+        public const string LevelUpWorld_DE = "Steigen Sie auf, wenn mehrere von Ihnen in derselben Welt sind";
+        public const string LevelUpWorld_RU = "Повышение уровня, когда вас несколько в одном мире";
+        public const string LevelUpWorld_CO = "같은 세계에 여러 명이 있을 때 레벨 업";
+        public const string LevelUpWorld_CN = "当你们中有几个人在同一个世界时升级";
+        public const string LevelUpWorld_JP = "同じ世界に複数いる場合のレベルアップ";
+
+        public const string LevelUpHyperdrill_FR = "Monter un niveau en ayant appris l'attaque Hyperceuse (99 chance sur 100)";
+        public const string LevelUpHyperdrill_EN = "Level up having learned the Hyperdrill attack (99 out of 100 chance)";
+        public const string LevelUpHyperdrill_ES = "Sube de nivel habiendo aprendido el ataque Hyperdrill (99 de 100 posibilidades)";
+        public const string LevelUpHyperdrill_IT = "Sali di livello dopo aver appreso l'attacco Hyperdrill (99 possibilità su 100)";
+        public const string LevelUpHyperdrill_DE = "Erreiche ein Level, nachdem du den Hyperdrill-Angriff erlernt hast (Chance von 99 von 100)";
+        public const string LevelUpHyperdrill_RU = "Повысьте уровень, изучив атаку Hyperdrill (шанс 99 из 100)";
+        public const string LevelUpHyperdrill_CO = "하이퍼드릴 공격을 배워서 레벨업 (99/100 확률)";
+        public const string LevelUpHyperdrill_CN = "学习 超钻 攻击后升级（100 次机会中有 99 次）";
+        public const string LevelUpHyperdrill_JP = "ハイパードリルの攻撃を習得してレベルアップ (99/100 の確率)";
+
+        public const string LevelUpHyperdrillOnePercent_FR = "Monter un niveau en ayant appris l'attaque Hyperceuse (1 chance sur 100)";
+        public const string LevelUpHyperdrillOnePercent_EN = "Level up having learned the Hyperdrill attack (1 in 100 chance)";
+        public const string LevelUpHyperdrillOnePercent_ES = "Sube de nivel habiendo aprendido el ataque Hyperdrill (1 en 100 posibilidades)";
+        public const string LevelUpHyperdrillOnePercent_IT = "Sali di livello dopo aver appreso l'attacco Hyperdrill (1 possibilità su 100)";
+        public const string LevelUpHyperdrillOnePercent_DE = "Erreiche ein Level, nachdem du den Hyperdrill-Angriff erlernt hast (1 zu 100 Chance)";
+        public const string LevelUpHyperdrillOnePercent_RU = "Повысьте уровень, изучив атаку Hyperdrill (1 шанс из 100)";
+        public const string LevelUpHyperdrillOnePercent_CO = "하이퍼드릴 공격을 배워서 레벨업 (1/100 확률)";
+        public const string LevelUpHyperdrillOnePercent_CN = "学习 超钻 攻击后升级（100 分之一的机会）";
+        public const string LevelUpHyperdrillOnePercent_JP = "ハイパードリルの攻撃を習得してレベルアップ (100分の1の確率)";
+
+        public const string WalkOneHundred_FR = "Marcher 1000 pas en mode En avant avec votre Pokémon puis le faire monter d'un niveau";
+        public const string WalkOneHundred_EN = "Walk 1000 steps in Forward mode with your Pokémon and then level it up";
+        public const string WalkOneHundred_ES = "Camina 1000 pasos en modo Adelante con tu Pokémon y luego sube de nivel";
+        public const string WalkOneHundred_IT = "Fai 1000 passi in modalità Avanti con i tuoi Pokémon e poi sali di livello";
+        public const string WalkOneHundred_DE = "Gehen Sie mit Ihrem Pokémon 1000 Schritte im Vorwärtsmodus und steigen Sie dann auf";
+        public const string WalkOneHundred_RU = "Пройдите 1000 шагов в режиме «Вперед» со своим покемоном, а затем повысьте его уровень.";
+        public const string WalkOneHundred_CO = "포워드 모드에서 포켓몬과 함께 1000걸음 걸은 후 레벨 업";
+        public const string WalkOneHundred_CN = "与你的宝可梦一起在前进模式中行走 1000 步，然后升级";
+        public const string WalkOneHundred_JP = "ポケモンと一緒にフォワード モードで 1000 歩歩き、レベルアップします。";
+
+        public const string ArmorOfFortune_FR = "Armure de la Fortune";
+        public const string ArmorOfFortune_EN = "Armor of Fortune";
+        public const string ArmorOfFortune_ES = "Armadura de la fortuna";
+        public const string ArmorOfFortune_IT = "Armatura della fortuna";
+        public const string ArmorOfFortune_DE = "Rüstung des Glücks";
+        public const string ArmorOfFortune_RU = "Броня удачи";
+        public const string ArmorOfFortune_CO = "행운의 갑옷";
+        public const string ArmorOfFortune_CN = "幸运之甲";
+        public const string ArmorOfFortune_JP = "運命の鎧";
+
+        public const string GrudgeArmor_FR = "Armure de la Rancune";
+        public const string GrudgeArmor_EN = "Grudge Armor";
+        public const string GrudgeArmor_ES = "Armadura de rencor";
+        public const string GrudgeArmor_IT = "Armatura del rancore";
+        public const string GrudgeArmor_DE = "Groll-Rüstung";
+        public const string GrudgeArmor_RU = "Броня обиды";
+        public const string GrudgeArmor_CO = "원한 갑옷";
+        public const string GrudgeArmor_CN = "怨恨盔甲";
+        public const string GrudgeArmor_JP = "グラッジアーマー";
+
+        public const string RageFist_FR = "Faire monter d'un niveau après avoir utilisé 20 fois l'attaque Poing de Colère";
+        public const string RageFist_EN = "Level up after using the Rage Fist attack 20 times";
+        public const string RageFist_ES = "Sube de nivel después de usar el ataque Puño Furia 20 veces";
+        public const string RageFist_IT = "Sali di livello dopo aver usato l'attacco Pugno Furibondo rabbia 20 volte";
+        public const string RageFist_DE = "Erreiche eine Stufe, nachdem du den Angriff Zornesfaust 20 Mal verwendet hast";
+        public const string RageFist_RU = "Повышение уровня после использования атаки «Кулак гнева» 20 раз";
+        public const string RageFist_CO = "분노의 주먹 공격 20회 사용 후 레벨업";
+        public const string RageFist_CN = "使用愤怒之拳攻击 20 次后升级";
+        public const string RageFist_JP = "怒りの拳攻撃を20回使用してレベルアップ";
+
+        public const string TwinBeam_FR = "Monter un niveau en ayant appris l'attaque Double Laser";
+        public const string TwinBeam_EN = "Level up having learned the Twin Beam attack";
+        public const string TwinBeam_ES = "Sube de nivel habiendo aprendido el ataque Láser Doble";
+        public const string TwinBeam_IT = "Sali di livello dopo aver appreso l'attacco Doppioraggio";
+        public const string TwinBeam_DE = "Steige im Level auf, nachdem du den Doppelstrahl Angriff erlernt hast";
+        public const string TwinBeam_RU = "Повышайте уровень, изучив атаку Двойного лазера";
+        public const string TwinBeam_CO = "더블 레이저 공격을 배워서 레벨 업";
+        public const string TwinBeam_CN = "学习双激光攻击后升级";
+        public const string TwinBeam_JP = "ダブルレーザー攻撃を習得してレベルアップ";
+
+        public const string PawniardEvol_FR = "Faire monter d'un niveau en ayant tué 3 Sclaproie entourés de Scalpion";
+        public const string PawniardEvol_EN = "Level up after killing 3 Bisharp surrounded by Pawniard";
+        public const string PawniardEvol_ES = "Sube de nivel después de matar a 3 Bisharp rodeados por Pawniard";
+        public const string PawniardEvol_IT = "Sali di livello dopo aver ucciso 3 Bisharp circondati da Pawniard";
+        public const string PawniardEvol_DE = "Steige im Level auf, nachdem du 3 Caesurio getötet hast, die von Gladiantri umgeben sind";
+        public const string PawniardEvol_RU = "Повышение уровня после убийства 3 Бишарп в окружении Скальпионов.";
+        public const string PawniardEvol_CO = "자망칼에 둘러싸인 3 절각참를 죽인 후 레벨 업";
+        public const string PawniardEvol_CN = "杀死 3 个被 駒刀小兵 包围的 劈斬司令 后升级";
+        public const string PawniardEvol_JP = "スカルピオンに囲まれたスクラプロイを 3 体倒してレベルアップ";
+
+        public const string GimmighoulEvol_FR = "Faire monter d'un niveau en ayant 999 pièces de Mordudor";
+        public const string GimmighoulEvol_EN = "Level up by having 999 pieces of Gimmighoul";
+        public const string GimmighoulEvol_ES = "Sube de nivel al tener 999 piezas de Gimmighoul";
+        public const string GimmighoulEvol_IT = "Sali di livello avendo 999 pezzi di Gimmighoul";
+        public const string GimmighoulEvol_DE = "Steige im Level auf, indem du 999 Gierspenst hast";
+        public const string GimmighoulEvol_RU = "Повышайте уровень, имея 999 частей Мордудора.";
+        public const string GimmighoulEvol_CO = "모르두도르 조각 999개로 레벨 업";
+        public const string GimmighoulEvol_CN = "拥有 999 件魔都多来升级";
+        public const string GimmighoulEvol_JP = "モルデュドールを999個持ってレベルアップ";
         #endregion
 
         #region Reproduction //OK

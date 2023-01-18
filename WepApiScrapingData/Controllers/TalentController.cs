@@ -52,7 +52,9 @@ namespace WepApiScrapingData.Controllers
         [Route("UpdateTalent")]
         public async Task UpdateTalent()
         {
-            List<Talent> talents = new List<Talent>();
+            IEnumerable<Talent> talentsDB = await _repository.GetAll();
+            List<Talent> talents = talentsDB.ToList();
+            List<Talent> newTalents = new List<Talent>();
             IEnumerable<Pokemon> pokemons = await _repositoryPokemon.GetAll();
             foreach (Pokemon pokemon in pokemons.ToList())
             {
@@ -165,14 +167,18 @@ namespace WepApiScrapingData.Controllers
                         Talent talentExist = talents.Find(x => x.Name_FR == talent.Name_FR);
                         if (talentExist == null)
                         {
-                            talents.Add(talent);
-                            Console.WriteLine(talent.Name_FR + ": " + talent.Description_FR);
+                            Talent newTalentsExist = newTalents.Find(x => x.Name_FR == talent.Name_FR);
+                            if (newTalentsExist == null)
+                            {
+                                newTalents.Add(talent);
+                                Console.WriteLine(talent.Name_FR + ": " + talent.Description_FR);
+                            }
                         }
                     }
                 }
             }
 
-            await _repository.AddRange(talents);
+            await _repository.AddRange(newTalents);
             _repository.UnitOfWork.SaveChanges();
         }
         #endregion

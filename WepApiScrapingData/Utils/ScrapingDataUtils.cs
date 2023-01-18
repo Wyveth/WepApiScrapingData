@@ -2,6 +2,7 @@
 using Microsoft.FSharp.Data.UnitSystems.SI.UnitNames;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
@@ -1086,7 +1087,7 @@ namespace WepApiScrapingData.Utils
             if (!url.Contains("images"))
                 Console.WriteLine("Error Sprite Gen 9: " + number + " - " + name);
 
-            return Constantes.urlPokepedia + url;
+            return url;
         }
 
         public static void GetUrlsMini(string html, IRepositoryExtendsPokemon<Pokemon> repositoryPkm)
@@ -1851,7 +1852,15 @@ namespace WepApiScrapingData.Utils
                 .Where(node => node.GetAttributeValue("class", "").Contains("list-group-item")).ToList();
 
             var filter = "";
-            if (dataJson.FR.Name.Contains(Constantes.Alola) || dataJson.FR.Name.Contains(Constantes.Galar) || dataJson.FR.Name.Contains(Constantes.Hisui))
+            if (dataJson.FR.Name.Contains(Constantes.Alola) 
+                || dataJson.FR.Name.Contains(Constantes.Galar) 
+                || dataJson.FR.Name.Contains(Constantes.Hisui) 
+                || dataJson.FR.Name.Contains("Fragroin Mâle") 
+                || dataJson.FR.Name.Contains("Famignol") 
+                || dataJson.FR.Name.Contains("Tapatoès Plumage Vert") 
+                || dataJson.FR.Name.Contains("Superdofin Forme Ordinaire")
+                || dataJson.FR.Name.Contains("Nigirigon Forme Courbée")
+                || dataJson.FR.Name.Contains("Deusolourdo Forme Double"))
                 filter = dataJson.FR.DisplayName;
             else
                 filter = dataJson.FR.Name;
