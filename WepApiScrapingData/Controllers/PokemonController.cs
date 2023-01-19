@@ -294,6 +294,54 @@ namespace WepApiScrapingData.Controllers
             return await _repository.GetAllVariantAsync(number);
         }
 
+        [HttpGet]
+        [Route("GenerateJsonXamarin")]
+        public async Task GenerateJsonXamarin()
+        {
+            IEnumerable<Pokemon> pokemons = await _repository.GetAll();
+
+            List<PokemonMobileJson> pokemonsJson = new List<PokemonMobileJson>();
+
+            foreach (Pokemon item in pokemons.ToList())
+            {
+                PokemonMobileJson pokemonJson = new PokemonMobileJson();
+                pokemonJson.Number = item.Number;
+                pokemonJson.Name = item.FR.Name;
+                pokemonJson.DisplayName = item.FR.DisplayName;
+                pokemonJson.DescriptionVx = item.FR.DescriptionVx;
+                pokemonJson.DescriptionVy = item.FR.DescriptionVy;
+                pokemonJson.UrlImg = item.UrlImg;
+                pokemonJson.UrlSprite = item.UrlSprite;
+                pokemonJson.Size = item.FR.Size;
+                pokemonJson.Category = item.FR.Category;
+                pokemonJson.Weight = item.FR.Weight;
+                pokemonJson.Talent = item.FR.Talent;
+                pokemonJson.DescriptionTalent = item.FR.DescriptionTalent;
+                pokemonJson.Types = item.FR.Types;
+                pokemonJson.Weakness = item.FR.Weakness;
+                pokemonJson.Evolutions = item.FR.Evolutions;
+                pokemonJson.TypeEvolution = item.TypeEvolution;
+                pokemonJson.WhenEvolution = item.FR.WhenEvolution;
+                pokemonJson.statPv = item.StatPv;
+                pokemonJson.statAttaque = item.StatAttaque;
+                pokemonJson.statDefense = item.StatDefense;
+                pokemonJson.statAttaqueSpe = item.StatAttaqueSpe;
+                pokemonJson.statDefenseSpe = item.StatDefenseSpe;
+                pokemonJson.statVitesse = item.StatVitesse;
+                pokemonJson.statTotal = item.StatTotal;
+                pokemonJson.Generation = item.Generation;
+                pokemonJson.NextUrl = item.FR.NextUrl;
+
+                pokemonsJson.Add(pokemonJson);
+
+                Debug.WriteLine("Pokemon : " + item.Number + " - " + item.FR.Name);
+            }
+
+            Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            ScrapingDataUtils.WriteToJsonMobile(pokemonsJson);
+            Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+        }
+
         [HttpPost]
         [Route("SaveInDB")]
         public void SaveInDB()
@@ -456,10 +504,16 @@ namespace WepApiScrapingData.Controllers
         public async Task UpdateSound()
         {
             string response = HttpClientUtils.CallUrl(Constantes.urlAllSprites).Result;
-            ScrapingDataUtils.GetUrlsSound(response, _repository);
+            ScrapingDataUtils.GetUrlSound(response, _repository);
         }
 
-
+        [HttpPut]
+        [Route("UpdateSoundGen9")]
+        public async Task UpdateSoundGen9()
+        {
+            string response = HttpClientUtils.CallUrl(Constantes.urlAllSpritesOld).Result;
+            ScrapingDataUtils.GetUrlSoundGen9(response, _repository);
+        }
 
         [HttpGet]
         [Route("TestUrlStaticOrDynamic/{language}")]

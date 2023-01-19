@@ -1,12 +1,14 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.FSharp.Data.UnitSystems.SI.UnitNames;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WepApiScrapingData.Utils
 {
@@ -200,7 +202,7 @@ namespace WepApiScrapingData.Utils
             }
             dataJson.FR.Evolutions = builder.ToString();
             #endregion
-            
+
             #region Stats + TalentHidden + Attack  + WhenEvolution
             GetStats(Constantes.urlStatsPB, dataJson, option);
             #endregion
@@ -298,7 +300,7 @@ namespace WepApiScrapingData.Utils
             #region CN
             //GetDataByAsia(htmlDoc_CN, dataJson.CN, dataJson.Number, numbPok, values, value, i, many, option, Constantes.CN);
             #endregion
-            
+
             return dataJson;
         }
 
@@ -702,16 +704,25 @@ namespace WepApiScrapingData.Utils
                 RecursiveGetDataJsonWithUrl(dataJson.FR.NextUrl, dataJson.EN.NextUrl, dataJson.ES.NextUrl, dataJson.IT.NextUrl, dataJson.DE.NextUrl, dataJson.RU.NextUrl, dataJson.CO.NextUrl, dataJson.CN.NextUrl, dataJson.JP.NextUrl, dataJsons);
         }
 
-        public static void WriteToJson(List<PokemonJson> dataJsons, bool limit = false, int gen = -1)
+        public static void WriteToJson(List<PokemonJson> dataJsons, bool limit = false, int gen = -1, bool mobile = false)
         {
             StringBuilder nameFile = new StringBuilder();
-            if(gen != -1)
+            if (gen != -1)
                 nameFile.Append("PokeScrapGen" + gen.ToString() + ".json");
             else
                 if (limit)
                     nameFile.Append("PokeScrapUnique.json");
                 else
                     nameFile.Append("PokeScrap.json");
+
+            string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
+            File.WriteAllText(nameFile.ToString(), json);
+        }
+
+        public static void WriteToJsonMobile(List<PokemonMobileJson> dataJsons)
+        {
+            StringBuilder nameFile = new StringBuilder();
+            nameFile.Append("PokeScrap.json");
 
             string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
             File.WriteAllText(nameFile.ToString(), json);
@@ -940,11 +951,11 @@ namespace WepApiScrapingData.Utils
             htmlDoc.LoadHtml(html);
 
             HtmlNode? TR = htmlDoc.DocumentNode.Descendants("tr").FirstOrDefault(m => m.InnerText.Contains(name));
-            
+
             List<HtmlNode>? listTD = TR?.Descendants("td").ToList();
 
             string url = "";
-            
+
             if (listTD != null)
             {
                 if (listTD.Count == 8)
@@ -958,7 +969,7 @@ namespace WepApiScrapingData.Utils
                         url = listTD[5].Descendants("img").Select(node => node.GetAttributeValue("src", "")).FirstOrDefault();
                     }
                 }
-                else if(listTD.Count == 9)
+                else if (listTD.Count == 9)
                 {
                     if (listTD[5].InnerHtml.Contains("images"))
                     {
@@ -970,8 +981,8 @@ namespace WepApiScrapingData.Utils
                     }
                 }
             }
-            
-            if(!url.Contains("images"))
+
+            if (!url.Contains("images"))
                 Console.WriteLine("Error Sprite: " + number + " - " + name);
 
             return Constantes.urlPokepedia + url;
@@ -1050,7 +1061,7 @@ namespace WepApiScrapingData.Utils
                     nameSearch = name;
                     break;
             }
-            
+
 
             HtmlNode? TR = table.Descendants("tr").FirstOrDefault(m => m.InnerText.Contains(name));
 
@@ -1097,11 +1108,11 @@ namespace WepApiScrapingData.Utils
 
             List<string> updates = new List<string>();
             List<string> erreurs = new List<string>();
-            
-            List<HtmlNode>TRs = htmlDoc.DocumentNode.Descendants("tr").ToList();
+
+            List<HtmlNode> TRs = htmlDoc.DocumentNode.Descendants("tr").ToList();
 
             string previousPokemon = "";
-            
+
             foreach (HtmlNode tr in TRs)
             {
                 List<HtmlNode>? listTD = tr?.Descendants("td").ToList();
@@ -1131,7 +1142,7 @@ namespace WepApiScrapingData.Utils
                             name = listTD[1].InnerText.Replace("Mâle", string.Empty);
                             url = listTD[5].Descendants("img").Select(node => node.GetAttributeValue("src", "")).FirstOrDefault();
                         }
-                        else 
+                        else
                         {
                             int number;
                             bool success = int.TryParse(listTD[0].InnerText, out number);
@@ -1143,7 +1154,7 @@ namespace WepApiScrapingData.Utils
                             {
                                 name = listTD[0].InnerText.Replace("Mâle", string.Empty);
                             }
-                            
+
                             url = listTD[6].Descendants("img").Select(node => node.GetAttributeValue("src", "")).FirstOrDefault();
                         }
                     }
@@ -1161,8 +1172,9 @@ namespace WepApiScrapingData.Utils
 
                         if (listTD[1].InnerHtml.Contains("small"))
                             name = listTD[1].InnerHtml.Replace("/", string.Empty).Replace("\\", string.Empty).Split("\"")[4].Replace("<a>", String.Empty).Replace("<br>", " ").Replace("<small>", String.Empty).Replace(">", String.Empty);
-                        
-                        if (!value.Contains("Déflaisan")) {
+
+                        if (!value.Contains("Déflaisan"))
+                        {
 
                             name = name.Replace("Mâle", string.Empty);
                         }
@@ -1170,7 +1182,7 @@ namespace WepApiScrapingData.Utils
                 }
                 else
                 {
-                    if(listTD.Count == 8)
+                    if (listTD.Count == 8)
                         url = listTD[7].Descendants("img").Select(node => node.GetAttributeValue("src", "")).FirstOrDefault();
                     else
                         url = listTD[8].Descendants("img").Select(node => node.GetAttributeValue("src", "")).FirstOrDefault();
@@ -1193,7 +1205,8 @@ namespace WepApiScrapingData.Utils
                     }
                 }
 
-                if (name.Equals("Paragruel")) {
+                if (name.Equals("Paragruel"))
+                {
                     url = listTD[8].Descendants("img").Select(node => node.GetAttributeValue("src", "")).FirstOrDefault();
                 }
                 else if (name.Equals("Paragruel Femelle"))
@@ -1245,10 +1258,10 @@ namespace WepApiScrapingData.Utils
                     {
                         if (!name.Contains(Constantes.M_FR))
                         {
-                            if (name.Contains("Wimessir") 
-                                || name.Contains("Paragruel") 
-                                || name.Contains("Viskuse") 
-                                || name.Contains("Moyade") 
+                            if (name.Contains("Wimessir")
+                                || name.Contains("Paragruel")
+                                || name.Contains("Viskuse")
+                                || name.Contains("Moyade")
                                 || name.Contains("Mistigrix"))
                                 name = name + " " + Constantes.M_FR;
                         }
@@ -1261,10 +1274,11 @@ namespace WepApiScrapingData.Utils
                     {
                         if (name.Equals("Shifours"))
                             name = name.Replace("Shifours", "Shifours Style Poing Final");
-                        else if (name.Contains("Shifours Gigamax")) {
-                            if(name.Contains("Poing Final"))
+                        else if (name.Contains("Shifours Gigamax"))
+                        {
+                            if (name.Contains("Poing Final"))
                                 name = "Shifours Gigamax(Style Poing Final)";
-                            else if(name.Contains("Mille Poings"))
+                            else if (name.Contains("Mille Poings"))
                                 name = "Shifours Gigamax(Style Mille Poings)";
                         }
                     }
@@ -1338,7 +1352,7 @@ namespace WepApiScrapingData.Utils
             repositoryPkm.UnitOfWork.SaveChanges();
         }
 
-        public static void GetUrlsSound(string html, IRepositoryExtendsPokemon<Pokemon> repositoryPkm)
+        public static void GetUrlSound(string html, IRepositoryExtendsPokemon<Pokemon> repositoryPkm)
         {
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(html);
@@ -1540,7 +1554,7 @@ namespace WepApiScrapingData.Utils
                         htmlDoc.LoadHtml(response);
 
                         HtmlNode audio = htmlDoc.DocumentNode.Descendants("audio").FirstOrDefault();
-                        if(audio != null)
+                        if (audio != null)
                             urlAudio = "https:" + audio.OuterHtml.Split('\"')[1];
 
                         Pokemon pokemon = repositoryPkm.Find(x => x.FR.Name == name).FirstOrDefault();
@@ -1634,7 +1648,287 @@ namespace WepApiScrapingData.Utils
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/2/21/Cri_876_%E2%99%80_EB.ogg'
             //WHERE id = 1092
+
+            //            UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/2/21/Cri_849_Aig%C3%BCe_EB.ogg'
+            //WHERE id = 1059
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/f/fe/Cri_916_%E2%99%82_EV.ogg'
+            //WHERE id = 1144
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/4/4f/Cri_922_EV.ogg'
+            //WHERE id = 1151
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/1/13/Cri_923_EV.ogg'
+            //WHERE id = 1152
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/c/ce/Cri_925_Trois_EV.ogg'
+            //WHERE id = 1155
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/6/6c/Cri_931_EV.ogg'
+            //WHERE id = 1161
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/c/c0/Cri_964_Ordinaire_EV.ogg'
+            //WHERE id = 1197
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/9/94/Cri_978_Courb%C3%A9e_EV.ogg'
+            //WHERE id = 1212
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/6/63/Cri_982_EV.ogg'
+            //WHERE id = 1218
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/2/2e/Cri_999_Coffre_EV.ogg'
+            //WHERE id = 1236
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/a/a1/Cri_1007_Finale_EV.ogg'
+            //WHERE id = 1244
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/7/7d/Cri_1008_Ultime_EV.ogg'
+            //WHERE id = 1245
             #endregion
+        }
+
+        public static void GetUrlSoundGen9(string html, IRepositoryExtendsPokemon<Pokemon> repositoryPkm)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(html);
+
+            List<string> updates = new List<string>();
+            List<string> erreurs = new List<string>();
+
+            HtmlNode? table = htmlDoc.DocumentNode.Descendants("table").First(node => node.GetAttributeValue("class", "").Contains("tableaustandard"));
+
+            List<HtmlNode>? TRs = table.Descendants("tr").ToList();
+
+            string previousPokemon = "";
+
+            foreach (HtmlNode tr in TRs)
+            {
+                List<HtmlNode>? listTD = tr?.Descendants("td").ToList();
+
+                string url = "";
+                string name = "";
+
+                if (listTD != null)
+                {
+                    if (listTD.Count == 8)
+                    {
+                        name = listTD[2].InnerText.Replace("Mâle", string.Empty);
+                        url = listTD[2].InnerHtml.Split("\"")[1];
+                    }
+                    else if (listTD.Count == 7)
+                    {
+                        name = listTD[1].InnerText.Replace("Mâle", string.Empty);
+                        url = listTD[1].InnerHtml.Split("\"")[1];
+                    }
+                }
+
+                if (url != null)
+                {
+                    string valueError = ": " + Constantes.urlPokepedia;
+                    string value = name + ": " + Constantes.urlPokepedia + url;
+
+                    if (value != valueError)
+                    {
+                        if (listTD[0].InnerHtml.Contains("small"))
+                            name = listTD[0].InnerHtml.Replace("/", string.Empty).Replace("\\", string.Empty).Split("\"")[4].Replace("<a>", String.Empty).Replace("<br>", " ").Replace("<small>", String.Empty).Replace(">", String.Empty);
+
+                        if (listTD[1].InnerHtml.Contains("small"))
+                            name = listTD[1].InnerHtml.Replace("/", string.Empty).Replace("\\", string.Empty).Split("\"")[4].Replace("<a>", String.Empty).Replace("<br>", " ").Replace("<small>", String.Empty).Replace(">", String.Empty);
+
+                        if (!value.Contains("Déflaisan"))
+                        {
+
+                            name = name.Replace("Mâle", string.Empty);
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(name))
+                {
+                    if (string.IsNullOrEmpty(previousPokemon) || !name.Contains(previousPokemon))
+                    {
+                        previousPokemon = name;
+                    }
+
+                    else
+                    {
+                        if (name.Contains(previousPokemon) && !name.Contains(" ") && !name.Contains(Constantes.MegaEvolution) && !name.Contains(Constantes.Ultra))
+                        {
+                            string test = name.Replace(previousPokemon, string.Empty);
+                            name = previousPokemon + " " + test;
+                        }
+                    }
+                }
+
+                string urlAudio = "";
+                string checkUrl = Constantes.urlPokepedia + url.Replace("%E2%99%82", "♂").Replace("%E2%99%80", "♀");
+                if (checkUrl != Constantes.urlPokepedia)
+                {
+                    name = name.Trim()
+                        .Replace("Rattata c", "Rattatac")
+                        .Replace("Paras ect", "Parasect")
+                        .Replace("HisuiMonarque", "Hisui Monarque")
+                        .Replace("Smogo go", "Smogogo")
+                        .Replace("Kabuto ps", "Kabutops")
+                        .Replace("Draco losse", "Dracolosse")
+                        .Replace("Coxy claque", "Coxyclaque")
+                        .Replace("Zarbi Forme A", "Zarbi")
+                        .Replace("HisuiFemelle", "Hisui Femelle")
+                        .Replace("Morphéo Forme Normale", "Morphéo")
+                        .Replace("Kyogre Primo-", "Kyogre Primo-Résurgence")
+                        .Replace("Groudon Primo-", "Groudon Primo-Résurgence")
+                        .Replace("DialgaForme Originelle", "Dialga Forme Originelle")
+                        .Replace("PalkiaForme Originelle", "Palkia Forme Originelle")
+                        .Replace("BargantuaMotif Blanc", "Bargantua Motif Blanc")
+                        .Replace("Darumacho de Galar Mode Normal", "Darumacho de Galar")
+                        .Replace("Prismillon Motif Poké Ball", "Prismillon Motif PokéBall")
+                        .Replace("Xerneas Mode Déchaîné", "Xerneas")
+                        .Replace("&#160;", " ")
+                        .Replace("Hoopa Hoopa", "Hoopa")
+                        .Replace("Type:0", "Type 0")
+                        .Replace("Necrozma Ailes de l'Aurore", "Necrozma Ailes de l’Aurore")
+                        .Replace("Bekaglaçon Tête de Gel", "Bekaglaçon")
+                        .Replace("Shifours Gigamax Style Poing Final", "Shifours Gigamax (Style Poing Final)")
+                        .Replace("Shifours Gigamax Style Mille Poings", "Shifours Gigamax (Style Mille Poings)")
+                        .Replace("Sylveroy Cavalier d'Effroi", "Sylveroy Cavalier d’Effroi");
+
+                    if (checkUrl.Contains("♀"))
+                    {
+                        if (!name.Contains(Constantes.Female_FR))
+                        {
+                            if (!name.Contains("Déflaisan")
+                                && !name.Contains("Farfuret de Hisui Femelle"))
+                                name = name + " " + Constantes.Female_FR;
+                        }
+                    }
+                    else if (checkUrl.Contains("♂"))
+                    {
+                        if (!name.Contains(Constantes.M_FR))
+                        {
+                            if (name.Contains("Wimessir")
+                                || name.Contains("Paragruel")
+                                || name.Contains("Viskuse")
+                                || name.Contains("Moyade")
+                                || name.Contains("Mistigrix"))
+                                name = name + " " + Constantes.M_FR;
+                        }
+                    }
+                    else if (name.Equals("Kyurem"))
+                    {
+                        name = name.Replace("Kyurem", "Forme de Kyurem");
+                    }
+                    else if (name.Contains("Shifours"))
+                    {
+                        if (name.Equals("Shifours"))
+                            name = name.Replace("Shifours", "Shifours Style Poing Final");
+                        else if (name.Contains("Shifours Gigamax"))
+                        {
+                            if (name.Contains("Poing Final"))
+                                name = "Shifours Gigamax(Style Poing Final)";
+                            else if (name.Contains("Mille Poings"))
+                                name = "Shifours Gigamax(Style Mille Poings)";
+                        }
+                    }
+                    else if (name.Contains("Salarsen"))
+                    {
+                        if (checkUrl.Contains("Aig%C3%BCe"))
+                            name = "Salarsen Forme Aigüe";
+                        else if (checkUrl.Contains("Grave"))
+                            name = "Salarsen Forme Grave";
+                    }
+                    else if (name.Contains("Amovénus"))
+                    {
+                        name = name.Replace("Forme", " Forme");
+                    }
+                    else if (name.Equals("Flabébé Fleur Rouge"))
+                    {
+                        name = "Flabébé";
+                    }
+                    else if (name.Equals("Floette Fleur Rouge"))
+                    {
+                        name = "Floette";
+                    }
+                    else if (name.Equals("Florges Fleur Rouge"))
+                    {
+                        name = "Florges";
+                    }
+
+                    try
+                    {
+                        string response = HttpClientUtils.CallUrl(checkUrl).Result;
+                        htmlDoc = new HtmlDocument();
+                        htmlDoc.LoadHtml(response);
+
+                        HtmlNode audio = htmlDoc.DocumentNode.Descendants("audio").FirstOrDefault();
+                        if (audio != null)
+                            urlAudio = "https:" + audio.OuterHtml.Split('\"')[1];
+
+                        Pokemon pokemon = repositoryPkm.Find(x => x.FR.Name == name).FirstOrDefault();
+
+                        if (pokemon != null && !string.IsNullOrEmpty(urlAudio))
+                        {
+                            if (pokemon.UrlSound != null)
+                            {
+                                if (!pokemon.UrlSound.Equals(urlAudio))
+                                {
+                                    updates.Add(name);
+                                    updates.Add("Old Sound Url: " + pokemon.UrlSound);
+                                    updates.Add("New Sound Url: " + urlAudio);
+
+                                    pokemon.UrlSound = urlAudio;
+                                }
+                            }
+                            else
+                            {
+                                updates.Add(name);
+                                updates.Add("New Sound Url: " + urlAudio);
+
+                                pokemon.UrlSound = urlAudio;
+                            }
+                            Console.WriteLine(name + ": " + urlAudio);
+                        }
+                        else
+                        {
+                            erreurs.Add(name + ": " + urlAudio);
+                        }
+                    }
+                    catch
+                    {
+                        erreurs.Add(name + ": " + urlAudio);
+                        repositoryPkm.UnitOfWork.SaveChanges();
+                    }
+                }
+            }
+
+            Console.WriteLine("Début Erreurs");
+            Console.WriteLine("Erreurs : " + erreurs.Count);
+            foreach (string error in erreurs)
+            {
+                Console.WriteLine(error);
+            }
+            Console.WriteLine("Fin Erreurs");
+
+            Console.WriteLine("Début Updates");
+            Console.WriteLine("Updates : " + updates.Count);
+            foreach (string update in updates)
+            {
+                Console.WriteLine(update);
+            }
+            Console.WriteLine("Fin Updates");
+
+            repositoryPkm.UnitOfWork.SaveChanges();
         }
         #endregion
 
@@ -1791,7 +2085,7 @@ namespace WepApiScrapingData.Utils
                     }
                     else if (dataJson.FR.Name.Contains("Tapatoès"))
                     {
-                        if(dataJson.FR.Name.Contains("Plumage Vert"))
+                        if (dataJson.FR.Name.Contains("Plumage Vert"))
                             nameSite = "tapatoes";
                         else if (dataJson.FR.Name.Contains("Plumage Bleu"))
                             nameSite = "tapatoes-bleu";
@@ -1824,14 +2118,14 @@ namespace WepApiScrapingData.Utils
 
             return nameSite;
         }
-        
+
         public static void GetStatsPokemon(string html, PokemonJson dataJson)
         {
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(html);
-            
+
             List<HtmlNode> tabOptions = htmlDoc.DocumentNode.Descendants("div").Where(node => node.GetAttributeValue("class", "").Contains("tab-pane")).ToList();
-            
+
             var stats = tabOptions[0].Descendants("div")
                 .Where(node => node.GetAttributeValue("class", "").Contains("progress-bar")).ToList();
 
@@ -1852,12 +2146,12 @@ namespace WepApiScrapingData.Utils
                 .Where(node => node.GetAttributeValue("class", "").Contains("list-group-item")).ToList();
 
             var filter = "";
-            if (dataJson.FR.Name.Contains(Constantes.Alola) 
-                || dataJson.FR.Name.Contains(Constantes.Galar) 
-                || dataJson.FR.Name.Contains(Constantes.Hisui) 
-                || dataJson.FR.Name.Contains("Fragroin Mâle") 
-                || dataJson.FR.Name.Contains("Famignol") 
-                || dataJson.FR.Name.Contains("Tapatoès Plumage Vert") 
+            if (dataJson.FR.Name.Contains(Constantes.Alola)
+                || dataJson.FR.Name.Contains(Constantes.Galar)
+                || dataJson.FR.Name.Contains(Constantes.Hisui)
+                || dataJson.FR.Name.Contains("Fragroin Mâle")
+                || dataJson.FR.Name.Contains("Famignol")
+                || dataJson.FR.Name.Contains("Tapatoès Plumage Vert")
                 || dataJson.FR.Name.Contains("Superdofin Forme Ordinaire")
                 || dataJson.FR.Name.Contains("Nigirigon Forme Courbée")
                 || dataJson.FR.Name.Contains("Deusolourdo Forme Double"))
