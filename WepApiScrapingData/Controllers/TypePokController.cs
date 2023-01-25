@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Net;
 using WebApiScrapingData.Core.Repositories;
@@ -56,6 +57,38 @@ namespace WepApiScrapingData.Controllers
         public IEnumerable<TypePok> GetFind(Expression<Func<TypePok, bool>> predicate)
         {
             return _repository.Find(predicate);
+        }
+
+        [HttpGet]
+        [Route("GenerateJsonXamarin")]
+        public async Task GenerateJsonXamarin()
+        {
+            IEnumerable<TypePok> typesPok = await _repository.GetAll();
+
+            List<TypePokMobileJson> typesPokJson = new List<TypePokMobileJson>();
+
+            foreach (TypePok item in typesPok.ToList())
+            {
+                TypePokMobileJson typePokJson = new TypePokMobileJson();
+                typePokJson.Name = item.Name_FR;
+                typePokJson.NameEN = item.Name_EN;
+                typePokJson.UrlMiniGo = item.UrlMiniGo;
+                typePokJson.UrlFondGo = item.UrlFondGo;
+                typePokJson.UrlMiniHome = item.UrlMiniHome;
+                typePokJson.UrlIconHome = item.UrlIconHome;
+                typePokJson.UrlAutoHome = item.UrlAutoHome;
+                typePokJson.ImgColor = item.ImgColor;
+                typePokJson.InfoColor = item.InfoColor;
+                typePokJson.TypeColor = item.TypeColor;
+
+                typesPokJson.Add(typePokJson);
+
+                Debug.WriteLine("TypePok: " + item.Name_FR);
+            }
+
+            Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            ScrapingDataUtils.WriteToJsonMobile(typesPokJson);
+            Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
         }
 
         [HttpPost]

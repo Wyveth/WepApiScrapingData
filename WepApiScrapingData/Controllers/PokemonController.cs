@@ -306,12 +306,16 @@ namespace WepApiScrapingData.Controllers
             {
                 PokemonMobileJson pokemonJson = new PokemonMobileJson();
                 pokemonJson.Number = item.Number;
+                if (item.Number.Length == 4 && item.Number.StartsWith("09"))
+                    pokemonJson.Number = item.Number.Substring(1,3);
                 pokemonJson.Name = item.FR.Name;
                 pokemonJson.DisplayName = item.FR.DisplayName;
+                pokemonJson.NameEN = item.EN.Name.Replace(" ", "_");
                 pokemonJson.DescriptionVx = item.FR.DescriptionVx;
                 pokemonJson.DescriptionVy = item.FR.DescriptionVy;
                 pokemonJson.UrlImg = item.UrlImg;
                 pokemonJson.UrlSprite = item.UrlSprite;
+                pokemonJson.UrlSound = item.UrlSound;
                 pokemonJson.Size = item.FR.Size;
                 pokemonJson.Category = item.FR.Category;
                 pokemonJson.Weight = item.FR.Weight;

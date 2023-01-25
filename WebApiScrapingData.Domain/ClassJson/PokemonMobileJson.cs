@@ -18,6 +18,9 @@ namespace WebApiScrapingData.Domain.ClassJson
         //Nom Affiché
         public string DisplayName { get; set; }
 
+        //NameFile
+        public string NameEN { get; set; }
+
         //Description du Pokémon Version X
         public string DescriptionVx { get; set; }
 
@@ -29,6 +32,9 @@ namespace WebApiScrapingData.Domain.ClassJson
 
         //Url du Sprite
         public string UrlSprite { get; set; }
+
+        //Url du Son
+        public string UrlSound { get; set; }
 
         //Taille du Pokémon
         public string Size { get; set; }

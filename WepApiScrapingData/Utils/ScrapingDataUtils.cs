@@ -727,6 +727,15 @@ namespace WepApiScrapingData.Utils
             string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
             File.WriteAllText(nameFile.ToString(), json);
         }
+
+        public static void WriteToJsonMobile(List<TypePokMobileJson> dataJsons)
+        {
+            StringBuilder nameFile = new StringBuilder();
+            nameFile.Append("TypeScrap.json");
+
+            string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
+            File.WriteAllText(nameFile.ToString(), json);
+        }
         #endregion
 
         #region Get Url Img/Sprite/Sound
