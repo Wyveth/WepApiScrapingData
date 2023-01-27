@@ -34,7 +34,7 @@ namespace WepApiScrapingData.Controllers
         [Route("ScrapingAll")]
         public void ScrapingAll()
         {
-            List<TypePokJson> typeJsons = new List<TypePokJson>();
+            List<TypePokMobileJsonV2> typeJsons = new List<TypePokMobileJsonV2>();
             PopulateTypes(typeJsons);
             WriteToJsonType(typeJsons);
         }
@@ -65,13 +65,52 @@ namespace WepApiScrapingData.Controllers
         {
             IEnumerable<TypePok> typesPok = await _repository.GetAll();
 
-            List<TypePokMobileJson> typesPokJson = new List<TypePokMobileJson>();
+            List<TypePokMobileJsonV1> typesPokJson = new List<TypePokMobileJsonV1>();
 
             foreach (TypePok item in typesPok.ToList())
             {
-                TypePokMobileJson typePokJson = new TypePokMobileJson();
+                TypePokMobileJsonV1 typePokJson = new TypePokMobileJsonV1();
                 typePokJson.Name = item.Name_FR;
                 typePokJson.NameEN = item.Name_EN;
+                typePokJson.UrlMiniGo = item.UrlMiniGo;
+                typePokJson.UrlFondGo = item.UrlFondGo;
+                typePokJson.UrlMiniHome = item.UrlMiniHome;
+                typePokJson.UrlIconHome = item.UrlIconHome;
+                typePokJson.UrlAutoHome = item.UrlAutoHome;
+                typePokJson.ImgColor = item.ImgColor;
+                typePokJson.InfoColor = item.InfoColor;
+                typePokJson.TypeColor = item.TypeColor;
+
+                typesPokJson.Add(typePokJson);
+
+                Debug.WriteLine("TypePok: " + item.Name_FR);
+            }
+
+            Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            ScrapingDataUtils.WriteToJsonMobile(typesPokJson);
+            Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+        }
+
+        [HttpGet]
+        [Route("GenerateJsonXamarinV2")]
+        public async Task GenerateJsonXamarinV2()
+        {
+            IEnumerable<TypePok> typesPok = await _repository.GetAll();
+
+            List<TypePokMobileJsonV2> typesPokJson = new List<TypePokMobileJsonV2>();
+
+            foreach (TypePok item in typesPok.ToList())
+            {
+                TypePokMobileJsonV2 typePokJson = new TypePokMobileJsonV2();
+                typePokJson.Name_FR = item.Name_FR;
+                typePokJson.Name_EN = item.Name_EN;
+                typePokJson.Name_ES = item.Name_ES;
+                typePokJson.Name_IT = item.Name_IT;
+                typePokJson.Name_DE = item.Name_DE;
+                typePokJson.Name_RU = item.Name_RU;
+                typePokJson.Name_CO = item.Name_CO;
+                typePokJson.Name_CN = item.Name_CN;
+                typePokJson.Name_JP = item.Name_JP;
                 typePokJson.UrlMiniGo = item.UrlMiniGo;
                 typePokJson.UrlFondGo = item.UrlFondGo;
                 typePokJson.UrlMiniHome = item.UrlMiniHome;
@@ -135,7 +174,7 @@ namespace WepApiScrapingData.Controllers
         #endregion
 
         #region Json
-        private void PopulateTypes(List<TypePokJson> typeJsons)
+        private void PopulateTypes(List<TypePokMobileJsonV2> typeJsons)
         {
             List<string> types = new List<string>();
             types.Add(Constantes.Steel_FR);
@@ -159,7 +198,7 @@ namespace WepApiScrapingData.Controllers
 
             foreach (string type in types)
             {
-                TypePokJson typeJson = new TypePokJson();
+                TypePokMobileJsonV2 typeJson = new TypePokMobileJsonV2();
                 typeJson.Name_FR = type;
                 typeJson.Name_EN = GetNameTypeByLanguage(type, Constantes.EN);
                 typeJson.Name_ES = GetNameTypeByLanguage(type, Constantes.ES);
@@ -187,7 +226,7 @@ namespace WepApiScrapingData.Controllers
             var response = client.GetStringAsync(fullUrl);
             return await response;
         }
-        private void GetColor(TypePokJson typeJson)
+        private void GetColor(TypePokMobileJsonV2 typeJson)
         {
             switch (typeJson.Name_FR)
             {
@@ -296,10 +335,16 @@ namespace WepApiScrapingData.Controllers
             return value.OuterHtml.Split('"')[3];
         }
 
-        private void WriteToJsonType(List<TypePokJson> typeJsons)
+        private void WriteToJsonType(List<TypePokMobileJsonV1> typeJsons)
         {
             string json = JsonConvert.SerializeObject(typeJsons, Formatting.Indented);
-            System.IO.File.WriteAllText("TypeScrap.json", json);
+            System.IO.File.WriteAllText("TypeScrapV1.json", json);
+        }
+
+        private void WriteToJsonType(List<TypePokMobileJsonV2> typeJsons)
+        {
+            string json = JsonConvert.SerializeObject(typeJsons, Formatting.Indented);
+            System.IO.File.WriteAllText("TypeScrapV2.json", json);
         }
 
         private string GetNameTypeByLanguage(string type, string Language)

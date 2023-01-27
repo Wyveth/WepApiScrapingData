@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Net.Http;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
@@ -300,14 +299,14 @@ namespace WepApiScrapingData.Controllers
         {
             IEnumerable<Pokemon> pokemons = await _repository.GetAll();
 
-            List<PokemonMobileJson> pokemonsJson = new List<PokemonMobileJson>();
+            List<PokemonMobileJsonV1> pokemonsJson = new List<PokemonMobileJsonV1>();
 
             foreach (Pokemon item in pokemons.ToList())
             {
-                PokemonMobileJson pokemonJson = new PokemonMobileJson();
+                PokemonMobileJsonV1 pokemonJson = new PokemonMobileJsonV1();
                 pokemonJson.Number = item.Number;
-                if (item.Number.Length == 4 && item.Number.StartsWith("09"))
-                    pokemonJson.Number = item.Number.Substring(1,3);
+                if (item.Number.Length == 4 && item.Number.StartsWith("0"))
+                    pokemonJson.Number = item.Number.Substring(1, 3);
                 pokemonJson.Name = item.FR.Name;
                 pokemonJson.DisplayName = item.FR.DisplayName;
                 pokemonJson.NameEN = item.EN.Name.Replace(" ", "_");
@@ -343,6 +342,120 @@ namespace WepApiScrapingData.Controllers
 
             Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
             ScrapingDataUtils.WriteToJsonMobile(pokemonsJson);
+            Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+        }
+
+        [HttpGet]
+        [Route("GenerateJson")]
+        public async Task GenerateJson()
+        {
+            IEnumerable<Pokemon> pokemons = await _repository.GetAll();
+
+            List<PokemonMobileJsonV2> pokemonsJson = new List<PokemonMobileJsonV2>();
+
+            foreach (Pokemon item in pokemons.ToList())
+            {
+                PokemonMobileJsonV2 pokemonJson = new PokemonMobileJsonV2();
+
+                pokemonJson.Number = item.Number;
+                if (item.Number.Length == 4 && item.Number.StartsWith("0"))
+                    pokemonJson.Number = item.Number.Substring(1, 3);
+
+                pokemonJson.FR.Name = item.FR.Name;
+                pokemonJson.FR.DisplayName = item.FR.DisplayName;
+                pokemonJson.FR.DescriptionVx = item.FR.DescriptionVx;
+                pokemonJson.FR.DescriptionVy = item.FR.DescriptionVy;
+                pokemonJson.FR.Size = item.FR.Size;
+                pokemonJson.FR.Category = item.FR.Category;
+                pokemonJson.FR.Weight = item.FR.Weight;
+                pokemonJson.FR.Talent = item.FR.Talent;
+                pokemonJson.FR.DescriptionTalent = item.FR.DescriptionTalent;
+                pokemonJson.FR.Types = item.FR.Types;
+                pokemonJson.FR.Weakness = item.FR.Weakness;
+                pokemonJson.FR.Evolutions = item.FR.Evolutions;
+                pokemonJson.FR.WhenEvolution = item.FR.WhenEvolution;
+                pokemonJson.FR.NextUrl = item.FR.NextUrl;
+
+                pokemonJson.EN.Name = item.EN.Name;
+                pokemonJson.EN.DisplayName = item.EN.DisplayName;
+                pokemonJson.EN.DescriptionVx = item.EN.DescriptionVx;
+                pokemonJson.EN.DescriptionVy = item.EN.DescriptionVy;
+                pokemonJson.EN.Size = item.EN.Size;
+                pokemonJson.EN.Category = item.EN.Category;
+                pokemonJson.EN.Weight = item.EN.Weight;
+                pokemonJson.EN.Talent = item.EN.Talent;
+                pokemonJson.EN.DescriptionTalent = item.EN.DescriptionTalent;
+                pokemonJson.EN.Types = item.EN.Types;
+                pokemonJson.EN.Weakness = item.EN.Weakness;
+                pokemonJson.EN.Evolutions = item.EN.Evolutions;
+                pokemonJson.EN.WhenEvolution = item.EN.WhenEvolution;
+                pokemonJson.EN.NextUrl = item.EN.NextUrl;
+
+                pokemonJson.ES.Name = item.ES.Name;
+                pokemonJson.ES.DisplayName = item.ES.DisplayName;
+                pokemonJson.ES.DescriptionVx = item.ES.DescriptionVx;
+                pokemonJson.ES.DescriptionVy = item.ES.DescriptionVy;
+                pokemonJson.ES.Size = item.ES.Size;
+                pokemonJson.ES.Category = item.ES.Category;
+                pokemonJson.ES.Weight = item.ES.Weight;
+                pokemonJson.ES.Talent = item.ES.Talent;
+                pokemonJson.ES.DescriptionTalent = item.ES.DescriptionTalent;
+                pokemonJson.ES.Types = item.ES.Types;
+                pokemonJson.ES.Weakness = item.ES.Weakness;
+                pokemonJson.ES.Evolutions = item.ES.Evolutions;
+                pokemonJson.ES.WhenEvolution = item.ES.WhenEvolution;
+                pokemonJson.ES.NextUrl = item.ES.NextUrl;
+
+                pokemonJson.IT.Name = item.IT.Name;
+                pokemonJson.IT.DisplayName = item.IT.DisplayName;
+                pokemonJson.IT.DescriptionVx = item.IT.DescriptionVx;
+                pokemonJson.IT.DescriptionVy = item.IT.DescriptionVy;
+                pokemonJson.IT.Size = item.IT.Size;
+                pokemonJson.IT.Category = item.IT.Category;
+                pokemonJson.IT.Weight = item.IT.Weight;
+                pokemonJson.IT.Talent = item.IT.Talent;
+                pokemonJson.IT.DescriptionTalent = item.IT.DescriptionTalent;
+                pokemonJson.IT.Types = item.IT.Types;
+                pokemonJson.IT.Weakness = item.IT.Weakness;
+                pokemonJson.IT.Evolutions = item.IT.Evolutions;
+                pokemonJson.IT.WhenEvolution = item.IT.WhenEvolution;
+                pokemonJson.IT.NextUrl = item.IT.NextUrl;
+
+                pokemonJson.DE.Name = item.DE.Name;
+                pokemonJson.DE.DisplayName = item.DE.DisplayName;
+                pokemonJson.DE.DescriptionVx = item.DE.DescriptionVx;
+                pokemonJson.DE.DescriptionVy = item.DE.DescriptionVy;
+                pokemonJson.DE.Size = item.DE.Size;
+                pokemonJson.DE.Category = item.DE.Category;
+                pokemonJson.DE.Weight = item.DE.Weight;
+                pokemonJson.DE.Talent = item.DE.Talent;
+                pokemonJson.DE.DescriptionTalent = item.DE.DescriptionTalent;
+                pokemonJson.DE.Types = item.DE.Types;
+                pokemonJson.DE.Weakness = item.DE.Weakness;
+                pokemonJson.DE.Evolutions = item.DE.Evolutions;
+                pokemonJson.DE.WhenEvolution = item.DE.WhenEvolution;
+                pokemonJson.DE.NextUrl = item.DE.NextUrl;
+
+                pokemonJson.TypeEvolution = item.TypeEvolution;
+                pokemonJson.StatPv = item.StatPv;
+                pokemonJson.StatAttaque = item.StatAttaque;
+                pokemonJson.StatDefense = item.StatDefense;
+                pokemonJson.StatAttaqueSpe = item.StatAttaqueSpe;
+                pokemonJson.StatDefenseSpe = item.StatDefenseSpe;
+                pokemonJson.StatVitesse = item.StatVitesse;
+                pokemonJson.StatTotal = item.StatTotal;
+                pokemonJson.Generation = item.Generation;
+                pokemonJson.UrlImg = item.UrlImg;
+                pokemonJson.UrlSprite = item.UrlSprite;
+                pokemonJson.UrlSound = item.UrlSound;
+
+                pokemonsJson.Add(pokemonJson);
+
+                Debug.WriteLine("Pokemon : " + item.Number + " - " + item.FR.Name);
+            }
+
+            Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            ScrapingDataUtils.WriteToJsonMobileV2(pokemonsJson);
             Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
         }
 

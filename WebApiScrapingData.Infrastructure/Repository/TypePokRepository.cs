@@ -41,8 +41,8 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
         public async Task SaveJsonInDb(string json)
         {
-            List<TypePokJson> typesPokJson = JsonConvert.DeserializeObject<List<TypePokJson>>(json);
-            foreach (TypePokJson typePokJson in typesPokJson)
+            List<TypePokMobileJsonV2> typesPokJson = JsonConvert.DeserializeObject<List<TypePokMobileJsonV2>>(json);
+            foreach (TypePokMobileJsonV2 typePokJson in typesPokJson)
             {
                 TypePok typePok = new();
                 this.MapToInstance(typePok, typePokJson);
@@ -113,7 +113,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #endregion
 
         #region Private Methods
-        public void MapToInstance(TypePok typePok, TypePokJson typePokJson)
+        public void MapToInstance(TypePok typePok, TypePokMobileJsonV2 typePokJson)
         {
             typePok.Name_FR = typePokJson.Name_FR;
             typePok.Name_EN = typePokJson.Name_EN;

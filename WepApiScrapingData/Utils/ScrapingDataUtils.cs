@@ -719,19 +719,37 @@ namespace WepApiScrapingData.Utils
             File.WriteAllText(nameFile.ToString(), json);
         }
 
-        public static void WriteToJsonMobile(List<PokemonMobileJson> dataJsons)
+        public static void WriteToJsonMobile(List<PokemonMobileJsonV1> dataJsons)
         {
             StringBuilder nameFile = new StringBuilder();
-            nameFile.Append("PokeScrap.json");
+            nameFile.Append("PokeScrapV1.json");
 
             string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
             File.WriteAllText(nameFile.ToString(), json);
         }
 
-        public static void WriteToJsonMobile(List<TypePokMobileJson> dataJsons)
+        public static void WriteToJsonMobileV2(List<PokemonMobileJsonV2> dataJsons)
         {
             StringBuilder nameFile = new StringBuilder();
-            nameFile.Append("TypeScrap.json");
+            nameFile.Append("PokeScrapV2.json");
+
+            string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
+            File.WriteAllText(nameFile.ToString(), json);
+        }
+
+        public static void WriteToJsonMobile(List<TypePokMobileJsonV1> dataJsons)
+        {
+            StringBuilder nameFile = new StringBuilder();
+            nameFile.Append("TypeScrapV1.json");
+
+            string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
+            File.WriteAllText(nameFile.ToString(), json);
+        }
+
+        public static void WriteToJsonMobile(List<TypePokMobileJsonV2> dataJsons)
+        {
+            StringBuilder nameFile = new StringBuilder();
+            nameFile.Append("TypeScrapV2.json");
 
             string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
             File.WriteAllText(nameFile.ToString(), json);
@@ -1621,90 +1639,94 @@ namespace WepApiScrapingData.Utils
 
             repositoryPkm.UnitOfWork.SaveChanges();
 
-            #region Sound Not OK
-            //UPDATE Pokemons
-            //SET UrlSound = 'https://www.pokepedia.fr/images/0/0b/Cri_4_d_006.ogg'
-            //WHERE id = 10
-
+            #region Sound Not OK 27/01/2023
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/6/6a/Cri_4_d_029.ogg'
             //WHERE id = 45
 
+            // UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/c/c6/Cri_4_d_052.ogg'
+            //WHERE id = 75
+
             //UPDATE Pokemons
-            //SET UrlSound = 'https://www.pokepedia.fr/images/5/5f/Cri_4_d_150.ogg'
-            //WHERE id = 210
+            //SET UrlSound = 'https://www.pokepedia.fr/images/9/9f/Cri_4_d_128.ogg'
+            //WHERE id in (179, 180, 181)
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/8/8d/Cri_4_d_194.ogg'
+            //WHERE id = 260
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/7/7b/Cri_5_n_592.ogg'
-            //WHERE id = 729
+            //WHERE id = 733
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/9/9c/Cri_5_n_593.ogg'
-            //WHERE id = 731
+            //WHERE id = 735
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/9/94/Cri_6_x_668.ogg'
-            //WHERE id = 836
+            //WHERE id = 840
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/5/55/Cri_6_x_678.ogg'
-            //WHERE id = 856
+            //WHERE id = 860
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/2/21/Cri_849_Aig%C3%BCe_EB.ogg'
+            //WHERE id = 1063
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/e/e2/Cri_876_%E2%99%82_EB.ogg'
-            //WHERE id = 1091
+            //WHERE id = 1095
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/2/21/Cri_876_%E2%99%80_EB.ogg'
-            //WHERE id = 1092
-
-            //            UPDATE Pokemons
-            //SET UrlSound = 'https://www.pokepedia.fr/images/2/21/Cri_849_Aig%C3%BCe_EB.ogg'
-            //WHERE id = 1059
+            //WHERE id = 1096
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/f/fe/Cri_916_%E2%99%82_EV.ogg'
-            //WHERE id = 1144
+            //WHERE id = 1148
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/4/4f/Cri_922_EV.ogg'
-            //WHERE id = 1151
-
-            //UPDATE Pokemons
-            //SET UrlSound = 'https://www.pokepedia.fr/images/1/13/Cri_923_EV.ogg'
-            //WHERE id = 1152
-
-            //UPDATE Pokemons
-            //SET UrlSound = 'https://www.pokepedia.fr/images/c/ce/Cri_925_Trois_EV.ogg'
             //WHERE id = 1155
 
             //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/1/13/Cri_923_EV.ogg'
+            //WHERE id = 1156
+
+            //UPDATE Pokemons
+            //SET UrlSound = 'https://www.pokepedia.fr/images/c/ce/Cri_925_Trois_EV.ogg'
+            //WHERE id = 1159
+
+            //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/6/6c/Cri_931_EV.ogg'
-            //WHERE id = 1161
+            //WHERE id = 1165
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/c/c0/Cri_964_Ordinaire_EV.ogg'
-            //WHERE id = 1197
+            //WHERE id = 1201
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/9/94/Cri_978_Courb%C3%A9e_EV.ogg'
-            //WHERE id = 1212
+            //WHERE id = 1216
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/6/63/Cri_982_EV.ogg'
-            //WHERE id = 1218
+            //WHERE id = 1222
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/2/2e/Cri_999_Coffre_EV.ogg'
-            //WHERE id = 1236
+            //WHERE id = 1240
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/a/a1/Cri_1007_Finale_EV.ogg'
-            //WHERE id = 1244
+            //WHERE id = 1248
 
             //UPDATE Pokemons
             //SET UrlSound = 'https://www.pokepedia.fr/images/7/7d/Cri_1008_Ultime_EV.ogg'
-            //WHERE id = 1245
+            //WHERE id = 1249
             #endregion
         }
 
@@ -2102,6 +2124,19 @@ namespace WepApiScrapingData.Utils
                             nameSite = "tapatoes-jaune";
                         else if (dataJson.FR.Name.Contains("Plumage Blanc"))
                             nameSite = "tapatoes-blanc";
+                    }
+                    else if (dataJson.FR.Name.Contains("Tauros"))
+                    {
+                        if (dataJson.FR.Name.Contains("Combative"))
+                            nameSite = "tauros-race-combative";
+                        else if (dataJson.FR.Name.Contains("Flamboyante"))
+                            nameSite = "tauros-race-flamboyante";
+                        else if (dataJson.FR.Name.Contains("Aquatique"))
+                            nameSite = "tauros-race-aquatique";
+                    }
+                    else if (dataJson.FR.Name.Contains("Axoloto"))
+                    {
+                        nameSite = "axoloto-paldea";
                     }
                     else if (!dataJson.FR.Name.Contains("Mime Jr."))
                         nameSite = dataJson.FR.Name.Replace(' ', '-');
