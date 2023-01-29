@@ -206,6 +206,7 @@ namespace WepApiScrapingData.Utils
         public const string VarianteSexe = "VarianteSexe";
         public const string Variant = "Variant";
         public const string Hisui = "Hisui";
+        public const string Paldea = "Paldea";
 
         public const string regionAlola_FR = "d'Alola";
         public const string regionGalar_FR = "de Galar";

@@ -220,6 +220,8 @@ namespace WepApiScrapingData.Utils
                 dataJson.TypeEvolution = Constantes.VarianteSexe;
             else if (dataJson.FR.Name.Contains(Constantes.Hisui))
                 dataJson.TypeEvolution = Constantes.Hisui;
+            else if (dataJson.FR.Name.Contains(Constantes.Paldea))
+                dataJson.TypeEvolution = Constantes.Paldea;
             else if (option != 0)
                 dataJson.TypeEvolution = Constantes.Variant;
             else

@@ -294,8 +294,8 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
-        [Route("GenerateJsonXamarin")]
-        public async Task GenerateJsonXamarin()
+        [Route("GenerateJsonXamarinV1")]
+        public async Task GenerateJsonXamarinV1()
         {
             IEnumerable<Pokemon> pokemons = await _repository.GetAll();
 
@@ -346,8 +346,8 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
-        [Route("GenerateJson")]
-        public async Task GenerateJson()
+        [Route("GenerateJsonXamarinV2")]
+        public async Task GenerateJsonXamarinV2()
         {
             IEnumerable<Pokemon> pokemons = await _repository.GetAll();
 
