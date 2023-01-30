@@ -99,6 +99,22 @@ namespace WebApiScrapingData.Domain.Class
         [DataMember(Name = DataMember.StatTotal)]
         public int StatTotal { get; set; }
 
+        //Espèce
+        [DataMember(Name = DataMember.Specie)]
+        public string? Specie { get; set; }
+
+        //Nombre de pas pour l'oeuf
+        [DataMember(Name = DataMember.EggMoves)]
+        public string? EggMoves { get; set; }
+
+        //Taux de capture
+        [DataMember(Name = DataMember.CaptureRate)]
+        public string? CaptureRate { get; set; }
+
+        //Bonheur de base
+        [DataMember(Name = DataMember.BasicHappiness)]
+        public string? BasicHappiness { get; set; }
+
         //Generation Number
         [DataMember(Name = DataMember.Generation)]
         public int Generation { get; set; }

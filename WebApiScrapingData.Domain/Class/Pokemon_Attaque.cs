@@ -20,5 +20,17 @@ namespace WebApiScrapingData.Domain.Class
         [ForeignKey("AttaqueId")]
         [DataMember]
         public virtual Attaque? Attaque { get; set; }
+
+        [DataMember]
+        public string? TypeLearn { get; set; }
+
+        [DataMember]
+        public string? Level { get; set; }
+
+        [DataMember]
+        public string? CTCS { get; set; }
+
+        [DataMember]
+        public string? Game { get; set; }
     }
 }

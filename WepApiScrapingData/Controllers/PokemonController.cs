@@ -235,6 +235,23 @@ namespace WepApiScrapingData.Controllers
             ScrapingDataUtils.WriteToJson(dataJsons, true);
             Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
         }
+        #endregion
+        
+        #region Public Methods
+        [HttpGet]
+        [Route("ScrapingDataPokeBip")]
+        public void ScrapingDataPokeBip()
+        {
+            List<PokemonPokeBipJson> dataJsons = new List<PokemonPokeBipJson>();
+
+            Debug.WriteLine("Start Scraping - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            ScrapingDataUtils.RecursiveGetDataPBJsonWithUrl(Constantes.urlStartFR, dataJsons);
+            Debug.WriteLine("End Scraping - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+
+            Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            ScrapingDataUtils.WriteToJson(dataJsons);
+            Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+        }
 
         [HttpGet]
         [EnableCors(SecurityMethods.DEFAULT_POLICY)]

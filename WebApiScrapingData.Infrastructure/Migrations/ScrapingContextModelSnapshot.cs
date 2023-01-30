@@ -17,10 +17,10 @@ namespace WebApiScrapingData.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("ProductVersion", "6.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -55,7 +55,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -145,7 +145,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -226,7 +226,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -288,6 +288,15 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<string>("Name_RU")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Power")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Precision")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserCreation")
                         .HasColumnType("nvarchar(max)");
 
@@ -318,7 +327,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
@@ -388,13 +397,22 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("BasicHappiness")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CaptureRate")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateModification")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("EggMoves")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Generation")
                         .HasColumnType("int");
@@ -436,6 +454,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PathSprite")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Specie")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StatAttaque")
@@ -509,10 +530,13 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<long>("AttaqueId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("CTCS")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -520,8 +544,17 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<DateTime>("DateModification")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Game")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Level")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("PokemonId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("TypeLearn")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserCreation")
                         .HasColumnType("nvarchar(max)");
@@ -547,7 +580,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -588,7 +621,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -626,7 +659,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -664,7 +697,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -717,7 +750,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -772,7 +805,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<int>("DataObjectID")
                         .HasColumnType("int");
@@ -819,7 +852,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -857,7 +890,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
@@ -917,7 +950,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -989,7 +1022,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -1034,7 +1067,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -1116,7 +1149,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -1204,7 +1237,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");

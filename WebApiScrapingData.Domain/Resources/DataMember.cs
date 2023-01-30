@@ -123,6 +123,14 @@
 
         public const string StatTotal = "StatTotal";
 
+        public const string Specie = "Specie";
+
+        public const string EggMoves = "EggMoves";
+
+        public const string CaptureRate = "CaptureRate";
+
+        public const string BasicHappiness = "BasicHappiness";
+
         public const string Generation = "Generation";
 
         public const string UrlImg = "UrlImg";
@@ -156,6 +164,12 @@
         public const string Description_CN = "Description_CN";
 
         public const string Description_JP = "Description_JP";
+        #endregion
+
+        #region Attaque
+        public const string Puissance = "Puissance";
+        public const string Precision = "Precision";
+        public const string PP = "PP";
         #endregion
 
         #region TypeAttaque

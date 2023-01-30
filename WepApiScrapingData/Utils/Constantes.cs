@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using Microsoft.FSharp.Data.UnitSystems.SI.UnitNames;
-using System.Threading.Channels;
-using WebApiScrapingData.Domain.Class;
-
-namespace WepApiScrapingData.Utils
+﻿namespace WepApiScrapingData.Utils
 {
     public static class Constantes
     {
@@ -56,7 +51,7 @@ namespace WepApiScrapingData.Utils
         public const string urlTestSylveroy = urlPathFR + "sylveroy";
         public const string urlTestCanarticho = urlPathFR + "canarticho";
         public const string urlTestCerbyllin = urlPathFR + "cerbyllin";
-        public const int lastPokemonNumber = 905;
+        public const int lastPokemonNumber = 1008;
 
         public const string urlTestSimulate_FR = urlPathFR + "necrozma";
         public const string urlTestSimulate_EN = urlPathEN + "necrozma";
@@ -2287,6 +2282,7 @@ namespace WepApiScrapingData.Utils
         #endregion
 
         #region Type Attaque
+        public const string PhysicalPokeBip = "Physique";
         public const string Physical = "Physical";
         public const string Physical_Name_FR = "Capacités Physiques";
         public const string Physical_Description_FR = "Les capacités physiques utilisent les statistiques physiques (attaque et défense)";
@@ -2308,6 +2304,7 @@ namespace WepApiScrapingData.Utils
         public const string Physical_Description_JP = "物理アビリティは物理ステータスを使用します (攻撃と防御)";
         public const string Physical_UrlImg = "https://www.pokepedia.fr/images/1/11/Miniature_Cat%C3%A9gorie_Physique_DEPS.png";
 
+        public const string SpecialPokeBip = "Spéciale";
         public const string Special = "Special";
         public const string Special_Name_FR = "Capacités Spéciales";
         public const string Special_Description_FR = "Les capacités spéciales utilisent les statistiques spéciales (attaque spéciale et défense spéciale, ou uniquement le spécial dans la première génération)";
@@ -2329,6 +2326,7 @@ namespace WepApiScrapingData.Utils
         public const string Special_Description_JP = "特殊能力は特殊な統計を使用します（特殊攻撃と特殊防御、または第一世代の特殊のみ）";
         public const string Special_UrlImg = "https://www.pokepedia.fr/images/d/da/Miniature_Cat%C3%A9gorie_Sp%C3%A9ciale_DEPS.png";
 
+        public const string StatusPokeBip = "Statut";
         public const string Status = "Status";
         public const string Status_Name_FR = "Capacités de Statut";
         public const string Status_Description_FR = "Les capacités de statut sont toutes les autres capacités, celles qui ne provoquent pas de dégâts selon la formule habituelle (dégâts fixes, augmentation de statistiques, changement de statut, etc.)";
@@ -2349,6 +2347,190 @@ namespace WepApiScrapingData.Utils
         public const string Status_Name_JP = "ステータスアビリティ";
         public const string Status_Description_JP = "ステータスアビリティは、通常の公式ではダメージを与えないアビリティ（固定ダメージ、ステータス上昇、ステータス変化など）です。";
         public const string Status_UrlImg = "https://www.pokepedia.fr/images/b/b5/Miniature_Cat%C3%A9gorie_Statut_DEPS.png";
+        #endregion
+
+        #region TypeLearn
+        public const string LearnEvolution = "Evolution";
+        public const string TypeLearnEvolution_Name_FR = "Attaques apprises par évolution";
+        public const string TypeLearnEvolution_Name_EN = "Attacks learned by evolution";
+        public const string TypeLearnEvolution_Name_ES = "Ataques aprendidos por evolución";
+        public const string TypeLearnEvolution_Name_IT = "Attacchi appresi per evoluzione";
+        public const string TypeLearnEvolution_Name_DE = "Angriffe, die durch Evolution gelernt werden";
+        
+        public const string LearnLevel = "Niveau";
+        public const string TypeLearn_Name_FR = "Attaques apprises par niveau";
+        public const string TypeLearn_Name_EN = "Attacks learned by level";
+        public const string TypeLearn_Name_ES = "Ataques aprendidos por nivel";
+        public const string TypeLearn_Name_IT = "Attacchi appresi per livello";
+        public const string TypeLearn_Name_DE = "Angriffe, die durch Leveln gelernt werden";
+
+        public const string LearnCTCS = "CT/CS";
+        public const string TypeLearnCTCS_Name_FR = "Attaques apprises par CT/CS";
+        public const string TypeLearnCTCS_Name_EN = "Attacks learned by TM/TR";
+        public const string TypeLearnCTCS_Name_ES = "Ataques aprendidos por MT/CT";
+        public const string TypeLearnCTCS_Name_IT = "Attacchi appresi tramite MT/CT";
+        public const string TypeLearnCTCS_Name_DE = "Angriffe, die durch TM/TR gelernt werden";
+
+        public const string LearnMoveTutor = "Maître des Capacités";
+        public const string TypeLearnMoveTutor_Name_FR = "Attaques apprises par Maître des Capacités";
+        public const string TypeLearnMoveTutor_Name_EN = "Attacks learned by Move Tutor";
+        public const string TypeLearnMoveTutor_Name_ES = "Ataques aprendidos por Move Tutor";
+        public const string TypeLearnMoveTutor_Name_IT = "Attacchi appresi tramite Move Tutor";
+        public const string TypeLearnMoveTutor_Name_DE = "Angriffe, die durch Move Tutor gelernt werden";
+
+        public const string LearnEgg = "Reproduction";
+        public const string TypeLearnEgg_Name_FR = "Attaques apprises par reproduction";
+        public const string TypeLearnEgg_Name_EN = "Attacks learned by breeding";
+        public const string TypeLearnEgg_Name_ES = "Ataques aprendidos por reproducción";
+        public const string TypeLearnEgg_Name_IT = "Attacchi appresi tramite incrocio";
+        public const string TypeLearnEgg_Name_DE = "Angriffe, die durch Zucht gelernt werden";
+        #endregion
+
+        #region Game
+        public const string RedBlueUrl = "rouge-bleu";
+        public const string RedBlue_Name_FR = "Rouge et Bleu";
+        public const string RedBlue_Name_EN = "Red and Blue";
+        public const string RedBlue_Name_ES = "Rojo y Azul";
+        public const string RedBlue_Name_IT = "Rosso e Blu";
+        public const string RedBlue_Name_DE = "Rot und Blau";
+
+        public const string YellowUrl = "jaune";
+        public const string Yellow_Name_FR = "Jaune";
+        public const string Yellow_Name_EN = "Yellow";
+        public const string Yellow_Name_ES = "Amarillo";
+        public const string Yellow_Name_IT = "Giallo";
+        public const string Yellow_Name_DE = "Gelb";
+
+        public const string GoldSilverUrl = "or-argent";
+        public const string GoldSilver_Name_FR = "Or et Argent";
+        public const string GoldSilver_Name_EN = "Gold and Silver";
+        public const string GoldSilver_Name_ES = "Oro y Plata";
+        public const string GoldSilver_Name_IT = "Oro e Argento";
+        public const string GoldSilver_Name_DE = "Gold und Silber";
+
+        public const string CrystalUrl = "cristal";
+        public const string Crystal_Name_FR = "Crystal";
+        public const string Crystal_Name_EN = "Crystal";
+        public const string Crystal_Name_ES = "Cristal";
+
+        public const string RubySapphireUrl = "rubis-saphir";
+        public const string RubySapphire_Name_FR = "Rubis et Saphir";
+        public const string RubySapphire_Name_EN = "Ruby and Sapphire";
+        public const string RubySapphire_Name_ES = "Rubí y Zafiro";
+        public const string RubySapphire_Name_IT = "Rubino e Zaffiro";
+        public const string RubySapphire_Name_DE = "Rubin und Saphir";
+
+        public const string EmeraldUrl = "emeraude";
+        public const string Emerald_Name_FR = "Emeraude";
+        public const string Emerald_Name_EN = "Emerald";
+        public const string Emerald_Name_ES = "Esmeralda";
+        public const string Emerald_Name_IT = "Smeraldo";
+        public const string Emerald_Name_DE = "Smaragd";
+
+        public const string FireRedLeafGreenUrl = "rouge-feu-vert-feuille";
+        public const string FireRedLeafGreen_Name_FR = "Feuille Rouge et Vert Feuille";
+        public const string FireRedLeafGreen_Name_EN = "FireRed and LeafGreen";
+        public const string FireRedLeafGreen_Name_ES = "Fuego Rojo y Hoja Verde";
+        public const string FireRedLeafGreen_Name_IT = "Rosso Fuoco e Verde Foglia";
+        public const string FireRedLeafGreen_Name_DE = "Feuerrot und Blattgrün";
+
+        public const string DiamondPearlUrl = "diamant-perle";
+        public const string DiamondPearl_Name_FR = "Diamant et Perle";
+        public const string DiamondPearl_Name_EN = "Diamond and Pearl";
+        public const string DiamondPearl_Name_ES = "Diamante y Perla";
+        public const string DiamondPearl_Name_IT = "Diamante e Perla";
+        public const string DiamondPearl_Name_DE = "Diamant und Perl";
+
+        public const string PlatinumUrl = "platine";
+        public const string Platinum_Name_FR = "Platine";
+        public const string Platinum_Name_EN = "Platinum";
+        public const string Platinum_Name_ES = "Platino";
+        public const string Platinum_Name_IT = "Platino";
+        public const string Platinum_Name_DE = "Platin";
+
+        public const string HeartGoldSoulSilverUrl = "or-heartgold-argent-soulsilver";
+        public const string HeartGoldSoulSilver_Name_FR = "Or Heart et Argent Soul";
+        public const string HeartGoldSoulSilver_Name_EN = "HeartGold and SoulSilver";
+        public const string HeartGoldSoulSilver_Name_ES = "Oro Corazón y Plata Alma";
+        public const string HeartGoldSoulSilver_Name_IT = "Oro Cuore e Argento Anima";
+        public const string HeartGoldSoulSilver_Name_DE = "Herzgold und Seelensilber";
+
+        public const string BlackWhiteUrl = "noir-blanc";
+        public const string BlackWhite_Name_FR = "Noir et Blanc";
+        public const string BlackWhite_Name_EN = "Black and White";
+        public const string BlackWhite_Name_ES = "Negro y Blanco";
+        public const string BlackWhite_Name_IT = "Nero e Bianco";
+        public const string BlackWhite_Name_DE = "Schwarz und Weiß";
+
+        public const string Black2White2Url = "noir-2-blanc-2";
+        public const string Black2White2_Name_FR = "Noir 2 et Blanc 2";
+        public const string Black2White2_Name_EN = "Black 2 and White 2";
+        public const string Black2White2_Name_ES = "Negro 2 y Blanco 2";
+        public const string Black2White2_Name_IT = "Nero 2 e Bianco 2";
+        public const string Black2White2_Name_DE = "Schwarz 2 und Weiß 2";
+
+        public const string X_YUrl = "x-y";
+        public const string X_Y_Name_FR = "X et Y";
+        public const string X_Y_Name_EN = "X and Y";
+        public const string X_Y_Name_ES = "X y Y";
+        public const string X_Y_Name_IT = "X e Y";
+        public const string X_Y_Name_DE = "X und Y";
+
+        public const string OmegaRubyAlphaSapphireUrl = "rubis-omega-saphir-alpha";
+        public const string OmegaRubyAlphaSapphire_Name_FR = "Rubis Oméga et Saphir Alpha";
+        public const string OmegaRubyAlphaSapphire_Name_EN = "Omega Ruby and Alpha Sapphire";
+        public const string OmegaRubyAlphaSapphire_Name_ES = "Rubí Omega y Zafiro Alfa";
+        public const string OmegaRubyAlphaSapphire_Name_IT = "Rubino Omega e Zaffiro Alfa";
+        public const string OmegaRubyAlphaSapphire_Name_DE = "Omegarubin und Alphasaphir";
+        
+        public const string SunMoonUrl = "soleil-lune";
+        public const string SunMoon_Name_FR = "Soleil et Lune";
+        public const string SunMoon_Name_EN = "Sun and Moon";
+        public const string SunMoon_Name_ES = "Sol y Luna";
+        public const string SunMoon_Name_IT = "Sole e Luna";
+        public const string SunMoon_Name_DE = "Sonne und Mond";
+
+        public const string UltraSunUltraMoonUrl = "ultra-soleil-ultra-lune";
+        public const string UltraSunUltraMoon_Name_FR = "Ultra Soleil et Ultra Lune";
+        public const string UltraSunUltraMoon_Name_EN = "Ultra Sun and Ultra Moon";
+        public const string UltraSunUltraMoon_Name_ES = "Ultra Sol y Ultra Luna";
+        public const string UltraSunUltraMoon_Name_IT = "Ultra Sole e Ultra Luna";
+        public const string UltraSunUltraMoon_Name_DE = "Ultra Sonne und Ultra Mond";
+
+        public const string LetsGoPikachuEvoliUrl = "lets-go-pikachu-evoli";
+        public const string LetsGoPikachuEvoli_Name_FR = "Let's Go, Pikachu et Let's Go, Évoli";
+        public const string LetsGoPikachuEvoli_Name_EN = "Let's Go, Pikachu and Let's Go, Eevee";
+        public const string LetsGoPikachuEvoli_Name_ES = "Vamos, Pikachu y Vamos, Eevee";
+        public const string LetsGoPikachuEvoli_Name_IT = "Andiamo, Pikachu e Andiamo, Eevee";
+        public const string LetsGoPikachuEvoli_Name_DE = "Los geht's, Pikachu und Los geht's, Evoli";
+
+        public const string SwordShieldUrl = "epee-bouclier";
+        public const string SwordShield_Name_FR = "Epée et Bouclier";
+        public const string SwordShield_Name_EN = "Sword and Shield";
+        public const string SwordShield_Name_ES = "Espada y Escudo";
+        public const string SwordShield_Name_IT = "Spada e Scudo";
+        public const string SwordShield_Name_DE = "Schwert und Schild";
+
+        public const string ShiningDiamondShiningPearlUrl = "diamant-etincelant-perle-scintillante";
+        public const string ShiningDiamondShiningPearl_Name_FR = "Diamant Étincelant et Perle Scintillante";
+        public const string ShiningDiamondShiningPearl_Name_EN = "Shining Diamond and Shining Pearl";
+        public const string ShiningDiamondShiningPearl_Name_ES = "Diamante Brillante y Perla Brillante";
+        public const string ShiningDiamondShiningPearl_Name_IT = "Diamante Scintillante e Perla Scintillante";
+        public const string ShiningDiamondShiningPearl_Name_DE = "Glitzerndes Diamant und Glitzernde Perle";
+
+        public const string ArceusUrl = "legendes-arceus";
+        public const string Arceus_Name_FR = "Arceus";
+        public const string Arceus_Name_EN = "Arceus";
+        public const string Arceus_Name_ES = "Arceus";
+        public const string Arceus_Name_IT = "Arceus";
+        public const string Arceus_Name_DE = "Arceus";
+
+        public const string ScarletVioletUrl = "ecarlate-violet";
+        public const string ScarletViolet_Name_FR = "Écarlate et Violet";
+        public const string ScarletViolet_Name_EN = "Scarlet and Violet";
+        public const string ScarletViolet_Name_ES = "Escarlata y Violeta";
+        public const string ScarletViolet_Name_IT = "Escarlatta e Violaceo";
+        public const string ScarletViolet_Name_DE = "Scharlach und Violett";
         #endregion
     }
 }

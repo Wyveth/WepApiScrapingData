@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Ressources\**" />
+    <EmbeddedResource Remove="Ressources\**" />
+    <None Remove="Ressources\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.15.2" />
     <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.15.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.12" />
@@ -24,10 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\WebApiScrapingData.Domain\WebApiScrapingData.Domain.csproj" />
     <ProjectReference Include="..\WebApiScrapingData.Framework\WebApiScrapingData.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Ressources\" />
   </ItemGroup>
 
 </Project>
