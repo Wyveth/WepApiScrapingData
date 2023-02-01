@@ -362,6 +362,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<string>("Size")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Specie")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Talent")
                         .HasColumnType("nvarchar(max)");
 
