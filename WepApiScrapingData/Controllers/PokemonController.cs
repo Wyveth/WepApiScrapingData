@@ -497,14 +497,14 @@ namespace WepApiScrapingData.Controllers
         [Route("SaveInfoPokemonAttackInDB")]
         public void SaveInfoPokemonAttackInDB()
         {
-            string json;
-            using (StreamReader sr = new StreamReader("PokeScrap/PokeBipScrapGen.json"))
-            {
-                json = sr.ReadToEnd();
-                _repository.SaveInfoPokemonAttackInDB(json);
-            }
+            //string json;
+            //using (StreamReader sr = new StreamReader("PokeScrap/PokeBipScrapGen.json"))
+            //{
+            //    json = sr.ReadToEnd();
+            //    _repository.SaveInfoPokemonAttackInDB(json);
+            //}
 
-            _repository.UnitOfWork.SaveChanges();
+            //_repository.UnitOfWork.SaveChanges();
         }
 
         [HttpPost]
@@ -630,7 +630,7 @@ namespace WepApiScrapingData.Controllers
         [Route("UpdateSprite")]
         public async Task UpdateSprite()
         {
-            string response = HttpClientUtils.CallUrl(Constantes.urlAllSprites).Result;
+            string response = await HttpClientUtils.CallUrl(Constantes.urlAllSprites);
             ScrapingDataUtils.GetUrlsMini(response, _repository);
         }
 
@@ -654,7 +654,7 @@ namespace WepApiScrapingData.Controllers
         [Route("UpdateSound")]
         public async Task UpdateSound()
         {
-            string response = HttpClientUtils.CallUrl(Constantes.urlAllSprites).Result;
+            string response = await HttpClientUtils.CallUrl(Constantes.urlAllSprites);
             ScrapingDataUtils.GetUrlSound(response, _repository);
         }
 
@@ -662,13 +662,13 @@ namespace WepApiScrapingData.Controllers
         [Route("UpdateSoundGen9")]
         public async Task UpdateSoundGen9()
         {
-            string response = HttpClientUtils.CallUrl(Constantes.urlAllSpritesOld).Result;
+            string response = await HttpClientUtils.CallUrl(Constantes.urlAllSpritesOld);
             ScrapingDataUtils.GetUrlSoundGen9(response, _repository);
         }
 
         [HttpGet]
         [Route("TestUrlStaticOrDynamic/{language}")]
-        public async void TestUrlStaticOrDynamic(string language)
+        public async Task TestUrlStaticOrDynamic(string language)
         {
             string response = "";
             HtmlDocument htmlDoc = new HtmlDocument();
@@ -677,25 +677,19 @@ namespace WepApiScrapingData.Controllers
             switch (language)
             {
                 case Constantes.RU:
-                    response = HttpClientUtils.CallUrl(Constantes.urlStartRU).Result;
+                    response = await HttpClientUtils.CallUrl(Constantes.urlStartRU);
                     htmlDoc.LoadHtml(response);
                     value = htmlDoc.DocumentNode.Descendants("b").First().InnerText;
-                    //if (value.Equals("Бульбазавр"))
-                    //    return true;
                     break;
                 case Constantes.CO:
                     response = HttpClientUtils.CallUrl(Constantes.urlStartCO).Result;
                     htmlDoc.LoadHtml(response);
                     value = htmlDoc.DocumentNode.Descendants("h3").First().InnerText;
-                    //if (value.Contains("이상해씨"))
-                    //    return true;
                     break;
                 case Constantes.CN:
                     response = HttpClientUtils.CallUrl(Constantes.urlStartCN).Result;
                     htmlDoc.LoadHtml(response);
                     value = htmlDoc.DocumentNode.Descendants("p").First(node => node.GetAttributeValue("class", "").Contains("pokemon-slider__main-name")).InnerText;
-                    //if (value.Equals("妙蛙种子"))
-                    //    return true;
                     break;
                 case Constantes.JP:
                     //try
@@ -727,47 +721,6 @@ namespace WepApiScrapingData.Controllers
             }
 
             //return true;
-        }
-
-        [HttpGet]
-        [Route("UpdateGlobale")]
-        public void UpdateGlobale()
-        {
-            List<Talent> talents = this._repositoryTL.GetAll().Result.ToList();
-            foreach (var item in talents)
-            {
-                item.UserCreation = "System";
-                item.DateCreation = DateTime.Now;
-            }
-            this._repositoryTL.EditRange(talents);
-            _repositoryTL.UnitOfWork.SaveChanges();
-
-            List<Attaque> attaques = this._repositoryAT.GetAll().Result.ToList();
-            foreach (var item in attaques)
-            {
-                item.UserCreation = "System";
-                item.DateCreation = DateTime.Now;
-            }
-            this._repositoryAT.EditRange(attaques);
-            _repositoryAT.UnitOfWork.SaveChanges();
-
-            List<Pokemon_Attaque> pokemon_Attaques = this._repositoryPAT.GetAll().Result.ToList();
-            foreach (var item in pokemon_Attaques)
-            {
-                item.UserCreation = "System";
-                item.DateCreation = DateTime.Now;
-            }
-            this._repositoryPAT.EditRange(pokemon_Attaques);
-            _repositoryPAT.UnitOfWork.SaveChanges();
-
-            List<Pokemon_Talent> pokemon_Talents = this._repositoryPTL.GetAll().Result.ToList();
-            foreach (var item in pokemon_Talents)
-            {
-                item.UserCreation = "System";
-                item.DateCreation = DateTime.Now;
-            }
-            this._repositoryPTL.EditRange(pokemon_Talents);
-            _repositoryPTL.UnitOfWork.SaveChanges();
         }
         #endregion
     }
