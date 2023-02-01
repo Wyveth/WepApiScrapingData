@@ -50,27 +50,27 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #region Read
         public IEnumerable<Attaque> Find(Expression<Func<Attaque, bool>> predicate)
         {
-            return this._context.Attaques.Where(predicate ?? (s => true)).AsQueryable();
+            return this._context.Attaques.Include("typeAttaque").Include("typePok").Where(predicate ?? (s => true)).AsQueryable();
         }
 
         public async Task<Attaque> Get(int id)
         {
-            return await this._context.Attaques.SingleAsync(x => x.Id.Equals(id));
+            return await this._context.Attaques.Include("typeAttaque").Include("typePok").SingleAsync(x => x.Id.Equals(id));
         }
 
         public async Task<Attaque> GetByName(string name)
         {
-            return await this._context.Attaques.SingleAsync(x => x.Name_FR.Equals(name));
+            return await this._context.Attaques.Include("typeAttaque").Include("typePok").SingleAsync(x => x.Name_FR.Equals(name));
         }
 
         public IQueryable<Attaque> Query()
         {
-            return this._context.Attaques.AsQueryable();
+            return this._context.Attaques.Include("typeAttaque").Include("typePok").AsQueryable();
         }
 
         public async Task<IEnumerable<Attaque>> GetAll()
         {
-            return await this._context.Attaques.ToListAsync();
+            return await this._context.Attaques.Include("typeAttaque").Include("typePok").ToListAsync();
         }
         #endregion
 

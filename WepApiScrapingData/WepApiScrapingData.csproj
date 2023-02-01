@@ -7,6 +7,121 @@
     <UserSecretsId>4aebcedd-4c6a-49dc-ada7-472188070c3a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Content\Images\G9\Annihilape.png" />
+    <None Remove="Content\Images\G9\Arboliva.png" />
+    <None Remove="Content\Images\G9\Arctibax.png" />
+    <None Remove="Content\Images\G9\Armarouge.png" />
+    <None Remove="Content\Images\G9\Baxcalibur.png" />
+    <None Remove="Content\Images\G9\Bellibolt.png" />
+    <None Remove="Content\Images\G9\Blue_Plumage_Squawkabilly.png" />
+    <None Remove="Content\Images\G9\Bombirdier.png" />
+    <None Remove="Content\Images\G9\Brambleghast.png" />
+    <None Remove="Content\Images\G9\Bramblin.png" />
+    <None Remove="Content\Images\G9\Brute_Bonnet.png" />
+    <None Remove="Content\Images\G9\Capsakid.png" />
+    <None Remove="Content\Images\G9\Ceruledge.png" />
+    <None Remove="Content\Images\G9\Cetitan.png" />
+    <None Remove="Content\Images\G9\Cetoddle.png" />
+    <None Remove="Content\Images\G9\Charcadet.png" />
+    <None Remove="Content\Images\G9\Chi-Yu.png" />
+    <None Remove="Content\Images\G9\Chien-Pao.png" />
+    <None Remove="Content\Images\G9\Clodsire.png" />
+    <None Remove="Content\Images\G9\Crocalor.png" />
+    <None Remove="Content\Images\G9\Curly_Form_Tatsugiri.png" />
+    <None Remove="Content\Images\G9\Cyclizar.png" />
+    <None Remove="Content\Images\G9\Dachsbun.png" />
+    <None Remove="Content\Images\G9\Dolliv.png" />
+    <None Remove="Content\Images\G9\Dondozo.png" />
+    <None Remove="Content\Images\G9\Droopy_Form_Tatsugiri.png" />
+    <None Remove="Content\Images\G9\Espathra.png" />
+    <None Remove="Content\Images\G9\Farigiraf.png" />
+    <None Remove="Content\Images\G9\Female_Oinkologne.png" />
+    <None Remove="Content\Images\G9\Fidough.png" />
+    <None Remove="Content\Images\G9\Finizen.png" />
+    <None Remove="Content\Images\G9\Flamigo.png" />
+    <None Remove="Content\Images\G9\Flittle.png" />
+    <None Remove="Content\Images\G9\Floragato.png" />
+    <None Remove="Content\Images\G9\Flutter_Mane.png" />
+    <None Remove="Content\Images\G9\Frigibax.png" />
+    <None Remove="Content\Images\G9\Fuecoco.png" />
+    <None Remove="Content\Images\G9\Garganacl.png" />
+    <None Remove="Content\Images\G9\Gholdengo.png" />
+    <None Remove="Content\Images\G9\Gimmighoul.png" />
+    <None Remove="Content\Images\G9\Glimmet.png" />
+    <None Remove="Content\Images\G9\Glimmora.png" />
+    <None Remove="Content\Images\G9\Grafaiai.png" />
+    <None Remove="Content\Images\G9\Great_Tusk.png" />
+    <None Remove="Content\Images\G9\Greavard.png" />
+    <None Remove="Content\Images\G9\Green_Plumage_Squawkabilly.png" />
+    <None Remove="Content\Images\G9\Hero_Form_Palafin.png" />
+    <None Remove="Content\Images\G9\Houndstone.png" />
+    <None Remove="Content\Images\G9\Iron_Bundle.png" />
+    <None Remove="Content\Images\G9\Iron_Hands.png" />
+    <None Remove="Content\Images\G9\Iron_Jugulis.png" />
+    <None Remove="Content\Images\G9\Iron_Moth.png" />
+    <None Remove="Content\Images\G9\Iron_Thorns.png" />
+    <None Remove="Content\Images\G9\Iron_Treads.png" />
+    <None Remove="Content\Images\G9\Iron_Valiant.png" />
+    <None Remove="Content\Images\G9\Kilowattrel.png" />
+    <None Remove="Content\Images\G9\Kingambit.png" />
+    <None Remove="Content\Images\G9\Klawf.png" />
+    <None Remove="Content\Images\G9\Koraidon.png" />
+    <None Remove="Content\Images\G9\Lechonk.png" />
+    <None Remove="Content\Images\G9\Lokix.png" />
+    <None Remove="Content\Images\G9\Mabosstiff.png" />
+    <None Remove="Content\Images\G9\Male_Oinkologne.png" />
+    <None Remove="Content\Images\G9\Maschiff.png" />
+    <None Remove="Content\Images\G9\Maushold_%28Family_of_Four%29.png" />
+    <None Remove="Content\Images\G9\Maushold_%28Family_of_Three%29.png" />
+    <None Remove="Content\Images\G9\Meowscarada.png" />
+    <None Remove="Content\Images\G9\Miraidon.png" />
+    <None Remove="Content\Images\G9\Nacli.png" />
+    <None Remove="Content\Images\G9\Naclstack.png" />
+    <None Remove="Content\Images\G9\Nymble.png" />
+    <None Remove="Content\Images\G9\Orthworm.png" />
+    <None Remove="Content\Images\G9\Pawmi.png" />
+    <None Remove="Content\Images\G9\Pawmo.png" />
+    <None Remove="Content\Images\G9\Pawmot.png" />
+    <None Remove="Content\Images\G9\Quaquaval.png" />
+    <None Remove="Content\Images\G9\Quaxly.png" />
+    <None Remove="Content\Images\G9\Quaxwell.png" />
+    <None Remove="Content\Images\G9\Rabsca.png" />
+    <None Remove="Content\Images\G9\Rellor.png" />
+    <None Remove="Content\Images\G9\Revavroom.png" />
+    <None Remove="Content\Images\G9\Roaring_Moon.png" />
+    <None Remove="Content\Images\G9\Sandy_Shocks.png" />
+    <None Remove="Content\Images\G9\Scovillain.png" />
+    <None Remove="Content\Images\G9\Scream_Tail.png" />
+    <None Remove="Content\Images\G9\Shroodle.png" />
+    <None Remove="Content\Images\G9\Skeledirge.png" />
+    <None Remove="Content\Images\G9\Slither_Wing.png" />
+    <None Remove="Content\Images\G9\Smoliv.png" />
+    <None Remove="Content\Images\G9\Spidops.png" />
+    <None Remove="Content\Images\G9\Sprigatito.png" />
+    <None Remove="Content\Images\G9\Stretchy_Form_Tatsugiri.png" />
+    <None Remove="Content\Images\G9\Tadbulb.png" />
+    <None Remove="Content\Images\G9\Tandemaus.png" />
+    <None Remove="Content\Images\G9\Tarountula.png" />
+    <None Remove="Content\Images\G9\Three-Segment_Form_Dudunsparce.png" />
+    <None Remove="Content\Images\G9\Ting-Lu.png" />
+    <None Remove="Content\Images\G9\Tinkatink.png" />
+    <None Remove="Content\Images\G9\Tinkaton.png" />
+    <None Remove="Content\Images\G9\Tinkatuff.png" />
+    <None Remove="Content\Images\G9\Toedscool.png" />
+    <None Remove="Content\Images\G9\Toedscruel.png" />
+    <None Remove="Content\Images\G9\Two-Segment_Form_Dudunsparce.png" />
+    <None Remove="Content\Images\G9\Varoom.png" />
+    <None Remove="Content\Images\G9\Veluza.png" />
+    <None Remove="Content\Images\G9\Wattrel.png" />
+    <None Remove="Content\Images\G9\White_Plumage_Squawkabilly.png" />
+    <None Remove="Content\Images\G9\Wiglett.png" />
+    <None Remove="Content\Images\G9\Wo-Chien.png" />
+    <None Remove="Content\Images\G9\Wugtrio.png" />
+    <None Remove="Content\Images\G9\Yellow_Plumage_Squawkabilly.png" />
+    <None Remove="Content\Images\G9\Zero_Form_Palafin.png" />
+  </ItemGroup>
   
   <ItemGroup>
     <None Update="Content\**" CopyToOutputDirectory="PreserveNewest" />
@@ -3605,6 +3720,342 @@
     <ApplicationDefinition Include="Content\Images\G0\Hisuian_Growlithe.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ApplicationDefinition>
+    <EmbeddedResource Include="Content\Images\G9\Annihilape.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Arboliva.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Arctibax.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Armarouge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Baxcalibur.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Bellibolt.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Blue_Plumage_Squawkabilly.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Bombirdier.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Brambleghast.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Bramblin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Brute_Bonnet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Capsakid.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Ceruledge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Cetitan.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Cetoddle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Charcadet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Chi-Yu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Chien-Pao.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Clodsire.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Crocalor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Curly_Form_Tatsugiri.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Cyclizar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Dachsbun.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Dolliv.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Dondozo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Droopy_Form_Tatsugiri.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Espathra.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Farigiraf.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Female_Oinkologne.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Fidough.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Finizen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Flamigo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Flittle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Floragato.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Flutter_Mane.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Frigibax.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Fuecoco.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Garganacl.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Gholdengo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Gimmighoul.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Glimmet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Glimmora.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Grafaiai.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Great_Tusk.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Greavard.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Green_Plumage_Squawkabilly.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Hero_Form_Palafin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Houndstone.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Iron_Bundle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Iron_Hands.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Iron_Jugulis.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Iron_Moth.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Iron_Thorns.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Iron_Treads.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Iron_Valiant.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Kilowattrel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Kingambit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Klawf.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Koraidon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Lechonk.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Lokix.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Mabosstiff.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Male_Oinkologne.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Maschiff.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Maushold_(Family_of_Four).png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Maushold_(Family_of_Three).png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Meowscarada.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Miraidon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Nacli.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Naclstack.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Nymble.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Orthworm.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Pawmi.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Pawmo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Pawmot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Quaquaval.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Quaxly.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Quaxwell.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Rabsca.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Rellor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Revavroom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Roaring_Moon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Sandy_Shocks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Scovillain.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Scream_Tail.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Shroodle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Skeledirge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Slither_Wing.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Smoliv.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Spidops.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Sprigatito.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Stretchy_Form_Tatsugiri.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Tadbulb.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Tandemaus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Tarountula.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Three-Segment_Form_Dudunsparce.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Ting-Lu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Tinkatink.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Tinkaton.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Tinkatuff.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Toedscool.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Toedscruel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Two-Segment_Form_Dudunsparce.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Varoom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Veluza.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Wattrel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\White_Plumage_Squawkabilly.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Wiglett.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Wo-Chien.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Wugtrio.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Yellow_Plumage_Squawkabilly.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Images\G9\Zero_Form_Palafin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Resource Include="Content\Images\G0\Hisuian_Lilligant.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -14234,7 +14685,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Content\Images\G9\" />
     <Folder Include="Content\Sprites\G9\" />
   </ItemGroup>
 

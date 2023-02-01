@@ -66,6 +66,8 @@ namespace WebApiScrapingData.Domain.Class
         public List<Pokemon_Weakness> Pokemon_Weaknesses { get; set; }
         [DataMember(Name = DataMember.Talents)]
         public List<Pokemon_Talent> Pokemon_Talents { get; set; }
+        [DataMember(Name = DataMember.Attaques)]
+        public List<Pokemon_Attaque> Pokemon_Attaques { get; set; }
 
         //Type Evolution : Normal, Méga, Gigamax, Alola, Galar, Hisui
         [DataMember(Name = DataMember.TypeEvolution)]
@@ -98,10 +100,6 @@ namespace WebApiScrapingData.Domain.Class
         //Statistique Total
         [DataMember(Name = DataMember.StatTotal)]
         public int StatTotal { get; set; }
-
-        //Espèce
-        [DataMember(Name = DataMember.Specie)]
-        public string? Specie { get; set; }
 
         //Nombre de pas pour l'oeuf
         [DataMember(Name = DataMember.EggMoves)]
@@ -139,6 +137,9 @@ namespace WebApiScrapingData.Domain.Class
         //Url du Sound
         [DataMember(Name = DataMember.UrlSound)]
         public string? PathSound { get; set; }
+
+        [DataMember(Name = DataMember.Game)]
+        public Game? Game { get; set; }
 
         public Pokemon()
         {

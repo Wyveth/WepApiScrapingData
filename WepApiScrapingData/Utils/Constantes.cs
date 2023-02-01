@@ -2356,7 +2356,7 @@
         public const string TypeLearnEvolution_Name_ES = "Ataques aprendidos por evolución";
         public const string TypeLearnEvolution_Name_IT = "Attacchi appresi per evoluzione";
         public const string TypeLearnEvolution_Name_DE = "Angriffe, die durch Evolution gelernt werden";
-        
+
         public const string LearnLevel = "Niveau";
         public const string TypeLearn_Name_FR = "Attaques apprises par niveau";
         public const string TypeLearn_Name_EN = "Attacks learned by level";
@@ -2393,6 +2393,10 @@
         public const string RedBlue_Name_ES = "Rojo y Azul";
         public const string RedBlue_Name_IT = "Rosso e Blu";
         public const string RedBlue_Name_DE = "Rot und Blau";
+        public const string RedBlue_Name_RU = "Красный и Синий";
+        public const string RedBlue_Name_CO = "빨강과 파랑";
+        public const string RedBlue_Name_CN = "红色和蓝色";
+        public const string RedBlue_Name_JP = "赤と青";
 
         public const string YellowUrl = "jaune";
         public const string Yellow_Name_FR = "Jaune";
@@ -2400,6 +2404,10 @@
         public const string Yellow_Name_ES = "Amarillo";
         public const string Yellow_Name_IT = "Giallo";
         public const string Yellow_Name_DE = "Gelb";
+        public const string Yellow_Name_RU = "Желтый";
+        public const string Yellow_Name_CO = "노란색";
+        public const string Yellow_Name_CN = "黄色";
+        public const string Yellow_Name_JP = "黄";
 
         public const string GoldSilverUrl = "or-argent";
         public const string GoldSilver_Name_FR = "Or et Argent";
@@ -2407,11 +2415,21 @@
         public const string GoldSilver_Name_ES = "Oro y Plata";
         public const string GoldSilver_Name_IT = "Oro e Argento";
         public const string GoldSilver_Name_DE = "Gold und Silber";
+        public const string GoldSilver_Name_RU = "Золотой и Серебряный";
+        public const string GoldSilver_Name_CO = "금과은";
+        public const string GoldSilver_Name_CN = "黄金和白银";
+        public const string GoldSilver_Name_JP = "黄金銀";
 
         public const string CrystalUrl = "cristal";
         public const string Crystal_Name_FR = "Crystal";
         public const string Crystal_Name_EN = "Crystal";
         public const string Crystal_Name_ES = "Cristal";
+        public const string Crystal_Name_IT = "Cristallo";
+        public const string Crystal_Name_DE = "Kristall";
+        public const string Crystal_Name_RU = "Кристалл";
+        public const string Crystal_Name_CO = "결정";
+        public const string Crystal_Name_CN = "水晶";
+        public const string Crystal_Name_JP = "結晶";
 
         public const string RubySapphireUrl = "rubis-saphir";
         public const string RubySapphire_Name_FR = "Rubis et Saphir";
@@ -2419,6 +2437,10 @@
         public const string RubySapphire_Name_ES = "Rubí y Zafiro";
         public const string RubySapphire_Name_IT = "Rubino e Zaffiro";
         public const string RubySapphire_Name_DE = "Rubin und Saphir";
+        public const string RubySapphire_Name_RU = "Рубин и Сапфир";
+        public const string RubySapphire_Name_CO = "루비와 사파이어";
+        public const string RubySapphire_Name_CN = "红宝石和蓝宝石";
+        public const string RubySapphire_Name_JP = "ルビーとサファイア";
 
         public const string EmeraldUrl = "emeraude";
         public const string Emerald_Name_FR = "Emeraude";
@@ -2426,6 +2448,10 @@
         public const string Emerald_Name_ES = "Esmeralda";
         public const string Emerald_Name_IT = "Smeraldo";
         public const string Emerald_Name_DE = "Smaragd";
+        public const string Emerald_Name_RU = "Изумруд";
+        public const string Emerald_Name_CO = "에메랄드";
+        public const string Emerald_Name_CN = "翠";
+        public const string Emerald_Name_JP = "エメラルド";
 
         public const string FireRedLeafGreenUrl = "rouge-feu-vert-feuille";
         public const string FireRedLeafGreen_Name_FR = "Feuille Rouge et Vert Feuille";
@@ -2433,6 +2459,10 @@
         public const string FireRedLeafGreen_Name_ES = "Fuego Rojo y Hoja Verde";
         public const string FireRedLeafGreen_Name_IT = "Rosso Fuoco e Verde Foglia";
         public const string FireRedLeafGreen_Name_DE = "Feuerrot und Blattgrün";
+        public const string FireRedLeafGreen_Name_RU = "Огненно-Красный и Листовой Зеленый";
+        public const string FireRedLeafGreen_Name_CO = "파이어 레드와 리프 그린";
+        public const string FireRedLeafGreen_Name_CN = "火红叶绿";
+        public const string FireRedLeafGreen_Name_JP = "ファイアレッドとリーフグリーン";
 
         public const string DiamondPearlUrl = "diamant-perle";
         public const string DiamondPearl_Name_FR = "Diamant et Perle";
@@ -2440,6 +2470,10 @@
         public const string DiamondPearl_Name_ES = "Diamante y Perla";
         public const string DiamondPearl_Name_IT = "Diamante e Perla";
         public const string DiamondPearl_Name_DE = "Diamant und Perl";
+        public const string DiamondPearl_Name_RU = "Алмаз и Жемчуг";
+        public const string DiamondPearl_Name_CO = "다이아몬드와 진주";
+        public const string DiamondPearl_Name_CN = "钻石和珍珠";
+        public const string DiamondPearl_Name_JP = "ダイヤモンドとパール";
 
         public const string PlatinumUrl = "platine";
         public const string Platinum_Name_FR = "Platine";
@@ -2447,6 +2481,10 @@
         public const string Platinum_Name_ES = "Platino";
         public const string Platinum_Name_IT = "Platino";
         public const string Platinum_Name_DE = "Platin";
+        public const string Platinum_Name_RU = "Платина";
+        public const string Platinum_Name_CO = "백금";
+        public const string Platinum_Name_CN = "铂";
+        public const string Platinum_Name_JP = "白金";
 
         public const string HeartGoldSoulSilverUrl = "or-heartgold-argent-soulsilver";
         public const string HeartGoldSoulSilver_Name_FR = "Or Heart et Argent Soul";
@@ -2454,6 +2492,10 @@
         public const string HeartGoldSoulSilver_Name_ES = "Oro Corazón y Plata Alma";
         public const string HeartGoldSoulSilver_Name_IT = "Oro Cuore e Argento Anima";
         public const string HeartGoldSoulSilver_Name_DE = "Herzgold und Seelensilber";
+        public const string HeartGoldSoulSilver_Name_RU = "Золотой Сердце и Серебряный Душа";
+        public const string HeartGoldSoulSilver_Name_CO = "하트골드와 소울실버";
+        public const string HeartGoldSoulSilver_Name_CN = "心金魂银";
+        public const string HeartGoldSoulSilver_Name_JP = "ハートゴールドとソウルシルバー";
 
         public const string BlackWhiteUrl = "noir-blanc";
         public const string BlackWhite_Name_FR = "Noir et Blanc";
@@ -2461,6 +2503,10 @@
         public const string BlackWhite_Name_ES = "Negro y Blanco";
         public const string BlackWhite_Name_IT = "Nero e Bianco";
         public const string BlackWhite_Name_DE = "Schwarz und Weiß";
+        public const string BlackWhite_Name_RU = "Черный и Белый";
+        public const string BlackWhite_Name_CO = "검정색과 흰색";
+        public const string BlackWhite_Name_CN = "黑和白";
+        public const string BlackWhite_Name_JP = "黒と白";
 
         public const string Black2White2Url = "noir-2-blanc-2";
         public const string Black2White2_Name_FR = "Noir 2 et Blanc 2";
@@ -2468,6 +2514,10 @@
         public const string Black2White2_Name_ES = "Negro 2 y Blanco 2";
         public const string Black2White2_Name_IT = "Nero 2 e Bianco 2";
         public const string Black2White2_Name_DE = "Schwarz 2 und Weiß 2";
+        public const string Black2White2_Name_RU = "Черный 2 и Белый 2";
+        public const string Black2White2_Name_CO = "블랙 2와 화이트 2";
+        public const string Black2White2_Name_CN = "黑2和白2";
+        public const string Black2White2_Name_JP = "黒2と白2";
 
         public const string X_YUrl = "x-y";
         public const string X_Y_Name_FR = "X et Y";
@@ -2475,6 +2525,10 @@
         public const string X_Y_Name_ES = "X y Y";
         public const string X_Y_Name_IT = "X e Y";
         public const string X_Y_Name_DE = "X und Y";
+        public const string X_Y_Name_RU = "Х и У";
+        public const string X_Y_Name_CO = "X와 Y";
+        public const string X_Y_Name_CN = "X和Y";
+        public const string X_Y_Name_JP = "XとY";
 
         public const string OmegaRubyAlphaSapphireUrl = "rubis-omega-saphir-alpha";
         public const string OmegaRubyAlphaSapphire_Name_FR = "Rubis Oméga et Saphir Alpha";
@@ -2482,13 +2536,21 @@
         public const string OmegaRubyAlphaSapphire_Name_ES = "Rubí Omega y Zafiro Alfa";
         public const string OmegaRubyAlphaSapphire_Name_IT = "Rubino Omega e Zaffiro Alfa";
         public const string OmegaRubyAlphaSapphire_Name_DE = "Omegarubin und Alphasaphir";
-        
+        public const string OmegaRubyAlphaSapphire_Name_RU = "Омега Рубин и Альфа Сапфир";
+        public const string OmegaRubyAlphaSapphire_Name_CO = "오메가 루비와 알파 사파이어";
+        public const string OmegaRubyAlphaSapphire_Name_CN = "欧米茄红宝石和阿尔法蓝宝石";
+        public const string OmegaRubyAlphaSapphire_Name_JP = "オメガルビーとアルファサファイア";
+
         public const string SunMoonUrl = "soleil-lune";
         public const string SunMoon_Name_FR = "Soleil et Lune";
         public const string SunMoon_Name_EN = "Sun and Moon";
         public const string SunMoon_Name_ES = "Sol y Luna";
         public const string SunMoon_Name_IT = "Sole e Luna";
         public const string SunMoon_Name_DE = "Sonne und Mond";
+        public const string SunMoon_Name_RU = "Солнце и Луна";
+        public const string SunMoon_Name_CO = "해와 달";
+        public const string SunMoon_Name_CN = "太阳和月亮";
+        public const string SunMoon_Name_JP = "太陽と月";
 
         public const string UltraSunUltraMoonUrl = "ultra-soleil-ultra-lune";
         public const string UltraSunUltraMoon_Name_FR = "Ultra Soleil et Ultra Lune";
@@ -2496,6 +2558,10 @@
         public const string UltraSunUltraMoon_Name_ES = "Ultra Sol y Ultra Luna";
         public const string UltraSunUltraMoon_Name_IT = "Ultra Sole e Ultra Luna";
         public const string UltraSunUltraMoon_Name_DE = "Ultra Sonne und Ultra Mond";
+        public const string UltraSunUltraMoon_Name_RU = "Ультра Солнце и Ультра Луна";
+        public const string UltraSunUltraMoon_Name_CO = "울트라썬과 울트라문";
+        public const string UltraSunUltraMoon_Name_CN = "究极太阳和究极月亮";
+        public const string UltraSunUltraMoon_Name_JP = "ウルトラサンとウルトラムーン";
 
         public const string LetsGoPikachuEvoliUrl = "lets-go-pikachu-evoli";
         public const string LetsGoPikachuEvoli_Name_FR = "Let's Go, Pikachu et Let's Go, Évoli";
@@ -2503,6 +2569,10 @@
         public const string LetsGoPikachuEvoli_Name_ES = "Vamos, Pikachu y Vamos, Eevee";
         public const string LetsGoPikachuEvoli_Name_IT = "Andiamo, Pikachu e Andiamo, Eevee";
         public const string LetsGoPikachuEvoli_Name_DE = "Los geht's, Pikachu und Los geht's, Evoli";
+        public const string LetsGoPikachuEvoli_Name_RU = "Давай, Пикачу и Давай, Эвии";
+        public const string LetsGoPikachuEvoli_Name_CO = "가자, 피카츄와 가자, 이브이";
+        public const string LetsGoPikachuEvoli_Name_CN = "走吧，皮卡丘和走吧，伊布";
+        public const string LetsGoPikachuEvoli_Name_JP = "Let's Go ピカチュウと Let's Go イーブイ";
 
         public const string SwordShieldUrl = "epee-bouclier";
         public const string SwordShield_Name_FR = "Epée et Bouclier";
@@ -2510,6 +2580,10 @@
         public const string SwordShield_Name_ES = "Espada y Escudo";
         public const string SwordShield_Name_IT = "Spada e Scudo";
         public const string SwordShield_Name_DE = "Schwert und Schild";
+        public const string SwordShield_Name_RU = "Меч и Щит";
+        public const string SwordShield_Name_CO = "검과 방패";
+        public const string SwordShield_Name_CN = "剑与盾";
+        public const string SwordShield_Name_JP = "剣と盾";
 
         public const string ShiningDiamondShiningPearlUrl = "diamant-etincelant-perle-scintillante";
         public const string ShiningDiamondShiningPearl_Name_FR = "Diamant Étincelant et Perle Scintillante";
@@ -2517,6 +2591,10 @@
         public const string ShiningDiamondShiningPearl_Name_ES = "Diamante Brillante y Perla Brillante";
         public const string ShiningDiamondShiningPearl_Name_IT = "Diamante Scintillante e Perla Scintillante";
         public const string ShiningDiamondShiningPearl_Name_DE = "Glitzerndes Diamant und Glitzernde Perle";
+        public const string ShiningDiamondShiningPearl_Name_RU = "Сияющий Алмаз и Сияющая Жемчужина";
+        public const string ShiningDiamondShiningPearl_Name_CO = "빛나는 다이아몬드와 빛나는 진주";
+        public const string ShiningDiamondShiningPearl_Name_CN = "闪亮的钻石和闪亮的珍珠";
+        public const string ShiningDiamondShiningPearl_Name_JP = "輝くダイヤモンドと輝くパール";
 
         public const string ArceusUrl = "legendes-arceus";
         public const string Arceus_Name_FR = "Arceus";
@@ -2524,6 +2602,10 @@
         public const string Arceus_Name_ES = "Arceus";
         public const string Arceus_Name_IT = "Arceus";
         public const string Arceus_Name_DE = "Arceus";
+        public const string Arceus_Name_RU = "Арцеус";
+        public const string Arceus_Name_CO = "아르세우스";
+        public const string Arceus_Name_CN = "阿尔宙斯";
+        public const string Arceus_Name_JP = "アルセウス";
 
         public const string ScarletVioletUrl = "ecarlate-violet";
         public const string ScarletViolet_Name_FR = "Écarlate et Violet";
@@ -2531,6 +2613,287 @@
         public const string ScarletViolet_Name_ES = "Escarlata y Violeta";
         public const string ScarletViolet_Name_IT = "Escarlatta e Violaceo";
         public const string ScarletViolet_Name_DE = "Scharlach und Violett";
+        public const string ScarletViolet_Name_RU = "Багровый и Фиолетовый";
+        public const string ScarletViolet_Name_CO = "스칼렛과 바이올렛";
+        public const string ScarletViolet_Name_CN = "猩红色和紫色";
+        public const string ScarletViolet_Name_JP = "スカーレットとバイオレット";
+        #endregion
+
+        #region Hidden Abilities
+        public const string Name_Analytic_FR = "Analyste";
+        public const string Description_Analytic_FR = "Augmente la puissance des capacités du Pokémon s’il attaque en dernier.";
+        public const string Name_Analytic_EN = "Analytic";
+        public const string Description_Analytic_EN = "Boosts the power of the Pokémon's move if it is the last to act that turn.";
+        public const string Name_Analytic_ES = "Cálculo Final";
+        public const string Description_Analytic_ES = "Aumenta la potencia del movimiento del Pokémon si es el último en actuar en ese turno.";
+        public const string Name_Analytic_IT = "Ponderazione";
+        public const string Description_Analytic_IT = "Aumenta la potenza della mossa del Pokémon se è l'ultimo ad agire in quel turno.";
+        public const string Name_Analytic_DE = "Analyse";
+        public const string Description_Analytic_DE = "Erhöht die Kraft der Attacke des Pokémon, wenn es das letzte ist, das in dieser Runde handelt.";
+
+        public const string Name_PowerOfAlchemy_FR = "Osmose";
+        public const string Description_PowerOfAlchemy_FR = "Le Pokémon acquiert le talent d’un allié mis K.O.";
+        public const string Name_PowerOfAlchemy_EN = "Power of Alchemy";
+        public const string Description_PowerOfAlchemy_EN = "The Pokémon copies the Ability of a defeated ally.";
+        public const string Name_PowerOfAlchemy_ES = "Reacción Química";
+        public const string Description_PowerOfAlchemy_ES = "El Pokémon copia la Habilidad de un aliado derrotado.";
+        public const string Name_PowerOfAlchemy_IT = "Forza Chimica";
+        public const string Description_PowerOfAlchemy_IT = "Il Pokémon copia l'abilità di un alleato sconfitto.";
+        public const string Name_PowerOfAlchemy_DE = "Chemiekraft";
+        public const string Description_PowerOfAlchemy_DE = "Das Pokémon kopiert die Fähigkeit eines besiegten Verbündeten.";
+
+        public const string Name_Harvest_FR = "Récolte";
+        public const string Description_Harvest_FR = "Permet de réutiliser une même Baie plusieurs fois.";
+        public const string Name_Harvest_EN = "Harvest";
+        public const string Description_Harvest_EN = "May create another Berry after one is used.";
+        public const string Name_Harvest_ES = "Cosecha";
+        public const string Description_Harvest_ES = "Puede crear otra Berry después de usar una.";
+        public const string Name_Harvest_IT = "Coglibacche";
+        public const string Description_Harvest_IT = "Può creare un'altra bacca dopo averne usata una.";
+        public const string Name_Harvest_DE = "Reiche Ernte";
+        public const string Description_Harvest_DE = "Kann eine weitere Beere erstellen, nachdem eine verwendet wurde.";
+
+        public const string Name_Imposter_FR = "Imposteur";
+        public const string Description_Imposter_FR = "Le Pokémon prend l’apparence du Pokémon adverse.";
+        public const string Name_Imposter_EN = "Imposter";
+        public const string Description_Imposter_EN = "The Pokémon transforms itself into the Pokémon it's facing.";
+        public const string Name_Imposter_ES = "Impostor";
+        public const string Description_Imposter_ES = "El Pokémon se transforma en el Pokémon al que se enfrenta.";
+        public const string Name_Imposter_IT = "Sosia";
+        public const string Description_Imposter_IT = "Il Pokémon si trasforma nel Pokémon che sta affrontando.";
+        public const string Name_Imposter_DE = "Doppelgänger";
+        public const string Description_Imposter_DE = "Das Pokémon verwandelt sich in das Pokémon, dem es gegenübersteht.";
+
+        public const string Name_Multiscale_FR = "Multiécaille";
+        public const string Description_Multiscale_FR = "Le Pokémon subit moins de dégâts quand ses PV sont au maximum.";
+        public const string Name_Multiscale_EN = "Multiscale";
+        public const string Description_Multiscale_EN = "Reduces the amount of damage the Pokémon takes while its HP is full.";
+        public const string Name_Multiscale_ES = "Multiescamas";
+        public const string Description_Multiscale_ES = "Reduce la cantidad de daño que recibe el Pokémon mientras su HP está lleno.";
+        public const string Name_Multiscale_IT = "Multisquame";
+        public const string Description_Multiscale_IT = "Riduce la quantità di danno che il Pokémon subisce mentre i suoi HP sono pieni.";
+        public const string Name_Multiscale_DE = "Multischuppe";
+        public const string Description_Multiscale_DE = "Reduziert den Schaden, den das Pokémon erleidet, während seine KP voll sind.";
+
+        public const string Name_Moody_FR = "Lunatique";
+        public const string Description_Moody_FR = "Augmente beaucoup une stat du Pokémon et en baisse une autre au hasard à chaque tour.";
+        public const string Name_Moody_EN = "Moody";
+        public const string Description_Moody_EN = "Every turn, one of the Pokémon's stats will be boosted sharply but another stat will be lowered.";
+        public const string Name_Moody_ES = "Veleta";
+        public const string Description_Moody_ES = "Cada turno, una de las estadísticas de Pokémon aumentará considerablemente, pero otra estadística se reducirá.";
+        public const string Name_Moody_IT = "Altalena";
+        public const string Description_Moody_IT = "Ad ogni turno, una delle statistiche del Pokémon verrà notevolmente aumentata ma un'altra statistica verrà abbassata.";
+        public const string Name_Moody_DE = "Gefühlswippe";
+        public const string Description_Moody_DE = "In jeder Runde wird eine der Statistiken des Pokémon stark erhöht, aber eine andere Statistik wird gesenkt.";
+
+        public const string Name_ToxicBoost_FR = "Rage Poison";
+        public const string Description_ToxicBoost_FR = "Augmente la puissance des capacités physiques quand le Pokémon est empoisonné.";
+        public const string Name_ToxicBoost_EN = "Toxic Boost";
+        public const string Description_ToxicBoost_EN = "Powers up physical moves when the Pokémon is poisoned.";
+        public const string Name_ToxicBoost_ES = "Ímpetu Tóxico";
+        public const string Description_ToxicBoost_ES = "Potencia los movimientos físicos cuando el Pokémon está envenenado.";
+        public const string Name_ToxicBoost_IT = "Velenimpeto";
+        public const string Description_ToxicBoost_IT = "Potenzia le mosse fisiche quando il Pokémon è avvelenato.";
+        public const string Name_ToxicBoost_DE = "Giftwahn";
+        public const string Description_ToxicBoost_DE = "Aktiviert physische Bewegungen, wenn das Pokémon vergiftet ist.";
+
+        public const string Name_Protean_FR = "Protéen";
+        public const string Description_Protean_FR = "Le Pokémon prend le type de la capacité qu’il utilise. Ce talent ne peut se déclencher qu’une fois par entrée au combat du Pokémon.";
+        public const string Name_Protean_EN = "Protean";
+        public const string Description_Protean_EN = "Changes the Pokémon's type to the type of the move it's about to use. This works only once each time the Pokémon enters battle.";
+        public const string Name_Protean_ES = "Mutatipo";
+        public const string Description_Protean_ES = "Cambia el tipo del Pokémon al tipo del movimiento que está a punto de usar.Esto funciona solo una vez cada vez que el Pokémon entra en batalla.";
+        public const string Name_Protean_IT = "Mutatipo";
+        public const string Description_Protean_IT = "Cambia il tipo del Pokémon nel tipo della mossa che sta per usare.Funziona solo una volta ogni volta che il Pokémon entra in battaglia.";
+        public const string Name_Protean_DE = "Wandlungskunst";
+        public const string Description_Protean_DE = "Ändert den Typ des Pokémon in den Typ der Attacke, die es verwenden wird. Dies funktioniert nur einmal jedes Mal, wenn das Pokémon in den Kampf eintritt.";
+
+        public const string Name_FlareBoost_FR = "Rage Brûlure";
+        public const string Description_FlareBoost_FR = "Augmente la puissance des capacités spéciales quand le Pokémon est brûlé.";
+        public const string Name_FlareBoost_EN = "Flare Boost";
+        public const string Description_FlareBoost_EN = "Powers up special attacks when the Pokémon is burned.";
+        public const string Name_FlareBoost_ES = "Ímpetu Ardiente";
+        public const string Description_FlareBoost_ES = "Potencia los ataques especiales cuando el Pokémon está quemado.";
+        public const string Name_FlareBoost_IT = "Bruciaimpeto";
+        public const string Description_FlareBoost_IT = "Potenzia gli attacchi speciali quando il Pokémon viene bruciato.";
+        public const string Name_FlareBoost_DE = "Hitzewahn";
+        public const string Description_FlareBoost_DE = "Aktiviert Spezialangriffe, wenn das Pokémon verbrannt wird.";
+
+        public const string Name_ZenMode_FR = "Mode Transe";
+        public const string Description_ZenMode_FR = "Change le Pokémon de forme si ses PV tombent à 50% ou moins. Cela change son type et ses statistiques.";
+        public const string Name_ZenMode_EN = "Zen Mode";
+        public const string Description_ZenMode_EN = "Changes the Pokémon's shape when its HP drops to half or less.";
+        public const string Name_ZenMode_ES = "Modo Daruma";
+        public const string Description_ZenMode_ES = "Cambia la forma del Pokémon cuando su HP cae a la mitad o menos.";
+        public const string Name_ZenMode_IT = "Stato Zen";
+        public const string Description_ZenMode_IT = "Cambia la forma del Pokémon quando i suoi HP scendono a metà o meno.";
+        public const string Name_ZenMode_DE = "Trance-Modus";
+        public const string Description_ZenMode_DE = "Ändert die Form des Pokémon, wenn seine KP auf die Hälfte oder weniger sinken.";
+
+        public const string Name_GaleWings_FR = "Ailes Bourrasque";
+        public const string Description_GaleWings_FR = "Quand les PV du Pokémon sont au maximum, ses capacités de type Vol sont prioritaires.";
+        public const string Name_GaleWings_EN = "Gale Wings";
+        public const string Description_GaleWings_EN = "Gives priority to the Pokémon's Flying-type moves while its HP is full.";
+        public const string Name_GaleWings_ES = "Alas Vendaval";
+        public const string Description_GaleWings_ES = "Da prioridad a los movimientos de tipo Volador del Pokémon mientras su HP está lleno.";
+        public const string Name_GaleWings_IT = "Aliraffica";
+        public const string Description_GaleWings_IT = "Dà priorità alle mosse di tipo Volante del Pokémon mentre i suoi PS sono al massimo.";
+        public const string Name_GaleWings_DE = "Orkanschwingen";
+        public const string Description_GaleWings_DE = "Gibt den Flug-Attacken des Pokémon Vorrang, solange seine KP voll sind.";
+
+        public const string Name_Symbiosis_FR = "Symbiose";
+        public const string Description_Symbiosis_FR = "Quand les alliés utilisent l’objet qu’ils tiennent, le Pokémon leur donne l’objet qu’il tient en remplacement.";
+        public const string Name_Symbiosis_EN = "Symbiosis";
+        public const string Description_Symbiosis_EN = "The Pokémon passes its held item to an ally that has used up an item.";
+        public const string Name_Symbiosis_ES = "Simbiosis";
+        public const string Description_Symbiosis_ES = "El Pokémon pasa su objeto retenido a un aliado que ha usado un objeto.";
+        public const string Name_Symbiosis_IT = "Simbiosi";
+        public const string Description_Symbiosis_IT = "Il Pokémon passa il suo oggetto tenuto a un alleato che ha usato uno strumento.";
+        public const string Name_Symbiosis_DE = "Nutznießer";
+        public const string Description_Symbiosis_DE = "Das Pokémon gibt sein getragenes Item an einen Verbündeten weiter, der ein Item aufgebraucht hat.";
+
+        public const string Name_GrassPelt_FR = "Toison Herbue";
+        public const string Description_GrassPelt_FR = "Augmente la Défense du Pokémon si un champ herbu est actif.";
+        public const string Name_GrassPelt_EN = "Grass Pelt";
+        public const string Description_GrassPelt_EN = "Boosts the Pokémon's Defense stat on Grassy Terrain.";
+        public const string Name_GrassPelt_ES = "Manto Frondoso";
+        public const string Description_GrassPelt_ES = "Aumenta la estadística de defensa del Pokémon en terreno herboso.";
+        public const string Name_GrassPelt_IT = "Peloderba";
+        public const string Description_GrassPelt_IT = "Aumenta la statistica di Difesa del Pokémon su terreno erboso.";
+        public const string Name_GrassPelt_DE = "Pflanzenpelz";
+        public const string Description_GrassPelt_DE = "Erhöht den Verteidigungswert des Pokémon auf Grasland.";
+        
+        public const string Name_LongReach_FR = "Longue Portée";
+        public const string Description_LongReach_FR = "Le Pokémon est capable d’utiliser toutes ses capacités sans entrer en contact direct avec sa cible.";
+        public const string Name_LongReach_EN = "Long Reach";
+        public const string Description_LongReach_EN = "The Pokémon uses its moves without making contact with the target.";
+        public const string Name_LongReach_ES = "Remoto";
+        public const string Description_LongReach_ES = "El Pokémon usa sus movimientos sin hacer contacto con el objetivo.";
+        public const string Name_LongReach_IT = "Distacco";
+        public const string Description_LongReach_IT = "Il Pokémon usa le sue mosse senza entrare in contatto con il bersaglio.";
+        public const string Name_LongReach_DE = "Langstrecke";
+        public const string Description_LongReach_DE = "Das Pokémon setzt seine Attacken ein, ohne das Ziel zu berühren.";
+        
+        public const string Name_LiquidVoice_FR = "Hydrata-Son";
+        public const string Description_LiquidVoice_FR = "Les capacités \"sonores\" du Pokémon deviennent de type Eau.";
+        public const string Name_LiquidVoice_EN = "Liquid Voice";
+        public const string Description_LiquidVoice_EN = "Sound-based moves become Water-type moves.";
+        public const string Name_LiquidVoice_ES = "Voz Fluida";
+        public const string Description_LiquidVoice_ES = "Los movimientos basados ​​en sonido se convierten en movimientos de tipo agua.";
+        public const string Name_LiquidVoice_IT = "Idrovoce";
+        public const string Description_LiquidVoice_IT = "Le mosse basate sul suono diventano mosse di tipo Acqua.";
+        public const string Name_LiquidVoice_DE = "Plätscherstimme";
+        public const string Description_LiquidVoice_DE = "Geräuschbasierte Bewegungen werden zu Bewegungen vom Typ Wasser.";
+
+        public const string Name_Libero_FR = "Libéro";
+        public const string Description_Libero_FR = "Le Pokémon prend le type de la capacité qu’il utilise. Ce talent ne peut se déclencher qu’une fois par entrée au combat du Pokémon.";
+        public const string Name_Libero_EN = "Libero";
+        public const string Description_Libero_EN = "Changes the Pokémon's type to the type of the move it's about to use. This works only once each time the Pokémon enters battle.";
+        public const string Name_Libero_ES = "Líbero";
+        public const string Description_Libero_ES = "Cambia el tipo del Pokémon al tipo del movimiento que está a punto de usar.Esto funciona solo una vez cada vez que el Pokémon entra en batalla.";
+        public const string Name_Libero_IT = "Libero";
+        public const string Description_Libero_IT = "Cambia il tipo del Pokémon nel tipo della mossa che sta per usare.Funziona solo una volta ogni volta che il Pokémon entra in battaglia.";
+        public const string Name_Libero_DE = "Libero";
+        public const string Description_Libero_DE = "Ändert den Typ des Pokémon in den Typ der Attacke, die es verwenden wird. Dies funktioniert nur einmal jedes Mal, wenn das Pokémon in den Kampf eintritt.";
+
+        public const string Name_MirrorArmor_FR = "Armure Miroir";
+        public const string Description_MirrorArmor_FR = "Le Pokémon renvoie les effets réducteurs de stats qu’il reçoit.";
+        public const string Name_MirrorArmor_EN = "Mirror Armor";
+        public const string Description_MirrorArmor_EN = "Bounces back only the stat-lowering effects that the Pokémon receives.";
+        public const string Name_MirrorArmor_ES = "Coraza Reflejo";
+        public const string Description_MirrorArmor_ES = "Rebota solo los efectos de reducción de estadísticas que recibe el Pokémon.";
+        public const string Name_MirrorArmor_IT = "Blindospecchio";
+        public const string Description_MirrorArmor_IT = "Respinge solo gli effetti di riduzione delle statistiche ricevuti dal Pokémon.";
+        public const string Name_MirrorArmor_DE = "Spiegelrüstung";
+        public const string Description_MirrorArmor_DE = "Springt nur die wertesenkenden Effekte zurück, die das Pokémon erhält.";
+
+        public const string Name_PropellerTail_FR = "Propulseur";
+        public const string Description_PropellerTail_FR = "Permet d’ignorer l’effet des capacités ou des talents qui attirent les capacités.";
+        public const string Name_PropellerTail_EN = "Propeller Tail";
+        public const string Description_PropellerTail_EN = "Ignores the effects of opposing Pokémon's Abilities and moves that draw in moves.";
+        public const string Name_PropellerTail_ES = "Hélice Caudal";
+        public const string Description_PropellerTail_ES = "Ignora los efectos de las habilidades y movimientos de los Pokémon opuestos que atraen movimientos.";
+        public const string Name_PropellerTail_IT = "Elicopinna";
+        public const string Description_PropellerTail_IT = "Ignora gli effetti delle abilità e delle mosse dei Pokémon avversari che attirano le mosse.";
+        public const string Name_PropellerTail_DE = "Schraubflosse";
+        public const string Description_PropellerTail_DE = "Ignoriert die Effekte von Fähigkeiten und Attacken gegnerischer Pokémon, die Attacken einziehen.";
+
+        public const string Name_SteelySpirit_FR = "Boost Acier";
+        public const string Description_SteelySpirit_FR = "Augmente la puissance des attaques de type Acier du Pokémon et de ses alliés.";
+        public const string Name_SteelySpirit_EN = "Steely Spirit";
+        public const string Description_SteelySpirit_EN = "Powers up the Steel-type moves of the Pokémon and its allies.";
+        public const string Name_SteelySpirit_ES = "Alma Acerada";
+        public const string Description_SteelySpirit_ES = "Potencia los movimientos de tipo acero del Pokémon y sus aliados.";
+        public const string Name_SteelySpirit_IT = "Spiritoferreo";
+        public const string Description_SteelySpirit_IT = "Potenzia le mosse di tipo Acciaio del Pokémon e dei suoi alleati.";
+        public const string Name_SteelySpirit_DE = "Stählerner Wille";
+        public const string Description_SteelySpirit_DE = "Verstärkt die Stahl-Attacken des Pokémon und seiner Verbündeten.";
+
+        public const string Name_PerishBody_FR = "Corps Condamné";
+        public const string Description_PerishBody_FR = "Lorsque le Pokémon est touché par une capacité de contact, l'assaillant et lui tomberont K.O. dans 3 tours, à moins qu'ils soient retirés du combat.";
+        public const string Name_PerishBody_EN = "Perish Body";
+        public const string Description_PerishBody_EN = "When hit by a move that makes direct contact, the Pokémon and the attacker will faint after three turns unless they switch out of battle.";
+        public const string Name_PerishBody_ES = "Cuerpo Mortal";
+        public const string Description_PerishBody_ES = "Cuando son golpeados por un movimiento que hace contacto directo, el Pokémon y el atacante se desmayarán después de tres turnos a menos que salgan de la batalla.";
+        public const string Name_PerishBody_IT = "Ultimotocco";
+        public const string Description_PerishBody_IT = "Quando vengono colpiti da una mossa che crea un contatto diretto, il Pokémon e l'attaccante svengono dopo tre turni a meno che non escano dalla lotta.";
+        public const string Name_PerishBody_DE = "Unheilskörper";
+        public const string Description_PerishBody_DE = "Wenn sie von einer Bewegung getroffen werden, die direkten Kontakt herstellt, werden das Pokémon und der Angreifer nach drei Runden ohnmächtig, es sei denn, sie wechseln aus dem Kampf.";
+
+        public const string Name_IceScales_FR = "Écailles Glacées";
+        public const string Description_IceScales_FR = "Le Pokémon est protégé par des écailles de glace.Les dégâts qu’il subit par des capacités spéciales sont divisés par deux.";
+        public const string Name_IceScales_EN = "Ice Scales";
+        public const string Description_IceScales_EN = "The Pokémon is protected by ice scales, which halve the damage taken from special moves.";
+        public const string Name_IceScales_ES = "Escama de Hielo";
+        public const string Description_IceScales_ES = "El Pokémon está protegido por escamas de hielo, que reducen a la mitad el daño recibido por movimientos especiales.";
+        public const string Name_IceScales_IT = "Geloscaglie";
+        public const string Description_IceScales_IT = "Il Pokémon è protetto da scaglie di ghiaccio, che dimezzano i danni subiti dalle mosse speciali.";
+        public const string Name_IceScales_DE = "Eisflügelstaub";
+        public const string Description_IceScales_DE = "Das Pokémon wird durch Eisschuppen geschützt, die den durch Spezialbewegungen erlittenen Schaden halbieren.";
+
+        public const string Name_Stalwart_FR = "Nerfs d'Acier";
+        public const string Description_Stalwart_FR = "Permet d'ignorer l'effet des capacités ou des talents qui attirent les capacités.";
+        public const string Name_Stalwart_EN = "Stalwart";
+        public const string Description_Stalwart_EN = "Ignores the effects of opposing Pokémon's Abilities and moves that draw in moves.";
+        public const string Name_Stalwart_ES = "Acérrimo";
+        public const string Description_Stalwart_ES = "Ignora los efectos de las habilidades y movimientos de los Pokémon opuestos que atraen movimientos.";
+        public const string Name_Stalwart_IT = "Volontà di Ferro";
+        public const string Description_Stalwart_IT = "Ignora gli effetti delle abilità e delle mosse dei Pokémon avversari che attirano le mosse.";
+        public const string Name_Stalwart_DE = "Stahlrückgrat";
+        public const string Description_Stalwart_DE = "Ignoriert die Effekte von Fähigkeiten und Attacken gegnerischer Pokémon, die Attacken einziehen.";
+
+        public const string Name_Sharpness_FR = "Incisif";
+        public const string Description_Sharpness_FR = "Augmente la puissance des capacités tranchantes.";
+        public const string Name_Sharpness_EN = "Sharpness";
+        public const string Description_Sharpness_EN = "Powers up slicing moves.";
+        public const string Name_Sharpness_ES = "Cortante";
+        public const string Description_Sharpness_ES = "Potencia los movimientos de corte.";
+        public const string Name_Sharpness_IT = "Affilama";
+        public const string Description_Sharpness_IT = "Potenzia le mosse taglienti.";
+        public const string Name_Sharpness_DE = "Scharfkantig";
+        public const string Description_Sharpness_DE = "Verbessert Slicing-Moves.";
+
+        public const string Name_RockyPayload_FR = "Porte-Roche";
+        public const string Description_RockyPayload_FR = "Augmente la puissance des capacités de type Roche.";
+        public const string Name_RockyPayload_EN = "Rocky Payload";
+        public const string Description_RockyPayload_EN = "Powers up Rock-type moves.";
+        public const string Name_RockyPayload_ES = "Transportarrocas";
+        public const string Description_RockyPayload_ES = "Potencia los movimientos tipo roca.";
+        public const string Name_RockyPayload_IT = "Portamassi";
+        public const string Description_RockyPayload_IT = "Potenzia le mosse di tipo Roccia.";
+        public const string Name_RockyPayload_DE = "Steinträger";
+        public const string Description_RockyPayload_DE = "Verstärkt Rock-Attacken.";
+
+        public const string Name_Costar_FR = "Collab";
+        public const string Description_Costar_FR = "Quand le Pokémon entre sur le terrain, il copie les changements de stats de son allié.";
+        public const string Name_Costar_EN = "Costar";
+        public const string Description_Costar_EN = "When the Pokémon enters a battle, it copies an ally's stat changes.";
+        public const string Name_Costar_ES = "Unísono";
+        public const string Description_Costar_ES = "Cuando el Pokémon entra en una batalla, copia los cambios de estadísticas de un aliado.";
+        public const string Name_Costar_IT = "Coprotagonismo";
+        public const string Description_Costar_IT = "Quando il Pokémon entra in battaglia, copia le modifiche alle statistiche di un alleato.";
+        public const string Name_Costar_DE = "Synchronauftritt";
+        public const string Description_Costar_DE = "Wenn das Pokémon in einen Kampf eintritt, kopiert es die Statusänderungen eines Verbündeten.";
         #endregion
     }
 }

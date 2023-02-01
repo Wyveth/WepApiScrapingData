@@ -6,6 +6,7 @@ using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
+using WebApiScrapingData.Infrastructure.Repository;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
@@ -20,20 +21,24 @@ namespace WepApiScrapingData.Controllers
         private readonly IRepositoryExtendsPokemon<Pokemon> _repository;
         private readonly IRepository<TypePok> _repositoryTP;
         private readonly IRepository<Talent> _repositoryTL;
+        private readonly IRepository<Attaque> _repositoryAT;
         private readonly IRepository<Pokemon_TypePok> _repositoryPTP;
         private readonly IRepository<Pokemon_Weakness> _repositoryPWN;
         private readonly IRepository<Pokemon_Talent> _repositoryPTL;
+        private readonly IRepository<Pokemon_Attaque> _repositoryPAT;
         #endregion
 
         #region Constructors
-        public PokemonController(IRepositoryExtendsPokemon<Pokemon> repository, IRepository<TypePok> repositoryTP, IRepository<Talent> repositoryTL, IRepository<Pokemon_TypePok> repositoryPTP, IRepository<Pokemon_Weakness> repositoryPWN, IRepository<Pokemon_Talent> repositoryPTL)
+        public PokemonController(IRepositoryExtendsPokemon<Pokemon> repository, IRepository<TypePok> repositoryTP, IRepository<Talent> repositoryTL, IRepository<Attaque> repositoryAT, IRepository<Pokemon_TypePok> repositoryPTP, IRepository<Pokemon_Weakness> repositoryPWN, IRepository<Pokemon_Talent> repositoryPTL, IRepository<Pokemon_Attaque> repositoryPAT)
         {
             _repository = repository;
             _repositoryTP = repositoryTP;
             _repositoryTL = repositoryTL;
+            _repositoryAT = repositoryAT;
             _repositoryPTP = repositoryPTP;
             _repositoryPWN = repositoryPWN;
             _repositoryPTL = repositoryPTL;
+            _repositoryPAT = repositoryPAT;
         }
         #endregion
 
@@ -235,9 +240,7 @@ namespace WepApiScrapingData.Controllers
             ScrapingDataUtils.WriteToJson(dataJsons, true);
             Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
         }
-        #endregion
-        
-        #region Public Methods
+
         [HttpGet]
         [Route("ScrapingDataPokeBip")]
         public void ScrapingDataPokeBip()
@@ -491,6 +494,20 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpPost]
+        [Route("SaveInfoPokemonAttackInDB")]
+        public void SaveInfoPokemonAttackInDB()
+        {
+            string json;
+            using (StreamReader sr = new StreamReader("PokeScrap/PokeBipScrapGen.json"))
+            {
+                json = sr.ReadToEnd();
+                _repository.SaveInfoPokemonAttackInDB(json);
+            }
+
+            _repository.UnitOfWork.SaveChanges();
+        }
+
+        [HttpPost]
         [Route("SaveGenInDB/{gen}")]
         public void SaveGenInDB(int gen)
         {
@@ -710,6 +727,47 @@ namespace WepApiScrapingData.Controllers
             }
 
             //return true;
+        }
+
+        [HttpGet]
+        [Route("UpdateGlobale")]
+        public void UpdateGlobale()
+        {
+            List<Talent> talents = this._repositoryTL.GetAll().Result.ToList();
+            foreach (var item in talents)
+            {
+                item.UserCreation = "System";
+                item.DateCreation = DateTime.Now;
+            }
+            this._repositoryTL.EditRange(talents);
+            _repositoryTL.UnitOfWork.SaveChanges();
+
+            List<Attaque> attaques = this._repositoryAT.GetAll().Result.ToList();
+            foreach (var item in attaques)
+            {
+                item.UserCreation = "System";
+                item.DateCreation = DateTime.Now;
+            }
+            this._repositoryAT.EditRange(attaques);
+            _repositoryAT.UnitOfWork.SaveChanges();
+
+            List<Pokemon_Attaque> pokemon_Attaques = this._repositoryPAT.GetAll().Result.ToList();
+            foreach (var item in pokemon_Attaques)
+            {
+                item.UserCreation = "System";
+                item.DateCreation = DateTime.Now;
+            }
+            this._repositoryPAT.EditRange(pokemon_Attaques);
+            _repositoryPAT.UnitOfWork.SaveChanges();
+
+            List<Pokemon_Talent> pokemon_Talents = this._repositoryPTL.GetAll().Result.ToList();
+            foreach (var item in pokemon_Talents)
+            {
+                item.UserCreation = "System";
+                item.DateCreation = DateTime.Now;
+            }
+            this._repositoryPTL.EditRange(pokemon_Talents);
+            _repositoryPTL.UnitOfWork.SaveChanges();
         }
         #endregion
     }

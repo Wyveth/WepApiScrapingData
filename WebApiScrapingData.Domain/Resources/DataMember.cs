@@ -107,6 +107,8 @@
 
         public const string Talents = "Talents";
 
+        public const string Attaques = "Attaques";
+
         public const string TypeEvolution = "TypeEvolution";
 
         public const string StatPv = "StatPv";
@@ -144,6 +146,8 @@
         public const string UrlSound = "UrlSound";
 
         public const string DataSound = "DataSound";
+
+        public const string Game = "Game";
         #endregion
 
         #region Talent

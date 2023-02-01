@@ -29,8 +29,5 @@ namespace WebApiScrapingData.Domain.Class
 
         [DataMember]
         public string? CTCS { get; set; }
-
-        [DataMember]
-        public string? Game { get; set; }
     }
 }

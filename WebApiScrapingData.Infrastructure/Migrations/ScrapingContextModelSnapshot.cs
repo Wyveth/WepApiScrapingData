@@ -362,6 +362,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<string>("Size")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Specie")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Talent")
                         .HasColumnType("nvarchar(max)");
 
@@ -391,6 +394,61 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.ToTable("DataInfos");
                 });
 
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Game", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateModification")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name_CN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name_CO")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name_DE")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name_EN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name_ES")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name_FR")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name_IT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name_JP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name_RU")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserCreation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserModification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("versionModification")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Games");
+                });
+
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>
                 {
                     b.Property<long>("Id")
@@ -413,6 +471,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     b.Property<string>("EggMoves")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("GameId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Generation")
                         .HasColumnType("int");
@@ -454,9 +515,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PathSprite")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Specie")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StatAttaque")
@@ -503,6 +561,8 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GameId");
+
                     b.HasIndex("Id_CN");
 
                     b.HasIndex("Id_CO");
@@ -543,9 +603,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     b.Property<DateTime>("DateModification")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Game")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Level")
                         .HasColumnType("nvarchar(max)");
@@ -1419,6 +1476,11 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>
                 {
+                    b.HasOne("WebApiScrapingData.Domain.Class.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("WebApiScrapingData.Domain.Class.DataInfo", "CN")
                         .WithMany()
                         .HasForeignKey("Id_CN")
@@ -1485,6 +1547,8 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     b.Navigation("FR");
 
+                    b.Navigation("Game");
+
                     b.Navigation("IT");
 
                     b.Navigation("JP");
@@ -1501,7 +1565,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "Pokemon")
-                        .WithMany()
+                        .WithMany("Pokemon_Attaques")
                         .HasForeignKey("PokemonId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1650,6 +1714,8 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>
                 {
+                    b.Navigation("Pokemon_Attaques");
+
                     b.Navigation("Pokemon_Talents");
 
                     b.Navigation("Pokemon_TypePoks");
