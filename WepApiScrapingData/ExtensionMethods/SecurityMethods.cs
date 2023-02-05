@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Cors.Infrastructure;
-using WebApiScrapingData.Infrastructure.Configurations;
+﻿using WebApiScrapingData.Infrastructure.Configurations;
 using WepApiScrapingData.Utils;
 
 namespace WepApiScrapingData.ExtensionMethods

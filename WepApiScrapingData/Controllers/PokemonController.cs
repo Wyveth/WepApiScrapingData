@@ -6,7 +6,6 @@ using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
-using WebApiScrapingData.Infrastructure.Repository;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 

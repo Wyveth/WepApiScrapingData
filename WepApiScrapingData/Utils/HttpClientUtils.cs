@@ -1,10 +1,6 @@
 ﻿using HtmlAgilityPack;
-using Microsoft.AspNetCore.Http;
 using ScrapySharp.Network;
-using System;
 using System.Net;
-using System.Net.Http;
-using System.Reflection.Metadata;
 
 namespace WepApiScrapingData.Utils
 {

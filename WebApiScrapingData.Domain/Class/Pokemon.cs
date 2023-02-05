@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
-using System.Xml.Serialization;
 using WebApiScrapingData.Domain.Abstract;
 using WebApiScrapingData.Domain.Resources;
 

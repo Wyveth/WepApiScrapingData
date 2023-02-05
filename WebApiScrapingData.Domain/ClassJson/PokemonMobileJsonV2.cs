@@ -1,7 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using WebApiScrapingData.Domain.Class;
-
-namespace WebApiScrapingData.Domain.ClassJson
+﻿namespace WebApiScrapingData.Domain.ClassJson
 {
     [Serializable]
     public class PokemonMobileJsonV2

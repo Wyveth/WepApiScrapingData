@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebApiScrapingData.Domain.Abstract;
-
-namespace WebApiScrapingData.Core.Repositories.RepositoriesQuizz
+﻿namespace WebApiScrapingData.Core.Repositories.RepositoriesQuizz
 {
     public interface IRepositoryExtendsQuestion<TEntity> : IRepository<TEntity> where TEntity : class
     {

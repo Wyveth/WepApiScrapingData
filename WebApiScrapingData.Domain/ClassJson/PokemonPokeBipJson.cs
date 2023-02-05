@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-
-namespace WebApiScrapingData.Domain.ClassJson
+﻿namespace WebApiScrapingData.Domain.ClassJson
 {
     [Serializable]
     public class PokemonPokeBipJson

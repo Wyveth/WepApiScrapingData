@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace WebApiScrapingData.Domain.ClassJson
+﻿namespace WebApiScrapingData.Domain.ClassJson
 {
     [Serializable]
     public class TypePokMobileJsonV2

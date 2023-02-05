@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using WebApiScrapingData.Domain.Class;
 
 namespace WebApiScrapingData.Domain.ClassJson
 {

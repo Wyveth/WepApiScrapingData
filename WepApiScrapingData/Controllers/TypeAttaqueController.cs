@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using WebApiScrapingData.Core.Repositories;
-using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
 namespace WepApiScrapingData.Controllers
 {
-    
+
     [ApiController]
     [Route("api/v1.0/[controller]")]
     [EnableCors(SecurityMethods.DEFAULT_POLICY)]

@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
-using WebApiScrapingData.Domain.Abstract;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
 using WebApiScrapingData.Framework;

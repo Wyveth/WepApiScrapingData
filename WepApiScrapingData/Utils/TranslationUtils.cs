@@ -1,5 +1,4 @@
 ﻿using HtmlAgilityPack;
-using PuppeteerSharp;
 using WebApiScrapingData.Domain.ClassJson;
 
 namespace WepApiScrapingData.Utils

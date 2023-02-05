@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using WebApiScrapingData.Domain;
 
 namespace WepApiScrapingData.Utils
 {
