@@ -62,10 +62,10 @@ namespace WebApiScrapingData.Domain.Class
         public string? Description_JP { get; set; }
 
         [DataMember(Name = DataMember.TypeAttaque)]
-        public TypeAttaque? typeAttaque { get; set; }
+        public virtual TypeAttaque? typeAttaque { get; set; }
         
         [DataMember(Name = DataMember.Types)]
-        public TypePok? typePok { get; set; }
+        public virtual TypePok? typePok { get; set; }
 
         [DataMember(Name = DataMember.Puissance)]
         public string? Power { get; set; }

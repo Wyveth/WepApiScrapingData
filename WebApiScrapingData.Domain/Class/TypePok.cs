@@ -63,20 +63,20 @@ namespace WebApiScrapingData.Domain.Class
 
         public string? UrlMiniHome { get; set; }
 
-        public string? UrlMiniGo { get; set; }
         [DataMember(Name = DataMember.UrlMiniGo)]
+        public string? UrlMiniGo { get; set; }
         public string? PathMiniGo { get; set; }
 
-        public string? UrlFondGo { get; set; }
         [DataMember(Name = DataMember.UrlFondGo)]
+        public string? UrlFondGo { get; set; }
         public string? PathFondGo { get; set; }
 
-        public string? UrlIconHome { get; set; }
         [DataMember(Name = DataMember.UrlIconHome)]
+        public string? UrlIconHome { get; set; }
         public string? PathIconHome { get; set; }
 
-        public string? UrlAutoHome { get; set; }
         [DataMember(Name = DataMember.UrlAutoHome)]
+        public string? UrlAutoHome { get; set; }
         public string? PathAutoHome { get; set; }
 
         [DataMember(Name = DataMember.ImgColor)]

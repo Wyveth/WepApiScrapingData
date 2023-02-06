@@ -3,6 +3,7 @@ using WebApiScrapingData.Domain.Abstract;
 
 namespace WebApiScrapingData.Domain.Class
 {
+    [DataContract]
     public class Game : Identity
     {
         [DataMember]

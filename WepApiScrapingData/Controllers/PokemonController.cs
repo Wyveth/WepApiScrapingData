@@ -478,6 +478,18 @@ namespace WepApiScrapingData.Controllers
             Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
         }
 
+
+        [HttpGet]
+        [Route("ExportDB")]
+        public Task ExportDB()
+        {
+            List<Pokemon> pokemons = _repository.GetAll().Result.ToList();
+
+            Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            ScrapingDataUtils.WriteToJson(pokemons);
+            Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+        }
+
         [HttpPost]
         [Route("SaveInDB")]
         public void SaveInDB()

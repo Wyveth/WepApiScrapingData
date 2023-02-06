@@ -113,26 +113,26 @@ namespace WebApiScrapingData.Domain.Class
         //Generation Number
         [DataMember(Name = DataMember.Generation)]
         public int Generation { get; set; }
-        
+
         //Url de l'Image
+        [DataMember(Name = DataMember.UrlImg)]
         public string? UrlImg { get; set; }
 
         //Url de l'Image Interne
-        [DataMember(Name = DataMember.UrlImg)]
         public string? PathImg { get; set; }
 
         //Url du Sprite Scrap
-        public string? UrlSprite { get; set; }
-        
-        //Url du Sprite
         [DataMember(Name = DataMember.UrlSprite)]
+        public string? UrlSprite { get; set; }
+      
+        //Url du Sprite
         public string? PathSprite { get; set; }
 
         //Url du Sound Scrap
+        [DataMember(Name = DataMember.UrlSound)]
         public string? UrlSound { get; set; }
 
         //Url du Sound
-        [DataMember(Name = DataMember.UrlSound)]
         public string? PathSound { get; set; }
 
         [DataMember(Name = DataMember.Game)]
@@ -153,6 +153,7 @@ namespace WebApiScrapingData.Domain.Class
             Pokemon_TypePoks = new();
             Pokemon_Weaknesses = new();
             Pokemon_Talents = new();
+            Pokemon_Attaques = new();
         }
     }
 }

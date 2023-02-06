@@ -957,6 +957,15 @@ namespace WepApiScrapingData.Utils
             File.WriteAllText(nameFile.ToString(), json);
         }
 
+        public static void WriteToJson(List<Pokemon> pokemons)
+        {
+            StringBuilder nameFile = new StringBuilder();
+            nameFile.Append("DbToJson.json");
+
+            string json = JsonConvert.SerializeObject(pokemons, Formatting.Indented);
+            File.WriteAllText(nameFile.ToString(), json);
+        }
+
         public static void WriteToJson(List<PokemonPokeBipJson> dataJsons)
         {
             StringBuilder nameFile = new StringBuilder();

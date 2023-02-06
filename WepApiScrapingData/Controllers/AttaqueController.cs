@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Domain.ClassJson;
 using WepApiScrapingData.ExtensionMethods;
+using WepApiScrapingData.Utils;
 
 namespace WepApiScrapingData.Controllers
 {
