@@ -61,6 +61,7 @@ namespace WebApiScrapingData.Domain.Class
         public string? WhenEvolution { get; set; }
 
         //Prochain Pokémon
+        [DataMember(Name = DataMember.NextUrl)]
         public string? NextUrl { get; set; }
 
         [NotMapped]

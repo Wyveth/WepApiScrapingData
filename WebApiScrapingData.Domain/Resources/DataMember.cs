@@ -147,6 +147,8 @@
 
         public const string DataSound = "DataSound";
 
+        public const string NextUrl = "NextUrl";
+
         public const string Game = "Game";
         #endregion
 

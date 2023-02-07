@@ -11,5 +11,7 @@ namespace WebApiScrapingData.Core.Repositories.RepositoriesQuizz
         Task<IEnumerable<TEntity>> GetAllVariantAsync(string number);
 
         Task SaveInfoPokemonAttackInDB(string json);
+
+        Task ImportJsonToDb(string json);
     }
 }

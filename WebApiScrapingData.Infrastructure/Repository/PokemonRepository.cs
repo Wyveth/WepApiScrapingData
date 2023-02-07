@@ -297,6 +297,49 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
             return Task.FromResult(true);
         }
+
+        public Task ImportJsonToDb(string json)
+        {
+            List<PokemonExportJson> pokemonsJson = JsonConvert.DeserializeObject<List<PokemonExportJson>>(json);
+
+            //Liste Objet
+            List<Pokemon> pokemons = new();
+            List<TypePok> typePoks = new();
+            List<Talent> talents = new();
+            List<Attaque> attaques = new();
+            List<TypeAttaque> typeAttaques = new();
+            List<Game> games = new();
+
+            List<Pokemon_Attaque> pokemon_Attaques = new();
+            List<Pokemon_Talent> pokemon_Talents = new();
+            List<Pokemon_TypePok> pokemon_TypePoks = new();
+            List<Pokemon_Weakness> pokemon_Weaknesses = new();
+
+            foreach (PokemonExportJson pokemonJson in pokemonsJson)
+            {
+                var gameJson = pokemonJson.Game;
+                Game gamesExist = games.Find(m => m.Name_EN.Equals(gameJson.Name_EN));
+                if (gamesExist == null)
+                {
+                    Game game = new()
+                    {
+                        Name_FR = gameJson.Name_FR,
+                        Name_EN = gameJson.Name_EN,
+                        Name_ES = gameJson.Name_ES,
+                        Name_IT = gameJson.Name_IT,
+                        Name_DE = gameJson.Name_DE,
+                        Name_RU = gameJson.Name_RU,
+                        Name_CO = gameJson.Name_CN,
+                        Name_CN = gameJson.Name_CN,
+                        Name_JP = gameJson.Name_JP
+                    };
+
+                    games.Add(game);
+                }
+            }
+
+            return Task.FromResult(true);
+        }
         #endregion
 
         #region Read

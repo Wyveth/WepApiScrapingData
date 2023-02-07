@@ -957,12 +957,42 @@ namespace WepApiScrapingData.Utils
             File.WriteAllText(nameFile.ToString(), json);
         }
 
-        public static void WriteToJson(List<Pokemon> pokemons)
+        public static void WriteToJson(List<Pokemon> pokemons, List<TypePok> typePoks, List<Talent> talents, List<Attaque> attaques, List<TypeAttaque> typeAttaques, List<Game> games)
         {
             StringBuilder nameFile = new StringBuilder();
+            nameFile.Append("TypePokDbToJson.json");
+
+            string json = JsonConvert.SerializeObject(typePoks, Formatting.Indented);
+            File.WriteAllText(nameFile.ToString(), json);
+
+            nameFile = new StringBuilder();
+            nameFile.Append("TalentDbToJson.json");
+
+            json = JsonConvert.SerializeObject(talents, Formatting.Indented);
+            File.WriteAllText(nameFile.ToString(), json);
+
+            nameFile = new StringBuilder();
+            nameFile.Append("AttaqueDbToJson.json");
+
+            json = JsonConvert.SerializeObject(attaques, Formatting.Indented);
+            File.WriteAllText(nameFile.ToString(), json);
+
+            nameFile = new StringBuilder();
+            nameFile.Append("TypeAttaqueDbToJson.json");
+
+            json = JsonConvert.SerializeObject(typeAttaques, Formatting.Indented);
+            File.WriteAllText(nameFile.ToString(), json);
+
+            nameFile = new StringBuilder();
+            nameFile.Append("GameDbToJson.json");
+
+            json = JsonConvert.SerializeObject(games, Formatting.Indented);
+            File.WriteAllText(nameFile.ToString(), json);
+
+            nameFile = new StringBuilder();
             nameFile.Append("DbToJson.json");
 
-            string json = JsonConvert.SerializeObject(pokemons, Formatting.Indented);
+            json = JsonConvert.SerializeObject(pokemons, Formatting.Indented);
             File.WriteAllText(nameFile.ToString(), json);
         }
 

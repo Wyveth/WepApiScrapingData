@@ -21,6 +21,8 @@ namespace WepApiScrapingData.Controllers
         private readonly IRepository<TypePok> _repositoryTP;
         private readonly IRepository<Talent> _repositoryTL;
         private readonly IRepository<Attaque> _repositoryAT;
+        private readonly IRepository<TypeAttaque> _repositoryTA;
+        private readonly IRepository<Game> _repositoryG;
         private readonly IRepository<Pokemon_TypePok> _repositoryPTP;
         private readonly IRepository<Pokemon_Weakness> _repositoryPWN;
         private readonly IRepository<Pokemon_Talent> _repositoryPTL;
@@ -28,12 +30,14 @@ namespace WepApiScrapingData.Controllers
         #endregion
 
         #region Constructors
-        public PokemonController(IRepositoryExtendsPokemon<Pokemon> repository, IRepository<TypePok> repositoryTP, IRepository<Talent> repositoryTL, IRepository<Attaque> repositoryAT, IRepository<Pokemon_TypePok> repositoryPTP, IRepository<Pokemon_Weakness> repositoryPWN, IRepository<Pokemon_Talent> repositoryPTL, IRepository<Pokemon_Attaque> repositoryPAT)
+        public PokemonController(IRepositoryExtendsPokemon<Pokemon> repository, IRepository<TypePok> repositoryTP, IRepository<Talent> repositoryTL, IRepository<Attaque> repositoryAT, IRepository<TypeAttaque> repositoryTA, IRepository<Game> repositoryG, IRepository<Pokemon_TypePok> repositoryPTP, IRepository<Pokemon_Weakness> repositoryPWN, IRepository<Pokemon_Talent> repositoryPTL, IRepository<Pokemon_Attaque> repositoryPAT)
         {
             _repository = repository;
             _repositoryTP = repositoryTP;
             _repositoryTL = repositoryTL;
             _repositoryAT = repositoryAT;
+            _repositoryTA = repositoryTA;
+            _repositoryG = repositoryG;
             _repositoryPTP = repositoryPTP;
             _repositoryPWN = repositoryPWN;
             _repositoryPTL = repositoryPTL;
@@ -480,14 +484,36 @@ namespace WepApiScrapingData.Controllers
 
 
         [HttpGet]
-        [Route("ExportDB")]
-        public Task ExportDB()
+        [Route("ExportDb")]
+        public Task ExportDb()
         {
             List<Pokemon> pokemons = _repository.GetAll().Result.ToList();
 
+            List<TypeAttaque> typeAttaques = _repositoryTA.GetAll().Result.ToList();
+            List<Attaque> attaques = _repositoryAT.GetAll().Result.ToList();
+            List<TypePok> typePoks = _repositoryTP.GetAll().Result.ToList();
+            List<Talent> talents = _repositoryTL.GetAll().Result.ToList();
+            List<Game> games = _repositoryG.GetAll().Result.ToList();
+
             Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
-            ScrapingDataUtils.WriteToJson(pokemons);
+            ScrapingDataUtils.WriteToJson(pokemons, typePoks, talents, attaques, typeAttaques, games);
             Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+
+            return Task.CompletedTask;
+        }
+
+        [HttpGet]
+        [Route("ImportDb")]
+        public Task ImportDb()
+        {
+            string json;
+            using (StreamReader sr = new StreamReader("DbToJson.json"))
+            {
+                json = sr.ReadToEnd();
+                _repository.ImportJsonToDb(json);
+            }
+
+            return Task.CompletedTask;
         }
 
         [HttpPost]
