@@ -963,37 +963,37 @@ namespace WepApiScrapingData.Utils
             nameFile.Append("TypePokDbToJson.json");
 
             string json = JsonConvert.SerializeObject(typePoks, Formatting.Indented);
-            File.WriteAllText(nameFile.ToString(), json);
+            File.WriteAllText(Constantes.pathExport + nameFile.ToString(), json);
 
             nameFile = new StringBuilder();
             nameFile.Append("TalentDbToJson.json");
 
             json = JsonConvert.SerializeObject(talents, Formatting.Indented);
-            File.WriteAllText(nameFile.ToString(), json);
+            File.WriteAllText(Constantes.pathExport + nameFile.ToString(), json);
 
             nameFile = new StringBuilder();
             nameFile.Append("AttaqueDbToJson.json");
 
             json = JsonConvert.SerializeObject(attaques, Formatting.Indented);
-            File.WriteAllText(nameFile.ToString(), json);
+            File.WriteAllText(Constantes.pathExport + nameFile.ToString(), json);
 
             nameFile = new StringBuilder();
             nameFile.Append("TypeAttaqueDbToJson.json");
 
             json = JsonConvert.SerializeObject(typeAttaques, Formatting.Indented);
-            File.WriteAllText(nameFile.ToString(), json);
+            File.WriteAllText(Constantes.pathExport + nameFile.ToString(), json);
 
             nameFile = new StringBuilder();
             nameFile.Append("GameDbToJson.json");
 
             json = JsonConvert.SerializeObject(games, Formatting.Indented);
-            File.WriteAllText(nameFile.ToString(), json);
+            File.WriteAllText(Constantes.pathExport + nameFile.ToString(), json);
 
             nameFile = new StringBuilder();
             nameFile.Append("DbToJson.json");
 
             json = JsonConvert.SerializeObject(pokemons, Formatting.Indented);
-            File.WriteAllText(nameFile.ToString(), json);
+            File.WriteAllText(Constantes.pathExport + nameFile.ToString(), json);
         }
 
         public static void WriteToJson(List<PokemonPokeBipJson> dataJsons)
@@ -1020,7 +1020,7 @@ namespace WepApiScrapingData.Utils
             nameFile.Append("PokeScrapV2.json");
 
             string json = JsonConvert.SerializeObject(dataJsons, Formatting.Indented);
-            File.WriteAllText(nameFile.ToString(), json);
+            File.WriteAllText("Export/" + nameFile.ToString(), json);
         }
 
         public static void WriteToJsonMobile(List<TypePokMobileJsonV1> dataJsons)
@@ -2647,7 +2647,7 @@ namespace WepApiScrapingData.Utils
             #endregion
 
             #region Attaques
-            List<AttackJson> attackJsons = new List<AttackJson>();
+            List<AttaqueJson> attackJsons = new List<AttaqueJson>();
             HtmlNode htmlNode = htmlDoc.DocumentNode.Descendants("div").First(node => node.GetAttributeValue("id", "").Contains("section-moves"));
 
             List<HtmlNode> nodesH3 = htmlNode.Descendants("h3").ToList();
@@ -2661,7 +2661,7 @@ namespace WepApiScrapingData.Utils
                     foreach (HtmlNode tr in nodesTable[i].Descendants("tr").ToList())
                     {
                         List<HtmlNode> tds = tr.Descendants("td").ToList();
-                        AttackJson attackJson = new AttackJson();
+                        AttaqueJson attackJson = new AttaqueJson();
 
                         attackJson.Name = tds[0].InnerText.Replace("\n", "").Trim();
                         attackJson.NameEN = tds[0].InnerHtml.Split("\n")[4].Split("<")[2].Split("-")[1].Trim();
@@ -2682,7 +2682,7 @@ namespace WepApiScrapingData.Utils
                     foreach (HtmlNode tr in nodesTable[i].Descendants("tr").ToList())
                     {
                         List<HtmlNode> tds = tr.Descendants("td").ToList();
-                        AttackJson attackJson = new AttackJson();
+                        AttaqueJson attackJson = new AttaqueJson();
 
                         attackJson.Name = tds[0].InnerText.Replace("\n", "").Trim();
                         attackJson.NameEN = tds[0].InnerHtml.Split("\n")[4].Split("<")[2].Split("-")[1].Trim();
@@ -2704,7 +2704,7 @@ namespace WepApiScrapingData.Utils
                     foreach (HtmlNode tr in nodesTable[i].Descendants("tr").ToList())
                     {
                         List<HtmlNode> tds = tr.Descendants("td").ToList();
-                        AttackJson attackJson = new AttackJson();
+                        AttaqueJson attackJson = new AttaqueJson();
 
                         attackJson.Name = tds[0].InnerText.Replace("\n", "").Trim();
                         attackJson.NameEN = tds[0].InnerHtml.Split("\n")[4].Split("<")[2].Split("-")[1].Trim();
@@ -2726,7 +2726,7 @@ namespace WepApiScrapingData.Utils
                     foreach (HtmlNode tr in nodesTable[i].Descendants("tr").ToList())
                     {
                         List<HtmlNode> tds = tr.Descendants("td").ToList();
-                        AttackJson attackJson = new AttackJson();
+                        AttaqueJson attackJson = new AttaqueJson();
 
                         attackJson.Name = tds[0].InnerText.Replace("\n", "").Trim();
                         attackJson.NameEN = tds[0].InnerHtml.Split("\n")[4].Split("<")[2].Split("-")[1].Trim();
@@ -2747,7 +2747,7 @@ namespace WepApiScrapingData.Utils
                     foreach (HtmlNode tr in nodesTable[i].Descendants("tr").ToList())
                     {
                         List<HtmlNode> tds = tr.Descendants("td").ToList();
-                        AttackJson attackJson = new AttackJson();
+                        AttaqueJson attackJson = new AttaqueJson();
 
                         attackJson.Name = tds[0].InnerText.Replace("\n", "").Trim();
                         attackJson.NameEN = tds[0].InnerHtml.Split("\n")[4].Split("<")[2].Split("-")[1].Trim();

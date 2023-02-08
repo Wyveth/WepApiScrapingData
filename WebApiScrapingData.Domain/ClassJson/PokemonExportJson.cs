@@ -12,10 +12,10 @@
         public DataInfoExportJson? CO { get; set; }
         public DataInfoExportJson? CN { get; set; }
         public DataInfoExportJson? JP { get; set; }
-        public List<TypesPokemonExportJson>? Types { get; set; }
-        public List<TypesPokemonExportJson>? Weaknesses { get; set; }
+        public List<TypesPokExportJson>? Types { get; set; }
+        public List<TypesPokExportJson>? Weaknesses { get; set; }
         public List<TalentsExportJson>? Talents { get; set; }
-        public List<AttacksExportJson>? Attaques { get; set; }
+        public List<AttaquesExportJson>? Attaques { get; set; }
         public string? TypeEvolution { get; set; }
         public string? StatPv { get; set; }
         public string? StatAttaque { get; set; }
@@ -52,12 +52,12 @@
         public string? NextUrl { get; set; }
     }
 
-    public class TypesPokemonExportJson
+    public class TypesPokExportJson
     {
-        public TypePokemonExportJson? TypePok { get; set; }
+        public TypePokExportJson? TypePok { get; set; }
     }
     
-    public class TypePokemonExportJson
+    public class TypePokExportJson
     {
         public string? Name_FR { get; set; }
         public string? UrlMiniHome_FR { get; set; }
@@ -86,15 +86,15 @@
         public string? TypeColor { get; set; }
     }
 
-    public class AttacksExportJson
+    public class AttaquesExportJson
     {
-        public AttackExportJson? Attaque { get; set; }
+        public AttaqueExportJson? Attaque { get; set; }
         public string? TypeLearn { get; set; }
         public string? Level { get; set; }
         public string? CTCS { get; set; }
     }
 
-    public class AttackExportJson
+    public class AttaqueExportJson
     {
         public string? Name_FR { get; set; }
         public string? Description_FR { get; set; }
@@ -114,11 +114,14 @@
         public string? Description_CN { get; set; }
         public string? Name_JP { get; set; }
         public string? Description_JP { get; set; }
-        public TypeAttackExportJson? TypeAttaque { get; set; }
-
+        public TypeAttaqueExportJson? TypeAttaque { get; set; }
+        public TypePokExportJson? Types { get; set; }
+        public string? Puissance { get; set; }
+        public string? Precision { get; set; }
+        public string? PP { get; set; }
     }
 
-    public class TypeAttackExportJson
+    public class TypeAttaqueExportJson
     {
         public string? Name_FR { get; set; }
         public string? Description_FR { get; set; }

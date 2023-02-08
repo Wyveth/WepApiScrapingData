@@ -12,6 +12,6 @@ namespace WebApiScrapingData.Core.Repositories.RepositoriesQuizz
 
         Task SaveInfoPokemonAttackInDB(string json);
 
-        Task ImportJsonToDb(string json);
+        Task<bool> ImportJsonToDb(string json);
     }
 }

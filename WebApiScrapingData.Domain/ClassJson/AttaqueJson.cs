@@ -1,6 +1,6 @@
 ﻿namespace WebApiScrapingData.Domain.ClassJson
 {
-    public class AttackJson
+    public class AttaqueJson
     {
         //Nom de l'attaque
         public string? Name { get; set; }

@@ -16,10 +16,12 @@ namespace WebApiScrapingData.Infrastructure.Repository
         private readonly ScrapingContext _context;
         private readonly DataInfoRepository _repositoryDI;
         private readonly TypePokRepository _repositoryTP;
-        private readonly TalentRepository _repositoryT;
-        private readonly AttaqueRepository _repositoryA;
+        private readonly TalentRepository _repositoryTL;
+        private readonly AttaqueRepository _repositoryAT;
         private readonly TypeAttaqueRepository _repositoryTA;
         private readonly GameRepository _repositoryG;
+        private readonly Pokemon_TypePokRepository _repositoryPTP;
+        private readonly Pokemon_WeaknessRepository _repositoryPW;
         private readonly Pokemon_AttaqueRepository _repositoryPAT;
         private readonly Pokemon_TalentRepository _repositoryPT;
         #endregion
@@ -30,9 +32,11 @@ namespace WebApiScrapingData.Infrastructure.Repository
             this._context = context;
             this._repositoryDI = new DataInfoRepository(context);
             this._repositoryTP = new TypePokRepository(context);
-            this._repositoryT = new TalentRepository(context);
-            this._repositoryA = new AttaqueRepository(context);
+            this._repositoryTL = new TalentRepository(context);
+            this._repositoryAT = new AttaqueRepository(context);
             this._repositoryTA = new TypeAttaqueRepository(context);
+            this._repositoryPTP = new Pokemon_TypePokRepository(context);
+            this._repositoryPW = new Pokemon_WeaknessRepository(context);
             this._repositoryPAT = new Pokemon_AttaqueRepository(context);
             this._repositoryPT = new Pokemon_TalentRepository(context);
             this._repositoryG = new GameRepository(context);
@@ -73,8 +77,8 @@ namespace WebApiScrapingData.Infrastructure.Repository
             List<Attaque> attaques = new();
             List<Pokemon_Talent> pokemon_Talents = new();
 
-            List<Attaque> attackAlreadyExist = this._repositoryA.GetAll().Result.ToList();
-            List<Talent> talents = this._repositoryT.GetAll().Result.ToList();
+            List<Attaque> attackAlreadyExist = this._repositoryAT.GetAll().Result.ToList();
+            List<Talent> talents = this._repositoryTL.GetAll().Result.ToList();
             List<Pokemon_Talent> pokemonTalent_alreadyExist = this._repositoryPT.GetAll().Result.ToList();
 
             #region Update Info + Add/Update Attack
@@ -173,11 +177,11 @@ namespace WebApiScrapingData.Infrastructure.Repository
             }
 
             this._repositoryPT.AddRange(pokemon_Talents);
-            this._repositoryA.AddRange(attaques);
+            this._repositoryAT.AddRange(attaques);
             this._context.SaveChanges();
             #endregion
 
-            attackAlreadyExist = this._repositoryA.GetAll().Result.ToList();
+            attackAlreadyExist = this._repositoryAT.GetAll().Result.ToList();
             List<Pokemon_Attaque> pokemon_AttaquesAlreadyExist = this._repositoryPAT.GetAll().Result.ToList();
             List<Pokemon_Attaque> pokemon_Attaques = new();
 
@@ -298,47 +302,21 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return Task.FromResult(true);
         }
 
-        public Task ImportJsonToDb(string json)
+        public async Task<bool> ImportJsonToDb(string json)
         {
             List<PokemonExportJson> pokemonsJson = JsonConvert.DeserializeObject<List<PokemonExportJson>>(json);
 
-            //Liste Objet
-            List<Pokemon> pokemons = new();
-            List<TypePok> typePoks = new();
-            List<Talent> talents = new();
-            List<Attaque> attaques = new();
-            List<TypeAttaque> typeAttaques = new();
-            List<Game> games = new();
-
-            List<Pokemon_Attaque> pokemon_Attaques = new();
-            List<Pokemon_Talent> pokemon_Talents = new();
-            List<Pokemon_TypePok> pokemon_TypePoks = new();
-            List<Pokemon_Weakness> pokemon_Weaknesses = new();
-
             foreach (PokemonExportJson pokemonJson in pokemonsJson)
             {
-                var gameJson = pokemonJson.Game;
-                Game gamesExist = games.Find(m => m.Name_EN.Equals(gameJson.Name_EN));
-                if (gamesExist == null)
-                {
-                    Game game = new()
-                    {
-                        Name_FR = gameJson.Name_FR,
-                        Name_EN = gameJson.Name_EN,
-                        Name_ES = gameJson.Name_ES,
-                        Name_IT = gameJson.Name_IT,
-                        Name_DE = gameJson.Name_DE,
-                        Name_RU = gameJson.Name_RU,
-                        Name_CO = gameJson.Name_CN,
-                        Name_CN = gameJson.Name_CN,
-                        Name_JP = gameJson.Name_JP
-                    };
-
-                    games.Add(game);
-                }
+                Pokemon pokemon = new();
+                await MapToInstanceImport(pokemon, pokemonJson);
+                await this.Add(pokemon);
+                Console.WriteLine("Pokemon:" + pokemon.FR.Name);
             }
+            
+            this._context.SaveChanges();
 
-            return Task.FromResult(true);
+            return await Task.FromResult(true);
         }
         #endregion
 
@@ -527,6 +505,96 @@ namespace WebApiScrapingData.Infrastructure.Repository
             pokemon.UrlSprite = pokemonJson.UrlSprite;
         }
 
+        private async Task MapToInstanceImport(Pokemon pokemon, PokemonExportJson pokemonJson)
+        {
+            pokemon.Number = pokemonJson.Number;
+            pokemon.FR = await MapToInstanceImport(pokemonJson.FR);
+            pokemon.EN = await MapToInstanceImport(pokemonJson.EN);
+            pokemon.ES = await MapToInstanceImport(pokemonJson.ES);
+            pokemon.IT = await MapToInstanceImport(pokemonJson.IT);
+            pokemon.DE = await MapToInstanceImport(pokemonJson.DE);
+            pokemon.RU = await MapToInstanceImport(pokemonJson.RU);
+            pokemon.CO = await MapToInstanceImport(pokemonJson.CO);
+            pokemon.CN = await MapToInstanceImport(pokemonJson.CN);
+            pokemon.JP = await MapToInstanceImport(pokemonJson.JP);
+            pokemon.TypeEvolution = pokemonJson.TypeEvolution;
+            pokemon.StatPv = Convert.ToInt32(pokemonJson.StatPv);
+            pokemon.StatAttaque = Convert.ToInt32(pokemonJson.StatAttaque);
+            pokemon.StatDefense = Convert.ToInt32(pokemonJson.StatDefense);
+            pokemon.StatAttaqueSpe = Convert.ToInt32(pokemonJson.StatAttaqueSpe);
+            pokemon.StatDefenseSpe = Convert.ToInt32(pokemonJson.StatDefenseSpe);
+            pokemon.StatVitesse = Convert.ToInt32(pokemonJson.StatVitesse);
+            pokemon.StatTotal = Convert.ToInt32(pokemonJson.StatTotal);
+            pokemon.Generation = Convert.ToInt32(pokemonJson.Generation);
+            pokemon.EggMoves = pokemonJson.EggMoves;
+            pokemon.CaptureRate = pokemonJson.CaptureRate;
+            pokemon.BasicHappiness = pokemonJson.BasicHappiness;
+            pokemon.UrlImg = pokemonJson.UrlImg;
+            pokemon.UrlSprite = pokemonJson.UrlSprite;
+            pokemon.UrlSound = pokemonJson.UrlSound;
+            pokemon.Game = _repositoryG.Find(m => m.Name_EN.Equals(pokemonJson.Game.Name_EN)).FirstOrDefault();
+
+            foreach (TypesPokExportJson typePokJson in pokemonJson.Types)
+            {
+                TypePok typePok = _repositoryTP.Find(m => m.Name_EN.Equals(typePokJson.TypePok.Name_EN)).FirstOrDefault();
+                if (typePok != null)
+                {
+                    Pokemon_TypePok pokemon_TypePok = new()
+                    {
+                        Pokemon = pokemon,
+                        TypePok = typePok
+                    };
+                    await _repositoryPTP.Add(pokemon_TypePok);
+                }
+            }
+
+            foreach (TypesPokExportJson weaknessJson in pokemonJson.Weaknesses)
+            {
+                TypePok typePok = _repositoryTP.Find(m => m.Name_EN.Equals(weaknessJson.TypePok.Name_EN)).FirstOrDefault();
+                if (typePok != null)
+                {
+                    Pokemon_Weakness pokemon_Weakness = new()
+                    {
+                        Pokemon = pokemon,
+                        TypePok = typePok
+                    };
+                    await _repositoryPW.Add(pokemon_Weakness);
+                }
+            }
+            
+            foreach (TalentsExportJson talentJson in pokemonJson.Talents)
+            {
+                Talent talent = _repositoryTL.Find(m => m.Name_EN.Equals(talentJson.Talent.Name_EN)).FirstOrDefault();
+                if (talent != null)
+                {
+                    Pokemon_Talent pokemon_Talent = new()
+                    {
+                        Pokemon = pokemon,
+                        Talent = talent,
+                        IsHidden = talentJson.IsHidden
+                    };
+                    await _repositoryPT.Add(pokemon_Talent);
+                }
+            }
+
+            foreach (AttaquesExportJson attaqueJson in pokemonJson.Attaques)
+            {
+                Attaque attaque = _repositoryAT.Find(m => m.Name_EN.Equals(attaqueJson.Attaque.Name_EN)).FirstOrDefault();
+                if (attaque != null)
+                {
+                    Pokemon_Attaque pokemon_Attaque = new()
+                    {
+                        Pokemon = pokemon,
+                        Attaque = attaque,
+                        TypeLearn  = attaqueJson.TypeLearn,
+                        Level = attaqueJson.Level,
+                        CTCS = attaqueJson.CTCS
+                    };
+                    await _repositoryPAT.Add(pokemon_Attaque);
+                }
+            }
+        }
+
         private void UpdateInfo(Pokemon entity, bool edit = false)
         {
             entity.UserModification = "System";
@@ -540,6 +608,30 @@ namespace WebApiScrapingData.Infrastructure.Repository
             }
             else
                 entity.versionModification += 1;
+        }
+
+        public async Task<DataInfo> MapToInstanceImport(DataInfoExportJson dataInfoJson)
+        {
+            DataInfo dataInfo = new()
+            {
+                Name = dataInfoJson.Name,
+                DisplayName = dataInfoJson.DisplayName,
+                DescriptionVx = dataInfoJson.DescriptionVx,
+                DescriptionVy = dataInfoJson.DescriptionVy,
+                Size = dataInfoJson.Size,
+                Category = dataInfoJson.Category,
+                Weight = dataInfoJson.Weight,
+                Talent = dataInfoJson.Talent,
+                DescriptionTalent = dataInfoJson.DescriptionTalent,
+                Types = dataInfoJson.Types,
+                Weakness = dataInfoJson.Weakness,
+                Evolutions = dataInfoJson.Evolutions,
+                WhenEvolution = dataInfoJson.WhenEvolution,
+                NextUrl = dataInfoJson.NextUrl
+            };
+
+            await _repositoryDI.Add(dataInfo);
+            return await Task.FromResult(dataInfo);
         }
         #endregion
 

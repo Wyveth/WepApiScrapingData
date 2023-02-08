@@ -19,13 +19,13 @@
         
         public string? HiddenSkill { get; set; }
 
-        public List<AttackJson> AttackJsons { get; set; }
+        public List<AttaqueJson> AttackJsons { get; set; }
 
         public string? NextUrl { get; set; }
 
         public PokemonPokeBipJson()
         {
-            AttackJsons = new List<AttackJson>();
+            AttackJsons = new List<AttaqueJson>();
         }
     }
 }

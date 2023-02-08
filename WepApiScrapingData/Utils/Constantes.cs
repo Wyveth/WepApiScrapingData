@@ -11,6 +11,7 @@
         public const string urlPokepedia = "https://www.pokepedia.fr";
         public const string urlAllSpritesOld = urlPokepedia + "/Liste_des_Pok%C3%A9mon_dans_l'ordre_du_Pok%C3%A9dex_National";
         public const string urlAllSprites = urlPokepedia + "/Liste_des_miniatures_par_Pokémon";
+        public const string pathExport = "Export/";
         #endregion
 
         #region Pokébip
