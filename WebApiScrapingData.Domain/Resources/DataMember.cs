@@ -35,19 +35,19 @@
         public const string UrlMiniHome_JP = "UrlMiniHome_JP";
         
         public const string UrlMiniGo = "UrlMiniGo";
-        public const string DataMiniGo = "DataMiniGo";
+        public const string PathMiniGo = "PathMiniGo";
 
         public const string UrlFondGo = "UrlFondGo";
-        public const string DataFondGo = "DataFondGo";
+        public const string PathFondGo = "PathFondGo";
 
         public const string UrlMiniHome = "UrlMiniHome";
-        public const string DataMiniHome = "DataMiniHome";
+        public const string PathMiniHome = "PathMiniHome";
 
         public const string UrlIconHome = "UrlIconHome";
-        public const string DataIconHome = "DataIconHome";
+        public const string PathIconHome = "PathIconHome";
 
         public const string UrlAutoHome = "UrlAutoHome";
-        public const string DataAutoHome = "DataAutoHome";
+        public const string PathAutoHome = "PathAutoHome";
 
         public const string ImgColor = "ImgColor";
         public const string InfoColor = "InfoColor";
@@ -137,15 +137,15 @@
 
         public const string UrlImg = "UrlImg";
 
-        public const string DataImg = "DataImg";
+        public const string PathImg = "PathImg";
         
         public const string UrlSprite = "UrlSprite";
 
-        public const string DataSprite = "DataSprite";
+        public const string PathSprite = "PathSprite";
         
         public const string UrlSound = "UrlSound";
 
-        public const string DataSound = "DataSound";
+        public const string PathSound = "PathSound";
 
         public const string NextUrl = "NextUrl";
 

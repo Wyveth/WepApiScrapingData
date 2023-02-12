@@ -119,13 +119,15 @@ namespace WebApiScrapingData.Domain.Class
         public string? UrlImg { get; set; }
 
         //Url de l'Image Interne
+        [DataMember(Name = DataMember.PathImg)]
         public string? PathImg { get; set; }
 
         //Url du Sprite Scrap
         [DataMember(Name = DataMember.UrlSprite)]
         public string? UrlSprite { get; set; }
-      
+
         //Url du Sprite
+        [DataMember(Name = DataMember.PathSprite)]
         public string? PathSprite { get; set; }
 
         //Url du Sound Scrap
@@ -133,6 +135,7 @@ namespace WebApiScrapingData.Domain.Class
         public string? UrlSound { get; set; }
 
         //Url du Sound
+        [DataMember(Name = DataMember.PathSound)]
         public string? PathSound { get; set; }
 
         [DataMember(Name = DataMember.Game)]

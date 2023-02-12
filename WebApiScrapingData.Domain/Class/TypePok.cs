@@ -69,14 +69,17 @@ namespace WebApiScrapingData.Domain.Class
 
         [DataMember(Name = DataMember.UrlFondGo)]
         public string? UrlFondGo { get; set; }
+        [DataMember(Name = DataMember.PathFondGo)]
         public string? PathFondGo { get; set; }
 
         [DataMember(Name = DataMember.UrlIconHome)]
         public string? UrlIconHome { get; set; }
+        [DataMember(Name = DataMember.PathIconHome)]
         public string? PathIconHome { get; set; }
 
         [DataMember(Name = DataMember.UrlAutoHome)]
         public string? UrlAutoHome { get; set; }
+        [DataMember(Name = DataMember.PathAutoHome)]
         public string? PathAutoHome { get; set; }
 
         [DataMember(Name = DataMember.ImgColor)]

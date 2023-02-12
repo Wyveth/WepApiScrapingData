@@ -706,8 +706,7 @@ namespace WepApiScrapingData.Controllers
                 json = sr.ReadToEnd();
                 _repository.ImportJsonToDb(json);
             }
-            
-            
+
             return Task.CompletedTask;
         }
 

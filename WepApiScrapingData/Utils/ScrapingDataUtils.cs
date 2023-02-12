@@ -1527,6 +1527,18 @@ namespace WepApiScrapingData.Utils
                     url = listTD[7].Descendants("img").Select(node => node.GetAttributeValue("src", "")).FirstOrDefault();
                 }
 
+                Console.WriteLine(name);
+                if (name.Equals("Némélios"))
+                    url = "/images/8/8a/Miniature_0668_%E2%99%82_XY.png";
+                else if (name.Equals("CouafarelForme Sauvage"))
+                    url = "/images/b/b2/Miniature_0676_Sauvage_XY.png";
+                else if (name.Equals("PlumelineStyle Buyō"))
+                    url = "/images/1/14/Miniature_0741_Buyō_SL.png";
+                else if (name.Equals("MéténoForme Météore"))
+                    url = "/images/e/e1/Miniature_0774_Météore_SL.png";
+                else if (name.Equals("Dratatin Gigamax"))
+                    url = "/images/4/45/Miniature_0841_Gigamax_EB.png";
+
                 string checkUrl = Constantes.urlPokepedia + url.Replace("%E2%99%82", "♂").Replace("%E2%99%80", "♀");
                 if (checkUrl != Constantes.urlPokepedia)
                 {
@@ -1556,7 +1568,10 @@ namespace WepApiScrapingData.Utils
                         .Replace("Bekaglaçon Tête de Gel", "Bekaglaçon")
                         .Replace("Shifours Gigamax Style Poing Final", "Shifours Gigamax (Style Poing Final)")
                         .Replace("Shifours Gigamax Style Mille Poings", "Shifours Gigamax (Style Mille Poings)")
-                        .Replace("Sylveroy Cavalier d'Effroi", "Sylveroy Cavalier d’Effroi");
+                        .Replace("Sylveroy Cavalier d'Effroi", "Sylveroy Cavalier d’Effroi")
+                        .Replace("CouafarelForme Sauvage", "Couafarel Forme Sauvage")
+                        .Replace("PlumelineStyle Buyō", "Plumeline Style Buyō")
+                        .Replace("MéténoForme Météore", "Météno Forme Météore");
 
                     if (checkUrl.Contains("♀"))
                     {
@@ -1575,7 +1590,8 @@ namespace WepApiScrapingData.Utils
                                 || name.Contains("Paragruel")
                                 || name.Contains("Viskuse")
                                 || name.Contains("Moyade")
-                                || name.Contains("Mistigrix"))
+                                || name.Contains("Mistigrix")
+                                || name.Contains("Némélios"))
                                 name = name + " " + Constantes.M_FR;
                         }
                     }
