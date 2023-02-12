@@ -342,20 +342,49 @@ namespace WepApiScrapingData.Controllers
                 pokemonJson.Size = item.FR.Size;
                 pokemonJson.Category = item.FR.Category;
                 pokemonJson.Weight = item.FR.Weight;
-                pokemonJson.Talent = item.FR.Talent;
-                pokemonJson.DescriptionTalent = item.FR.DescriptionTalent;
-                pokemonJson.Types = item.FR.Types;
-                pokemonJson.Weakness = item.FR.Weakness;
+
+                foreach(Pokemon_Talent pokemon_Talent in item.Pokemon_Talents)
+                {
+                    SkillJson skillJson = new();
+                    skillJson.Name = pokemon_Talent.Talent.Name_FR;
+                    skillJson.isHidden = pokemon_Talent.IsHidden;
+                    pokemonJson.Talents.Add(skillJson);
+                }
+
+                foreach (Pokemon_TypePok pokemon_Type in item.Pokemon_TypePoks)
+                {
+                    TypePokJson typePokJson = new();
+                    typePokJson.Name = pokemon_Type.TypePok.Name_FR;
+                    pokemonJson.Types.Add(typePokJson);
+                }
+
+                foreach (Pokemon_Weakness pokemon_Weakness in item.Pokemon_Weaknesses)
+                {
+                    TypePokJson typePokJson = new();
+                    typePokJson.Name = pokemon_Weakness.TypePok.Name_FR;
+                    pokemonJson.Weakness.Add(typePokJson);
+                }
+
+                foreach (Pokemon_Attaque pokemon_Attaque in item.Pokemon_Attaques)
+                {
+                    AttackJson attackJson = new();
+                    attackJson.Name = pokemon_Attaque.Attaque.Name_FR;
+                    attackJson.TypeLearn = pokemon_Attaque.TypeLearn;
+                    attackJson.Level = pokemon_Attaque.Level;
+                    attackJson.CTCS = pokemon_Attaque.CTCS;
+                    pokemonJson.Attaques.Add(attackJson);
+                }
+                
                 pokemonJson.Evolutions = item.FR.Evolutions;
                 pokemonJson.TypeEvolution = item.TypeEvolution;
                 pokemonJson.WhenEvolution = item.FR.WhenEvolution;
-                pokemonJson.statPv = item.StatPv;
-                pokemonJson.statAttaque = item.StatAttaque;
-                pokemonJson.statDefense = item.StatDefense;
-                pokemonJson.statAttaqueSpe = item.StatAttaqueSpe;
-                pokemonJson.statDefenseSpe = item.StatDefenseSpe;
-                pokemonJson.statVitesse = item.StatVitesse;
-                pokemonJson.statTotal = item.StatTotal;
+                pokemonJson.StatPv = item.StatPv;
+                pokemonJson.StatAttaque = item.StatAttaque;
+                pokemonJson.StatDefense = item.StatDefense;
+                pokemonJson.StatAttaqueSpe = item.StatAttaqueSpe;
+                pokemonJson.StatDefenseSpe = item.StatDefenseSpe;
+                pokemonJson.StatVitesse = item.StatVitesse;
+                pokemonJson.StatTotal = item.StatTotal;
                 pokemonJson.Generation = item.Generation;
                 pokemonJson.NextUrl = item.FR.NextUrl;
 

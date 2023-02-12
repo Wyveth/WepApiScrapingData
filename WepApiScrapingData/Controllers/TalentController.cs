@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Domain.ClassJson;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
@@ -46,6 +48,30 @@ namespace WepApiScrapingData.Controllers
         public IEnumerable<Talent> GetFind(Expression<Func<Talent, bool>> predicate)
         {
             return _repository.Find(predicate);
+        }
+
+        [HttpGet]
+        [Route("GenerateJsonXamarinV1")]
+        public async Task GenerateJsonXamarinV1()
+        {
+            IEnumerable<Talent> talents = await _repository.GetAll();
+
+            List<TalentMobileJsonV1> talentsJson = new List<TalentMobileJsonV1>();
+
+            foreach (Talent item in talents.ToList())
+            {
+                TalentMobileJsonV1 talentJson = new TalentMobileJsonV1();
+                talentJson.Name = item.Name_FR;
+                talentJson.Description = item.Description_FR;
+
+                talentsJson.Add(talentJson);
+
+                Debug.WriteLine("Talent : " + item.Name_FR);
+            }
+
+            Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            ScrapingDataUtils.WriteToJsonMobile(talentsJson);
+            Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
         }
 
         [HttpPost]

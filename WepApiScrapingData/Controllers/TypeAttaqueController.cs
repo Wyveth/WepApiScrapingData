@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using System.Text;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Domain.ClassJson;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
@@ -47,6 +49,32 @@ namespace WepApiScrapingData.Controllers
         public IEnumerable<TypeAttaque> GetFindByName(string name)
         {
             return _repository.Find(m => m.Name_FR.Equals(name));
+        }
+
+        [HttpGet]
+        [Route("GenerateJsonXamarinV1")]
+        public async Task GenerateJsonXamarinV1()
+        {
+            IEnumerable<TypeAttaque> typesAttaque = await _repository.GetAll();
+
+            List<TypeAttaqueMobileJsonV1> typesAttaqueJson = new List<TypeAttaqueMobileJsonV1>();
+
+            foreach (TypeAttaque item in typesAttaque.ToList())
+            {
+                TypeAttaqueMobileJsonV1 typeAttaqueJson = new TypeAttaqueMobileJsonV1();
+                typeAttaqueJson.Name = item.Name_FR;
+                typeAttaqueJson.Description = item.Description_FR;
+                typeAttaqueJson.UrlImg = item.UrlImg;
+                typeAttaqueJson.PathImg = item.PathImg;
+
+                typesAttaqueJson.Add(typeAttaqueJson);
+
+                Debug.WriteLine("Type Attaque : " + item.Name_FR);
+            }
+
+            Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            ScrapingDataUtils.WriteToJsonMobile(typesAttaqueJson);
+            Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
         }
 
         [HttpPut]
