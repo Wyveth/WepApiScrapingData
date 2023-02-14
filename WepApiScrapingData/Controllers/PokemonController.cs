@@ -386,6 +386,7 @@ namespace WepApiScrapingData.Controllers
                 pokemonJson.StatVitesse = item.StatVitesse;
                 pokemonJson.StatTotal = item.StatTotal;
                 pokemonJson.Generation = item.Generation;
+                pokemonJson.Game = item.Game.Name_FR;
                 pokemonJson.NextUrl = item.FR.NextUrl;
 
                 pokemonsJson.Add(pokemonJson);

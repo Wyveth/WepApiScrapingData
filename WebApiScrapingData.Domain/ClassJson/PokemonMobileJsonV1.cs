@@ -96,6 +96,9 @@
         //Generation Number
         public int Generation { get; set; }
 
+        //Generation Game
+        public string Game { get; set; }
+
         //Prochain Pokémon
         public string NextUrl { get; set; }
 
