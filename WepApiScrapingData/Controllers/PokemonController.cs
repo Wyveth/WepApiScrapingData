@@ -386,6 +386,9 @@ namespace WepApiScrapingData.Controllers
                 pokemonJson.StatVitesse = item.StatVitesse;
                 pokemonJson.StatTotal = item.StatTotal;
                 pokemonJson.Generation = item.Generation;
+                pokemonJson.EggMoves = item.EggMoves;
+                pokemonJson.CaptureRate = item.CaptureRate;
+                pokemonJson.BasicHappiness = item.BasicHappiness;
                 pokemonJson.Game = item.Game.Name_FR;
                 pokemonJson.NextUrl = item.FR.NextUrl;
 

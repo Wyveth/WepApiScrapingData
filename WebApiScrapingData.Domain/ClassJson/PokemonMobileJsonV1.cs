@@ -96,6 +96,15 @@
         //Generation Number
         public int Generation { get; set; }
 
+        //Egg Moves
+        public string EggMoves { get; set; }
+        
+        //Capture Rate
+        public string CaptureRate { get; set; }
+
+        //Basic Happiness
+        public string BasicHappiness { get; set; }
+
         //Generation Game
         public string Game { get; set; }
 
