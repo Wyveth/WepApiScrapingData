@@ -304,6 +304,13 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
+        [Route("FindByNumber/{number}")]
+        public IEnumerable<Pokemon> GetFindByNumber(string number)
+        {
+            return _repository.Find(m => m.Number.Equals(number));
+        }
+
+        [HttpGet]
         [Route("GetEvol/{family}")]
         public async Task<IEnumerable<Pokemon>> GetEvol(string family)
         {
