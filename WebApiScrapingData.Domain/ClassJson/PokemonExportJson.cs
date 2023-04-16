@@ -29,8 +29,11 @@
         public string? BasicHappiness { get; set; }
         public string? Generation { get; set; }
         public string? UrlImg { get; set; }
+        public string? PathImg { get; set; }
         public string? UrlSprite { get; set; }
+        public string? PathSprite { get; set; }
         public string? UrlSound { get; set; }
+        public string? PathSound { get; set; }
         public GameExportJson? Game { get; set; }
     }
 

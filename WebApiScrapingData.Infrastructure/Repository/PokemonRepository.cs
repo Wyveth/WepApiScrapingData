@@ -530,8 +530,11 @@ namespace WebApiScrapingData.Infrastructure.Repository
             pokemon.CaptureRate = pokemonJson.CaptureRate;
             pokemon.BasicHappiness = pokemonJson.BasicHappiness;
             pokemon.UrlImg = pokemonJson.UrlImg;
+            pokemon.PathImg = pokemonJson.PathImg;
             pokemon.UrlSprite = pokemonJson.UrlSprite;
+            pokemon.PathSprite = pokemonJson.PathSprite;
             pokemon.UrlSound = pokemonJson.UrlSound;
+            pokemon.PathSound = pokemonJson.PathSound;
             pokemon.Game = _repositoryG.Find(m => m.Name_EN.Equals(pokemonJson.Game.Name_EN)).FirstOrDefault();
 
             foreach (TypesPokExportJson typePokJson in pokemonJson.Types)
