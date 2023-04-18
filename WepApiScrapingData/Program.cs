@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging.Configuration;
 using Newtonsoft.Json;
+using System.Net;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.GraphQL;
 using WebApiScrapingData.Infrastructure.Loggers;
@@ -21,7 +22,7 @@ builder.Services.AddSwaggerGen();
 
 //Ajout du DBContext
 builder.Services.AddDbContextFactory<ScrapingContext>(options => {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PokemonDataBase"), sqlOptions => { });
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PokemonDataBase"));
 });
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
@@ -45,14 +46,14 @@ LoggerProviderOptions.RegisterProviderOptions<CustomLoggerConfiguration, CustomL
 
 builder.Services.AddGraphQLServer().AddQueryType<Query>().AddProjections().AddFiltering().AddSorting();
 
-//if (!builder.Environment.IsDevelopment())
-//{
-//    builder.Services.AddHttpsRedirection(options =>
-//    {
-//        options.RedirectStatusCode = (int)HttpStatusCode.PermanentRedirect;
-//        options.HttpsPort = 443;
-//    });
-//}
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Services.AddHttpsRedirection(options =>
+    {
+        options.RedirectStatusCode = (int)HttpStatusCode.PermanentRedirect;
+        options.HttpsPort = 443;
+    });
+}
 
 var app = builder.Build();
 
@@ -72,15 +73,12 @@ if (!Directory.Exists(content))
     Directory.CreateDirectory(Path.Combine(app.Environment.ContentRootPath, "Content"));
 }
 
-app.UseStaticFiles();
-
 app.UseStaticFiles(new StaticFileOptions()
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "Content")),
     RequestPath = new PathString("/Content")
 });
 
-app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseCors(SecurityMethods.DEFAULT_POLICY);
