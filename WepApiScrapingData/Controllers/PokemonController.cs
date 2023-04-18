@@ -670,7 +670,7 @@ namespace WepApiScrapingData.Controllers
                         Talent talent = new()
                         {
                             Name_FR = talentJson.Name_FR,
-                            Description_FR = talentJson.Name_FR,
+                            Description_FR = talentJson.Description_FR,
                             Name_EN = talentJson.Name_EN,
                             Description_EN = talentJson.Description_EN,
                             Name_ES = talentJson.Name_ES,
