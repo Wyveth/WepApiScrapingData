@@ -710,11 +710,11 @@ namespace WepApiScrapingData.Controllers
                         Attaque attaque = new()
                         {
                             Name_FR = attaqueJson.Name_FR,
-                            Description_FR = attaqueJson.Name_FR,
+                            Description_FR = attaqueJson.Description_FR,
                             Name_EN = attaqueJson.Name_EN,
-                            Description_EN = attaqueJson.Name_EN,
+                            Description_EN = attaqueJson.Description_EN,
                             Name_ES = attaqueJson.Name_ES,
-                            Description_ES = attaqueJson.Name_ES,
+                            Description_ES = attaqueJson.Description_ES,
                             Name_IT = attaqueJson.Name_IT,
                             Description_IT = attaqueJson.Description_IT,
                             Name_DE = attaqueJson.Name_DE,
