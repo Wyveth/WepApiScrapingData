@@ -355,7 +355,8 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typeAttaque)
                 .SingleAsync(x => x.Id.Equals(id));
         }
 

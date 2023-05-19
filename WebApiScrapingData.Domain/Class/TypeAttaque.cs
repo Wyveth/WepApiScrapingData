@@ -62,10 +62,10 @@ namespace WebApiScrapingData.Domain.Class
         public string? Description_JP { get; set; }
 
         //Url de l'Image
-        [DataMember(Name = DataMember.UrlImg)]
         public string? UrlImg { get; set; }
 
         //Url de l'Image Interne
+        [DataMember(Name = DataMember.UrlImg)]
         public string? PathImg { get; set; }
     }
 }
