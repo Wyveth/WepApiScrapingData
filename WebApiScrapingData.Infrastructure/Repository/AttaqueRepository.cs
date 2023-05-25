@@ -74,6 +74,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
         {
             UpdateInfo(entity, true);
             this._context.Attaques.Update(entity);
+            this._context.SaveChanges();
         }
 
         public void EditRange(IEnumerable<Attaque> entities)
@@ -82,6 +83,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 UpdateInfo(entity, true);
 
             this._context.Attaques.UpdateRange(entities);
+            this._context.SaveChanges();
         }
         #endregion
 

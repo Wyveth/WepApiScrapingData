@@ -233,6 +233,9 @@
         public const string Megapagos = "Mégapagos";
         public const string Prismillon = "Prismillon";
         public const string Couafarel = "Couafarel";
+
+        public const string urlBulbapedia = "https://bulbapedia.bulbagarden.net/wiki/"; //EN
+        public const string url_move = "_(move)";
         #endregion
 
         #region PokemonDB
@@ -2895,6 +2898,45 @@
         public const string Description_Costar_IT = "Quando il Pokémon entra in battaglia, copia le modifiche alle statistiche di un alleato.";
         public const string Name_Costar_DE = "Synchronauftritt";
         public const string Description_Costar_DE = "Wenn das Pokémon in einen Kampf eintritt, kopiert es die Statusänderungen eines Verbündeten.";
+        #endregion
+
+        #region Attacks
+        public const string King_s_Shield_EN = "King’s_Shield";
+        public const string King_s_Shield_EN_New = "King%27s_Shield";
+        public const string Will_EN = "Will";
+        public const string Will_EN_New = "Will-O-Wisp";
+        public const string V_EN = "V";
+        public const string V_EN_New = "V-create";
+        public const string X_EN = "X";
+        public const string X_EN_New = "X-Scissor";
+        public const string U_EN = "U";
+        public const string U_EN_New = "U-turn";
+        public const string Forest_s_Curse_EN = "Forest’s_Curse";
+        public const string Forest_s_Curse_EN_New = "Forest%27s_Curse";
+        public const string Mud_EN = "Mud";
+        public const string Mud_EN_New = "Mud-Slap";
+        public const string Land_s_Wrath_EN = "Land’s_Wrath";
+        public const string Land_s_Wrath_EN_New = "Land%27s_Wrath";
+        public const string Topsy_EN = "Topsy";
+        public const string Topsy_EN_New = "Topsy-Turvy";
+        public const string Power_EN = "Power";
+        public const string Power_EN_New = "Power-Up_Punch";
+        public const string Baby_EN = "Baby";
+        public const string Baby_EN_New = "Baby-Doll_Eyes";
+        public const string Nature_s_Madness_EN = "Nature’s_Madness";
+        public const string Nature_s_Madness_EN_New = "Nature%27s_Madness";
+        public const string Freeze_EN = "Freeze";
+        public const string Freeze_EN_New = "Freeze-Dry";
+        public const string Soft_EN = "Soft";
+        public const string Soft_EN_New = "Soft-Boiled";
+        public const string Lock_EN = "Lock";
+        public const string Lock_EN_New = "Lock-On";
+        public const string Self_EN = "Self";
+        public const string Self_EN_New = "Hyper_Beam";
+        public const string Multi_EN = "Multi";
+        public const string Multi_EN_New = "Multi-Attack";
+        public const string Double_EN = "Double";
+        public const string Double_EN_New = "Double-Edge";
         #endregion
     }
 }
