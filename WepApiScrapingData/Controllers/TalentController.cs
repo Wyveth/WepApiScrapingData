@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using HtmlAgilityPack;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using System.Text;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
@@ -687,6 +690,67 @@ namespace WepApiScrapingData.Controllers
             }
 
             await _repository.AddRange(newTalents);
+            _repository.UnitOfWork.SaveChanges();
+        }
+
+        [HttpPut]
+        [Route("UpdateNameRUCOCNJP")]
+        public async Task UpdateNameRUCOCNJP()
+        {
+            IEnumerable<Talent> talents = await _repository.GetAll();
+
+            foreach (Talent item in talents.ToList())
+            {
+                StringBuilder url = new StringBuilder();
+                url.Append(Constantes.urlBulbapedia);
+                url.Append(item.Name_EN.Replace(" ", "_"));
+                url.Append("_(Ability)");
+
+                try
+                {
+                    string response = HttpClientUtils.CallUrl(url.ToString()).Result;
+                    HtmlDocument htmlDoc = new HtmlDocument();
+                    htmlDoc.LoadHtml(response);
+
+                    HtmlNode jpNode = htmlDoc.DocumentNode.Descendants("span")
+                            .First(node => node.GetAttributeValue("class", "").Contains("explain"));
+
+                    item.Name_JP = jpNode.InnerText;
+
+                    HtmlNode table = htmlDoc.DocumentNode.Descendants("table").First(node => node.InnerText.Contains("Language"));
+
+                    List<HtmlNode> trs = table.Descendants("tr").ToList();
+
+                    for (int i = 0; i < trs.Count - 1; i++)
+                    {
+                        List<HtmlNode> hNode = trs[0].Descendants("tr").ToList()[i].Descendants("td").ToList();
+
+                        if (hNode.Count > 0)
+                        {
+                            switch (hNode[0].InnerText.Split('\n')[0].Trim())
+                            {
+                                case "Russian":
+                                    item.Name_RU = hNode[1].InnerHtml.Split('<')[0].Split('\n')[0].Trim();
+                                    break;
+                                case "Korean":
+                                    item.Name_CO = hNode[1].InnerHtml.Split('<')[0].Split('\n')[0].Trim();
+                                    break;
+                                case "Mandarin":
+                                    item.Name_CN = hNode[1].InnerHtml.Split('/')[0].Split('\n')[0].Split("<i>")[0].Trim();
+                                    break;
+                            }
+                        }
+                    }
+                    
+                    Debug.WriteLine("Url Trouvé:" + url.ToString());
+                }
+                catch
+                {
+                    Debug.WriteLine("Url Non Trouvé:" + url.ToString());
+                }
+            }
+
+            _repository.EditRange(talents);
             _repository.UnitOfWork.SaveChanges();
         }
         #endregion
