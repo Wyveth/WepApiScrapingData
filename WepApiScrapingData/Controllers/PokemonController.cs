@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
+using WebApiScrapingData.Domain.Body;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
 using WepApiScrapingData.ExtensionMethods;
@@ -311,6 +312,15 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
+        [Route("Research")]
+        public async Task<IEnumerable<Pokemon>> Research([FromBody] Research research, string loc)
+        {
+            IEnumerable<Pokemon> pokemons = await _repository.GetAllLight();
+            return null;
+            //return pokemons.Where(m => m.);
+        }
+
+        [HttpGet]
         [Route("GetEvol/{family}")]
         public async Task<IEnumerable<Pokemon>> GetEvol(string family)
         {
@@ -522,7 +532,6 @@ namespace WepApiScrapingData.Controllers
             ScrapingDataUtils.WriteToJsonMobileV2(pokemonsJson);
             Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
         }
-
 
         [HttpGet]
         [Route("ExportDb")]

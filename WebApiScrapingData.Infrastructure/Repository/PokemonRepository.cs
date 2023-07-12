@@ -352,11 +352,11 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 .Include(m => m.CO)
                 .Include(m => m.CN)
                 .Include(m => m.JP)
-                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typeAttaque)
+                //.Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                //.Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                //.Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                //.Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typePok)
+                //.Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typeAttaque)
                 .SingleAsync(x => x.Id.Equals(id));
         }
 
@@ -390,7 +390,8 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(m => m.typeAttaque)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typeAttaque)
                 .Include(m => m.Game)
                 .ToListAsync();
         }
