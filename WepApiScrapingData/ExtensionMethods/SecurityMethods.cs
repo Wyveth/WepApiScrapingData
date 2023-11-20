@@ -1,4 +1,7 @@
-﻿using WebApiScrapingData.Infrastructure.Configurations;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using WebApiScrapingData.Infrastructure.Configurations;
 using WepApiScrapingData.Utils;
 
 namespace WepApiScrapingData.ExtensionMethods
@@ -17,6 +20,7 @@ namespace WepApiScrapingData.ExtensionMethods
         public static void AddCustomSecurity(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddCustomCors(configuration);
+            services.AddCustomAuthentification(configuration);
         }
 
         public static void AddCustomCors(this IServiceCollection services, IConfiguration configuration)
@@ -32,6 +36,30 @@ namespace WepApiScrapingData.ExtensionMethods
                            .AllowAnyMethod();
                 });
             });
+        }
+
+        public static void AddCustomAuthentification(this IServiceCollection services, IConfiguration configuration)
+        {
+            SecurityOption securityOption = new SecurityOption();
+            configuration.GetSection(Constantes.SecurityOption).Bind(securityOption);
+
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityOption.Key)),
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ValidateActor = false,
+                    ValidateLifetime = true
+                };
+            });
+
         }
         #endregion
     }
