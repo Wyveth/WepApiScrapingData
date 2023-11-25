@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Repository.Generic;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
@@ -14,11 +14,11 @@ namespace WepApiScrapingData.Controllers
     public class GameController : ControllerBase
     {
         #region Fields
-        private readonly IRepository<Game> _repository;
+        private readonly Repository<Game> _repository;
         #endregion
 
         #region Constructors
-        public GameController(IRepository<Game> repository)
+        public GameController(Repository<Game> repository)
         {
             _repository = repository;
         }
@@ -39,9 +39,9 @@ namespace WepApiScrapingData.Controllers
 
         [HttpGet]
         [Route("FindByName/{name}")]
-        public IEnumerable<Game> GetFindByName(string name)
+        public async Task<IEnumerable<Game>> GetFindByName(string name)
         {
-            return _repository.Find(m => m.Name_FR.Equals(name));
+            return await _repository.Find(m => m.Name_FR.Equals(name));
         }
 
         [HttpPost]
@@ -60,7 +60,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.RedBlue_Name_CO;
             game.Name_CN = Constantes.RedBlue_Name_CN;
             game.Name_JP = Constantes.RedBlue_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -73,7 +73,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Yellow_Name_CO;
             game.Name_CN = Constantes.Yellow_Name_CN;
             game.Name_JP = Constantes.Yellow_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -86,7 +86,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.GoldSilver_Name_CO;
             game.Name_CN = Constantes.GoldSilver_Name_CN;
             game.Name_JP = Constantes.GoldSilver_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -99,7 +99,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Crystal_Name_CO;
             game.Name_CN = Constantes.Crystal_Name_CN;
             game.Name_JP = Constantes.Crystal_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -112,7 +112,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.RubySapphire_Name_CO;
             game.Name_CN = Constantes.RubySapphire_Name_CN;
             game.Name_JP = Constantes.RubySapphire_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -125,7 +125,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Emerald_Name_CO;
             game.Name_CN = Constantes.Emerald_Name_CN;
             game.Name_JP = Constantes.Emerald_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -138,7 +138,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.FireRedLeafGreen_Name_CO;
             game.Name_CN = Constantes.FireRedLeafGreen_Name_CN;
             game.Name_JP = Constantes.FireRedLeafGreen_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -151,7 +151,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.DiamondPearl_Name_CO;
             game.Name_CN = Constantes.DiamondPearl_Name_CN;
             game.Name_JP = Constantes.DiamondPearl_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -164,7 +164,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Platinum_Name_CO;
             game.Name_CN = Constantes.Platinum_Name_CN;
             game.Name_JP = Constantes.Platinum_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -177,7 +177,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.HeartGoldSoulSilver_Name_CO;
             game.Name_CN = Constantes.HeartGoldSoulSilver_Name_CN;
             game.Name_JP = Constantes.HeartGoldSoulSilver_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
             
             game = new Game();
@@ -190,7 +190,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.BlackWhite_Name_CO;
             game.Name_CN = Constantes.BlackWhite_Name_CN;
             game.Name_JP = Constantes.BlackWhite_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -203,7 +203,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Black2White2_Name_CO;
             game.Name_CN = Constantes.Black2White2_Name_CN;
             game.Name_JP = Constantes.Black2White2_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -216,7 +216,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.X_Y_Name_CO;
             game.Name_CN = Constantes.X_Y_Name_CN;
             game.Name_JP = Constantes.X_Y_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -229,7 +229,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.SunMoon_Name_CO;
             game.Name_CN = Constantes.SunMoon_Name_CN;
             game.Name_JP = Constantes.SunMoon_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
             
             game = new Game();
@@ -242,7 +242,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.UltraSunUltraMoon_Name_CO;
             game.Name_CN = Constantes.UltraSunUltraMoon_Name_CN;
             game.Name_JP = Constantes.UltraSunUltraMoon_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -255,7 +255,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.LetsGoPikachuEvoli_Name_CO;
             game.Name_CN = Constantes.LetsGoPikachuEvoli_Name_CN;
             game.Name_JP = Constantes.LetsGoPikachuEvoli_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -268,7 +268,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.SwordShield_Name_CO;
             game.Name_CN = Constantes.SwordShield_Name_CN;
             game.Name_JP = Constantes.SwordShield_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -281,7 +281,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.ShiningDiamondShiningPearl_Name_CO;
             game.Name_CN = Constantes.ShiningDiamondShiningPearl_Name_CN;
             game.Name_JP = Constantes.ShiningDiamondShiningPearl_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
             
             game = new Game();
@@ -294,7 +294,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Arceus_Name_CO;
             game.Name_CN = Constantes.Arceus_Name_CN;
             game.Name_JP = Constantes.Arceus_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             game = new Game();
@@ -307,7 +307,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.ScarletViolet_Name_CO;
             game.Name_CN = Constantes.ScarletViolet_Name_CN;
             game.Name_JP = Constantes.ScarletViolet_Name_JP;
-            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
             await _repository.AddRange(games);
@@ -318,7 +318,7 @@ namespace WepApiScrapingData.Controllers
         [Route("UpdateGameInDB")]
         public async Task UpdateGameInDB()
         {
-            Game game = _repository.Find(m => m.Name_FR.Equals(Constantes.RedBlue_Name_FR)).FirstOrDefault();
+            Game game = _repository.Find(m => m.Name_FR.Equals(Constantes.RedBlue_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.RedBlue_Name_FR;
             game.Name_EN = Constantes.RedBlue_Name_EN;
             game.Name_ES = Constantes.RedBlue_Name_ES;
@@ -330,7 +330,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.RedBlue_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.Yellow_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.Yellow_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.Yellow_Name_FR;
             game.Name_EN = Constantes.Yellow_Name_EN;
             game.Name_ES = Constantes.Yellow_Name_ES;
@@ -342,7 +342,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.Yellow_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.GoldSilver_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.GoldSilver_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.GoldSilver_Name_FR;
             game.Name_EN = Constantes.GoldSilver_Name_EN;
             game.Name_ES = Constantes.GoldSilver_Name_ES;
@@ -354,7 +354,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.GoldSilver_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.Crystal_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.Crystal_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.Crystal_Name_FR;
             game.Name_EN = Constantes.Crystal_Name_EN;
             game.Name_ES = Constantes.Crystal_Name_ES;
@@ -366,7 +366,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.Crystal_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.RubySapphire_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.RubySapphire_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.RubySapphire_Name_FR;
             game.Name_EN = Constantes.RubySapphire_Name_EN;
             game.Name_ES = Constantes.RubySapphire_Name_ES;
@@ -378,7 +378,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.RubySapphire_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.Emerald_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.Emerald_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.Emerald_Name_FR;
             game.Name_EN = Constantes.Emerald_Name_EN;
             game.Name_ES = Constantes.Emerald_Name_ES;
@@ -390,7 +390,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.Emerald_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.FireRedLeafGreen_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.FireRedLeafGreen_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.FireRedLeafGreen_Name_FR;
             game.Name_EN = Constantes.FireRedLeafGreen_Name_EN;
             game.Name_ES = Constantes.FireRedLeafGreen_Name_ES;
@@ -402,7 +402,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.FireRedLeafGreen_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.DiamondPearl_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.DiamondPearl_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.DiamondPearl_Name_FR;
             game.Name_EN = Constantes.DiamondPearl_Name_EN;
             game.Name_ES = Constantes.DiamondPearl_Name_ES;
@@ -414,7 +414,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.DiamondPearl_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.Platinum_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.Platinum_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.Platinum_Name_FR;
             game.Name_EN = Constantes.Platinum_Name_EN;
             game.Name_ES = Constantes.Platinum_Name_ES;
@@ -426,7 +426,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.Platinum_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.HeartGoldSoulSilver_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.HeartGoldSoulSilver_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.HeartGoldSoulSilver_Name_FR;
             game.Name_EN = Constantes.HeartGoldSoulSilver_Name_EN;
             game.Name_ES = Constantes.HeartGoldSoulSilver_Name_ES;
@@ -438,7 +438,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.HeartGoldSoulSilver_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.BlackWhite_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.BlackWhite_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.BlackWhite_Name_FR;
             game.Name_EN = Constantes.BlackWhite_Name_EN;
             game.Name_ES = Constantes.BlackWhite_Name_ES;
@@ -450,7 +450,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.BlackWhite_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.Black2White2_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.Black2White2_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.Black2White2_Name_FR;
             game.Name_EN = Constantes.Black2White2_Name_EN;
             game.Name_ES = Constantes.Black2White2_Name_ES;
@@ -462,7 +462,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.Black2White2_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.X_Y_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.X_Y_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.X_Y_Name_FR;
             game.Name_EN = Constantes.X_Y_Name_EN;
             game.Name_ES = Constantes.X_Y_Name_ES;
@@ -474,7 +474,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.X_Y_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.SunMoon_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.SunMoon_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.SunMoon_Name_FR;
             game.Name_EN = Constantes.SunMoon_Name_EN;
             game.Name_ES = Constantes.SunMoon_Name_ES;
@@ -486,7 +486,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.SunMoon_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.UltraSunUltraMoon_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.UltraSunUltraMoon_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.UltraSunUltraMoon_Name_FR;
             game.Name_EN = Constantes.UltraSunUltraMoon_Name_EN;
             game.Name_ES = Constantes.UltraSunUltraMoon_Name_ES;
@@ -498,7 +498,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.UltraSunUltraMoon_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.LetsGoPikachuEvoli_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.LetsGoPikachuEvoli_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.LetsGoPikachuEvoli_Name_FR;
             game.Name_EN = Constantes.LetsGoPikachuEvoli_Name_EN;
             game.Name_ES = Constantes.LetsGoPikachuEvoli_Name_ES;
@@ -510,7 +510,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.LetsGoPikachuEvoli_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.SwordShield_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.SwordShield_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.SwordShield_Name_FR;
             game.Name_EN = Constantes.SwordShield_Name_EN;
             game.Name_ES = Constantes.SwordShield_Name_ES;
@@ -522,7 +522,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.SwordShield_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.ShiningDiamondShiningPearl_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.ShiningDiamondShiningPearl_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.ShiningDiamondShiningPearl_Name_FR;
             game.Name_EN = Constantes.ShiningDiamondShiningPearl_Name_EN;
             game.Name_ES = Constantes.ShiningDiamondShiningPearl_Name_ES;
@@ -534,7 +534,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.ShiningDiamondShiningPearl_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.Arceus_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.Arceus_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.Arceus_Name_FR;
             game.Name_EN = Constantes.Arceus_Name_EN;
             game.Name_ES = Constantes.Arceus_Name_ES;
@@ -546,7 +546,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_JP = Constantes.Arceus_Name_JP;
             _repository.Edit(game);
 
-            game = _repository.Find(m => m.Name_FR.Equals(Constantes.ScarletViolet_Name_FR)).FirstOrDefault();
+            game = _repository.Find(m => m.Name_FR.Equals(Constantes.ScarletViolet_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.ScarletViolet_Name_FR;
             game.Name_EN = Constantes.ScarletViolet_Name_EN;
             game.Name_ES = Constantes.ScarletViolet_Name_ES;

@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text;
-using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
+using WebApiScrapingData.Infrastructure.Repository.Generic;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
@@ -17,13 +17,13 @@ namespace WepApiScrapingData.Controllers
     public class TypeAttaqueController : ControllerBase
     {
         #region Fields
-        private readonly IRepository<TypeAttaque> _repository;
-        private readonly IRepository<TypePok> _repositoryTP;
-        private readonly IRepository<Attaque> _repositoryA;
+        private readonly Repository<TypeAttaque> _repository;
+        private readonly Repository<TypePok> _repositoryTP;
+        private readonly Repository<Attaque> _repositoryA;
         #endregion
 
         #region Constructors
-        public TypeAttaqueController(IRepository<TypeAttaque> repository, IRepository<TypePok> repositoryTP, IRepository<Attaque> repositoryA)
+        public TypeAttaqueController(Repository<TypeAttaque> repository, Repository<TypePok> repositoryTP, Repository<Attaque> repositoryA)
         {
             _repository = repository;
             _repositoryTP = repositoryTP;
@@ -46,9 +46,9 @@ namespace WepApiScrapingData.Controllers
 
         [HttpGet]
         [Route("FindByName/{name}")]
-        public IEnumerable<TypeAttaque> GetFindByName(string name)
+        public async Task<IEnumerable<TypeAttaque>> GetFindByName(string name)
         {
-            return _repository.Find(m => m.Name_FR.Equals(name));
+            return await _repository.Find(m => m.Name_FR.Equals(name));
         }
 
         [HttpGet]
@@ -103,7 +103,7 @@ namespace WepApiScrapingData.Controllers
             typeAttaque.Name_JP = Constantes.Physical_Name_JP;
             typeAttaque.Description_JP = Constantes.Physical_Description_JP;
             typeAttaque.UrlImg = Constantes.Physical_UrlImg;
-            if (_repository.Find(m => m.Name_FR.Equals(typeAttaque.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(typeAttaque.Name_FR)).Result.Count() == 0)
                 typeAttaques.Add(typeAttaque);
 
             typeAttaque = new TypeAttaque();
@@ -126,7 +126,7 @@ namespace WepApiScrapingData.Controllers
             typeAttaque.Name_JP = Constantes.Special_Name_JP;
             typeAttaque.Description_JP = Constantes.Special_Description_JP;
             typeAttaque.UrlImg = Constantes.Special_UrlImg;
-            if (_repository.Find(m => m.Name_FR.Equals(typeAttaque.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(typeAttaque.Name_FR)).Result.Count() == 0)
                 typeAttaques.Add(typeAttaque);
 
             typeAttaque = new TypeAttaque();
@@ -149,7 +149,7 @@ namespace WepApiScrapingData.Controllers
             typeAttaque.Name_JP = Constantes.Status_Name_JP;
             typeAttaque.Description_JP = Constantes.Status_Description_JP;
             typeAttaque.UrlImg = Constantes.Status_UrlImg;
-            if (_repository.Find(m => m.Name_FR.Equals(typeAttaque.Name_FR)).Count() == 0)
+            if (_repository.Find(m => m.Name_FR.Equals(typeAttaque.Name_FR)).Result.Count() == 0)
                 typeAttaques.Add(typeAttaque);
 
             await _repository.AddRange(typeAttaques);

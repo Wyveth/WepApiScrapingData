@@ -1,14 +1,15 @@
 ﻿using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Domain.Interface;
 
-namespace WebApiScrapingData.Core.Repositories.RepositoriesQuizz
+namespace WebApiScrapingData.Core.Repositories
 {
-    public interface IRepositoryExtendsPokemon<TEntity> : IRepository<TEntity> where TEntity : class
+    public interface IRepositoryExtendsPokemon<TEntity> : IRepository<TEntity> where TEntity : class, ITIdentity
     {
-        Task<IEnumerable<TEntity>> GetAllLight();
+        Task<IEnumerable<Pokemon>> GetAllLight();
 
         Task<List<Pokemon>> GetFamilyWithoutVariantAsync(string family);
-            
-        Task<IEnumerable<TEntity>> GetAllVariantAsync(string number);
+
+        Task<IEnumerable<Pokemon>> GetAllVariantAsync(string number);
 
         Task SaveInfoPokemonAttackInDB(string json);
 

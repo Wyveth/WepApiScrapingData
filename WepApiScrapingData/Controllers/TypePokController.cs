@@ -8,6 +8,7 @@ using System.Net;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
+using WebApiScrapingData.Infrastructure.Repository.Generic;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
@@ -19,11 +20,11 @@ namespace WepApiScrapingData.Controllers
     public class TypePokController : ControllerBase
     {
         #region Fields
-        private readonly IRepository<TypePok> _repository;
+        private readonly Repository<TypePok> _repository;
         #endregion
 
         #region Constructors
-        public TypePokController(IRepository<TypePok> repository)
+        public TypePokController(Repository<TypePok> repository)
         {
             _repository = repository;
         }
@@ -54,9 +55,9 @@ namespace WepApiScrapingData.Controllers
 
         [HttpGet]
         [Route("Find")]
-        public IEnumerable<TypePok> GetFind(Expression<Func<TypePok, bool>> predicate)
+        public async Task<IEnumerable<TypePok>> GetFind(Expression<Func<TypePok, bool>> predicate)
         {
-            return _repository.Find(predicate);
+            return await _repository.Find(predicate);
         }
 
         [HttpGet]

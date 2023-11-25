@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using WebApiScrapingData.Domain.Interface;
 using WebApiScrapingData.Framework;
 
 namespace WebApiScrapingData.Core.Repositories
@@ -6,14 +7,14 @@ namespace WebApiScrapingData.Core.Repositories
     /// <summary>
     /// Used to define the class of a Repository
     /// </summary>
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : class, ITIdentity
     {
         IUnitOfWork UnitOfWork { get; }
-        
-        Task<TEntity> Get(int id);
+
+        Task<TEntity?> Get(int id);
         IQueryable<TEntity> Query();
         Task<IEnumerable<TEntity>> GetAll();
-        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+        Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate);
 
         Task<TEntity?> SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
 

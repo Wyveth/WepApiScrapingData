@@ -1,13 +1,11 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Diagnostics;
 using System.Text;
-using WebApiScrapingData.Core.Repositories;
-using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
+using WebApiScrapingData.Infrastructure.Repository.Generic;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
@@ -19,12 +17,12 @@ namespace WepApiScrapingData.Controllers
     public class AttaqueController : ControllerBase
     {
         #region Fields
-        private readonly IRepository<Attaque> _repository;
-        private readonly IRepositoryExtendsPokemon<Pokemon> _repositoryP;
+        private readonly Repository<Attaque> _repository;
+        private readonly Repository<Pokemon> _repositoryP;
         #endregion
 
         #region Constructors
-        public AttaqueController(IRepository<Attaque> repository, IRepositoryExtendsPokemon<Pokemon> repositoryP)
+        public AttaqueController(Repository<Attaque> repository, Repository<Pokemon> repositoryP)
         {
             _repository = repository;
             _repositoryP = repositoryP;
@@ -46,9 +44,9 @@ namespace WepApiScrapingData.Controllers
 
         [HttpGet]
         [Route("FindByName/{name}")]
-        public IEnumerable<Attaque> GetFindByName(string name)
+        public async Task<IEnumerable<Attaque>> GetFindByName(string name)
         {
-            return _repository.Find(m => m.Name_FR.Equals(name));
+            return await _repository.Find(m => m.Name_FR.Equals(name));
         }
 
         [HttpGet]
