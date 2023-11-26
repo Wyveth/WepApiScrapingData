@@ -748,7 +748,7 @@ namespace WepApiScrapingData.Controllers
                 }
             }
 
-            _repository.EditRange(talents);
+            _repository.UpdateRange(talents);
             _repository.UnitOfWork.SaveChanges();
         }
         #endregion

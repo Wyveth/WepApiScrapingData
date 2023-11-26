@@ -1019,7 +1019,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryTL.EditRange(talents);
+            this._repositoryTL.UpdateRange(talents);
             _repositoryTL.UnitOfWork.SaveChanges();
 
             List<Attaque> attaques = this._repositoryAT.GetAll().Result.ToList();
@@ -1028,7 +1028,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryAT.EditRange(attaques);
+            this._repositoryAT.UpdateRange(attaques);
             _repositoryAT.UnitOfWork.SaveChanges();
 
             List<Pokemon_Attaque> pokemon_Attaques = this._repositoryPAT.GetAll().Result.ToList();
@@ -1037,7 +1037,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryPAT.EditRange(pokemon_Attaques);
+            this._repositoryPAT.UpdateRange(pokemon_Attaques);
             _repositoryPAT.UnitOfWork.SaveChanges();
 
             List<Pokemon_Talent> pokemon_Talents = this._repositoryPTL.GetAll().Result.ToList();
@@ -1046,7 +1046,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryPTL.EditRange(pokemon_Talents);
+            this._repositoryPTL.UpdateRange(pokemon_Talents);
             _repositoryPTL.UnitOfWork.SaveChanges();
         }
         #endregion

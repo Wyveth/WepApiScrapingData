@@ -3,7 +3,7 @@ using WebApiScrapingData.Domain.Interface;
 
 namespace WebApiScrapingData.Core.Repositories
 {
-    public interface IRepositoryExtendsPokemon<TEntity> : IRepository<TEntity> where TEntity : class, ITIdentity
+    public interface IRepositoryExtendsPokemon<T> : IRepository<T> where T : class, ITIdentity
     {
         Task<IEnumerable<Pokemon>> GetAllLight();
 

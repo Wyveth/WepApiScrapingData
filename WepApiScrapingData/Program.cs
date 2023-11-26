@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging.Configuration;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System.Net;
 using WebApiScrapingData.Infrastructure.Data;
@@ -18,7 +19,26 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(m => {
+    m.SwaggerDoc("v1", new OpenApiInfo { Title = "PokeApi", Version = "v1" });
+
+    m.OrderActionsBy(apiDesc =>
+    {
+        var controllerName = apiDesc.ActionDescriptor.RouteValues["controller"];
+        var httpMethod = apiDesc.HttpMethod;
+
+        // Assignez des valeurs numériques plus grandes aux méthodes DELETE
+        var httpMethodOrder = httpMethod.ToLower() == "delete" ? 4 :
+                              httpMethod.ToLower() == "put" ? 3 :
+                              httpMethod.ToLower() == "post" ? 2 :
+                              httpMethod.ToLower() == "get" ? 1 : 0;
+
+        var relativePath = apiDesc.RelativePath;
+
+        // Concaténation des critères pour former une clé composite
+        return $"{controllerName}_{httpMethodOrder}_{relativePath}";
+    });
+});
 
 //Ajout du DBContext
 builder.Services.AddDbContextFactory<ScrapingContext>(options => {

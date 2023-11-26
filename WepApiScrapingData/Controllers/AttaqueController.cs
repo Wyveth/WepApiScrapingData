@@ -258,7 +258,7 @@ namespace WepApiScrapingData.Controllers
                 
             }
 
-            _repository.EditRange(attaques);
+            _repository.UpdateRange(attaques);
         }
     }
 }

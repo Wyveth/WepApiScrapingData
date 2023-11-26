@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Interface;
@@ -7,7 +8,7 @@ using WebApiScrapingData.Infrastructure.Data;
 
 namespace WebApiScrapingData.Infrastructure.Repository.Generic
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, ITIdentity
+    public class Repository<T> : IRepository<T> where T : class, ITIdentity
     {
         #region Fields        
         protected readonly ScrapingContext _context;
@@ -20,71 +21,77 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
 
         #region Public Methods
         #region Read
-        public async Task<TEntity?> Get(int id)
+        public async Task<T?> Get(int id)
         {
-            return await _context.Set<TEntity>().SingleAsync(x => x.Id.Equals(id));
+            return await _context.Set<T>().SingleAsync(x => x.Id.Equals(id));
         }
 
-        public IQueryable<TEntity> Query()
+        public IQueryable<T> Query()
         {
-            return _context.Set<TEntity>().AsQueryable();
+            return _context.Set<T>().AsQueryable();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return await _context.Set<TEntity>().ToListAsync();
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
         {
-            return await _context.Set<TEntity>().Where(predicate ?? (s => true)).ToListAsync();
+            return await _context.Set<T>().Where(predicate ?? (s => true)).ToListAsync();
         }
 
-        public async Task<TEntity?> SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        public async Task<T?> SingleOrDefault(Expression<Func<T, bool>> predicate)
         {
-            return await _context.Set<TEntity>().SingleOrDefaultAsync(predicate);
+            return await _context.Set<T>().SingleOrDefaultAsync(predicate);
         }
         #endregion
 
-        #region Create
-        public async Task Add(TEntity entity)
+        #region Create        
+        public async Task<bool> Add(T entity)
         {
             UpdateInfo(entity);
-            await _context.Set<TEntity>().AddAsync(entity);
+            await _context.Set<T>().AddAsync(entity);
+            return saveChanges();
         }
 
-        public async Task AddRange(IEnumerable<TEntity> entities)
+        public async Task<bool> AddRange(IEnumerable<T> entities)
         {
             foreach (var entity in entities)
                 UpdateInfo(entity);
-            await _context.Set<TEntity>().AddRangeAsync(entities);
+            await _context.Set<T>().AddRangeAsync(entities);
+            return saveChanges();
         }
         #endregion
 
         #region Update
-        public void Edit(TEntity entity)
+        public bool Update(T entity)
         {
             UpdateInfo(entity, true);
-            _context.Set<TEntity>().Update(entity);
+            _context.Set<T>().Update(entity);
+            return saveChanges();
         }
 
-        public void EditRange(IEnumerable<TEntity> entities)
+        public bool UpdateRange(IEnumerable<T> entities)
         {
             foreach (var entity in entities)
                 UpdateInfo(entity);
-            _context.Set<TEntity>().UpdateRange(entities);
+            _context.Set<T>().UpdateRange(entities);
+            return saveChanges();
         }
         #endregion
 
         #region Delete
-        public void Remove(TEntity entity)
+        public bool Remove(T entity)
         {
-            _context.Set<TEntity>().Remove(entity);
+            _context.Set<T>().Remove(entity);
+            return saveChanges();
         }
 
-        public void RemoveRange(IEnumerable<TEntity> entities)
+        public bool RemoveRange(IEnumerable<T> entities)
         {
-            _context.Set<TEntity>().RemoveRange(entities);
+            _context.Set<T>().RemoveRange(entities);
+            return saveChanges();
         }
         #endregion
 
@@ -95,7 +102,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
         #endregion
 
         #region Private Methods
-        private void UpdateInfo(TEntity entity, bool edit = false)
+        private void UpdateInfo(T entity, bool edit = false)
         {
             entity.UserModification = "System";
             entity.DateModification = DateTime.Now;
@@ -108,6 +115,15 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
             }
             else
                 entity.versionModification += 1;
+        }
+
+        private bool saveChanges()
+        {
+            // Enregistrez les modifications dans la base de données de manière synchrone
+            int modifiedLines = _context.SaveChanges();
+
+            // Vérifiez si l'opération a réussi en fonction du nombre de lignes modifiées
+            return modifiedLines > 0;
         }
         #endregion
 

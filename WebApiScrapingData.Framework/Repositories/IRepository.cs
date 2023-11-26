@@ -7,25 +7,25 @@ namespace WebApiScrapingData.Core.Repositories
     /// <summary>
     /// Used to define the class of a Repository
     /// </summary>
-    public interface IRepository<TEntity> where TEntity : class, ITIdentity
+    public interface IRepository<T> where T : class, ITIdentity
     {
         IUnitOfWork UnitOfWork { get; }
 
-        Task<TEntity?> Get(int id);
-        IQueryable<TEntity> Query();
-        Task<IEnumerable<TEntity>> GetAll();
-        Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate);
+        Task<T?> Get(int id);
+        IQueryable<T> Query();
+        Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
 
-        Task<TEntity?> SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
+        Task<T?> SingleOrDefault(Expression<Func<T, bool>> predicate);
 
-        Task Add(TEntity entity);
-        Task AddRange(IEnumerable<TEntity> entities);
+        Task<bool> Add(T entity);
+        Task<bool> AddRange(IEnumerable<T> entities);
         Task SaveJsonInDb(string json);
 
-        void Edit(TEntity entity);
-        void EditRange(IEnumerable<TEntity> entities);
+        bool Update(T entity);
+        bool UpdateRange(IEnumerable<T> entities);
 
-        void Remove(TEntity entity);
-        void RemoveRange(IEnumerable<TEntity> entities);
+        bool Remove(T entity);
+        bool RemoveRange(IEnumerable<T> entities);
     }
 }
