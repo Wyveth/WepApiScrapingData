@@ -1,9 +1,10 @@
 ﻿using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.Class.Quizz;
+using WebApiScrapingData.Domain.Interface;
 
 namespace WebApiScrapingData.Core.Repositories.RepositoriesQuizz
 {
-    public interface IRepositoryExtendsAnswer<TEntity> : IRepository<TEntity> where TEntity : class
+    public interface IRepositoryExtendsAnswer<T> : IRepository<T> where T : class, ITIdentity
     {
         Task<string> GenerateCorrectAnswers(QuestionType questionType, List<Pokemon> pokemonsAnswer);
         Task<string> GenerateCorrectAnswers(QuestionType questionType, List<TypePok> typesAnswer);

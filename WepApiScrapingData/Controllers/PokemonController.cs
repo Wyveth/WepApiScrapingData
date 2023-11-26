@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using WebApiScrapingData.Core.Repositories;
-using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
+using WebApiScrapingData.Domain.Body;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
+using WebApiScrapingData.Infrastructure.Repository.Class;
+using WebApiScrapingData.Infrastructure.Repository.Generic;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
@@ -18,20 +19,20 @@ namespace WepApiScrapingData.Controllers
     public class PokemonController : ControllerBase
     {
         #region Fields
-        private readonly IRepositoryExtendsPokemon<Pokemon> _repository;
-        private readonly IRepository<TypePok> _repositoryTP;
-        private readonly IRepository<Talent> _repositoryTL;
-        private readonly IRepository<Attaque> _repositoryAT;
-        private readonly IRepository<TypeAttaque> _repositoryTA;
-        private readonly IRepository<Game> _repositoryG;
-        private readonly IRepository<Pokemon_TypePok> _repositoryPTP;
-        private readonly IRepository<Pokemon_Weakness> _repositoryPWN;
-        private readonly IRepository<Pokemon_Talent> _repositoryPTL;
-        private readonly IRepository<Pokemon_Attaque> _repositoryPAT;
+        private readonly PokemonRepository _repository;
+        private readonly Repository<TypePok> _repositoryTP;
+        private readonly Repository<Talent> _repositoryTL;
+        private readonly Repository<Attaque> _repositoryAT;
+        private readonly Repository<TypeAttaque> _repositoryTA;
+        private readonly Repository<Game> _repositoryG;
+        private readonly Repository<Pokemon_TypePok> _repositoryPTP;
+        private readonly Repository<Pokemon_Weakness> _repositoryPWN;
+        private readonly Repository<Pokemon_Talent> _repositoryPTL;
+        private readonly Repository<Pokemon_Attaque> _repositoryPAT;
         #endregion
 
         #region Constructors
-        public PokemonController(IRepositoryExtendsPokemon<Pokemon> repository, IRepository<TypePok> repositoryTP, IRepository<Talent> repositoryTL, IRepository<Attaque> repositoryAT, IRepository<TypeAttaque> repositoryTA, IRepository<Game> repositoryG, IRepository<Pokemon_TypePok> repositoryPTP, IRepository<Pokemon_Weakness> repositoryPWN, IRepository<Pokemon_Talent> repositoryPTL, IRepository<Pokemon_Attaque> repositoryPAT)
+        public PokemonController(PokemonRepository repository, Repository<TypePok> repositoryTP, Repository<Talent> repositoryTL, Repository<Attaque> repositoryAT, Repository<TypeAttaque> repositoryTA, Repository<Game> repositoryG, Repository<Pokemon_TypePok> repositoryPTP, Repository<Pokemon_Weakness> repositoryPWN, Repository<Pokemon_Talent> repositoryPTL, Repository<Pokemon_Attaque> repositoryPAT)
         {
             _repository = repository;
             _repositoryTP = repositoryTP;
@@ -311,6 +312,15 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
+        [Route("Research")]
+        public async Task<IEnumerable<Pokemon>> Research([FromBody] Research research, string loc)
+        {
+            IEnumerable<Pokemon> pokemons = await _repository.GetAllLight();
+            return null;
+            //return pokemons.Where(m => m.);
+        }
+
+        [HttpGet]
         [Route("GetEvol/{family}")]
         public async Task<IEnumerable<Pokemon>> GetEvol(string family)
         {
@@ -523,7 +533,6 @@ namespace WepApiScrapingData.Controllers
             Debug.WriteLine("End Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
         }
 
-
         [HttpGet]
         [Route("ExportDb")]
         public Task ExportDb()
@@ -705,8 +714,8 @@ namespace WepApiScrapingData.Controllers
                     List<AttaqueExportJson> attaquesJson = JsonConvert.DeserializeObject<List<AttaqueExportJson>>(json);
                     foreach (AttaqueExportJson attaqueJson in attaquesJson)
                     {
-                        TypePok typePok = _repositoryTP.Find(m => m.Name_EN.Equals(attaqueJson.Types.Name_EN)).FirstOrDefault();
-                        TypeAttaque typeAttaque = _repositoryTA.Find(m => m.Name_EN.Equals(attaqueJson.TypeAttaque.Name_EN)).FirstOrDefault();
+                        TypePok typePok = _repositoryTP.Find(m => m.Name_EN.Equals(attaqueJson.Types.Name_EN)).Result.FirstOrDefault();
+                        TypeAttaque typeAttaque = _repositoryTA.Find(m => m.Name_EN.Equals(attaqueJson.TypeAttaque.Name_EN)).Result.FirstOrDefault();
                         Attaque attaque = new()
                         {
                             Name_FR = attaqueJson.Name_FR,
@@ -1010,7 +1019,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryTL.EditRange(talents);
+            this._repositoryTL.UpdateRange(talents);
             _repositoryTL.UnitOfWork.SaveChanges();
 
             List<Attaque> attaques = this._repositoryAT.GetAll().Result.ToList();
@@ -1019,7 +1028,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryAT.EditRange(attaques);
+            this._repositoryAT.UpdateRange(attaques);
             _repositoryAT.UnitOfWork.SaveChanges();
 
             List<Pokemon_Attaque> pokemon_Attaques = this._repositoryPAT.GetAll().Result.ToList();
@@ -1028,7 +1037,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryPAT.EditRange(pokemon_Attaques);
+            this._repositoryPAT.UpdateRange(pokemon_Attaques);
             _repositoryPAT.UnitOfWork.SaveChanges();
 
             List<Pokemon_Talent> pokemon_Talents = this._repositoryPTL.GetAll().Result.ToList();
@@ -1037,7 +1046,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryPTL.EditRange(pokemon_Talents);
+            this._repositoryPTL.UpdateRange(pokemon_Talents);
             _repositoryPTL.UnitOfWork.SaveChanges();
         }
         #endregion

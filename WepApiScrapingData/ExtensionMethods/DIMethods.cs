@@ -1,8 +1,9 @@
-﻿using WebApiScrapingData.Core.Repositories;
-using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
-using WebApiScrapingData.Domain.Class;
+﻿using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Infrastructure.Repository;
+using WebApiScrapingData.Infrastructure.Repository.Generic;
+using WebApiScrapingData.Infrastructure.Repository.Class;
+using WebApiScrapingData.Core;
 
 namespace WepApiScrapingData.ExtensionMethods
 {
@@ -15,24 +16,29 @@ namespace WepApiScrapingData.ExtensionMethods
         /// <param name="services"></param>
         public static IServiceCollection AddInjections(this IServiceCollection services)
         {
-            services.AddScoped<IRepositoryExtendsPokemon<Pokemon>, PokemonRepository>();
-            services.AddScoped<IRepository<TypePok>, TypePokRepository>();
-            services.AddScoped<IRepository<Talent>, TalentRepository>();
-            services.AddScoped<IRepository<TypeAttaque>, TypeAttaqueRepository>();
-            services.AddScoped<IRepository<Attaque>, AttaqueRepository>();
-            services.AddScoped<IRepository<Pokemon_TypePok>, Pokemon_TypePokRepository>();
-            services.AddScoped<IRepository<Pokemon_Weakness>, Pokemon_WeaknessRepository>();
-            services.AddScoped<IRepository<Pokemon_Talent>, Pokemon_TalentRepository>();
-            services.AddScoped<IRepository<Pokemon_Attaque>, Pokemon_AttaqueRepository>();
-            services.AddScoped<IRepository<Game>, GameRepository>();
+            services.AddScoped<Repository<Attaque>, AttaqueRepository>();
+            services.AddScoped<Repository<Game>, GameRepository>();
+            services.AddScoped<PokemonRepository>();
+            services.AddScoped<Repository<Talent>, TalentRepository>();
+            services.AddScoped<Repository<TypeAttaque>, TypeAttaqueRepository>();
+            services.AddScoped<Repository<TypePok>, TypePokRepository>();
+            services.AddScoped<Repository<Pokemon_TypePok>, Pokemon_TypePokRepository>();
+            services.AddScoped<Repository<Pokemon_Weakness>, Pokemon_WeaknessRepository>();
+            services.AddScoped<Repository<Pokemon_Talent>, Pokemon_TalentRepository>();
+            services.AddScoped<Repository<Pokemon_Attaque>, Pokemon_AttaqueRepository>();
 
             #region Quizz
-            services.AddScoped<IRepositoryExtendsQuizz<Quizz>, QuizzRepository>();
-            services.AddScoped<IRepositoryExtendsQuestion<Question>, QuestionRepository>();
-            services.AddScoped<IRepositoryExtendsAnswer<Answer>, AnswerRepository>();
-            services.AddScoped<IRepository<QuestionType>, QuestionTypeRepository>();
-            services.AddScoped<IRepository<QuizzDifficulty>, QuizzDifficultyRepository>();
-            services.AddScoped<IRepository<Difficulty>, DifficultyRepository>();
+            services.AddScoped<Repository<Quizz>, QuizzRepository>();
+            services.AddScoped<Repository<Question>, QuestionRepository>();
+            services.AddScoped<Repository<Answer>, AnswerRepository>();
+            services.AddScoped<Repository<QuestionType>, QuestionTypeRepository>();
+            services.AddScoped<Repository<QuizzDifficulty>, QuizzDifficultyRepository>();
+            services.AddScoped<Repository<Difficulty>, DifficultyRepository>();
+            #endregion
+
+            #region Controller
+            services.AddScoped(typeof(GenericMapper<,>));
+            services.AddScoped<GameRepository>();
             #endregion
 
             return services;

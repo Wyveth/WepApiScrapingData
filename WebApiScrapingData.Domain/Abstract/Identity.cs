@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using WebApiScrapingData.Domain.Interface;
 using WebApiScrapingData.Domain.Resources;
 
 namespace WebApiScrapingData.Domain.Abstract
 {
     [DataContract]
-    public class Identity
+    public abstract class Identity : ITIdentity
     {
         [Key]
         [DataMember(Name = DataMember.Id)]

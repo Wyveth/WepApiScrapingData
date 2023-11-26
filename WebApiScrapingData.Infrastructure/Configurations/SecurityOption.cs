@@ -6,7 +6,7 @@
     public class SecurityOption
     {
         #region Properties
-        public string? Key { get; set; }
+        public string Key { get; set; }
         #endregion
     }
 }

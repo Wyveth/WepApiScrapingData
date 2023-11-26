@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Text;
-using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
+using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
 
@@ -1664,7 +1664,7 @@ namespace WepApiScrapingData.Utils
 
                     try
                     {
-                        Pokemon pokemon = repositoryPkm.Find(x => x.FR.Name == name).FirstOrDefault();
+                        Pokemon pokemon = repositoryPkm.Find(x => x.FR.Name == name).Result.FirstOrDefault();
 
                         if (pokemon != null)
                         {
@@ -1913,7 +1913,7 @@ namespace WepApiScrapingData.Utils
                         if (audio != null)
                             urlAudio = "https:" + audio.OuterHtml.Split('\"')[1];
 
-                        Pokemon pokemon = repositoryPkm.Find(x => x.FR.Name == name).FirstOrDefault();
+                        Pokemon pokemon = repositoryPkm.Find(x => x.FR.Name == name).Result.FirstOrDefault();
 
                         if (pokemon != null && !string.IsNullOrEmpty(urlAudio))
                         {
@@ -2235,7 +2235,7 @@ namespace WepApiScrapingData.Utils
                         if (audio != null)
                             urlAudio = "https:" + audio.OuterHtml.Split('\"')[1];
 
-                        Pokemon pokemon = repositoryPkm.Find(x => x.FR.Name == name).FirstOrDefault();
+                        Pokemon pokemon = repositoryPkm.Find(x => x.FR.Name == name).Result.FirstOrDefault();
 
                         if (pokemon != null && !string.IsNullOrEmpty(urlAudio))
                         {

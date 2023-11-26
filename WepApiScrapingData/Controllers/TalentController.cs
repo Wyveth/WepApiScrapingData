@@ -1,14 +1,12 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Text;
-using WebApiScrapingData.Core.Repositories;
-using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
+using WebApiScrapingData.Infrastructure.Repository.Generic;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
@@ -20,12 +18,12 @@ namespace WepApiScrapingData.Controllers
     public class TalentController : ControllerBase
     {
         #region Fields
-        private readonly IRepository<Talent> _repository;
-        private readonly IRepositoryExtendsPokemon<Pokemon> _repositoryPokemon;
+        private readonly Repository<Talent> _repository;
+        private readonly Repository<Pokemon> _repositoryPokemon;
         #endregion
 
         #region Constructors
-        public TalentController(IRepository<Talent> repository, IRepositoryExtendsPokemon<Pokemon> repositoryPokemon)
+        public TalentController(Repository<Talent> repository, Repository<Pokemon> repositoryPokemon)
         {
             _repository = repository;
             _repositoryPokemon = repositoryPokemon;
@@ -48,9 +46,9 @@ namespace WepApiScrapingData.Controllers
 
         [HttpGet]
         [Route("Find")]
-        public IEnumerable<Talent> GetFind(Expression<Func<Talent, bool>> predicate)
+        public async Task<IEnumerable<Talent>> GetFind(Expression<Func<Talent, bool>> predicate)
         {
-            return _repository.Find(predicate);
+            return await _repository.Find(predicate);
         }
 
         [HttpGet]
@@ -81,7 +79,7 @@ namespace WepApiScrapingData.Controllers
         [Route("AddMissingTalent")]
         public async Task AddMissingTalent()
         {
-            Talent talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Analytic_FR)).FirstOrDefault();
+            Talent talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Analytic_FR)).Result.FirstOrDefault();
             if(talent == null)
             {
                 talent = new()
@@ -100,7 +98,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_PowerOfAlchemy_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_PowerOfAlchemy_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -119,7 +117,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Harvest_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Harvest_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -138,7 +136,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Imposter_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Imposter_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -157,7 +155,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Multiscale_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Multiscale_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -176,7 +174,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Moody_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Moody_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -195,7 +193,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_ToxicBoost_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_ToxicBoost_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -214,7 +212,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Protean_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Protean_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -233,7 +231,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_FlareBoost_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_FlareBoost_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -252,7 +250,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_ZenMode_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_ZenMode_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -271,7 +269,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_GaleWings_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_GaleWings_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -290,7 +288,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Symbiosis_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Symbiosis_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -309,7 +307,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_GrassPelt_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_GrassPelt_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -328,7 +326,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_LongReach_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_LongReach_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -347,7 +345,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_LiquidVoice_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_LiquidVoice_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -366,7 +364,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Libero_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Libero_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -385,7 +383,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_MirrorArmor_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_MirrorArmor_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -404,7 +402,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_PropellerTail_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_PropellerTail_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -423,7 +421,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_SteelySpirit_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_SteelySpirit_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -442,7 +440,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_PerishBody_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_PerishBody_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -461,7 +459,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_IceScales_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_IceScales_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -480,7 +478,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
             
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Stalwart_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Stalwart_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -499,7 +497,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Sharpness_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Sharpness_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -518,7 +516,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_RockyPayload_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_RockyPayload_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -537,7 +535,7 @@ namespace WepApiScrapingData.Controllers
                 await _repository.Add(talent);
             }
 
-            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Costar_FR)).FirstOrDefault();
+            talent = _repository.Find(m => m.Name_FR.Equals(Constantes.Name_Costar_FR)).Result.FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -750,7 +748,7 @@ namespace WepApiScrapingData.Controllers
                 }
             }
 
-            _repository.EditRange(talents);
+            _repository.UpdateRange(talents);
             _repository.UnitOfWork.SaveChanges();
         }
         #endregion
