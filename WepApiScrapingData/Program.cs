@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen(m => {
 
     m.OrderActionsBy(apiDesc =>
     {
-        var controllerName = apiDesc.ActionDescriptor.RouteValues["controller"];
+        var controllerName = apiDesc.ActionDescriptor.RouteValues["controller"];     
         var httpMethod = apiDesc.HttpMethod;
 
         // Assignez des valeurs numériques plus grandes aux méthodes DELETE

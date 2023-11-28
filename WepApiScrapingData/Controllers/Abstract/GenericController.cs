@@ -1,7 +1,6 @@
 ﻿
 
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using WebApiScrapingData.Core;
 using WebApiScrapingData.Domain.Interface;
 using WebApiScrapingData.Infrastructure.Repository.Generic;
@@ -59,7 +58,6 @@ namespace WepApiScrapingData.Controllers.Abstract
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [SwaggerOperation(Tags = new[] { "GET Operations" })]
         [Route("{id}")]
         public virtual async Task<IActionResult> GetSingle(int id)
         {

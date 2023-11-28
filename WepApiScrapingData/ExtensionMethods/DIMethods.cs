@@ -39,6 +39,7 @@ namespace WepApiScrapingData.ExtensionMethods
             #region Controller
             services.AddScoped(typeof(GenericMapper<,>));
             services.AddScoped<GameRepository>();
+            services.AddScoped<AttaqueRepository>();
             #endregion
 
             return services;

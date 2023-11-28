@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -7,11 +8,13 @@ using System.Security.Claims;
 using System.Text;
 using WebApiScrapingData.Infrastructure.Configurations;
 using WepApiScrapingData.DTOs;
+using WepApiScrapingData.ExtensionMethods;
 
 namespace WepApiScrapingData.Controllers
 {
     [ApiController]
     [Route("api/v1.0/[controller]")]
+    [EnableCors(SecurityMethods.DEFAULT_POLICY)]
     public class AuthenticateController : ControllerBase
     {
         #region Fields

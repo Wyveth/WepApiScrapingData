@@ -507,10 +507,10 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                     await _repositoryPT.Add(pokemon_Talent);
                 }
             }
-
+            
             foreach (AttaquesExportJson attaqueJson in pokemonJson.Attaques)
             {
-                Attaque attaque = _repositoryAT.Find(m => m.Name_EN.Equals(attaqueJson.Attaque.Name_EN)).FirstOrDefault();
+                Attaque attaque = _repositoryAT.Find(m => m.Name_EN.Equals(attaqueJson.Attaque.Name_EN)).Result.FirstOrDefault();
                 if (attaque != null)
                 {
                     Pokemon_Attaque pokemon_Attaque = new()

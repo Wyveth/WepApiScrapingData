@@ -21,27 +21,27 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
 
         #region Public Methods
         #region Read
-        public async Task<T?> Get(int id)
+        public virtual async Task<T?> Get(int id)
         {
             return await _context.Set<T>().SingleAsync(x => x.Id.Equals(id));
         }
 
-        public IQueryable<T> Query()
+        public virtual IQueryable<T> Query()
         {
             return _context.Set<T>().AsQueryable();
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public virtual async Task<IEnumerable<T>> GetAll()
         {
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
+        public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
         {
             return await _context.Set<T>().Where(predicate ?? (s => true)).ToListAsync();
         }
 
-        public async Task<T?> SingleOrDefault(Expression<Func<T, bool>> predicate)
+        public virtual async Task<T?> SingleOrDefault(Expression<Func<T, bool>> predicate)
         {
             return await _context.Set<T>().SingleOrDefaultAsync(predicate);
         }

@@ -11,32 +11,32 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
         #region Constructor
         public AttaqueRepository(ScrapingContext context) : base(context) { }
         #endregion
-
+        
         #region Public Methods
         #region Read
-        public IEnumerable<Attaque> Find(Expression<Func<Attaque, bool>> predicate)
+        public override async Task<IEnumerable<Attaque>> Find(Expression<Func<Attaque, bool>> predicate)
         {
-            return this._context.Attaques.Include("typeAttaque").Include("typePok").Where(predicate ?? (s => true)).AsQueryable();
+            return await this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).Where(predicate ?? (s => true)).ToListAsync();
         }
 
-        public async Task<Attaque> Get(int id)
+        public override async Task<Attaque> Get(int id)
         {
-            return await this._context.Attaques.Include("typeAttaque").Include("typePok").SingleAsync(x => x.Id.Equals(id));
+            return await this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).SingleAsync(x => x.Id.Equals(id));
         }
 
         public async Task<Attaque> GetByName(string name)
         {
-            return await this._context.Attaques.Include("typeAttaque").Include("typePok").SingleAsync(x => x.Name_FR.Equals(name));
+            return await this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).SingleAsync(x => x.Name_FR.Equals(name));
         }
 
-        public IQueryable<Attaque> Query()
+        public override IQueryable<Attaque> Query()
         {
-            return this._context.Attaques.Include("typeAttaque").Include("typePok").AsQueryable();
+            return this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).AsQueryable();
         }
 
-        public async Task<IEnumerable<Attaque>> GetAll()
+        public override async Task<IEnumerable<Attaque>> GetAll()
         {
-            return await this._context.Attaques.Include("typeAttaque").Include("typePok").ToListAsync();
+            return await this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).ToListAsync();
         }
         #endregion
         #endregion
