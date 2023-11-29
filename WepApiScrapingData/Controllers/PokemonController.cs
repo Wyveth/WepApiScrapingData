@@ -1,9 +1,11 @@
-﻿using HtmlAgilityPack;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using WebApiScrapingData.Core;
 using WebApiScrapingData.Domain.Body;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Infrastructure.Repository.Class;
+using WepApiScrapingData.Controllers.Abstract;
+using WepApiScrapingData.DTOs.Concrete;
 using WepApiScrapingData.ExtensionMethods;
 
 namespace WepApiScrapingData.Controllers
@@ -11,26 +13,15 @@ namespace WepApiScrapingData.Controllers
     [ApiController]
     [Route("api/v1.0/[controller]")]
     [EnableCors(SecurityMethods.DEFAULT_POLICY)]
-    public class PokemonController : ControllerBase
+    public class PokemonController : GenericController<Pokemon, PokemonDto, PokemonRepository>
     {
-        #region Fields
-        private readonly PokemonRepository _repository;
-        #endregion
-
         #region Constructors
-        public PokemonController(PokemonRepository repository)
+        public PokemonController(ILogger<Pokemon> logger, GenericMapper<Pokemon, PokemonDto> mapper, PokemonRepository repository) : base(logger, mapper, repository)
         {
-            _repository = repository;
         }
         #endregion
 
         #region Public Methods
-        [HttpGet]
-        public async Task<IEnumerable<Pokemon>> GetAll()
-        {
-            return await _repository.GetAll();
-        }
-
         [HttpGet]
         [Route("{limit}/{max}")]
         public async Task<IEnumerable<Pokemon>> GetAllinDB(int max = 20, bool limit = true)
@@ -54,22 +45,15 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public async Task<Pokemon> GetSingle(int id)
-        {
-            return await _repository.Get(id);
-        }
-
-        [HttpGet]
         [Route("FindByName/{name}")]
-        public IEnumerable<Pokemon> GetFindByName(string name)
+        public Task<IEnumerable<Pokemon>> GetFindByName(string name)
         {
             return _repository.Find(m => m.FR.Name.Equals(name));
         }
 
         [HttpGet]
         [Route("FindByNumber/{number}")]
-        public IEnumerable<Pokemon> GetFindByNumber(string number)
+        public Task<IEnumerable<Pokemon>> GetFindByNumber(string number)
         {
             return _repository.Find(m => m.Number.Equals(number));
         }

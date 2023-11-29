@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Interface;
@@ -14,10 +13,12 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
         protected readonly ScrapingContext _context;
         #endregion
 
+        #region Constructor
         public Repository(ScrapingContext context)
         {
             _context = context;
         }
+        #endregion
 
         #region Public Methods
         #region Read
@@ -95,10 +96,12 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
         }
         #endregion
 
+        #region Import/Export
         public Task SaveJsonInDb(string json)
         {
             throw new NotImplementedException();
         }
+        #endregion
         #endregion
 
         #region Private Methods

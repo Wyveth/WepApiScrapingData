@@ -19,12 +19,12 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             return await this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).Where(predicate ?? (s => true)).ToListAsync();
         }
 
-        public override async Task<Attaque> Get(int id)
+        public override async Task<Attaque?> Get(int id)
         {
             return await this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).SingleAsync(x => x.Id.Equals(id));
         }
 
-        public async Task<Attaque> GetByName(string name)
+        public async Task<Attaque?> GetByName(string name)
         {
             return await this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).SingleAsync(x => x.Name_FR.Equals(name));
         }

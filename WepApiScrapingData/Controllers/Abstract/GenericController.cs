@@ -21,7 +21,7 @@ namespace WepApiScrapingData.Controllers.Abstract
         #endregion
 
         #region Constructor
-        public GenericController(ILogger<T> logger, GenericMapper<T,D> mapper, R repository)
+        protected GenericController(ILogger<T> logger, GenericMapper<T,D> mapper, R repository)
         {
             _logger = logger;
             _mapper = mapper;

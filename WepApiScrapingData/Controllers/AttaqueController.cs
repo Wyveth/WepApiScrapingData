@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebApiScrapingData.Core;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Infrastructure.Repository.Class;
-using WebApiScrapingData.Infrastructure.Repository.Generic;
 using WepApiScrapingData.Controllers.Abstract;
 using WepApiScrapingData.DTOs.Concrete;
 using WepApiScrapingData.ExtensionMethods;
@@ -21,11 +20,13 @@ namespace WepApiScrapingData.Controllers
         }
         #endregion
 
+        #region Public Methods
         [HttpGet]
         [Route("FindByName/{name}")]
-        public async Task<IEnumerable<Attaque>> GetFindByName(string name)
+        public async Task<Attaque> GetFindByName(string name)
         {
-            return await _repository.Find(m => m.Name_FR.Equals(name));
+            return await _repository.GetByName(name);
         }
+        #endregion
     }
 }

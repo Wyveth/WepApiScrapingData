@@ -56,26 +56,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
         #endregion
 
         #region Read
-        public IEnumerable<Pokemon> Find(Expression<Func<Pokemon, bool>> predicate)
-        {
-            return _context.Pokemons
-                .Include("FR")
-                .Include("EN")
-                .Include("ES")
-                .Include("IT")
-                .Include("DE")
-                .Include("RU")
-                .Include("CO")
-                .Include("CN")
-                .Include("JP")
-                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Where(predicate)
-                .AsQueryable();
-        }
-
-        public async Task<Pokemon> Get(int id)
+        public override async Task<IEnumerable<Pokemon>> Find(Expression<Func<Pokemon, bool>> predicate)
         {
             return await _context.Pokemons
                 .Include(m => m.FR)
@@ -87,30 +68,57 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.CO)
                 .Include(m => m.CN)
                 .Include(m => m.JP)
-                //.Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
-                //.Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                //.Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                //.Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typePok)
-                //.Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typeAttaque)
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typeAttaque)
+                .Include(m => m.Game)
+                .Where(predicate ?? (s => true)).ToListAsync();
+        }
+
+        public override async Task<Pokemon?> Get(int id)
+        {
+            return await _context.Pokemons
+                .Include(m => m.FR)
+                .Include(m => m.EN)
+                .Include(m => m.ES)
+                .Include(m => m.IT)
+                .Include(m => m.DE)
+                .Include(m => m.RU)
+                .Include(m => m.CO)
+                .Include(m => m.CN)
+                .Include(m => m.JP)
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typeAttaque)
                 .SingleAsync(x => x.Id.Equals(id));
         }
 
-        public IQueryable<Pokemon> Query()
+        public override IQueryable<Pokemon> Query()
         {
             return _context.Pokemons
-                .Include("FR")
-                .Include("EN")
-                .Include("ES")
-                .Include("IT")
-                .Include("DE")
-                .Include("RU")
-                .Include("CO")
-                .Include("CN")
-                .Include("JP")
+                .Include(m => m.FR)
+                .Include(m => m.EN)
+                .Include(m => m.ES)
+                .Include(m => m.IT)
+                .Include(m => m.DE)
+                .Include(m => m.RU)
+                .Include(m => m.CO)
+                .Include(m => m.CN)
+                .Include(m => m.JP)
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typeAttaque)
+                .Include(m => m.Game)
                 .AsQueryable();
         }
 
-        public async Task<IEnumerable<Pokemon>> GetAll()
+        public override async Task<IEnumerable<Pokemon>> GetAll()
         {
             return await _context.Pokemons
                 .Include(m => m.FR)
@@ -146,20 +154,20 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .ToListAsync();
         }
-
-        public Task<List<Pokemon>> GetFamilyWithoutVariantAsync(string family)
+        
+        public async Task<List<Pokemon>> GetFamilyWithoutVariantAsync(string family)
         {
             string[] vs = family.Split(',');
             List<Pokemon> result = new List<Pokemon>();
-
+            
             foreach (var item in vs)
             {
-                Pokemon pokemon = Find(m => m.FR.Name.Equals(item)).FirstOrDefault();
+                Pokemon pokemon = Find(m => m.FR.Name.Equals(item)).Result.FirstOrDefault();
                 if (pokemon != null)
                     result.Add(pokemon);
             }
 
-            return Task.FromResult(result);
+            return await Task.FromResult(result);
         }
 
         public async Task<IEnumerable<Pokemon>> GetAllVariantAsync(string number)

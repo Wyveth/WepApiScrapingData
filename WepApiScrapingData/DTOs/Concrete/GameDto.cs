@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using WepApiScrapingData.DTOs.Abstract;
+﻿using WepApiScrapingData.DTOs.Abstract;
 
 namespace WepApiScrapingData.DTOs.Concrete
 {
