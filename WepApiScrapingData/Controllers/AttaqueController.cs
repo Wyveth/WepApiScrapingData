@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using WebApiScrapingData.Core;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Data;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Class;
 using WepApiScrapingData.Controllers.Abstract;
 using WepApiScrapingData.DTOs.Concrete;
@@ -15,7 +16,7 @@ namespace WepApiScrapingData.Controllers
     public class AttaqueController : GenericController<Attaque, AttaqueDto, AttaqueRepository>
     {
         #region Constructors
-        public AttaqueController(ILogger<Attaque> logger, GenericMapper<Attaque, AttaqueDto> mapper, AttaqueRepository repository) : base(logger, mapper, repository)
+        public AttaqueController(ILogger<Attaque> logger, GenericMapper<Attaque, AttaqueDto> mapper, AttaqueRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)
         {
         }
         #endregion

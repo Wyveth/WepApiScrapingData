@@ -1,8 +1,9 @@
 ﻿
 
 using Microsoft.AspNetCore.Mvc;
-using WebApiScrapingData.Core;
 using WebApiScrapingData.Domain.Interface;
+using WebApiScrapingData.Infrastructure.Data;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Generic;
 using WepApiScrapingData.DTOs.Abstract;
 
@@ -18,14 +19,16 @@ namespace WepApiScrapingData.Controllers.Abstract
         protected readonly ILogger<T> _logger;
         protected readonly GenericMapper<T,D> _mapper;
         protected readonly R _repository;
+        protected readonly ScrapingContext _context;
         #endregion
 
         #region Constructor
-        protected GenericController(ILogger<T> logger, GenericMapper<T,D> mapper, R repository)
+        protected GenericController(ILogger<T> logger, GenericMapper<T, D> mapper, R repository, ScrapingContext context)
         {
             _logger = logger;
             _mapper = mapper;
             _repository = repository;
+            _context = context;
         }
         #endregion
 
@@ -89,7 +92,7 @@ namespace WepApiScrapingData.Controllers.Abstract
 
             try
             {
-                T entity = _mapper.MapReverse(dto);
+                T entity = _mapper.MapReverse(dto, _context);
                 var success = await _repository.Add(entity);
 
                 if (success)
@@ -99,9 +102,9 @@ namespace WepApiScrapingData.Controllers.Abstract
 
                 return result;
             }
-            catch
+            catch(Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Erreur Accès BDD");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Erreur Accès BDD: " + ex.Message);
             }
         }
 
@@ -119,7 +122,7 @@ namespace WepApiScrapingData.Controllers.Abstract
                 IList<T> entities = new List<T>();
                 foreach(D dto in dtos)
                 {
-                    entities.Add(_mapper.MapReverse(dto));
+                    entities.Add(_mapper.MapReverse(dto, _context));
                 }
 
                 var success = await _repository.AddRange(entities);
@@ -150,7 +153,7 @@ namespace WepApiScrapingData.Controllers.Abstract
 
             try
             {
-                T entity = _mapper.MapReverse(dto);
+                T entity = _mapper.MapReverse(dto, _context);
                 var success = _repository.Update(entity);
 
                 if (success)
@@ -180,7 +183,7 @@ namespace WepApiScrapingData.Controllers.Abstract
                 IList<T> entities = new List<T>();
                 foreach (D dto in dtos)
                 {
-                    entities.Add(_mapper.MapReverse(dto));
+                    entities.Add(_mapper.MapReverse(dto, _context));
                 }
 
                 var success = _repository.UpdateRange(entities);

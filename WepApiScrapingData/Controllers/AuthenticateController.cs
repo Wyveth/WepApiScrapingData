@@ -67,8 +67,6 @@ namespace WepApiScrapingData.Controllers
 
             try
             {
-                //throw new Exception();
-
                 var user = await _userManager.FindByEmailAsync(dtoUser.Email);
                 if (user != null)
                 {

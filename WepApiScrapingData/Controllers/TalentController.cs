@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using WebApiScrapingData.Core;
+using Microsoft.AspNetCore.Mvc;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Data;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Class;
 using WepApiScrapingData.Controllers.Abstract;
 using WepApiScrapingData.DTOs.Concrete;
@@ -15,7 +17,7 @@ namespace WepApiScrapingData.Controllers
     public class TalentController : GenericController<Talent, TalentDto, TalentRepository>
     {
         #region Constructors
-        public TalentController(ILogger<Talent> logger, GenericMapper<Talent, TalentDto> mapper, TalentRepository repository) : base(logger, mapper, repository)
+        public TalentController(ILogger<Talent> logger, GenericMapper<Talent, TalentDto> mapper, TalentRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)
         {
         }
         #endregion

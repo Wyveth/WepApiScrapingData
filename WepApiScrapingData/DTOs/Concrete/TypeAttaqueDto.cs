@@ -1,4 +1,5 @@
-﻿using WepApiScrapingData.DTOs.Abstract;
+﻿using WebApiScrapingData.Domain.Class;
+using WepApiScrapingData.DTOs.Abstract;
 
 namespace WepApiScrapingData.DTOs.Concrete
 {

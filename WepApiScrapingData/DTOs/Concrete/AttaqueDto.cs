@@ -41,9 +41,9 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public string? Description_JP { get; set; }
 
-        public virtual TypeAttaque? typeAttaque { get; set; }
+        public long? typeAttaque { get; set; }
 
-        public virtual TypePok? typePok { get; set; }
+        public long? typePok { get; set; }
         
         public string? Power { get; set; }
         
@@ -51,6 +51,11 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public string? PP { get; set; }
 
-        public List<Pokemon_Attaque>? Pokemon_Attaques { get; set; }
+        public List<long>? Pokemon_Attaques { get; set; }
+
+        public AttaqueDto()
+        {
+            Pokemon_Attaques = new ();
+        }
     }
 }

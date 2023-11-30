@@ -14,4 +14,5 @@ namespace WepApiScrapingData.DTOs.Concrete
         public string? Name_CN { get; set; }
         public string? Name_JP { get; set; }
     }
+
 }

@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using WebApiScrapingData.Core;
 using WebApiScrapingData.Domain.Body;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Data;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Class;
 using WepApiScrapingData.Controllers.Abstract;
 using WepApiScrapingData.DTOs.Concrete;
@@ -16,7 +17,7 @@ namespace WepApiScrapingData.Controllers
     public class PokemonController : GenericController<Pokemon, PokemonDto, PokemonRepository>
     {
         #region Constructors
-        public PokemonController(ILogger<Pokemon> logger, GenericMapper<Pokemon, PokemonDto> mapper, PokemonRepository repository) : base(logger, mapper, repository)
+        public PokemonController(ILogger<Pokemon> logger, GenericMapper<Pokemon, PokemonDto> mapper, PokemonRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)
         {
         }
         #endregion

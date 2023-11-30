@@ -67,13 +67,13 @@ namespace WepApiScrapingData.DTOs.Concrete
         public string? PathSound { get; set; }
 
         public long Game { get; set; }
-
+        
         public PokemonDto()
         {
-            Pokemon_TypePoks = new List<long>();
-            Pokemon_Weaknesses = new List<long>();
-            Pokemon_Talents = new List<long>();
-            Pokemon_Attaques = new List<long>();
+            Pokemon_TypePoks = new ();
+            Pokemon_Weaknesses = new ();
+            Pokemon_Talents = new ();
+            Pokemon_Attaques = new ();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using WebApiScrapingData.Infrastructure.Repository;
 using WebApiScrapingData.Infrastructure.Repository.Class;
-using WebApiScrapingData.Core;
+using WebApiScrapingData.Infrastructure.Mapper;
 
 namespace WepApiScrapingData.ExtensionMethods
 {

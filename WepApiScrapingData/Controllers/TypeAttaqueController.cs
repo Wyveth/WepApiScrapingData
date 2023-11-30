@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using WebApiScrapingData.Core;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Data;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Class;
-using WebApiScrapingData.Infrastructure.Repository.Generic;
 using WepApiScrapingData.Controllers.Abstract;
 using WepApiScrapingData.DTOs.Concrete;
 using WepApiScrapingData.ExtensionMethods;
@@ -17,7 +17,7 @@ namespace WepApiScrapingData.Controllers
     public class TypeAttaqueController : GenericController<TypeAttaque, TypeAttaqueDto, TypeAttaqueRepository>
     {
         #region Constructors
-        public TypeAttaqueController(ILogger<TypeAttaque> logger, GenericMapper<TypeAttaque, TypeAttaqueDto> mapper, TypeAttaqueRepository repository) : base(logger, mapper, repository)
+        public TypeAttaqueController(ILogger<TypeAttaque> logger, GenericMapper<TypeAttaque, TypeAttaqueDto> mapper, TypeAttaqueRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)
         {
         }
         #endregion

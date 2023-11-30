@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
-using WebApiScrapingData.Core;
+using Microsoft.AspNetCore.Mvc;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Data;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Class;
 using WepApiScrapingData.Controllers.Abstract;
 using WepApiScrapingData.DTOs.Concrete;
@@ -16,7 +17,7 @@ namespace WepApiScrapingData.Controllers
     public class TypePokController : GenericController<TypePok, TypePokDto, TypePokRepository>
     {
         #region Constructors
-        public TypePokController(ILogger<TypePok> logger, GenericMapper<TypePok, TypePokDto> mapper, TypePokRepository repository) : base(logger, mapper, repository)
+        public TypePokController(ILogger<TypePok> logger, GenericMapper<TypePok, TypePokDto> mapper, TypePokRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)
         {
         }
         #endregion

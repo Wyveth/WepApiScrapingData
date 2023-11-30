@@ -1,4 +1,5 @@
-﻿using WepApiScrapingData.DTOs.Abstract;
+﻿using WebApiScrapingData.Domain.Class;
+using WepApiScrapingData.DTOs.Abstract;
 
 namespace WepApiScrapingData.DTOs.Concrete
 {
@@ -59,9 +60,5 @@ namespace WepApiScrapingData.DTOs.Concrete
         public string? InfoColor { get; set; }
 
         public string? TypeColor { get; set; }
-
-        public List<long>? Pokemon_TypePoks { get; set; }
-
-        public List<long>? Pokemon_Weaknesses { get; set; }
     }
 }

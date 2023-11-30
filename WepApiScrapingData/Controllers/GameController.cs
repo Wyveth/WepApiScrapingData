@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using WebApiScrapingData.Core;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Data;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Class;
 using WepApiScrapingData.Controllers.Abstract;
 using WepApiScrapingData.DTOs.Concrete;
 using WepApiScrapingData.ExtensionMethods;
-using WepApiScrapingData.Utils;
 
 namespace WepApiScrapingData.Controllers
 {
@@ -19,7 +19,7 @@ namespace WepApiScrapingData.Controllers
         #region Constructors
         public GameController(ILogger<Game> logger,
             GenericMapper<Game, GameDto> mapper,
-            GameRepository service) : base(logger, mapper, service)
+            GameRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)
         {
         }
         #endregion

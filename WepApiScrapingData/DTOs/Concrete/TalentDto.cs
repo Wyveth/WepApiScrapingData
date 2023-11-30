@@ -40,7 +40,5 @@ namespace WepApiScrapingData.DTOs.Concrete
         public string? Name_JP { get; set; }
 
         public string? Description_JP { get; set; }
-
-        public List<long>? Pokemon_Talents { get; set; }
     }
 }
