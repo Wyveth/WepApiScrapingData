@@ -9,6 +9,7 @@ namespace WebApiScrapingData.Domain.Class
     {
         public long PokemonId { get; set; }
         [ForeignKey("PokemonId")]
+        [DataMember]
         public Pokemon Pokemon { get; set; }
 
         public long TypePokId { get; set; }

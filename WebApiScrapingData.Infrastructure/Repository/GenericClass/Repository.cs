@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data.SqlTypes;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Interface;
@@ -60,8 +61,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
         {
             foreach (var entity in entities)
                 UpdateInfo(entity);
+
             await _context.Set<T>().AddRangeAsync(entities);
-            return saveChanges();
+            return await SaveChangesAsync();
         }
         #endregion
 
@@ -124,6 +126,15 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
         {
             // Enregistrez les modifications dans la base de données de manière synchrone
             int modifiedLines = _context.SaveChanges();
+
+            // Vérifiez si l'opération a réussi en fonction du nombre de lignes modifiées
+            return modifiedLines > 0;
+        }
+
+        private async Task<bool> SaveChangesAsync()
+        {
+            // Enregistrez les modifications dans la base de données de manière asynchrone
+            int modifiedLines = await _context.SaveChangesAsync();
 
             // Vérifiez si l'opération a réussi en fonction du nombre de lignes modifiées
             return modifiedLines > 0;

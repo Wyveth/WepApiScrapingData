@@ -297,26 +297,26 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<string>("Precision")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TypeAttaqueId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("TypePokId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("UserCreation")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserModification")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("typeAttaqueId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("typePokId")
-                        .HasColumnType("bigint");
-
                     b.Property<int>("versionModification")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("typeAttaqueId");
+                    b.HasIndex("TypeAttaqueId");
 
-                    b.HasIndex("typePokId");
+                    b.HasIndex("TypePokId");
 
                     b.ToTable("Attaques");
                 });
@@ -771,12 +771,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
-                    b.Property<long?>("QuestionAnswerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("QuestionId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
@@ -791,10 +785,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionAnswerId");
-
-                    b.HasIndex("QuestionId");
-
                     b.ToTable("Answers");
                 });
 
@@ -805,6 +795,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .HasColumnType("bigint");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -879,9 +872,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<long?>("QuestionTypeId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("QuizzId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("UserCreation")
                         .HasColumnType("nvarchar(max)");
 
@@ -895,9 +885,45 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     b.HasIndex("QuestionTypeId");
 
-                    b.HasIndex("QuizzId");
-
                     b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Question_Answer", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("AnswerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateModification")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("QuestionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserCreation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserModification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("versionModification")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Question_Answer");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer", b =>
@@ -938,6 +964,44 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.ToTable("QuestionAnswers");
                 });
 
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer_Answer", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("AnswerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateModification")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("QuestionAnswerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserCreation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserModification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("versionModification")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("QuestionAnswerId");
+
+                    b.ToTable("QuestionAnswer_Answer");
+                });
+
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionType", b =>
                 {
                     b.Property<long>("Id")
@@ -955,7 +1019,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<DateTime>("DateModification")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("DifficultyIDId")
+                    b.Property<long?>("DifficultyId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsBlurred")
@@ -993,7 +1057,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DifficultyIDId");
+                    b.HasIndex("DifficultyId");
 
                     b.ToTable("QuestionTypes");
                 });
@@ -1070,6 +1134,44 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.ToTable("Quizzs");
                 });
 
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Quizz_Question", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateModification")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("QuestionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("QuizzId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserCreation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserModification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("versionModification")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("QuizzId");
+
+                    b.ToTable("Quizz_Question");
+                });
+
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuizzDifficulty", b =>
                 {
                     b.Property<long>("Id")
@@ -1084,13 +1186,13 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<DateTime>("DateModification")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("ImgEasy")
+                    b.Property<bool>("Easy")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("ImgHard")
+                    b.Property<bool>("Hard")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("ImgNormal")
+                    b.Property<bool>("Normal")
                         .HasColumnType("bit");
 
                     b.Property<long?>("QuizzId")
@@ -1456,19 +1558,19 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Attaque", b =>
                 {
-                    b.HasOne("WebApiScrapingData.Domain.Class.TypeAttaque", "typeAttaque")
+                    b.HasOne("WebApiScrapingData.Domain.Class.TypeAttaque", "TypeAttaque")
                         .WithMany()
-                        .HasForeignKey("typeAttaqueId")
+                        .HasForeignKey("TypeAttaqueId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WebApiScrapingData.Domain.Class.TypePok", "typePok")
+                    b.HasOne("WebApiScrapingData.Domain.Class.TypePok", "TypePok")
                         .WithMany()
-                        .HasForeignKey("typePokId")
+                        .HasForeignKey("TypePokId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("typeAttaque");
+                    b.Navigation("TypeAttaque");
 
-                    b.Navigation("typePok");
+                    b.Navigation("TypePok");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>
@@ -1581,7 +1683,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("WebApiScrapingData.Domain.Class.Talent", "Talent")
-                        .WithMany("Pokemon_TypePoks")
+                        .WithMany("Pokemon_Talents")
                         .HasForeignKey("TalentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1629,19 +1731,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Navigation("TypePok");
                 });
 
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Answer", b =>
-                {
-                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer", null)
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionAnswerId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Question", null)
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Question", b =>
                 {
                     b.HasOne("WebApiScrapingData.Domain.Class.Quizz.QuestionType", "QuestionType")
@@ -1649,12 +1738,26 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .HasForeignKey("QuestionTypeId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Quizz", null)
-                        .WithMany("Questions")
-                        .HasForeignKey("QuizzId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("QuestionType");
+                });
+
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Question_Answer", b =>
+                {
+                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Answer", "Answer")
+                        .WithMany()
+                        .HasForeignKey("AnswerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Question", "Question")
+                        .WithMany("Question_Answers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Answer");
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer", b =>
@@ -1674,14 +1777,33 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Navigation("Quizz");
                 });
 
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer_Answer", b =>
+                {
+                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Answer", "Answer")
+                        .WithMany()
+                        .HasForeignKey("AnswerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer", "QuestionAnswer")
+                        .WithMany("QuestionAnswer_Answers")
+                        .HasForeignKey("QuestionAnswerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Answer");
+
+                    b.Navigation("QuestionAnswer");
+                });
+
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionType", b =>
                 {
-                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Difficulty", "DifficultyID")
+                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Difficulty", "Difficulty")
                         .WithMany()
-                        .HasForeignKey("DifficultyIDId")
+                        .HasForeignKey("DifficultyId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("DifficultyID");
+                    b.Navigation("Difficulty");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Quizz", b =>
@@ -1692,6 +1814,25 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("IdentityUser");
+                });
+
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Quizz_Question", b =>
+                {
+                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Quizz", "Quizz")
+                        .WithMany("Quizz_Questions")
+                        .HasForeignKey("QuizzId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("Quizz");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuizzDifficulty", b =>
@@ -1722,22 +1863,22 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Question", b =>
                 {
-                    b.Navigation("Answers");
+                    b.Navigation("Question_Answers");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer", b =>
                 {
-                    b.Navigation("Answers");
+                    b.Navigation("QuestionAnswer_Answers");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Quizz", b =>
                 {
-                    b.Navigation("Questions");
+                    b.Navigation("Quizz_Questions");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Talent", b =>
                 {
-                    b.Navigation("Pokemon_TypePoks");
+                    b.Navigation("Pokemon_Talents");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.TypePok", b =>

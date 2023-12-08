@@ -1,6 +1,7 @@
 ﻿using WebApiScrapingData.Infrastructure.Repository;
 using WebApiScrapingData.Infrastructure.Repository.Class;
 using WebApiScrapingData.Infrastructure.Mapper;
+using WebApiScrapingData.Infrastructure.Repository.Quizz;
 
 namespace WepApiScrapingData.ExtensionMethods
 {
@@ -17,6 +18,7 @@ namespace WepApiScrapingData.ExtensionMethods
             services.AddScoped(typeof(GenericMapper<,>));
             services.AddScoped<GameRepository>();
             services.AddScoped<AttaqueRepository>();
+            services.AddScoped<DataInfoRepository>();
             services.AddScoped<PokemonRepository>();
             services.AddScoped<TalentRepository>();
             services.AddScoped<TypeAttaqueRepository>();
@@ -28,11 +30,15 @@ namespace WepApiScrapingData.ExtensionMethods
 
             #region Quizz
             services.AddScoped<QuizzRepository>();
+            services.AddScoped<Question_AnswerRepository>();
+            services.AddScoped<QuestionAnswer_AnswerRepository>();
+            services.AddScoped<Quizz_QuestionRepository>();
             services.AddScoped<QuestionRepository>();
             services.AddScoped<AnswerRepository>();
             services.AddScoped<QuestionTypeRepository>();
             services.AddScoped<QuizzDifficultyRepository>();
             services.AddScoped<DifficultyRepository>();
+            services.AddScoped<QuestionAnswerRepository>();
             #endregion
             #endregion
 

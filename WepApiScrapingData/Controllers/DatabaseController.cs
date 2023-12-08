@@ -20,19 +20,28 @@ namespace WepApiScrapingData.Controllers
     {
         #region Fields
         private readonly PokemonRepository _repository;
-        private readonly Repository<TypePok> _repositoryTP;
-        private readonly Repository<Talent> _repositoryTL;
-        private readonly Repository<Attaque> _repositoryAT;
-        private readonly Repository<TypeAttaque> _repositoryTA;
-        private readonly Repository<Game> _repositoryG;
-        private readonly Repository<Pokemon_TypePok> _repositoryPTP;
-        private readonly Repository<Pokemon_Weakness> _repositoryPWN;
-        private readonly Repository<Pokemon_Talent> _repositoryPTL;
-        private readonly Repository<Pokemon_Attaque> _repositoryPAT;
+        private readonly TypePokRepository _repositoryTP;
+        private readonly TalentRepository _repositoryTL;
+        private readonly AttaqueRepository _repositoryAT;
+        private readonly TypeAttaqueRepository _repositoryTA;
+        private readonly GameRepository _repositoryG;
+        private readonly Pokemon_TypePokRepository _repositoryPTP;
+        private readonly Pokemon_WeaknessRepository _repositoryPWN;
+        private readonly Pokemon_TalentRepository _repositoryPTL;
+        private readonly Pokemon_AttaqueRepository _repositoryPAT;
         #endregion
 
         #region Constructors
-        public DatabaseController(PokemonRepository repository, Repository<TypePok> repositoryTP, Repository<Talent> repositoryTL, Repository<Attaque> repositoryAT, Repository<TypeAttaque> repositoryTA, Repository<Game> repositoryG, Repository<Pokemon_TypePok> repositoryPTP, Repository<Pokemon_Weakness> repositoryPWN, Repository<Pokemon_Talent> repositoryPTL, Repository<Pokemon_Attaque> repositoryPAT)
+        public DatabaseController(PokemonRepository repository, 
+            TypePokRepository repositoryTP, 
+            TalentRepository repositoryTL, 
+            AttaqueRepository repositoryAT, 
+            TypeAttaqueRepository repositoryTA, 
+            GameRepository repositoryG, 
+            Pokemon_TypePokRepository repositoryPTP, 
+            Pokemon_WeaknessRepository repositoryPWN, 
+            Pokemon_TalentRepository repositoryPTL, 
+            Pokemon_AttaqueRepository repositoryPAT)
         {
             _repository = repository;
             _repositoryTP = repositoryTP;
@@ -251,8 +260,8 @@ namespace WepApiScrapingData.Controllers
                             Description_CN = attaqueJson.Description_CN,
                             Name_JP = attaqueJson.Name_JP,
                             Description_JP = attaqueJson.Description_JP,
-                            typeAttaque = typeAttaque,
-                            typePok = typePok,
+                            TypeAttaque = typeAttaque,
+                            TypePok = typePok,
                             Power = attaqueJson.Puissance,
                             Precision = attaqueJson.Precision,
                             PP = attaqueJson.PP

@@ -181,5 +181,72 @@
         #region TypeAttaque
         public const string TypeAttaque = "TypeAttaque";
         #endregion
+
+        #region Question
+        public const string Order = "Order";
+        public const string DataObjectID = "DataObjectID";
+        public const string Answers = "Answers";
+        public const string QuestionType = "QuestionType";
+        public const string Done = "Done";
+        #endregion
+        
+        #region Quizz
+        public const string Questions = "Questions";
+        public const string Gen1 = "Gen1";
+        public const string Gen2 = "Gen2";
+        public const string Gen3 = "Gen3";
+        public const string Gen4 = "Gen4";
+        public const string Gen5 = "Gen5";
+        public const string Gen6 = "Gen6";
+        public const string Gen7 = "Gen7";
+        public const string Gen8 = "Gen8";
+        public const string Gen9 = "Gen9";
+        public const string GenArceus = "GenArceus";
+        public const string Easy = "Easy";
+        public const string Normal = "Normal";
+        public const string Hard = "Hard";
+        public const string Expert = "Expert";
+        #endregion
+
+        #region QuestionType
+        public const string Code = "Code";
+        public const string Libelle = "Libelle";
+        public const string NbAnswers = "NbAnswers";
+        public const string IsMultipleAnswers = "IsMultipleAnswers";
+        public const string NbAnswersPossible = "NbAnswersPossible";
+        public const string IsBlurred = "IsBlurred";
+        public const string IsGrayscale = "IsGrayscale";
+        public const string IsHide = "IsHide";
+        public const string IsSameType = "IsSameType";
+        public const string Difficulty = "Difficulty";
+        #endregion
+
+        #region QuestionAnswer
+        public const string Quizz = "Quizz";
+        public const string Question = "Question";
+        public const string Answer = "Answer";
+        #endregion
+
+        #region Answer
+        public const string Type = "Type";
+        public const string IsCorrect = "IsCorrect";
+        public const string IsSelected = "IsSelected";
+        #endregion
+
+        #region Difficulty
+        public const string Libelle_FR = "Libelle_FR";
+        public const string Libelle_EN = "Libelle_EN";
+        public const string Libelle_ES = "Libelle_ES";
+        public const string Libelle_IT = "Libelle_IT";
+        public const string Libelle_DE = "Libelle_DE";
+        public const string Libelle_RU = "Libelle_RU";
+        public const string Libelle_CO = "Libelle_CO";
+        public const string Libelle_CN = "Libelle_CN";
+        public const string Libelle_JP = "Libelle_JP";
+        #endregion
+
+        #region QuizzDifficulty
+        public const string ResumeQuestion = "ResumeQuestion";
+        #endregion
     }
 }

@@ -16,27 +16,27 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
         #region Read
         public override async Task<IEnumerable<Attaque>> Find(Expression<Func<Attaque, bool>> predicate)
         {
-            return await this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).Where(predicate ?? (s => true)).ToListAsync();
+            return await this._context.Attaques.Include(m => m.TypeAttaque).Include(m => m.TypePok).Where(predicate ?? (s => true)).ToListAsync();
         }
 
         public override async Task<Attaque?> Get(int id)
         {
-            return await this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).SingleAsync(x => x.Id.Equals(id));
+            return await this._context.Attaques.Include(m => m.TypeAttaque).Include(m => m.TypePok).SingleAsync(x => x.Id.Equals(id));
         }
 
         public async Task<Attaque?> GetByName(string name)
         {
-            return await this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).SingleAsync(x => x.Name_FR.Equals(name));
+            return await this._context.Attaques.Include(m => m.TypeAttaque).Include(m => m.TypePok).SingleAsync(x => x.Name_FR.Equals(name));
         }
 
         public override IQueryable<Attaque> Query()
         {
-            return this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).AsQueryable();
+            return this._context.Attaques.Include(m => m.TypeAttaque).Include(m => m.TypePok).AsQueryable();
         }
 
         public override async Task<IEnumerable<Attaque>> GetAll()
         {
-            return await this._context.Attaques.Include(m => m.typeAttaque).Include(m => m.typePok).ToListAsync();
+            return await this._context.Attaques.Include(m => m.TypeAttaque).Include(m => m.TypePok).ToListAsync();
         }
         #endregion
         #endregion

@@ -7,28 +7,20 @@ namespace WepApiScrapingData.DTOs.Concrete
     {
         public string? Number { get; set; }
 
-        public long Id_FR { get; set; }
+        public DataInfo FR { get; set; }
+        public DataInfo EN { get; set; }
+        public DataInfo ES { get; set; }
+        public DataInfo IT { get; set; }
+        public DataInfo DE { get; set; }
+        public DataInfo RU { get; set; }
+        public DataInfo CO { get; set; }
+        public DataInfo CN { get; set; }
+        public DataInfo JP { get; set; }
 
-        public long Id_EN { get; set; }
-
-        public long Id_ES { get; set; }
-
-        public long Id_IT { get; set; }
-
-        public long Id_DE { get; set; }
-
-        public long Id_RU { get; set; }
-
-        public long Id_CO { get; set; }
-        
-        public long Id_CN { get; set; }
-
-        public long Id_JP { get; set; }
-
-        public List<long> Pokemon_TypePoks { get; set; }
-        public List<long> Pokemon_Weaknesses { get; set; }
-        public List<long> Pokemon_Talents { get; set; }
-        public List<long> Pokemon_Attaques { get; set; }
+        public List<long>? Pokemon_TypePoks { get; set; }
+        public List<long>? Pokemon_Weaknesses { get; set; }
+        public List<long>? Pokemon_Talents { get; set; }
+        public List<long>? Pokemon_Attaques { get; set; }
 
         public string? TypeEvolution { get; set; }
 
@@ -70,6 +62,16 @@ namespace WepApiScrapingData.DTOs.Concrete
         
         public PokemonDto()
         {
+            FR = new();
+            EN = new();
+            ES = new();
+            IT = new();
+            DE = new();
+            RU = new();
+            CO = new();
+            CN = new();
+            JP = new();
+            
             Pokemon_TypePoks = new ();
             Pokemon_Weaknesses = new ();
             Pokemon_Talents = new ();

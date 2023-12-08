@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using WebApiScrapingData.Domain.Class.Quizz;
-using WebApiScrapingData.Framework;
+﻿using WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Repository.Generic;
 

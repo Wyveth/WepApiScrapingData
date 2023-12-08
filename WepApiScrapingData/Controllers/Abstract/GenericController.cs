@@ -97,14 +97,15 @@ namespace WepApiScrapingData.Controllers.Abstract
 
                 if (success)
                 {
-                    result = this.CreatedAtAction(nameof(GetSingle), new { id = entity.Id }, dto);
+                    result = this.CreatedAtAction(nameof(GetSingle), new { id = entity.Id }, entity);
                 }
 
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Erreur Accès BDD: " + ex.Message);
+                _logger.LogError(ex, ex.Message);
+                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -129,14 +130,15 @@ namespace WepApiScrapingData.Controllers.Abstract
 
                 if (success)
                 {
-                    result = this.CreatedAtAction(nameof(GetAll), dtos);
+                    result = this.CreatedAtAction(nameof(GetAll), entities);
                 }
 
                 return result;
             }
-            catch
+            catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Erreur Accès BDD");
+                _logger.LogError(ex, ex.Message);
+                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
         #endregion
@@ -158,14 +160,15 @@ namespace WepApiScrapingData.Controllers.Abstract
 
                 if (success)
                 {
-                    result = this.CreatedAtAction(nameof(GetSingle), new { id = entity.Id }, dto);
+                    result = this.CreatedAtAction(nameof(GetSingle), new { id = entity.Id }, entity);
                 }
 
                 return result;
             }
-            catch
+            catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Erreur Accès BDD");
+                _logger.LogError(ex, ex.Message);
+                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -190,14 +193,15 @@ namespace WepApiScrapingData.Controllers.Abstract
 
                 if (success)
                 {
-                    result = this.CreatedAtAction(nameof(GetAll), dtos);
+                    result = this.CreatedAtAction(nameof(GetAll), entities);
                 }
 
                 return result;
             }
-            catch
+            catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Erreur Accès BDD");
+                _logger.LogError(ex, ex.Message);
+                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
         #endregion
@@ -232,9 +236,10 @@ namespace WepApiScrapingData.Controllers.Abstract
 
                 return result;
             }
-            catch
+            catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Erreur Accès BDD");
+                _logger.LogError(ex, ex.Message);
+                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -274,9 +279,10 @@ namespace WepApiScrapingData.Controllers.Abstract
 
                 return result;
             }
-            catch
+            catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Erreur Accès BDD");
+                _logger.LogError(ex, ex.Message);
+                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
         #endregion

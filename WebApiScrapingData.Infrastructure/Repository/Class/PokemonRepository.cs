@@ -71,8 +71,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typeAttaque)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
                 .Where(predicate ?? (s => true)).ToListAsync();
         }
@@ -92,8 +92,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typeAttaque)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .SingleAsync(x => x.Id.Equals(id));
         }
 
@@ -112,8 +112,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typeAttaque)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
                 .AsQueryable();
         }
@@ -133,8 +133,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.typeAttaque)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
                 .ToListAsync();
         }
@@ -186,23 +186,29 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .ToListAsync();
         }
         #endregion
 
         public async Task<bool> ImportJsonToDb(string json)
         {
-            List<PokemonExportJson> pokemonsJson = JsonConvert.DeserializeObject<List<PokemonExportJson>>(json);
-
-            foreach (PokemonExportJson pokemonJson in pokemonsJson)
+            try
             {
-                Pokemon pokemon = new();
-                await MapToInstanceImport(pokemon, pokemonJson);
-                await Add(pokemon);
-                Console.WriteLine("Pokemon:" + pokemon.FR.Name);
+                List<PokemonExportJson> pokemonsJson = JsonConvert.DeserializeObject<List<PokemonExportJson>>(json);
+                foreach (PokemonExportJson pokemonJson in pokemonsJson)
+                {
+                    Pokemon pokemon = new();
+                    MapToInstanceImport(pokemon, pokemonJson);
+                    Console.WriteLine("Pokemon:" + pokemon.FR.Name);
+                }
             }
-
-            _context.SaveChanges();
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
 
             return await Task.FromResult(true);
         }
@@ -288,16 +294,16 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                                     Power = attackJson.Power,
                                     Precision = attackJson.Precision,
                                     PP = attackJson.PP,
-                                    typeAttaque = typeAttaque,
-                                    typePok = _repositoryTP.Find(t => t.Name_FR == attackJson.Type).Result.FirstOrDefault()
+                                    TypeAttaque = typeAttaque,
+                                    TypePok = _repositoryTP.Find(t => t.Name_FR == attackJson.Type).Result.FirstOrDefault()
                                 };
                                 attaques.Add(attaque);
                                 attackAlreadyExist.Add(attaque);
                             }
                             else
                             {
-                                attaque.typeAttaque = typeAttaque;
-                                attaque.typePok = _repositoryTP.Find(t => t.Name_FR == attackJson.Type).Result.FirstOrDefault();
+                                attaque.TypeAttaque = typeAttaque;
+                                attaque.TypePok = _repositoryTP.Find(t => t.Name_FR == attackJson.Type).Result.FirstOrDefault();
                             }
                         });
                     }
@@ -473,6 +479,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             pokemon.PathSound = pokemonJson.PathSound;
             pokemon.Game = _repositoryG.Find(m => m.Name_EN.Equals(pokemonJson.Game.Name_EN)).Result.FirstOrDefault();
 
+            await Add(pokemon);
+
             foreach (TypesPokExportJson typePokJson in pokemonJson.Types)
             {
                 TypePok typePok = _repositoryTP.Find(m => m.Name_EN.Equals(typePokJson.TypePok.Name_EN)).Result.FirstOrDefault();
@@ -581,6 +589,21 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             pokemon.Generation = pokemonJson.Generation;
             pokemon.UrlImg = pokemonJson.UrlImg;
             pokemon.UrlSprite = pokemonJson.UrlSprite;
+        }
+
+        private void UpdateInfo(Pokemon entity, bool edit = false)
+        {
+            entity.UserModification = "System";
+            entity.DateModification = DateTime.Now;
+
+            if (!edit)
+            {
+                entity.UserCreation = "System";
+                entity.DateCreation = DateTime.Now;
+                entity.versionModification = 1;
+            }
+            else
+                entity.versionModification += 1;
         }
         #endregion
     }

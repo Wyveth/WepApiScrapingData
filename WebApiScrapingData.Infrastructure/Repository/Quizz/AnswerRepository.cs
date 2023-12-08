@@ -1,8 +1,9 @@
 ﻿using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class;
-using WebApiScrapingData.Domain.Class.Quizz;
+using ClassQuizz = WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Repository.Generic;
+using WebApiScrapingData.Domain.Class.Quizz;
 
 namespace WebApiScrapingData.Infrastructure.Repository
 {
@@ -43,7 +44,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public Task<List<Answer>> GenerateAnswers(Quizz quizz, QuestionType questionType, List<Answer> answers)
+        public Task<List<Answer>> GenerateAnswers(ClassQuizz.Quizz quizz, QuestionType questionType, List<Answer> answers)
         {
             throw new NotImplementedException();
         }

@@ -253,8 +253,8 @@ namespace WepApiScrapingData.Controllers
                 attaqueJson.Power = item.Power;
                 attaqueJson.Precision = item.Precision;
                 attaqueJson.PP = item.PP;
-                attaqueJson.TypeAttaque = item.typeAttaque?.Name_FR;
-                attaqueJson.TypePok = item.typePok?.Name_FR;
+                attaqueJson.TypeAttaque = item.TypeAttaque?.Name_FR;
+                attaqueJson.TypePok = item.TypePok?.Name_FR;
 
                 attaquesJson.Add(attaqueJson);
 

@@ -44,8 +44,11 @@ namespace WebApiScrapingData.Infrastructure.Data
         public virtual DbSet<Game> Games { get; set; }
 
         public virtual DbSet<Quizz> Quizzs { get; set; }
+        public virtual DbSet<Quizz_Question> Quizz_Question { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<Question_Answer> Question_Answer { get; set; }
         public virtual DbSet<QuestionAnswer> QuestionAnswers { get; set; }
+        public virtual DbSet<QuestionAnswer_Answer> QuestionAnswer_Answer { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Difficulty> Difficulties { get; set; }
         public virtual DbSet<QuestionType> QuestionTypes { get; set; }
@@ -97,8 +100,6 @@ namespace WebApiScrapingData.Infrastructure.Data
                     
                     return null;
                 }
-
-                
             }
             catch (Exception ex)
             {

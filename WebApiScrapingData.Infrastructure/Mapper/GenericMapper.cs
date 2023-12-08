@@ -1,4 +1,5 @@
 ﻿using WebApiScrapingData.Core;
+using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.Interface;
 using WebApiScrapingData.Infrastructure.Data;
 
@@ -73,9 +74,19 @@ namespace WebApiScrapingData.Infrastructure.Mapper
                     }
                     else
                     {
+                        string name = "";
                         // Gérez les propriétés de navigation en appliquant récursivement la logique de mappage
-                        string name = destinationProperty.PropertyType.Name;
-
+                        if (destinationProperty.PropertyType.Name.Contains("List"))
+                        {
+                            var lolilol = typeof(TFrom).Name;
+                            name = destinationProperty.Name;
+                            name = GetType(destinationProperty.Name);
+                        }
+                        else
+                        {
+                            name = destinationProperty.PropertyType.Name;
+                        }
+                        
                         var entityType = context.GetEntityTypeByName(name);
                         var method = typeof(ScrapingContext).GetMethod(nameof(context.GetDbSetByName));
                         var genericMethod = method?.MakeGenericMethod(entityType);
@@ -113,6 +124,56 @@ namespace WebApiScrapingData.Infrastructure.Mapper
         private object GetDefaultValue(Type type)
         {
             return type.IsValueType ? Activator.CreateInstance(type) : null;
+        }
+
+        private string GetName(string type, string objName)
+        {
+            string name = "";
+                switch (type)
+                {
+                    case "Pokemon_TypePoks":
+                        name = "TypePok";
+                        break;
+                    case "Pokemon_Weaknesses":
+                        name = "TypePok";
+                        break;
+                    case "Pokemon_Talents":
+                        name = "Talent";
+                        break;
+                    case "Pokemon_Attaques":
+                        name = "Attaque";
+                        break;
+                    default:
+                        name = "";
+                        break;
+                }
+
+            return name;
+        }
+
+        private string GetType(string type)
+        {
+            string name = "";
+            switch (type)
+            {
+                case "Pokemon_Attaques":
+                    name = "Pokemon_Attaque";
+                break;
+                case "Pokemon_Talents":
+                    name = "Pokemon_Talent";
+                break;
+                case "Pokemon_TypePoks":
+                    name = "Pokemon_TypePok";
+                break;
+                case "Pokemon_Weaknesses":
+                    name = "Pokemon_TypePok";
+                break;
+                default:
+                    name = "";
+                break;
+            }
+
+            return name;
         }
     }
 }

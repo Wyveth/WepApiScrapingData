@@ -1,5 +1,4 @@
-﻿using WebApiScrapingData.Domain.Class;
-using WepApiScrapingData.DTOs.Abstract;
+﻿using WepApiScrapingData.DTOs.Abstract;
 
 namespace WepApiScrapingData.DTOs.Concrete
 {
@@ -41,21 +40,14 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public string? Description_JP { get; set; }
 
-        public long? typeAttaque { get; set; }
-
-        public long? typePok { get; set; }
+        public long? TypeAttaque { get; set; }
+        
+        public long? TypePok { get; set; }
         
         public string? Power { get; set; }
         
         public string? Precision { get; set; }
 
         public string? PP { get; set; }
-
-        public List<long>? Pokemon_Attaques { get; set; }
-
-        public AttaqueDto()
-        {
-            Pokemon_Attaques = new ();
-        }
     }
 }
