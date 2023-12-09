@@ -1,4 +1,5 @@
-﻿using WebApiScrapingData.Domain.ClassJson;
+﻿using NUnit.Framework.Legacy;
+using WebApiScrapingData.Domain.ClassJson;
 using WepApiScrapingData.Utils;
 
 namespace WebApiScrapingData.Test.Utils
@@ -15,21 +16,21 @@ namespace WebApiScrapingData.Test.Utils
             
             TranslationUtils.Translate(dataJson, Constantes.Level_FR);
 
-            Assert.NotNull(dataJson.EN.WhenEvolution);
+            ClassicAssert.NotNull(dataJson.EN.WhenEvolution);
             Assert.That(dataJson.EN.WhenEvolution, Is.EqualTo("Level 16"));
-            Assert.NotNull(dataJson.ES.WhenEvolution);
+            ClassicAssert.NotNull(dataJson.ES.WhenEvolution);
             Assert.That(dataJson.ES.WhenEvolution, Is.EqualTo("Nivel 16"));
-            Assert.NotNull(dataJson.IT.WhenEvolution);
+            ClassicAssert.NotNull(dataJson.IT.WhenEvolution);
             Assert.That(dataJson.IT.WhenEvolution, Is.EqualTo("Livello 16"));
-            Assert.NotNull(dataJson.DE.WhenEvolution);
+            ClassicAssert.NotNull(dataJson.DE.WhenEvolution);
             Assert.That(dataJson.DE.WhenEvolution, Is.EqualTo("Eben 16"));
-            Assert.NotNull(dataJson.RU.WhenEvolution);
+            ClassicAssert.NotNull(dataJson.RU.WhenEvolution);
             Assert.That(dataJson.RU.WhenEvolution, Is.EqualTo("16 Yровень"));
-            Assert.NotNull(dataJson.CO.WhenEvolution);
+            ClassicAssert.NotNull(dataJson.CO.WhenEvolution);
             Assert.That(dataJson.CO.WhenEvolution, Is.EqualTo("수준 16"));
-            Assert.NotNull(dataJson.CN.WhenEvolution);
+            ClassicAssert.NotNull(dataJson.CN.WhenEvolution);
             Assert.That(dataJson.CN.WhenEvolution, Is.EqualTo("16 等级"));
-            Assert.NotNull(dataJson.CN.WhenEvolution);
+            ClassicAssert.NotNull(dataJson.CN.WhenEvolution);
             Assert.That(dataJson.JP.WhenEvolution, Is.EqualTo("レベル 16"));
         }
 
@@ -39,21 +40,21 @@ namespace WebApiScrapingData.Test.Utils
         {
             Dictionary<string, string> dic = TranslationUtils.getTranslateWithUrl(url, new(), RU);
 
-            Assert.NotNull(dic);
+            ClassicAssert.NotNull(dic);
             Assert.That(dic[Constantes.EN], Is.EqualTo("Venusaurite"));
-            Assert.NotNull(dic[Constantes.EN]);
+            ClassicAssert.NotNull(dic[Constantes.EN]);
             Assert.That(dic[Constantes.ES], Is.EqualTo("Venusaurita"));
-            Assert.NotNull(dic[Constantes.ES]);
+            ClassicAssert.NotNull(dic[Constantes.ES]);
             Assert.That(dic[Constantes.IT], Is.EqualTo("Venusaurite"));
-            Assert.NotNull(dic[Constantes.IT]);
+            ClassicAssert.NotNull(dic[Constantes.IT]);
             Assert.That(dic[Constantes.DE], Is.EqualTo("Bisaflornit"));
-            Assert.NotNull(dic[Constantes.DE]); 
+            ClassicAssert.NotNull(dic[Constantes.DE]); 
             Assert.That(RU_Value, Is.EqualTo("Венузаврит"));
-            Assert.NotNull(dic[Constantes.CO]);
+            ClassicAssert.NotNull(dic[Constantes.CO]);
             Assert.That(dic[Constantes.CO], Is.EqualTo("이상해꽃나이"));
-            Assert.NotNull(dic[Constantes.CN]);
+            ClassicAssert.NotNull(dic[Constantes.CN]);
             Assert.That(dic[Constantes.CN], Is.EqualTo("妙蛙花進化石"));
-            Assert.NotNull(dic[Constantes.JP]);
+            ClassicAssert.NotNull(dic[Constantes.JP]);
             Assert.That(dic[Constantes.JP], Is.EqualTo("フシギバナイト"));
         }
     }

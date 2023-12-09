@@ -1,4 +1,5 @@
 using HtmlAgilityPack;
+using NUnit.Framework.Legacy;
 using WepApiScrapingData.Utils;
 
 namespace WebApiScrapingData.Test.Utils
@@ -16,8 +17,8 @@ namespace WebApiScrapingData.Test.Utils
         public async Task CallUrl(string fullUrl)
         {
             var result = await HttpClientUtils.CallUrl(Constantes.urlStart1Gen_FR);
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<string>(result);
+            ClassicAssert.NotNull(result);
+            ClassicAssert.IsInstanceOf<string>(result);
         }
         
         [Test]
@@ -25,8 +26,8 @@ namespace WebApiScrapingData.Test.Utils
         public void CallUrlDynamic(string fullUrl)
         {
             var result = HttpClientUtils.CallUrlDynamic(fullUrl);
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<HtmlNode>(result);
+            ClassicAssert.NotNull(result);
+            ClassicAssert.IsInstanceOf<HtmlNode>(result);
         }
     }
 }
