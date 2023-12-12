@@ -4,6 +4,7 @@
     {
         #region Abstract
         public const string Id = "Id";
+        public const string Guid = "Guid";
         #endregion
 
         #region TypePok
