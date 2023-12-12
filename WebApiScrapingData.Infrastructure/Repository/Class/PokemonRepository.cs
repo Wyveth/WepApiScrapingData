@@ -94,7 +94,29 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Game)
                 .SingleAsync(x => x.Id.Equals(id));
+        }
+
+        public override async Task<Pokemon?> GetByGuid(Guid guid)
+        {
+            return await _context.Pokemons
+                .Include(m => m.FR)
+                .Include(m => m.EN)
+                .Include(m => m.ES)
+                .Include(m => m.IT)
+                .Include(m => m.DE)
+                .Include(m => m.RU)
+                .Include(m => m.CO)
+                .Include(m => m.CN)
+                .Include(m => m.JP)
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Game)
+                .SingleAsync(x => x.Guid.Equals(guid));
         }
 
         public override IQueryable<Pokemon> Query()
@@ -188,6 +210,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Game)
                 .ToListAsync();
         }
         #endregion
@@ -589,21 +612,6 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             pokemon.Generation = pokemonJson.Generation;
             pokemon.UrlImg = pokemonJson.UrlImg;
             pokemon.UrlSprite = pokemonJson.UrlSprite;
-        }
-
-        private void UpdateInfo(Pokemon entity, bool edit = false)
-        {
-            entity.UserModification = "System";
-            entity.DateModification = DateTime.Now;
-
-            if (!edit)
-            {
-                entity.UserCreation = "System";
-                entity.DateCreation = DateTime.Now;
-                entity.versionModification = 1;
-            }
-            else
-                entity.versionModification += 1;
         }
         #endregion
     }

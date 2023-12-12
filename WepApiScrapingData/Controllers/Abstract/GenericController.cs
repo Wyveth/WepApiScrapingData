@@ -78,6 +78,28 @@ namespace WepApiScrapingData.Controllers.Abstract
 
             return result;
         }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route("GetByGuid/{guid}")]
+        public virtual async Task<IActionResult> GetByGuid(Guid guid)
+        {
+            IActionResult result = this.BadRequest();
+
+            try
+            {
+                result = this.Ok(await _repository.Find(m => m.Guid.Equals(guid)));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                result = this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+            return result;
+        }
         #endregion
 
         #region Post
