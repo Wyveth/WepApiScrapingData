@@ -12,6 +12,8 @@ namespace WebApiScrapingData.Domain.Abstract
         [DataMember(Name = DataMember.Id)]
         public long Id { get; set; }
 
+        public Guid Guid { get; set; }
+
         public string? UserCreation { get; set; }
 
         public DateTime DateCreation { get; set; }

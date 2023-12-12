@@ -25,37 +25,17 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             }
         }
 
-        public Task<DataInfo> SaveJsonInDb(DataInfoJson dataInfoJson)
+        public async Task<DataInfo> SaveJsonInDb(DataInfoJson dataInfoJson)
         {
             DataInfo dataInfo = new();
             MapToInstance(dataInfo, dataInfoJson);
-            return Task.FromResult(AddInPokemon(dataInfo));
+            await Add(dataInfo);
+            return await Task.FromResult(dataInfo);
         }
         #endregion
         #endregion
 
         #region Private Methods
-        private DataInfo AddInPokemon(DataInfo entity)
-        {
-            UpdateInfo(entity);
-            return this._context.DataInfos.Add(entity).Entity;
-        }
-
-        private void UpdateInfo(DataInfo dataInfo, bool edit = false)
-        {
-            dataInfo.UserModification = "System";
-            dataInfo.DateModification = DateTime.Now;
-
-            if (!edit)
-            {
-                dataInfo.UserCreation = "System";
-                dataInfo.DateCreation = DateTime.Now;
-                dataInfo.versionModification = 1;
-            }
-            else
-                dataInfo.versionModification += 1;
-        }
-
         public void MapToInstance(DataInfo dataInfo, DataInfoJson dataInfoJson)
         {
             dataInfo.Name = dataInfoJson.Name;
