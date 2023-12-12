@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Data.SqlTypes;
+using System;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Interface;
@@ -26,6 +26,11 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
         public virtual async Task<T?> Get(int id)
         {
             return await _context.Set<T>().SingleAsync(x => x.Id.Equals(id));
+        }
+
+        public virtual async Task<T?> GetByGuid(Guid guid)
+        {
+            return await _context.Set<T>().SingleAsync(x => x.Guid.Equals(guid));
         }
 
         public virtual IQueryable<T> Query()
@@ -113,13 +118,30 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
             entity.DateModification = DateTime.Now;
 
             if (!edit)
-            {
+            {            
+                entity.Guid = UpdateGuid();
                 entity.UserCreation = "System";
                 entity.DateCreation = DateTime.Now;
                 entity.versionModification = 1;
             }
             else
                 entity.versionModification += 1;
+        }
+
+        private Guid UpdateGuid()
+        {
+            bool guidOK = false;
+            Guid guid;
+            do
+            {
+                guid = Guid.NewGuid();
+                Task<T?> obj = GetByGuid(guid);
+                if (obj.Result != null)
+                    guidOK = true;
+
+            } while (!guidOK);
+
+            return guid;
         }
 
         private bool saveChanges()
