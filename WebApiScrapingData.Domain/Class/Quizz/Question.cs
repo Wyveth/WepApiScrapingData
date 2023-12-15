@@ -13,7 +13,7 @@ namespace WebApiScrapingData.Domain.Class.Quizz
 
         //Data Object ID
         [DataMember(Name = DataMember.DataObjectID)]
-        public int DataObjectID { get; set; }
+        public long DataObjectID { get; set; }
 
         //Réponses
         [DataMember(Name = DataMember.Answers)]

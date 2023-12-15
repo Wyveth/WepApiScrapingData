@@ -23,14 +23,14 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
 
         #region Public Methods
         #region Read
-        public virtual async Task<T?> Get(int id)
+        public virtual async Task<T?> Get(long id)
         {
-            return await _context.Set<T>().SingleAsync(x => x.Id.Equals(id));
+            return await _context.Set<T>().SingleOrDefaultAsync(x => x.Id.Equals(id));
         }
 
         public virtual async Task<T?> GetByGuid(Guid guid)
         {
-            return await _context.Set<T>().SingleAsync(x => x.Guid.Equals(guid));
+            return await _context.Set<T>().SingleOrDefaultAsync(x => x.Guid.Equals(guid));
         }
 
         public virtual IQueryable<T> Query()
@@ -46,6 +46,11 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
         public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
         {
             return await _context.Set<T>().Where(predicate ?? (s => true)).ToListAsync();
+        }
+
+        public virtual async Task<T> Single(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().SingleAsync(predicate);
         }
 
         public virtual async Task<T?> SingleOrDefault(Expression<Func<T, bool>> predicate)
@@ -136,7 +141,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
             {
                 guid = Guid.NewGuid();
                 Task<T?> obj = GetByGuid(guid);
-                if (obj.Result != null)
+                if (obj.Result == null)
                     guidOK = true;
 
             } while (!guidOK);

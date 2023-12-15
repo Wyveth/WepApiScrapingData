@@ -19,7 +19,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             return await this._context.Attaques.Include(m => m.TypeAttaque).Include(m => m.TypePok).Where(predicate ?? (s => true)).ToListAsync();
         }
 
-        public override async Task<Attaque?> Get(int id)
+        public override async Task<Attaque?> Get(long id)
         {
             return await this._context.Attaques.Include(m => m.TypeAttaque).Include(m => m.TypePok).SingleAsync(x => x.Id.Equals(id));
         }

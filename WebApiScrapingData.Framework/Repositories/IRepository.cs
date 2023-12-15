@@ -11,7 +11,7 @@ namespace WebApiScrapingData.Core.Repositories
     {
         IUnitOfWork UnitOfWork { get; }
 
-        Task<T?> Get(int id);
+        Task<T?> Get(long id);
         IQueryable<T> Query();
         Task<IEnumerable<T>> GetAll();
         Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
@@ -20,12 +20,13 @@ namespace WebApiScrapingData.Core.Repositories
 
         Task<bool> Add(T entity);
         Task<bool> AddRange(IEnumerable<T> entities);
-        Task SaveJsonInDb(string json);
 
         bool Update(T entity);
         bool UpdateRange(IEnumerable<T> entities);
 
         bool Remove(T entity);
         bool RemoveRange(IEnumerable<T> entities);
+
+        Task SaveJsonInDb(string json);
     }
 }

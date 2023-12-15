@@ -44,6 +44,10 @@ namespace WebApiScrapingData.Domain.Class.Quizz
         [DataMember(Name = DataMember.Gen8)]
         public bool Gen8 { get; set; }
 
+        //Si Filtre Gen 9 Active
+        [DataMember(Name = DataMember.Gen9)]
+        public bool Gen9 { get; set; }
+
         //Si Filtre Gen Arceus Active
         [DataMember(Name = DataMember.GenArceus)]
         public bool GenArceus { get; set; }

@@ -23,6 +23,9 @@ namespace WebApiScrapingData.Domain.Class.Quizz
         [DataMember(Name = DataMember.IsSelected)]
         public bool IsSelected { get; set; }
 
+        //ID Correct
+        public long IsCorrectID { get; set; }
+
         //Si réponse correcte
         [DataMember(Name = DataMember.IsCorrect)]
         public bool IsCorrect { get; set; }

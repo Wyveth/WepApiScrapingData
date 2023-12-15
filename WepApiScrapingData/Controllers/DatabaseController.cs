@@ -5,9 +5,11 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Text;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Domain.ClassJson;
+using WebApiScrapingData.Infrastructure.Repository;
 using WebApiScrapingData.Infrastructure.Repository.Class;
-using WebApiScrapingData.Infrastructure.Repository.Generic;
+using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
@@ -29,6 +31,8 @@ namespace WepApiScrapingData.Controllers
         private readonly Pokemon_WeaknessRepository _repositoryPWN;
         private readonly Pokemon_TalentRepository _repositoryPTL;
         private readonly Pokemon_AttaqueRepository _repositoryPAT;
+        private readonly DifficultyRepository _repositoryD;
+        private readonly QuestionTypeRepository _repositoryQT;
         #endregion
 
         #region Constructors
@@ -41,7 +45,9 @@ namespace WepApiScrapingData.Controllers
             Pokemon_TypePokRepository repositoryPTP, 
             Pokemon_WeaknessRepository repositoryPWN, 
             Pokemon_TalentRepository repositoryPTL, 
-            Pokemon_AttaqueRepository repositoryPAT)
+            Pokemon_AttaqueRepository repositoryPAT,
+            DifficultyRepository repositoryD,
+            QuestionTypeRepository repositoryQT)
         {
             _repository = repository;
             _repositoryTP = repositoryTP;
@@ -53,6 +59,8 @@ namespace WepApiScrapingData.Controllers
             _repositoryPWN = repositoryPWN;
             _repositoryPTL = repositoryPTL;
             _repositoryPAT = repositoryPAT;
+            _repositoryD = repositoryD;
+            _repositoryQT = repositoryQT;
         }
         #endregion
         
@@ -1075,6 +1083,1382 @@ namespace WepApiScrapingData.Controllers
             }
 
             _repositoryTL.UnitOfWork.SaveChanges();
+        }
+
+        [HttpPost]
+        [Route("AddDifficultyInDB")]
+        public async Task AddDifficultyInDB()
+        {
+            List<Difficulty> difficulties = new List<Difficulty>();
+
+            Difficulty difficulty = new();
+
+            difficulty.Code = Constantes.Easy_Code;
+            difficulty.Libelle_FR = Constantes.Easy_Libelle_FR;
+            difficulty.Libelle_EN = Constantes.Easy_Libelle_EN;
+            difficulty.Libelle_ES = Constantes.Easy_Libelle_ES;
+            difficulty.Libelle_IT = Constantes.Easy_Libelle_IT;
+            difficulty.Libelle_DE = Constantes.Easy_Libelle_DE;
+            difficulty.Libelle_RU = Constantes.Easy_Libelle_RU;
+            difficulty.Libelle_CO = Constantes.Easy_Libelle_CO;
+            difficulty.Libelle_CN = Constantes.Easy_Libelle_CN;
+            difficulty.Libelle_JP = Constantes.Easy_Libelle_JP;
+            
+            if (_repositoryD.Find(m => m.Code.Equals(Constantes.Easy_Code)).Result.Count() == 0)
+                difficulties.Add(difficulty);
+
+            difficulty = new Difficulty();
+            difficulty.Code = Constantes.Normal_Code;
+            difficulty.Libelle_FR = Constantes.Normal_Libelle_FR;
+            difficulty.Libelle_EN = Constantes.Normal_Libelle_EN;
+            difficulty.Libelle_ES = Constantes.Normal_Libelle_ES;
+            difficulty.Libelle_IT = Constantes.Normal_Libelle_IT;
+            difficulty.Libelle_DE = Constantes.Normal_Libelle_DE;
+            difficulty.Libelle_RU = Constantes.Normal_Libelle_RU;
+            difficulty.Libelle_CO = Constantes.Normal_Libelle_CO;
+            difficulty.Libelle_CN = Constantes.Normal_Libelle_CN;
+            difficulty.Libelle_JP = Constantes.Normal_Libelle_JP;
+
+            if (_repositoryD.Find(m => m.Code.Equals(Constantes.Normal_Code)).Result.Count() == 0)
+                difficulties.Add(difficulty);
+
+            difficulty = new Difficulty();
+            difficulty.Code = Constantes.Hard_Code;
+            difficulty.Libelle_FR = Constantes.Hard_Libelle_FR;
+            difficulty.Libelle_EN = Constantes.Hard_Libelle_EN;
+            difficulty.Libelle_ES = Constantes.Hard_Libelle_ES;
+            difficulty.Libelle_IT = Constantes.Hard_Libelle_IT;
+            difficulty.Libelle_DE = Constantes.Hard_Libelle_DE;
+            difficulty.Libelle_RU = Constantes.Hard_Libelle_RU;
+            difficulty.Libelle_CO = Constantes.Hard_Libelle_CO;
+            difficulty.Libelle_CN = Constantes.Hard_Libelle_CN;
+            difficulty.Libelle_JP = Constantes.Hard_Libelle_JP;
+
+            if (_repositoryD.Find(m => m.Code.Equals(Constantes.Hard_Code)).Result.Count() == 0)
+                difficulties.Add(difficulty);
+
+            difficulty = new Difficulty();
+            difficulty.Code = Constantes.Expert_Code;
+            difficulty.Libelle_FR = Constantes.Expert_Libelle_FR;
+            difficulty.Libelle_EN = Constantes.Expert_Libelle_EN;
+            difficulty.Libelle_ES = Constantes.Expert_Libelle_ES;
+            difficulty.Libelle_IT = Constantes.Expert_Libelle_IT;
+            difficulty.Libelle_DE = Constantes.Expert_Libelle_DE;
+            difficulty.Libelle_RU = Constantes.Expert_Libelle_RU;
+            difficulty.Libelle_CO = Constantes.Expert_Libelle_CO;
+            difficulty.Libelle_CN = Constantes.Expert_Libelle_CN;
+            difficulty.Libelle_JP = Constantes.Expert_Libelle_JP;
+
+            if (_repositoryD.Find(m => m.Code.Equals(Constantes.Expert_Code)).Result.Count() == 0)
+                difficulties.Add(difficulty);
+
+            await _repositoryD.AddRange(difficulties);
+            _repository.UnitOfWork.SaveChanges();
+        }
+        
+        [HttpPost]
+        [Route("AddQuestionTypeInDB")]
+        public async Task AddQuestionTypeInDB()
+        {
+            List<QuestionType> questionTypes = new List<QuestionType>();
+            
+            QuestionType questionType;
+            
+            #region Easy
+            Difficulty difficultyEasy = await _repositoryD.SingleOrDefault(m => m.Code.Equals(Constantes.Easy_Code));
+
+            #region QTypPok
+            questionType = new QuestionType(){
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyEasy
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokDesc
+            questionType = new QuestionType()
+                {
+                Code = Constantes.QTypPokDesc_Code,
+                Libelle_FR = Constantes.QTypPokDesc_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokDesc_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokDesc_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokDesc_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokDesc_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokDesc_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokDesc_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokDesc_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokDesc_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokDesc_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokDescReverse
+            questionType = new QuestionType(){
+                Code = Constantes.QTypPokDescReverse_Code,
+                Libelle_FR = Constantes.QTypPokDescReverse_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokDescReverse_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokDescReverse_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokDescReverse_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokDescReverse_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokDescReverse_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokDescReverse_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokDescReverse_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokDescReverse_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokDescReverse_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTypPok
+            questionType = new QuestionType(){
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 6,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTyp
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTyp_Code,
+                Libelle_FR = Constantes.QTypTyp_Libelle_FR,
+                Libelle_EN = Constantes.QTypTyp_Libelle_EN,
+                Libelle_ES = Constantes.QTypTyp_Libelle_ES,
+                Libelle_IT = Constantes.QTypTyp_Libelle_IT,
+                Libelle_DE = Constantes.QTypTyp_Libelle_DE,
+                Libelle_RU = Constantes.QTypTyp_Libelle_RU,
+                Libelle_CO = Constantes.QTypTyp_Libelle_CO,
+                Libelle_CN = Constantes.QTypTyp_Libelle_CN,
+                Libelle_JP = Constantes.QTypTyp_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 6,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTyp_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTalent
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTalent_Code,
+                Libelle_FR = Constantes.QTypTalent_Libelle_FR,
+                Libelle_EN = Constantes.QTypTalent_Libelle_EN,
+                Libelle_ES = Constantes.QTypTalent_Libelle_ES,
+                Libelle_IT = Constantes.QTypTalent_Libelle_IT,
+                Libelle_DE = Constantes.QTypTalent_Libelle_DE,
+                Libelle_RU = Constantes.QTypTalent_Libelle_RU,
+                Libelle_CO = Constantes.QTypTalent_Libelle_CO,
+                Libelle_CN = Constantes.QTypTalent_Libelle_CN,
+                Libelle_JP = Constantes.QTypTalent_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTalent_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTalentReverse
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTalentReverse_Code,
+                Libelle_FR = Constantes.QTypTalentReverse_Libelle_FR,
+                Libelle_EN = Constantes.QTypTalentReverse_Libelle_EN,
+                Libelle_ES = Constantes.QTypTalentReverse_Libelle_ES,
+                Libelle_IT = Constantes.QTypTalentReverse_Libelle_IT,
+                Libelle_DE = Constantes.QTypTalentReverse_Libelle_DE,
+                Libelle_RU = Constantes.QTypTalentReverse_Libelle_RU,
+                Libelle_CO = Constantes.QTypTalentReverse_Libelle_CO,
+                Libelle_CN = Constantes.QTypTalentReverse_Libelle_CN,
+                Libelle_JP = Constantes.QTypTalentReverse_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTalentReverse_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokStat
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokStat_Code,
+                Libelle_FR = Constantes.QTypPokStat_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokStat_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokStat_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokStat_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokStat_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokStat_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokStat_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokStat_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokStat_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokStat_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTypPokVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 6,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypWeakPokVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 6,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokTalentVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokTalentVarious_Code,
+                Libelle_FR = Constantes.QTypPokTalentVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokTalentVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokTalentVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokTalentVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokTalentVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokTalentVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokTalentVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokTalentVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokTalentVarious_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokTalentVarious_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokFamilyVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokFamilyVarious_Code,
+                Libelle_FR = Constantes.QTypPokFamilyVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokFamilyVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokFamilyVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokFamilyVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokFamilyVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokFamilyVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokFamilyVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokFamilyVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokFamilyVarious_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokFamilyVarious_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokTypVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokTypVarious_Code,
+                Libelle_FR = Constantes.QTypPokTypVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokTypVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokTypVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokTypVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokTypVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokTypVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokTypVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokTypVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokTypVarious_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokTypVarious_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+            #endregion
+
+            #region Normal
+            Difficulty difficultyNormal = await _repositoryD.SingleOrDefault(m => m.Code.Equals(Constantes.Normal_Code));
+
+            #region QTypPok
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && !m.IsBlurred && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsBlurred = true,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsBlurred).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsHide = true,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokDesc
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokDesc_Code,
+                Libelle_FR = Constantes.QTypPokDesc_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokDesc_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokDesc_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokDesc_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokDesc_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokDesc_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokDesc_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokDesc_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokDesc_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 6,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokDesc_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokDescReverse
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokDescReverse_Code,
+                Libelle_FR = Constantes.QTypPokDescReverse_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokDescReverse_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokDescReverse_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokDescReverse_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokDescReverse_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokDescReverse_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokDescReverse_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokDescReverse_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokDescReverse_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 6,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokDescReverse_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTypPok
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && !m.IsBlurred && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsBlurred = true,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsBlurred).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsHide = true,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTyp
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTyp_Code,
+                Libelle_FR = Constantes.QTypTyp_Libelle_FR,
+                Libelle_EN = Constantes.QTypTyp_Libelle_EN,
+                Libelle_ES = Constantes.QTypTyp_Libelle_ES,
+                Libelle_IT = Constantes.QTypTyp_Libelle_IT,
+                Libelle_DE = Constantes.QTypTyp_Libelle_DE,
+                Libelle_RU = Constantes.QTypTyp_Libelle_RU,
+                Libelle_CO = Constantes.QTypTyp_Libelle_CO,
+                Libelle_CN = Constantes.QTypTyp_Libelle_CN,
+                Libelle_JP = Constantes.QTypTyp_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTyp_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTalent
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTalent_Code,
+                Libelle_FR = Constantes.QTypTalent_Libelle_FR,
+                Libelle_EN = Constantes.QTypTalent_Libelle_EN,
+                Libelle_ES = Constantes.QTypTalent_Libelle_ES,
+                Libelle_IT = Constantes.QTypTalent_Libelle_IT,
+                Libelle_DE = Constantes.QTypTalent_Libelle_DE,
+                Libelle_RU = Constantes.QTypTalent_Libelle_RU,
+                Libelle_CO = Constantes.QTypTalent_Libelle_CO,
+                Libelle_CN = Constantes.QTypTalent_Libelle_CN,
+                Libelle_JP = Constantes.QTypTalent_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 6,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTalent_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTalentReverse
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTalentReverse_Code,
+                Libelle_FR = Constantes.QTypTalentReverse_Libelle_FR,
+                Libelle_EN = Constantes.QTypTalentReverse_Libelle_EN,
+                Libelle_ES = Constantes.QTypTalentReverse_Libelle_ES,
+                Libelle_IT = Constantes.QTypTalentReverse_Libelle_IT,
+                Libelle_DE = Constantes.QTypTalentReverse_Libelle_DE,
+                Libelle_RU = Constantes.QTypTalentReverse_Libelle_RU,
+                Libelle_CO = Constantes.QTypTalentReverse_Libelle_CO,
+                Libelle_CN = Constantes.QTypTalentReverse_Libelle_CN,
+                Libelle_JP = Constantes.QTypTalentReverse_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 6,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTalentReverse_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokStat
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokStat_Code,
+                Libelle_FR = Constantes.QTypPokStat_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokStat_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokStat_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokStat_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokStat_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokStat_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokStat_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokStat_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokStat_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokStat_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTypPokVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && !m.IsBlurred && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsBlurred = true,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsBlurred).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsHide = true,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypWeakPokVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && !m.IsBlurred && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsBlurred = true,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsBlurred).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsHide = true,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokTalentVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokTalentVarious_Code,
+                Libelle_FR = Constantes.QTypPokTalentVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokTalentVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokTalentVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokTalentVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokTalentVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokTalentVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokTalentVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokTalentVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokTalentVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 8,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokTalentVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokFamilyVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokFamilyVarious_Code,
+                Libelle_FR = Constantes.QTypPokFamilyVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokFamilyVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokFamilyVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokFamilyVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokFamilyVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokFamilyVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokFamilyVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokFamilyVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokFamilyVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 8,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokFamilyVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokTypVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokTypVarious_Code,
+                Libelle_FR = Constantes.QTypPokTypVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokTypVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokTypVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokTypVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokTypVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokTypVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokTypVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokTypVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokTypVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 8,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokTypVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+            #endregion
+
+            #region Hard
+            Difficulty difficultyHard = await _repositoryD.SingleOrDefault(m => m.Code.Equals(Constantes.Hard_Code));
+
+            #region QTypPok
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && !m.IsBlurred && !m.IsGrayscale && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsGrayscale = true,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsGrayscale).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 12,
+                IsHide = true,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsHide = true,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsHide && m.IsBlurred).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokDesc
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokDesc_Code,
+                Libelle_FR = Constantes.QTypPokDesc_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokDesc_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokDesc_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokDesc_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokDesc_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokDesc_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokDesc_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokDesc_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokDesc_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokDesc_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokDescReverse
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokDescReverse_Code,
+                Libelle_FR = Constantes.QTypPokDescReverse_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokDescReverse_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokDescReverse_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokDescReverse_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokDescReverse_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokDescReverse_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokDescReverse_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokDescReverse_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokDescReverse_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokDescReverse_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTypPok
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 18,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && !m.IsBlurred && !m.IsGrayscale && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsGrayscale = true,
+                NbAnswers = 18,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsGrayscale).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsHide = true,
+                NbAnswers = 18,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsHide = true,
+                NbAnswers = 18,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTyp
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTyp_Code,
+                Libelle_FR = Constantes.QTypTyp_Libelle_FR,
+                Libelle_EN = Constantes.QTypTyp_Libelle_EN,
+                Libelle_ES = Constantes.QTypTyp_Libelle_ES,
+                Libelle_IT = Constantes.QTypTyp_Libelle_IT,
+                Libelle_DE = Constantes.QTypTyp_Libelle_DE,
+                Libelle_RU = Constantes.QTypTyp_Libelle_RU,
+                Libelle_CO = Constantes.QTypTyp_Libelle_CO,
+                Libelle_CN = Constantes.QTypTyp_Libelle_CN,
+                Libelle_JP = Constantes.QTypTyp_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 18,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTyp_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTalent
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTalent_Code,
+                Libelle_FR = Constantes.QTypTalent_Libelle_FR,
+                Libelle_EN = Constantes.QTypTalent_Libelle_EN,
+                Libelle_ES = Constantes.QTypTalent_Libelle_ES,
+                Libelle_IT = Constantes.QTypTalent_Libelle_IT,
+                Libelle_DE = Constantes.QTypTalent_Libelle_DE,
+                Libelle_RU = Constantes.QTypTalent_Libelle_RU,
+                Libelle_CO = Constantes.QTypTalent_Libelle_CO,
+                Libelle_CN = Constantes.QTypTalent_Libelle_CN,
+                Libelle_JP = Constantes.QTypTalent_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTalent_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTalentReverse
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTalentReverse_Code,
+                Libelle_FR = Constantes.QTypTalentReverse_Libelle_FR,
+                Libelle_EN = Constantes.QTypTalentReverse_Libelle_EN,
+                Libelle_ES = Constantes.QTypTalentReverse_Libelle_ES,
+                Libelle_IT = Constantes.QTypTalentReverse_Libelle_IT,
+                Libelle_DE = Constantes.QTypTalentReverse_Libelle_DE,
+                Libelle_RU = Constantes.QTypTalentReverse_Libelle_RU,
+                Libelle_CO = Constantes.QTypTalentReverse_Libelle_CO,
+                Libelle_CN = Constantes.QTypTalentReverse_Libelle_CN,
+                Libelle_JP = Constantes.QTypTalentReverse_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTalentReverse_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokStat
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokStat_Code,
+                Libelle_FR = Constantes.QTypPokStat_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokStat_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokStat_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokStat_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokStat_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokStat_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokStat_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokStat_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokStat_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokStat_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTypPokVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && !m.IsBlurred && !m.IsGrayscale && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsGrayscale = true,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsGrayscale).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsHide = true,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsHide = true,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypWeakPokVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && !m.IsBlurred && !m.IsGrayscale && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsGrayscale = true,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsGrayscale).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsHide = true,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsHide = true,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokTalentVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokTalentVarious_Code,
+                Libelle_FR = Constantes.QTypPokTalentVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokTalentVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokTalentVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokTalentVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokTalentVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokTalentVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokTalentVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokTalentVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokTalentVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokTalentVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokFamilyVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokFamilyVarious_Code,
+                Libelle_FR = Constantes.QTypPokFamilyVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokFamilyVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokFamilyVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokFamilyVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokFamilyVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokFamilyVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokFamilyVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokFamilyVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokFamilyVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokFamilyVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokTypVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokTypVarious_Code,
+                Libelle_FR = Constantes.QTypPokTypVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokTypVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokTypVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokTypVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokTypVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokTypVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokTypVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokTypVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokTypVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokTypVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+            #endregion
+
+            await _repositoryQT.AddRange(questionTypes);
+            _repository.UnitOfWork.SaveChanges();
         }
 
         [HttpPost]

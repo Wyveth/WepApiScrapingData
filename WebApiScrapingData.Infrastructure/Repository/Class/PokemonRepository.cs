@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
+using System.Net.Security;
+using System.Net;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
@@ -77,7 +79,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Where(predicate ?? (s => true)).ToListAsync();
         }
 
-        public override async Task<Pokemon?> Get(int id)
+        public override async Task<Pokemon?> Get(long id)
         {
             return await _context.Pokemons
                 .Include(m => m.FR)
@@ -212,6 +214,56 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
                 .ToListAsync();
+        }
+        #endregion
+
+        #region Generate Quizz
+        public async Task<Pokemon> GetPokemonRandom(bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus)
+        {
+            List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), gen1, gen2, gen3, gen4, gen5, gen6, gen7, gen8, gen9, genArceus);
+
+            Random random = new Random();
+            int numberRandom = random.Next(resultFilterGen.Count);
+
+            return await Task.FromResult(resultFilterGen[numberRandom]);
+        }
+
+        public async Task<Pokemon> GetPokemonRandom(bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus, List<Pokemon> alreadySelected)
+        {
+            List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), gen1, gen2, gen3, gen4, gen5, gen6, gen7, gen8, gen9, genArceus);
+
+            Random random = new Random();
+            int numberRandom = random.Next(resultFilterGen.Count);
+            Pokemon pokemon = alreadySelected.Find(m => m.Id.Equals(resultFilterGen[numberRandom].Id));
+
+            while (pokemon != null)
+            {
+                numberRandom = random.Next(resultFilterGen.Count);
+                pokemon = alreadySelected.Find(m => m.Id.Equals(resultFilterGen[numberRandom].Id));
+            }
+
+            return await Task.FromResult(resultFilterGen[numberRandom]);
+        }
+
+        public async Task<Pokemon> GetPokemonRandom(bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus, TypePok typePok, List<Pokemon> alreadySelected)
+        {
+            List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), gen1, gen2, gen3, gen4, gen5, gen6, gen7, gen8, gen9, genArceus);
+            resultFilterGen = await GetPokemonByFilterType(resultFilterGen, typePok.Name_EN);
+
+            Random random = new Random();
+            int numberRandom = random.Next(resultFilterGen.Count);
+            Pokemon pokemon = alreadySelected.Find(m => m.Id.Equals(resultFilterGen[numberRandom].Id));
+
+            while (pokemon != null)
+            {
+                numberRandom = random.Next(resultFilterGen.Count);
+                pokemon = alreadySelected.Find(m => m.Id.Equals(resultFilterGen[numberRandom].Id));
+
+                if (alreadySelected.Count.Equals(resultFilterGen.Count))
+                    break;
+            }
+
+            return await Task.FromResult(resultFilterGen[numberRandom]);
         }
         #endregion
 
@@ -588,7 +640,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             await _repositoryDI.Add(dataInfo);
             return await Task.FromResult(dataInfo);
         }
+        #endregion
 
+        #region Private Methods
         private async Task MapToInstance(Pokemon pokemon, PokemonJson pokemonJson)
         {
             pokemon.Number = pokemonJson.Number;
@@ -612,6 +666,114 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             pokemon.Generation = pokemonJson.Generation;
             pokemon.UrlImg = pokemonJson.UrlImg;
             pokemon.UrlSprite = pokemonJson.UrlSprite;
+        }
+        
+        private async Task<List<Pokemon>> GetPokemonsWithFilterGen(List<Pokemon> result, bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus)
+        {
+            List<Pokemon> resultFilterGen = new List<Pokemon>();
+
+            if (gen1)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(1) && m.TypeEvolution.Equals(Constantes.NormalEvolution)));
+            if (gen2)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(2) && m.TypeEvolution.Equals(Constantes.NormalEvolution)));
+            if (gen3)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(3) && m.TypeEvolution.Equals(Constantes.NormalEvolution)));
+            if (gen4)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(4) && m.TypeEvolution.Equals(Constantes.NormalEvolution)));
+            if (gen5)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(5) && m.TypeEvolution.Equals(Constantes.NormalEvolution)));
+            if (gen6)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(6) || m.TypeEvolution.Equals(Constantes.MegaEvolution)).Distinct());
+            if (gen7)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(7) || m.TypeEvolution.Equals(Constantes.Alola)).Distinct());
+            if (gen8)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(8) || m.TypeEvolution.Equals(Constantes.Galar) || m.TypeEvolution.Equals(Constantes.GigaEvolution)).Distinct());
+            if (gen9)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(9) || m.TypeEvolution.Equals(Constantes.Paldea)));
+            if (genArceus)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(0) || m.TypeEvolution.Equals(Constantes.Hisui)).Distinct());
+
+            if (resultFilterGen.Count.Equals(0))
+                resultFilterGen = result;
+
+            return await Task.FromResult(resultFilterGen);
+        }
+
+        private async Task<List<Pokemon>> GetPokemonsWithFilterType(List<Pokemon> resultFilterGen, bool steel, bool fighting, bool dragon, bool water, bool electric, bool fairy, bool fire, bool ice, bool bug, bool normal, bool grass, bool poison, bool psychic, bool rock, bool ground, bool ghost, bool dark, bool flying)
+        {
+            List<Pokemon> resultFilterType = new List<Pokemon>();
+            if (steel)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Steel));
+
+            if (fighting)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Fighting));
+
+            if (dragon)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Dragon));
+
+            if (water)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Water));
+
+            if (electric)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Electric));
+
+            if (fairy)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Fairy));
+
+            if (fire)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Fire));
+
+            if (ice)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Ice));
+
+            if (bug)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Bug));
+
+            if (normal)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Normal));
+
+            if (grass)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Grass));
+
+            if (poison)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Poison));
+
+            if (psychic)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Psychic));
+
+            if (rock)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Rock));
+
+            if (ground)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Ground));
+
+            if (ghost)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Ghost));
+
+            if (dark)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Dark));
+
+            if (flying)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Flying));
+
+            if (resultFilterType.Count.Equals(0))
+                resultFilterType = resultFilterGen;
+
+            return await Task.FromResult(resultFilterType);
+        }
+
+        private async Task<List<Pokemon>> GetPokemonByFilterType(IEnumerable<Pokemon> resultFilterGen, string typeName)
+        {
+            List<Pokemon> pokemons = new List<Pokemon>();
+            TypePok typePok = await _repositoryTP.Single(m => m.Name_EN.Equals(typeName));
+            List<Pokemon_TypePok> pokemonTypePoks = await _repositoryPTP.GetPokemonsByTypePok(typePok.Id);
+            foreach (Pokemon_TypePok pokemonTypePok in pokemonTypePoks)
+            {
+                Pokemon pokemon = resultFilterGen.Single(m => m.Id.Equals(pokemonTypePok.PokemonId));
+                if (pokemon != null)
+                    pokemons.Add(pokemon);
+            }
+            return pokemons;
         }
         #endregion
     }
