@@ -5,6 +5,7 @@ using System.Text;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
+using WebApiScrapingData.Infrastructure.Utils;
 
 namespace WepApiScrapingData.Utils
 {

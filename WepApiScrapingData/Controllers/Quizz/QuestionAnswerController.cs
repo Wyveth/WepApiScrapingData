@@ -15,10 +15,10 @@ namespace WepApiScrapingData.Controllers.Quizz
     [ApiController]
     [Route("api/v1.0/[controller]")]
     [EnableCors(SecurityMethods.DEFAULT_POLICY)]
-    public class QuestionAnswerController : GenericController<QuestionAnswer, QuestionAnswerDto, QuestionAnswerRepository>
+    public class QuestionAnswerController : GenericController<Question_Answer, QuestionAnswerDto, Question_AnswerRepository>
     {
         #region Constructor
-        public QuestionAnswerController(ILogger<QuestionAnswer> logger, GenericMapper<QuestionAnswer, QuestionAnswerDto> mapper, QuestionAnswerRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)
+        public QuestionAnswerController(ILogger<Question_Answer> logger, GenericMapper<Question_Answer, QuestionAnswerDto> mapper, Question_AnswerRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)
         {
         }
         #endregion

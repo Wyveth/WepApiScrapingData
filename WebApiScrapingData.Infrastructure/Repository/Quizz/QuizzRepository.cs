@@ -3,28 +3,28 @@ using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using ClassQuizz = WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Repository.Generic;
+using WebApiScrapingData.Infrastructure.Repository.Quizz;
 
 namespace WebApiScrapingData.Infrastructure.Repository
 {
     public class QuizzRepository : Repository<ClassQuizz.Quizz>, IRepositoryExtendsQuizz<ClassQuizz.Quizz>
     {
         #region fields
-        private readonly QuestionRepository _repositoryQ;
+        private readonly Quizz_QuestionRepository _repositoryQQ;
         #endregion
 
         #region Constructor
-        public QuizzRepository(ScrapingContext context,QuestionRepository repositoryQ) : base(context)
+        public QuizzRepository(ScrapingContext context, Quizz_QuestionRepository repositoryQQ) : base(context)
         {
-            _repositoryQ = repositoryQ;
+            _repositoryQQ = repositoryQQ;
         }
         #endregion
-
+             
         #region Public Methods
-        public async Task<ClassQuizz.Quizz> GenerateQuizz(IdentityUser identityUser, bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus, bool easy, bool normal, bool hard)
+        public async Task<ClassQuizz.Quizz> GenerateQuizz(IdentityUser? identityUser, bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus, bool easy, bool normal, bool hard)
         {
             ClassQuizz.Quizz quizz = new ClassQuizz.Quizz()
             {
-                Quizz_Questions = await _repositoryQ.GenerateQuestions(gen1, gen2, gen3, gen4, gen5, gen6, gen7, gen8, gen9, genArceus, easy, normal, hard),
                 Gen1 = gen1,
                 Gen2 = gen2,
                 Gen3 = gen3,
@@ -42,7 +42,9 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 IdentityUser = identityUser
             };
 
-            //await CreateAsync(quizz);
+            await Add(quizz);
+
+            quizz.Quizz_Questions = await _repositoryQQ.GenerateQuizzQuestions(quizz, gen1, gen2, gen3, gen4, gen5, gen6, gen7, gen8, gen9, genArceus, easy, normal, hard);
 
             return await Task.FromResult(quizz);
         }

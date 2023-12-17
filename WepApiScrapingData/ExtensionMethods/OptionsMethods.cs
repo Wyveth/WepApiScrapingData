@@ -1,4 +1,5 @@
 ﻿using WebApiScrapingData.Infrastructure.Configurations;
+using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.Utils;
 
 namespace WepApiScrapingData.ExtensionMethods

@@ -7,6 +7,7 @@ using WepApiScrapingData.DTOs.Concrete.Quizz;
 using WepApiScrapingData.ExtensionMethods;
 using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Data;
+using ClassQuizz = WebApiScrapingData.Domain.Class.Quizz;
 
 namespace WepApiScrapingData.Controllers.Quizz
 {
@@ -20,5 +21,12 @@ namespace WepApiScrapingData.Controllers.Quizz
         {
         }
         #endregion
+
+        [HttpGet]
+        [Route("GenerateQuizz")]
+        public async Task<ClassQuizz.Quizz> GenerateQuizz()
+        {
+            return await _repository.GenerateQuizz(null, true, false, false, false, false, false, false, false, false, false, true, false, false);
+        }
     }
 }

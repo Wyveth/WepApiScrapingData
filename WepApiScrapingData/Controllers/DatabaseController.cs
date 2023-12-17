@@ -1179,7 +1179,9 @@ namespace WepApiScrapingData.Controllers
                 Libelle_CO = Constantes.QTypPok_Libelle_CO,
                 Libelle_CN = Constantes.QTypPok_Libelle_CN,
                 Libelle_JP = Constantes.QTypPok_Libelle_JP,
-                Difficulty = difficultyEasy
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                NbAnswersPossible = 1
             };
 
             if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)

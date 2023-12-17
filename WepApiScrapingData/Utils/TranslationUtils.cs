@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using WebApiScrapingData.Domain.ClassJson;
+using WebApiScrapingData.Infrastructure.Utils;
 
 namespace WepApiScrapingData.Utils
 {

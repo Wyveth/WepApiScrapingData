@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApiScrapingData.Infrastructure.Configurations;
+using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.Utils;
 
 namespace WepApiScrapingData.ExtensionMethods

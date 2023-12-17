@@ -16,149 +16,117 @@ namespace WebApiScrapingData.Infrastructure.Repository
         private readonly TypePokRepository _repositoryTP;
         private readonly TalentRepository _repositoryT;
         #endregion
-        
+
         #region Constructor
-        public AnswerRepository(ScrapingContext context, PokemonRepository repositoryP, TypePokRepository repositoryTP, TalentRepository repositoryT) : base(context) {
+        public AnswerRepository(ScrapingContext context, PokemonRepository repositoryP, TypePokRepository repositoryTP, TalentRepository repositoryT) : base(context)
+        {
             _repositoryP = repositoryP;
             _repositoryTP = repositoryTP;
             _repositoryT = repositoryT;
-
         }
         #endregion
 
         #region Public Methods
         #region Quizz
-        public async Task<List<Answer>> GenerateAnswers(Quizz quizz, QuestionType questionType, List<Answer> answers)
+        public async Task<List<Answer>> GenerateAnswers(ClassQuizz.Quizz quizz, Question question, QuestionType questionType)
         {
+            List<Answer> answers = new();
+            List<Pokemon> alreadyExistQTypPok = new();
+            List<Pokemon> alreadyExistQTypTypPok = new();
+            List<TypePok> alreadyExistQTypTyp = new();
+            List<Talent> alreadyExistQTypTalent = new();
+            List<Pokemon> alreadyExistQTypPokStat = new();
+
             if (questionType.Code.Equals(Constantes.QTypPok_Code)
-                || questionType.Code.Equals(Constantes.QTypPokDescReverse_Code)
-                || questionType.Code.Equals(Constantes.QTypPokFamilyVarious_Code)
-                || questionType.Code.Equals(Constantes.QTypPokTypVarious_Code))
+             || questionType.Code.Equals(Constantes.QTypPokDescReverse_Code))
             {
-                List<Pokemon> pokemons = new List<Pokemon>();
-                foreach (Answer item in answers)
-                {
-                    pokemons.Add(await _repositoryP.Get(item.IsCorrectID));
-                }
-
-                int qMissing = questionType.NbAnswers - answers.Count;
-
-                for (int i = 0; i < qMissing; i++)
-                {
-                    pokemons.Add(await _repositoryP.GetPokemonRandom(quizz.Gen1, quizz.Gen2, quizz.Gen3, quizz.Gen4, quizz.Gen5, quizz.Gen6, quizz.Gen7, quizz.Gen8, quizz.Gen9, quizz.GenArceus, pokemons));
-                }
-
-                answers = await GenerateAnswers(questionType, pokemons, answers);
+                answers = await GetAnswersID_QTypPok(quizz, questionType, alreadyExistQTypPok);
+                
+                foreach (Answer answer in answers)
+                    alreadyExistQTypPok.Add(await _repositoryP.Get(answer.IsCorrectID));
+                
+                //question.DataObjectID = answer.IsCorrectID;
             }
-            else if (questionType.Code.Equals(Constantes.QTypTypPok_Code)
-                || questionType.Code.Equals(Constantes.QTypTyp_Code)
-                || questionType.Code.Equals(Constantes.QTypTypPokVarious_Code)
-                || questionType.Code.Equals(Constantes.QTypWeakPokVarious_Code))
+            else if (questionType.Code.Equals(Constantes.QTypPokFamilyVarious_Code))
             {
-                Console.WriteLine("GenerateAnswers - QTypTypPok");
+                Pokemon pokemon = await _repositoryP.GetPokemonRandom(quizz, alreadyExistQTypTypPok);
+                answers = await GetAnswersID_QTypPokFamily(questionType, pokemon);
+                alreadyExistQTypTypPok.Add(pokemon);
+                question.DataObjectID = pokemon.Id;
+            }
+            else if (questionType.Code.Equals(Constantes.QTypPokTypVarious_Code))
+            {
+                TypePok typePok = await _repositoryTP.GetTypeRandom();
+                answers = await GetAnswersID_QTypPok(quizz, questionType, typePok, alreadyExistQTypTyp);
+                alreadyExistQTypTyp.Add(typePok);
+                question.DataObjectID = typePok.Id;
+            }
+            else if (questionType.Code.Equals(Constantes.QTypTypPok_Code))
+            {
+                Pokemon pokemon = await _repositoryP.GetPokemonRandom(quizz, alreadyExistQTypTypPok);
+                answers = await GetAnswersID_QTypTypPok(questionType, pokemon, false);
+                alreadyExistQTypTypPok.Add(pokemon);
+                question.DataObjectID = pokemon.Id;
+            }
+            else if (questionType.Code.Equals(Constantes.QTypTypPokVarious_Code))
+            {
+                Pokemon pokemon = await _repositoryP.GetPokemonRandom(quizz, alreadyExistQTypTypPok);
+                answers = await GetAnswersID_QTypTypPok(questionType, pokemon, true);
+                alreadyExistQTypTypPok.Add(pokemon);
+                question.DataObjectID = pokemon.Id;
+            }
+            else if (questionType.Code.Equals(Constantes.QTypWeakPokVarious_Code))
+            {
+                Pokemon pokemon = await _repositoryP.GetPokemonRandom(quizz, alreadyExistQTypTypPok);
+                answers = await GetAnswersID_QTypWeakPok(questionType, pokemon, true);
+                alreadyExistQTypTypPok.Add(pokemon);
+                question.DataObjectID = pokemon.Id;
+            }
+            else if (questionType.Code.Equals(Constantes.QTypTyp_Code))
+            {
+                answers = await GetAnswersID_QTypTyp(questionType, alreadyExistQTypTyp);
 
-                List<TypePok> typePoks = new List<TypePok>();
-                foreach (Answer item in answers)
-                {
-                    typePoks.Add(await _repositoryTP.Get(item.IsCorrectID));
-                }
+                foreach (Answer answer in answers)
+                    alreadyExistQTypTyp.Add(await _repositoryTP.Get(answer.IsCorrectID));
+                
+                //question.DataObjectID = answer.IsCorrectID;
 
-                int qMissing = questionType.NbAnswers - answers.Count;
-
-                for (int i = 0; i < qMissing; i++)
-                {
-                    typePoks.Add(await _repositoryTP.GetTypeRandom(typePoks));
-                }
-
-                answers = await GenerateAnswers(questionType, typePoks, answers);
+                if (alreadyExistQTypTyp.Count.Equals(18))
+                    alreadyExistQTypTyp = new List<TypePok>();
             }
             else if (questionType.Code.Equals(Constantes.QTypPokDesc_Code))
             {
-                Console.WriteLine("GenerateAnswers - QTypPokDesc");
+                answers = await GetAnswersID_QTypPokDesc(quizz, questionType, alreadyExistQTypPok);
 
-                List<Pokemon> pokemons = new List<Pokemon>();
-                foreach (Answer item in answers)
-                {
-                    pokemons.Add(await _repositoryP.Get(item.IsCorrectID));
-                }
+                foreach (Answer answer in answers)
+                    alreadyExistQTypPok.Add(await _repositoryP.Get(answer.IsCorrectID));
 
-                int qMissing = questionType.NbAnswers - answers.Count;
-
-                for (int i = 0; i < qMissing; i++)
-                {
-                    pokemons.Add(await _repositoryP.GetPokemonRandom(quizz.Gen1, quizz.Gen2, quizz.Gen3, quizz.Gen4, quizz.Gen5, quizz.Gen6, quizz.Gen7, quizz.Gen8, quizz.Gen9, quizz.GenArceus, pokemons));
-                }
-
-                answers = await GenerateAnswersDesc(questionType, pokemons, answers);
+                //question.DataObjectID = answer.IsCorrectID;
             }
-            else if (questionType.Code.Equals(Constantes.QTypTalent_Code)
-                || questionType.Code.Equals(Constantes.QTypTalentReverse_Code)
-                || questionType.Code.Equals(Constantes.QTypPokTalentVarious_Code))
+            else if (questionType.Code.Equals(Constantes.QTypPokTalentVarious_Code))
             {
-                Console.WriteLine("GenerateAnswers - QTypTalent");
+                Pokemon pokemon = await _repositoryP.GetPokemonRandom(quizz, alreadyExistQTypTypPok);
+                answers = await GetAnswersID_QTypTalentPok(questionType, pokemon);
+                alreadyExistQTypTypPok.Add(pokemon);
+                question.DataObjectID = pokemon.Id;
+            }
+            else if (questionType.Code.Equals(Constantes.QTypTalent_Code) || questionType.Code.Equals(Constantes.QTypTalentReverse_Code))
+            {
+                answers = await GetAnswersID_QTypTalent(questionType, alreadyExistQTypTalent);
 
-                List<Talent> talents = new List<Talent>();
-                foreach (Answer item in answers)
-                {
-                    talents.Add(await _repositoryT.Get(item.IsCorrectID));
-                }
+                foreach (Answer answer in answers)
+                    alreadyExistQTypTalent.Add(await _repositoryT.Get(answer.IsCorrectID));
 
-                int qMissing = questionType.NbAnswers - answers.Count;
-
-                for (int i = 0; i < qMissing; i++)
-                {
-                    talents.Add(await _repositoryT.GetTalentRandom(talents));
-                }
-
-                if (questionType.Code.Equals(Constantes.QTypTalent_Code))
-                    answers = await GenerateAnswers(questionType, talents, answers);
-                else if (questionType.Code.Equals(Constantes.QTypTalentReverse_Code) || questionType.Code.Equals(Constantes.QTypPokTalentVarious_Code))
-                    answers = await GenerateAnswers(questionType, talents, answers, true);
+                //question.DataObjectID = answer.IsCorrectID;
             }
             else if (questionType.Code.Equals(Constantes.QTypPokStat_Code))
             {
-                Console.WriteLine("GenerateAnswers - QTypPokStat");
+                answers = await GetAnswersID_QTypPokStat(quizz, questionType, alreadyExistQTypPokStat);
 
-                Random random = new Random();
-                List<Pokemon> pokemons = new List<Pokemon>();
-                List<string> statAnswers = new List<string>();
-                int stat = 0;
-                string typeStat = "";
+                foreach (Answer answer in answers)
+                    alreadyExistQTypPokStat.Add(await _repositoryP.Get(answer.IsCorrectID));
 
-                foreach (Answer item in answers)
-                {
-                    typeStat = item.Type;
-                    stat = int.Parse(item.Libelle);
-                    statAnswers.Add(item.Libelle);
-                    pokemons.Add(await _repositoryP.Get(item.IsCorrectID));
-                }
-
-                int minValue = 0;
-                int maxValue = 255;
-
-                if (stat - 50 > minValue)
-                    minValue = stat - 50;
-
-                if (stat + 50 < maxValue)
-                    maxValue = stat + 50;
-
-                int qMissing = questionType.NbAnswers - answers.Count;
-
-                for (int i = 0; i < qMissing; i++)
-                {
-                    int x = 0;
-                    while (x.Equals(0))
-                    {
-                        x = random.Next(minValue, maxValue);
-
-                        if (statAnswers.Contains(x.ToString()))
-                            x = 0;
-                        else
-                            statAnswers.Add(x.ToString());
-                    }
-                }
-
-                answers = await GenerateAnswersStat(questionType, pokemons, answers, typeStat, statAnswers);
+                //question.DataObjectID = answer.IsCorrectID;
             }
 
             return await Task.FromResult(answers);
@@ -190,7 +158,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     IsSelected = false,
                     IsCorrect = true,
                     IsCorrectID = pair.Value.Id,
-                    Libelle = pair.Value.Name,
+                    Libelle = pair.Value.FR.Name,
                     Order = pair.Key + 1
                 };
 
@@ -228,7 +196,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                         IsSelected = false,
                         IsCorrect = false,
                         IsCorrectID = -1,
-                        Libelle = pair.Value.Name,
+                        Libelle = pair.Value.FR.Name,
                         Order = pair.Key + 1
                     };
 
@@ -237,7 +205,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 else
                 {
                     answerExist.Order = pair.Key + 1;
-                    await Update(answerExist);
+                    Update(answerExist);
                 }
             }
 
@@ -270,10 +238,10 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     IsSelected = false,
                     IsCorrect = true,
                     IsCorrectID = pair.Value.Id,
-                    Libelle = pair.Value.Name,
+                    Libelle = pair.Value.Name_FR,
                     Order = pair.Key + 1
                 };
-                
+
                 await Add(answer);
                 answers.Add(answer);
             }
@@ -308,7 +276,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                         IsSelected = false,
                         IsCorrect = false,
                         IsCorrectID = -1,
-                        Libelle = pair.Value.Name,
+                        Libelle = pair.Value.Name_FR,
                         Order = pair.Key + 1
                     };
 
@@ -317,7 +285,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 else
                 {
                     answerExist.Order = pair.Key + 1;
-                    await Update(answerExist);
+                    Update(answerExist);
                 }
             }
 
@@ -399,7 +367,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 else
                 {
                     answerExist.Order = pair.Key + 1;
-                    await Update(answerExist);
+                    Update(answerExist);
                 }
             }
 
@@ -409,17 +377,17 @@ namespace WebApiScrapingData.Infrastructure.Repository
         public async Task<string> ConvertDescription(Pokemon pokemon)
         {
             string description = "";
-            if (pokemon.DescriptionVx.Contains(pokemon.DisplayName))
+            if (pokemon.FR.DescriptionVx.Contains(pokemon.FR.DisplayName))
             {
-                description = await CheckAndConvert(pokemon.DescriptionVx, pokemon.Evolutions);
+                description = await CheckAndConvert(pokemon.FR.DescriptionVx, pokemon.FR.Evolutions);
             }
-            else if (pokemon.DescriptionVx.Contains(pokemon.DisplayName))
+            else if (pokemon.FR.DescriptionVx.Contains(pokemon.FR.DisplayName))
             {
-                description = await CheckAndConvert(pokemon.DescriptionVy, pokemon.Evolutions);
+                description = await CheckAndConvert(pokemon.FR.DescriptionVy, pokemon.FR.Evolutions);
             }
             else
             {
-                description = pokemon.DescriptionVx;
+                description = pokemon.FR.DescriptionVx;
             }
 
             return await Task.FromResult(description);
@@ -435,10 +403,10 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     int id = int.Parse(idPok);
                     pokemons.Add(await _repositoryP.Get(id));
                 }
-
+                
                 foreach (Pokemon item in pokemons)
                 {
-                    description = description.Replace(item.Name, "[...]");
+                    description = description.Replace(item.FR.Name, "[...]");
                 }
 
                 return await Task.FromResult(description);
@@ -451,12 +419,11 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #endregion
 
         #region Quizz Talent
-        public async Task<string> GenerateCorrectAnswers(QuestionType questionType, List<Talent> talentsAnswer, bool Reverse)
+        public async Task<List<Answer>> GenerateCorrectAnswers(QuestionType questionType, List<Talent> talentsAnswer, bool Reverse)
         {
             List<Answer> answers = new List<Answer>();
             Random random = new Random();
 
-            string result = string.Empty;
             Dictionary<int, Talent> dic = new Dictionary<int, Talent>();
             foreach (var talent in talentsAnswer)
             {
@@ -476,7 +443,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     IsSelected = false,
                     IsCorrect = true,
                     IsCorrectID = pair.Value.Id,
-                    Libelle = Reverse ? pair.Value.Name : pair.Value.Description,
+                    Libelle = Reverse ? pair.Value.Name_FR : pair.Value.Description_FR,
                     Order = pair.Key + 1
                 };
 
@@ -484,29 +451,14 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 answers.Add(answer);
             }
 
-            int i = 0;
-            foreach (Answer answer in answers)
-            {
-                if (i == 0)
-                {
-                    result = answer.Id.ToString();
-                    i++;
-                }
-                else
-                {
-                    result += ',' + answer.Id.ToString();
-                }
-            }
-
-            return await Task.FromResult(result);
+            return await Task.FromResult(answers);
         }
 
-        public async Task<string> GenerateCorrectAnswers(QuestionType questionType, List<Talent> talentsAnswer)
+        public async Task<List<Answer>> GenerateCorrectAnswers(QuestionType questionType, List<Talent> talentsAnswer)
         {
             List<Answer> answers = new List<Answer>();
             Random random = new Random();
 
-            string result = string.Empty;
             Dictionary<int, Talent> dic = new Dictionary<int, Talent>();
             foreach (var type in talentsAnswer)
             {
@@ -526,7 +478,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     IsSelected = false,
                     IsCorrect = true,
                     IsCorrectID = pair.Value.Id,
-                    Libelle = pair.Value.Name,
+                    Libelle = pair.Value.Name_FR,
                     Order = pair.Key + 1
                 };
 
@@ -534,21 +486,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 answers.Add(answer);
             }
 
-            int i = 0;
-            foreach (Answer answer in answers)
-            {
-                if (i == 0)
-                {
-                    result = answer.Id.ToString();
-                    i++;
-                }
-                else
-                {
-                    result += ',' + answer.Id.ToString();
-                }
-            }
-
-            return await Task.FromResult(result);
+            return await Task.FromResult(answers);
         }
 
         private async Task<List<Answer>> GenerateAnswers(QuestionType questionType, List<Talent> talents, List<Answer> talentsAnswer, bool Reverse = false)
@@ -579,7 +517,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                         IsSelected = false,
                         IsCorrect = false,
                         IsCorrectID = -1,
-                        Libelle = Reverse ? pair.Value.Name : pair.Value.Description,
+                        Libelle = Reverse ? pair.Value.Name_FR : pair.Value.Description_FR,
                         Order = pair.Key + 1
                     };
 
@@ -588,7 +526,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 else
                 {
                     answerExist.Order = pair.Key + 1;
-                    await UpdateAsync(answerExist);
+                    Update(answerExist);
                 }
             }
 
@@ -597,7 +535,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #endregion
 
         #region Quizz Stat
-        public async Task<string> GenerateCorrectAnswersStat(QuestionType questionType, List<Pokemon> pokemonsAnswer, string typeStat)
+        public async Task<List<Answer>> GenerateCorrectAnswersStat(QuestionType questionType, List<Pokemon> pokemonsAnswer, string typeStat)
         {
             List<Answer> answers = new List<Answer>();
             Random random = new Random();
@@ -622,7 +560,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     IsSelected = false,
                     IsCorrect = true,
                     IsCorrectID = pair.Value.Id,
-                    Libelle = Utils.GetValueStat(pair.Value, typeStat),
+                    Libelle = GetValueStat(pair.Value, typeStat),
                     Type = typeStat,
                     Order = pair.Key + 1
                 };
@@ -631,21 +569,26 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 answers.Add(answer);
             }
 
-            int i = 0;
-            foreach (Answer answer in answers)
-            {
-                if (i == 0)
-                {
-                    result = answer.Id.ToString();
-                    i++;
-                }
-                else
-                {
-                    result += ',' + answer.Id.ToString();
-                }
-            }
+            return await Task.FromResult(answers);
+        }
 
-            return await Task.FromResult(result);
+        private string GetValueStat(Pokemon pokemon, string typeStat)
+        {
+            string libelle = string.Empty;
+            if (typeStat.Equals(Constantes.Pv))
+                libelle = pokemon.StatPv.ToString();
+            else if (typeStat.Equals(Constantes.Attaque))
+                libelle = pokemon.StatAttaque.ToString();
+            else if (typeStat.Equals(Constantes.Defense))
+                libelle = pokemon.StatDefense.ToString();
+            else if (typeStat.Equals(Constantes.AttaqueSpe))
+                libelle = pokemon.StatAttaqueSpe.ToString();
+            else if (typeStat.Equals(Constantes.DefenseSpe))
+                libelle = pokemon.StatDefenseSpe.ToString();
+            else if (typeStat.Equals(Constantes.Vitesse))
+                libelle = pokemon.StatVitesse.ToString();
+
+            return libelle;
         }
 
         private async Task<List<Answer>> GenerateAnswersStat(QuestionType questionType, List<Pokemon> pokemons, List<Answer> pokemonsAnswer, string typeStat, List<string> statAnswers)
@@ -669,9 +612,9 @@ namespace WebApiScrapingData.Infrastructure.Repository
             {
                 Answer answerExist = pokemonsAnswer.Find(m => m.IsCorrectID.Equals(pair.Value.Id));
                 answerExist.Order = pair.Key + 1;
-                await UpdateAsync(answerExist);
+                Update(answerExist);
 
-                statAnswers.Remove(Utils.GetValueStat(pair.Value, typeStat));
+                statAnswers.Remove(GetValueStat(pair.Value, typeStat));
             }
 
             Dictionary<int, string> dicStat = new Dictionary<int, string>();
@@ -704,6 +647,347 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return await Task.FromResult(pokemonsAnswer);
         }
         #endregion
+        #endregion
+
+        #region Private Methods
+        private async Task<List<Answer>> GetAnswersID_QTypPok(ClassQuizz.Quizz quizz, QuestionType questionType, List<Pokemon> alreadyExist)
+        {
+            List<Pokemon> pokemonsAnswer = new List<Pokemon>();
+
+            for (int nbAnswer = 0; nbAnswer < questionType.NbAnswersPossible; nbAnswer++)
+            {
+                await Task.Run(async () =>
+                {
+                    Pokemon pokemon = await _repositoryP.GetPokemonRandom(quizz, alreadyExist);
+                    Pokemon pokemonExist = alreadyExist.SingleOrDefault(m => m.Id.Equals(pokemon.Id));
+                    while (pokemonExist != null)
+                    {
+                        pokemon = await _repositoryP.GetPokemonRandom(quizz, alreadyExist);
+                        pokemonExist = alreadyExist.SingleOrDefault(m => m.Id.Equals(pokemon.Id));
+                    }
+                    pokemonsAnswer.Add(pokemon);
+                });
+            }
+
+            return await Task.FromResult(GenerateCorrectAnswers(questionType, pokemonsAnswer).Result);
+        }
+
+        private async Task<List<Answer>> GetAnswersID_QTypPokFamily(QuestionType questionType, Pokemon pokemon)
+        {
+            List<Pokemon> pokemonsAnswer = new List<Pokemon>();
+
+            if (pokemon.FR.Evolutions != null)
+            {
+                foreach (var item in pokemon.FR.Evolutions.Split(','))
+                {
+                    if (!item.Equals(pokemon.Id.ToString()))
+                        pokemonsAnswer.Add(await _repositoryP.Get(int.Parse(item)));
+                }
+            }
+
+            return await Task.FromResult(GenerateCorrectAnswers(questionType, pokemonsAnswer).Result);
+        }
+
+        private async Task<List<Answer>> GetAnswersID_QTypPok(ClassQuizz.Quizz quizz, QuestionType questionType, TypePok typePok, List<TypePok> alreadyExistQTypTyp)
+        {
+            Random random = new Random();
+            int nbAnswerCorrectRandom = random.Next(questionType.NbAnswers);
+            List<Pokemon> pokemonsAnswer = new List<Pokemon>();
+
+            for (int i = 0; i < nbAnswerCorrectRandom; i++)
+            {
+                Pokemon pokemon = await _repositoryP.GetPokemonRandom(quizz, typePok, pokemonsAnswer);
+                if (pokemonsAnswer.Find(m => m.EN.Name.Equals(pokemon.EN.Name)) == null)
+                    pokemonsAnswer.Add(pokemon);
+                else
+                    break;
+            }
+
+            return await Task.FromResult(GenerateCorrectAnswers(questionType, pokemonsAnswer).Result);
+        }
+
+        private async Task<List<Answer>> GetAnswersID_QTypTypPok(QuestionType questionType, Pokemon pokemon, bool various)
+        {
+            List<TypePok> typesAnswer = new List<TypePok>();
+            List<Pokemon_TypePok> pokemonTypePoks = pokemon.Pokemon_TypePoks;
+
+            if (!various)
+                typesAnswer.Add(pokemonTypePoks[0].TypePok);
+            else
+                foreach (Pokemon_TypePok item in pokemonTypePoks)
+                    typesAnswer.Add(item.TypePok);
+
+            return await Task.FromResult(GenerateCorrectAnswers(questionType, typesAnswer).Result);
+        }
+
+        private async Task<List<Answer>> GetAnswersID_QTypWeakPok(QuestionType questionType, Pokemon pokemon, bool various)
+        {
+            List<TypePok> weaknessAnswer = new List<TypePok>();
+            List<Pokemon_Weakness> pokemonWeaknesses = pokemon.Pokemon_Weaknesses;
+
+            if (!various)
+                weaknessAnswer.Add(pokemonWeaknesses[0].TypePok);
+            else
+                foreach (Pokemon_Weakness item in pokemonWeaknesses)
+                    weaknessAnswer.Add(item.TypePok);
+
+            return await Task.FromResult(GenerateCorrectAnswers(questionType, weaknessAnswer).Result);
+        }
+
+        private async Task<List<Answer>> GetAnswersID_QTypTyp(QuestionType questionType, List<TypePok> alreadySelected)
+        {
+            List<Task> tasks = new List<Task>();
+            List<TypePok> typesAnswer = new List<TypePok>();
+
+            for (int nbAnswer = 0; nbAnswer < questionType.NbAnswersPossible; nbAnswer++)
+            {
+                tasks.Add(
+                    Task.Run(async () =>
+                    {
+                        typesAnswer.Add(await _repositoryTP.GetTypeRandom(alreadySelected));
+                    })
+                );
+            }
+
+            Task.WaitAll(tasks.ToArray());
+
+            return await Task.FromResult(GenerateCorrectAnswers(questionType, typesAnswer).Result);
+        }
+
+        private async Task<List<Answer>> GetAnswersID_QTypPokDesc(ClassQuizz.Quizz quizz, QuestionType questionType, List<Pokemon> alreadyExist)
+        {
+            List<Pokemon> pokemonsAnswer = new List<Pokemon>();
+
+            for (int nbAnswer = 0; nbAnswer < questionType.NbAnswersPossible; nbAnswer++)
+            {
+                await Task.Run(async () =>
+                {
+                    Pokemon pokemon = await _repositoryP.GetPokemonRandom(quizz, alreadyExist);
+                    Pokemon pokemonExist = alreadyExist.SingleOrDefault(m => m.Id.Equals(pokemon.Id));
+                    while (pokemonExist != null)
+                    {
+                        pokemon = await _repositoryP.GetPokemonRandom(quizz, alreadyExist);
+                        pokemonExist = alreadyExist.SingleOrDefault(m => m.Id.Equals(pokemon.Id));
+                    }
+                    pokemonsAnswer.Add(pokemon);
+                });
+            }
+
+            return await Task.FromResult(GenerateCorrectAnswersDesc(questionType, pokemonsAnswer).Result);
+        }
+
+        private async Task<List<Answer>> GetAnswersID_QTypTalentPok(QuestionType questionType, Pokemon pokemon)
+        {
+            List<Talent> talentsAnswer = new List<Talent>();
+            List<Pokemon_Talent> pokemonTalentServices = pokemon.Pokemon_Talents;
+
+            if (pokemonTalentServices != null)
+                foreach (Pokemon_Talent item in pokemonTalentServices)
+                    talentsAnswer.Add(item.Talent);
+
+            return await Task.FromResult(GenerateCorrectAnswers(questionType, talentsAnswer).Result);
+        }
+
+        private async Task<List<Answer>> GetAnswersID_QTypTalent(QuestionType questionType, List<Talent> alreadySelected)
+        {
+            List<Task> tasks = new List<Task>();
+            List<Talent> talentsAnswer = new List<Talent>();
+
+            for (int nbAnswer = 0; nbAnswer < questionType.NbAnswersPossible; nbAnswer++)
+            {
+                tasks.Add(
+                    Task.Run(async () =>
+                    {
+                        talentsAnswer.Add(await _repositoryT.GetTalentRandom(alreadySelected));
+                    })
+                );
+            }
+
+            Task.WaitAll(tasks.ToArray());
+            if (questionType.Code.Equals(Constantes.QTypTalent_Code))
+                return await Task.FromResult(GenerateCorrectAnswers(questionType, talentsAnswer, false).Result);
+            else
+                return await Task.FromResult(GenerateCorrectAnswers(questionType, talentsAnswer, true).Result);
+        }
+
+        private async Task<List<Answer>> GetAnswersID_QTypPokStat(ClassQuizz.Quizz quizz, QuestionType questionType, List<Pokemon> alreadyExist)
+        {
+            List<Pokemon> pokemonsAnswer = new List<Pokemon>();
+
+            for (int nbAnswer = 0; nbAnswer < questionType.NbAnswersPossible; nbAnswer++)
+            {
+                await Task.Run(async () =>
+                {
+                    Pokemon pokemon = await _repositoryP.GetPokemonRandom(quizz, alreadyExist);
+                    Pokemon pokemonExist = alreadyExist.Find(m => m.Id.Equals(pokemon.Id));
+                    while (pokemonExist != null)
+                    {
+                        pokemon = await _repositoryP.GetPokemonRandom(quizz, alreadyExist);
+                        pokemonExist = alreadyExist.Find(m => m.Id.Equals(pokemon.Id));
+                    }
+                    pokemonsAnswer.Add(pokemon);
+                });
+            }
+
+            string typeStat = GetRandomTypeStat();
+            return await Task.FromResult(GenerateCorrectAnswersStat(questionType, pokemonsAnswer, typeStat).Result);
+        }
+
+        private string GetRandomTypeStat()
+        {
+            Random random = new Random();
+            int numberRandom = random.Next(6);
+
+            string typeStat = "";
+
+            switch (numberRandom)
+            {
+                case 0: typeStat = Constantes.Pv; break;
+                case 1: typeStat = Constantes.Attaque; break;
+                case 2: typeStat = Constantes.Defense; break;
+                case 3: typeStat = Constantes.AttaqueSpe; break;
+                case 4: typeStat = Constantes.DefenseSpe; break;
+                case 5: typeStat = Constantes.Vitesse; break;
+            }
+
+            return typeStat;
+        }
+
+        public async Task<List<Answer>> GenerateAnswers(ClassQuizz.Quizz quizz, QuestionType questionType, List<Answer> answers)
+        {
+            if (questionType.Code.Equals(Constantes.QTypPok_Code)
+                || questionType.Code.Equals(Constantes.QTypPokDescReverse_Code)
+                || questionType.Code.Equals(Constantes.QTypPokFamilyVarious_Code)
+                || questionType.Code.Equals(Constantes.QTypPokTypVarious_Code))
+            {
+                List<Pokemon> pokemons = new List<Pokemon>();
+                foreach (Answer item in answers)
+                {
+                    pokemons.Add(await _repositoryP.Get(item.IsCorrectID));
+                }
+
+                int qMissing = questionType.NbAnswers - answers.Count;
+
+                for (int i = 0; i < qMissing; i++)
+                {
+                    pokemons.Add(await _repositoryP.GetPokemonRandom(quizz, pokemons));
+                }
+
+                answers = await GenerateAnswers(questionType, pokemons, answers);
+            }
+            else if (questionType.Code.Equals(Constantes.QTypTypPok_Code)
+                || questionType.Code.Equals(Constantes.QTypTyp_Code)
+                || questionType.Code.Equals(Constantes.QTypTypPokVarious_Code)
+                || questionType.Code.Equals(Constantes.QTypWeakPokVarious_Code))
+            {
+                Console.WriteLine("GenerateAnswers - QTypTypPok");
+
+                List<TypePok> typePoks = new List<TypePok>();
+                foreach (Answer item in answers)
+                {
+                    typePoks.Add(await _repositoryTP.Get(item.IsCorrectID));
+                }
+
+                int qMissing = questionType.NbAnswers - answers.Count;
+
+                for (int i = 0; i < qMissing; i++)
+                {
+                    typePoks.Add(await _repositoryTP.GetTypeRandom(typePoks));
+                }
+
+                answers = await GenerateAnswers(questionType, typePoks, answers);
+            }
+            else if (questionType.Code.Equals(Constantes.QTypPokDesc_Code))
+            {
+                Console.WriteLine("GenerateAnswers - QTypPokDesc");
+
+                List<Pokemon> pokemons = new List<Pokemon>();
+                foreach (Answer item in answers)
+                {
+                    pokemons.Add(await _repositoryP.Get(item.IsCorrectID));
+                }
+
+                int qMissing = questionType.NbAnswers - answers.Count;
+
+                for (int i = 0; i < qMissing; i++)
+                {
+                    pokemons.Add(await _repositoryP.GetPokemonRandom(quizz, pokemons));
+                }
+
+                answers = await GenerateAnswersDesc(questionType, pokemons, answers);
+            }
+            else if (questionType.Code.Equals(Constantes.QTypTalent_Code)
+                || questionType.Code.Equals(Constantes.QTypTalentReverse_Code)
+                || questionType.Code.Equals(Constantes.QTypPokTalentVarious_Code))
+            {
+                Console.WriteLine("GenerateAnswers - QTypTalent");
+
+                List<Talent> talents = new List<Talent>();
+                foreach (Answer item in answers)
+                {
+                    talents.Add(await _repositoryT.Get(item.IsCorrectID));
+                }
+
+                int qMissing = questionType.NbAnswers - answers.Count;
+
+                for (int i = 0; i < qMissing; i++)
+                {
+                    talents.Add(await _repositoryT.GetTalentRandom(talents));
+                }
+
+                if (questionType.Code.Equals(Constantes.QTypTalent_Code))
+                    answers = await GenerateAnswers(questionType, talents, answers);
+                else if (questionType.Code.Equals(Constantes.QTypTalentReverse_Code) || questionType.Code.Equals(Constantes.QTypPokTalentVarious_Code))
+                    answers = await GenerateAnswers(questionType, talents, answers, true);
+            }
+            else if (questionType.Code.Equals(Constantes.QTypPokStat_Code))
+            {
+                Console.WriteLine("GenerateAnswers - QTypPokStat");
+
+                Random random = new Random();
+                List<Pokemon> pokemons = new List<Pokemon>();
+                List<string> statAnswers = new List<string>();
+                int stat = 0;
+                string typeStat = "";
+
+                foreach (Answer item in answers)
+                {
+                    typeStat = item.Type;
+                    stat = int.Parse(item.Libelle);
+                    statAnswers.Add(item.Libelle);
+                    pokemons.Add(await _repositoryP.Get(item.IsCorrectID));
+                }
+
+                int minValue = 0;
+                int maxValue = 255;
+
+                if (stat - 50 > minValue)
+                    minValue = stat - 50;
+
+                if (stat + 50 < maxValue)
+                    maxValue = stat + 50;
+
+                int qMissing = questionType.NbAnswers - answers.Count;
+
+                for (int i = 0; i < qMissing; i++)
+                {
+                    int x = 0;
+                    while (x.Equals(0))
+                    {
+                        x = random.Next(minValue, maxValue);
+
+                        if (statAnswers.Contains(x.ToString()))
+                            x = 0;
+                        else
+                            statAnswers.Add(x.ToString());
+                    }
+                }
+
+                answers = await GenerateAnswersStat(questionType, pokemons, answers, typeStat, statAnswers);
+            }
+
+            return await Task.FromResult(answers);
+        }
         #endregion
     }
 }

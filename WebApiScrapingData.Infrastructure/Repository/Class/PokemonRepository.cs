@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
-using System.Net.Security;
-using System.Net;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Repository.Generic;
 using WebApiScrapingData.Infrastructure.Utils;
+using ClassQuizz = WebApiScrapingData.Domain.Class.Quizz;
 
 namespace WebApiScrapingData.Infrastructure.Repository.Class
 {
@@ -227,10 +226,20 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
             return await Task.FromResult(resultFilterGen[numberRandom]);
         }
-
-        public async Task<Pokemon> GetPokemonRandom(bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus, List<Pokemon> alreadySelected)
+        
+        public async Task<Pokemon> GetPokemonRandom(ClassQuizz.Quizz quizz)
         {
-            List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), gen1, gen2, gen3, gen4, gen5, gen6, gen7, gen8, gen9, genArceus);
+            List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), quizz.Gen1, quizz.Gen2, quizz.Gen3, quizz.Gen4, quizz.Gen5, quizz.Gen6, quizz.Gen7, quizz.Gen8, quizz.Gen9, quizz.GenArceus);
+
+            Random random = new Random();
+            int numberRandom = random.Next(resultFilterGen.Count);
+
+            return await Task.FromResult(resultFilterGen[numberRandom]);
+        }
+
+        public async Task<Pokemon> GetPokemonRandom(ClassQuizz.Quizz quizz, List<Pokemon> alreadySelected)
+        {
+            List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), quizz.Gen1, quizz.Gen2, quizz.Gen3, quizz.Gen4, quizz.Gen5, quizz.Gen6, quizz.Gen7, quizz.Gen8, quizz.Gen9, quizz.GenArceus);
 
             Random random = new Random();
             int numberRandom = random.Next(resultFilterGen.Count);
@@ -245,9 +254,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             return await Task.FromResult(resultFilterGen[numberRandom]);
         }
 
-        public async Task<Pokemon> GetPokemonRandom(bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus, TypePok typePok, List<Pokemon> alreadySelected)
+        public async Task<Pokemon> GetPokemonRandom(ClassQuizz.Quizz quizz, TypePok typePok, List<Pokemon> alreadySelected)
         {
-            List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), gen1, gen2, gen3, gen4, gen5, gen6, gen7, gen8, gen9, genArceus);
+            List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), quizz.Gen1, quizz.Gen2, quizz.Gen3, quizz.Gen4, quizz.Gen5, quizz.Gen6, quizz.Gen7, quizz.Gen8, quizz.Gen9, quizz.GenArceus);
             resultFilterGen = await GetPokemonByFilterType(resultFilterGen, typePok.Name_EN);
 
             Random random = new Random();

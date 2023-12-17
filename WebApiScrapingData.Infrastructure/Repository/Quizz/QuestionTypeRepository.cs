@@ -1,4 +1,5 @@
-﻿using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
 using WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Repository.Generic;
@@ -25,6 +26,11 @@ namespace WebApiScrapingData.Infrastructure.Repository
             List<QuestionType> resultFilterDifficulty = GetQuestionTypesWithFilterDifficulty(result, easy, normal, hard).Result;
 
             return await Task.FromResult(await GetQuestionTypeRandomBySelectedDifficulty(resultFilterDifficulty, easy, normal, hard));
+        }
+
+        public async override Task<IEnumerable<QuestionType>> GetAll()
+        {
+            return await _context.QuestionTypes.Include(qt => qt.Difficulty).ToListAsync();
         }
         #endregion
 
