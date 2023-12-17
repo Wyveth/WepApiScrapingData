@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient.Server;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Text;
 using WebApiScrapingData.Core.Repositories.RepositoriesQuizz;
@@ -28,6 +29,10 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #endregion
 
         #region Public Methods
+        public async override Task<Question?> Get(long id)
+        {
+            return await Task.FromResult(_context.Questions.Include(q => q.QuestionType).Include(q => q.Question_Answers).ThenInclude(qa => qa.Answer).FirstOrDefault(q => q.Id == id));
+        }
         public async Task<List<Question>> GenerateQuestions(ClassQuizz.Quizz quizz)
         {
             int nbQuestionMax = await GetNbQuestionByDifficulty(quizz);
