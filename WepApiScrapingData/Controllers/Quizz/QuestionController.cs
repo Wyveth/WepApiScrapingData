@@ -42,7 +42,7 @@ namespace WepApiScrapingData.Controllers.Quizz
             
 
             answers = await _repositoryA.GenerateAnswers(quizz, question.QuestionType, answers);
-            question.Question_Answers = new();
+
             foreach (Answer answer in answers)
             {
                 Question_Answer question_answer = new Question_Answer()
@@ -50,7 +50,10 @@ namespace WepApiScrapingData.Controllers.Quizz
                     Answer = answer,
                     Question = question
                 };
-                question.Question_Answers.Add(question_answer);
+                if (answer.Id == 0)
+                {
+                    question.Question_Answers.Add(question_answer);
+                }
             }
 
             return question;
