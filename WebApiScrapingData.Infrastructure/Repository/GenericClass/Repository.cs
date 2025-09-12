@@ -25,12 +25,12 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
         #region Read
         public virtual async Task<T?> Get(long id)
         {
-            return await _context.Set<T>().SingleOrDefaultAsync(x => x.Id.Equals(id));
+            return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
 
         public virtual async Task<T?> GetByGuid(Guid guid)
         {
-            return await _context.Set<T>().SingleOrDefaultAsync(x => x.Guid.Equals(guid));
+            return await _context.Set<T>().FirstOrDefaultAsync(x => x.Guid.Equals(guid));
         }
 
         public virtual IQueryable<T> Query()
@@ -60,51 +60,52 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
         #endregion
 
         #region Create        
-        public async Task<bool> Add(T entity)
+        public async Task<bool> AddAsync(T entity)
         {
-            UpdateInfo(entity);
+            await UpdateInfoAsync(entity);
             await _context.Set<T>().AddAsync(entity);
-            return saveChanges();
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> AddRange(IEnumerable<T> entities)
+        public async Task<bool> AddRangeAsync(IEnumerable<T> entities)
         {
             foreach (var entity in entities)
-                UpdateInfo(entity);
+                await UpdateInfoAsync(entity);
 
             await _context.Set<T>().AddRangeAsync(entities);
-            return await SaveChangesAsync();
+            return await _context.SaveChangesAsync() > 0;
         }
         #endregion
 
         #region Update
-        public bool Update(T entity)
+        public async Task<bool> UpdateAsync(T entity)
         {
-            UpdateInfo(entity, true);
+            await UpdateInfoAsync(entity, true);
             _context.Set<T>().Update(entity);
-            return saveChanges();
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool UpdateRange(IEnumerable<T> entities)
+        public async Task<bool> UpdateRangeAsync(IEnumerable<T> entities)
         {
             foreach (var entity in entities)
-                UpdateInfo(entity);
+                await UpdateInfoAsync(entity, true);
+
             _context.Set<T>().UpdateRange(entities);
-            return saveChanges();
+            return await _context.SaveChangesAsync() > 0;
         }
         #endregion
 
         #region Delete
-        public bool Remove(T entity)
+        public async Task<bool> RemoveAsync(T entity)
         {
             _context.Set<T>().Remove(entity);
-            return saveChanges();
+            return await _context.SaveChangesAsync() > 0; // ✅ async save
         }
 
-        public bool RemoveRange(IEnumerable<T> entities)
+        public async Task<bool> RemoveRangeAsync(IEnumerable<T> entities)
         {
             _context.Set<T>().RemoveRange(entities);
-            return saveChanges();
+            return await _context.SaveChangesAsync() > 0; // ✅ async save
         }
         #endregion
 
@@ -117,31 +118,34 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
         #endregion
 
         #region Private Methods
-        private void UpdateInfo(T entity, bool edit = false)
+        private async Task UpdateInfoAsync(T entity, bool edit = false)
         {
             entity.UserModification = "System";
             entity.DateModification = DateTime.Now;
 
             if (!edit)
-            {            
-                entity.Guid = UpdateGuid();
+            {
+                entity.Guid = await UpdateGuidAsync();  // ✅ await le GUID
                 entity.UserCreation = "System";
                 entity.DateCreation = DateTime.Now;
                 entity.versionModification = 1;
             }
             else
+            {
                 entity.versionModification += 1;
+            }
         }
 
-        private Guid UpdateGuid()
+        private async Task<Guid> UpdateGuidAsync()
         {
-            bool guidOK = false;
             Guid guid;
+            bool guidOK = false;
+
             do
             {
                 guid = Guid.NewGuid();
-                Task<T?> obj = GetByGuid(guid);
-                if (obj.Result == null)
+                var obj = await GetByGuid(guid);
+                if (obj == null)
                     guidOK = true;
 
             } while (!guidOK);

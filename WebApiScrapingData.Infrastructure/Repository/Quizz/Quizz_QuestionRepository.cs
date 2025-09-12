@@ -18,7 +18,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Quizz
         #endregion
 
         #region Public Methods
-        public async Task<List<Quizz_Question>> GenerateQuizzQuestions(ClassQuizz.Quizz quizz,bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus, bool easy, bool normal, bool hard)
+        public async Task<List<Quizz_Question>> GenerateQuizzQuestions(ClassQuizz.Quizz quizz)
         {
             List<Question> questions = await _repositoryQ.GenerateQuestions(quizz);
 
@@ -33,8 +33,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Quizz
                 quizzQuestions.Add(quizzQuestion);
             }
 
-            await AddRange(quizzQuestions);
-            return await Task.FromResult(quizzQuestions);
+            await AddRangeAsync(quizzQuestions);
+            return quizzQuestions;
         }
         #endregion
     }

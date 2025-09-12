@@ -487,7 +487,7 @@ namespace WepApiScrapingData.Controllers
 
             }
 
-            _repositoryA.UpdateRange(attaques);
+            await _repositoryA.UpdateRangeAsync(attaques);
         }
 
         [HttpPut]
@@ -547,7 +547,7 @@ namespace WepApiScrapingData.Controllers
                 }
             }
 
-            _repositoryTL.UpdateRange(talents);
+            await _repositoryTL.UpdateRangeAsync(talents);
             _repositoryTL.UnitOfWork.SaveChanges();
         }
         #endregion

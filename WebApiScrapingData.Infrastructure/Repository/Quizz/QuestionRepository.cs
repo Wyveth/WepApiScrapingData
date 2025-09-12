@@ -33,6 +33,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
         {
             return await Task.FromResult(_context.Questions.Include(q => q.QuestionType).Include(q => q.Question_Answers).ThenInclude(qa => qa.Answer).FirstOrDefault(q => q.Id == id));
         }
+        
         public async Task<List<Question>> GenerateQuestions(ClassQuizz.Quizz quizz)
         {
             int nbQuestionMax = await GetNbQuestionByDifficulty(quizz);
@@ -52,7 +53,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                         Done = false
                     };
 
-                    await Add(question);
+                    await AddAsync(question);
 
                     question.Question_Answers = await _repositoryQA.GenerateQuestionAnswers(quizz, question, questionType);
 
@@ -60,7 +61,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     Debug.Write("Creation Question:" + questions.Count + "/" + nbQuestionMax);
                 });
             }
-            return await Task.FromResult(questions);
+            return questions;
         }
 
         public async Task<int> GetNbQuestionByDifficulty(ClassQuizz.Quizz quizz)

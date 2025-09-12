@@ -18,14 +18,14 @@ namespace WebApiScrapingData.Core.Repositories
 
         Task<T?> SingleOrDefault(Expression<Func<T, bool>> predicate);
 
-        Task<bool> Add(T entity);
-        Task<bool> AddRange(IEnumerable<T> entities);
+        Task<bool> AddAsync(T entity);
+        Task<bool> AddRangeAsync(IEnumerable<T> entities);
 
-        bool Update(T entity);
-        bool UpdateRange(IEnumerable<T> entities);
+        Task<bool> UpdateAsync(T entity);
+        Task<bool> UpdateRangeAsync(IEnumerable<T> entities);
 
-        bool Remove(T entity);
-        bool RemoveRange(IEnumerable<T> entities);
+        Task<bool> RemoveAsync(T entity);
+        Task<bool> RemoveRangeAsync(IEnumerable<T> entities);
 
         Task SaveJsonInDb(string json);
     }

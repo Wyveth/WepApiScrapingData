@@ -50,8 +50,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             foreach (PokemonJson pokemonJson in pokemonsJson)
             {
                 Pokemon pokemon = new();
-                MapToInstance(pokemon, pokemonJson);
-                await Add(pokemon);
+                await MapToInstance(pokemon, pokemonJson);
+                await AddAsync(pokemon);
             }
         }
         #endregion
@@ -75,7 +75,34 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
-                .Where(predicate ?? (s => true)).ToListAsync();
+                .Where(predicate ?? (s => true))
+                .AsNoTracking()
+                .AsSplitQuery()
+                .ToListAsync();
+        }
+
+        public override async Task<Pokemon> SingleOrDefault(Expression<Func<Pokemon, bool>> predicate)
+        {
+            return await _context.Pokemons
+                .Include(m => m.FR)
+                .Include(m => m.EN)
+                .Include(m => m.ES)
+                .Include(m => m.IT)
+                .Include(m => m.DE)
+                .Include(m => m.RU)
+                .Include(m => m.CO)
+                .Include(m => m.CN)
+                .Include(m => m.JP)
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Game)
+                .Where(predicate ?? (s => true))
+                .AsNoTracking()
+                .AsSplitQuery()
+                .FirstOrDefaultAsync();
         }
 
         public override async Task<Pokemon?> Get(long id)
@@ -96,7 +123,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
-                .SingleAsync(x => x.Id.Equals(id));
+                .AsNoTracking()
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
 
         public override async Task<Pokemon?> GetByGuid(Guid guid)
@@ -117,7 +146,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
-                .SingleAsync(x => x.Guid.Equals(guid));
+                .AsNoTracking()
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(x => x.Guid.Equals(guid));
         }
 
         public override IQueryable<Pokemon> Query()
@@ -138,6 +169,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
+                .AsNoTracking()
+                .AsSplitQuery()
                 .AsQueryable();
         }
 
@@ -159,6 +192,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
+                .AsNoTracking()
+                .AsSplitQuery()
                 .ToListAsync();
         }
 
@@ -175,6 +210,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.CN)
                 .Include(m => m.JP)
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .AsNoTracking()
+                .AsSplitQuery()
                 .ToListAsync();
         }
         
@@ -212,6 +249,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
+                .AsNoTracking()
+                .AsSplitQuery()
                 .ToListAsync();
         }
         #endregion
@@ -284,7 +323,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 foreach (PokemonExportJson pokemonJson in pokemonsJson)
                 {
                     Pokemon pokemon = new();
-                    MapToInstanceImport(pokemon, pokemonJson);
+                    int x = int.Parse(pokemonJson.Number);
+                    if (x > 521)
+                        await MapToInstanceImport(pokemon, pokemonJson);
                     Console.WriteLine("Pokemon:" + pokemon.FR.Name);
                 }
             }
@@ -297,7 +338,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             return await Task.FromResult(true);
         }
 
-        public Task SaveInfoPokemonAttackInDB(string json)
+        public async Task SaveInfoPokemonAttackInDB(string json)
         {
             List<string> Erreurs = new();
             List<PokemonPokeBipJson> pokemonsPokeBipJson = JsonConvert.DeserializeObject<List<PokemonPokeBipJson>>(json);
@@ -403,8 +444,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 Console.WriteLine(ex.Message);
             }
 
-            _repositoryPT.AddRange(pokemon_Talents);
-            _repositoryAT.AddRange(attaques);
+            await _repositoryPT.AddRangeAsync(pokemon_Talents);
+            await _repositoryAT.AddRangeAsync(attaques);
             _context.SaveChanges();
             #endregion
 
@@ -523,10 +564,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 });
             }
 
-            _repositoryPAT.AddRange(pokemon_Attaques);
+            await _repositoryPAT.AddRangeAsync(pokemon_Attaques);
             _context.SaveChanges();
-
-            return Task.FromResult(true);
         }
         #endregion
 
@@ -563,11 +602,11 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             pokemon.PathSound = pokemonJson.PathSound;
             pokemon.Game = _repositoryG.Find(m => m.Name_EN.Equals(pokemonJson.Game.Name_EN)).Result.FirstOrDefault();
 
-            await Add(pokemon);
+            await AddAsync(pokemon);
 
             foreach (TypesPokExportJson typePokJson in pokemonJson.Types)
             {
-                TypePok typePok = _repositoryTP.Find(m => m.Name_EN.Equals(typePokJson.TypePok.Name_EN)).Result.FirstOrDefault();
+                TypePok typePok = (await _repositoryTP.Find(m => m.Name_EN.Equals(typePokJson.TypePok.Name_EN))).FirstOrDefault();
                 if (typePok != null)
                 {
                     Pokemon_TypePok pokemon_TypePok = new()
@@ -575,13 +614,13 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                         Pokemon = pokemon,
                         TypePok = typePok
                     };
-                    await _repositoryPTP.Add(pokemon_TypePok);
+                    await _repositoryPTP.AddAsync(pokemon_TypePok);
                 }
             }
 
             foreach (TypesPokExportJson weaknessJson in pokemonJson.Weaknesses)
             {
-                TypePok typePok = _repositoryTP.Find(m => m.Name_EN.Equals(weaknessJson.TypePok.Name_EN)).Result.FirstOrDefault();
+                TypePok typePok = (await _repositoryTP.Find(m => m.Name_EN.Equals(weaknessJson.TypePok.Name_EN))).FirstOrDefault();
                 if (typePok != null)
                 {
                     Pokemon_Weakness pokemon_Weakness = new()
@@ -589,13 +628,13 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                         Pokemon = pokemon,
                         TypePok = typePok
                     };
-                    await _repositoryPW.Add(pokemon_Weakness);
+                    await _repositoryPW.AddAsync(pokemon_Weakness);
                 }
             }
 
             foreach (TalentsExportJson talentJson in pokemonJson.Talents)
             {
-                Talent talent = _repositoryTL.Find(m => m.Name_EN.Equals(talentJson.Talent.Name_EN)).Result.FirstOrDefault();
+                Talent talent = (await _repositoryTL.Find(m => m.Name_EN.Equals(talentJson.Talent.Name_EN))).FirstOrDefault();
                 if (talent != null)
                 {
                     Pokemon_Talent pokemon_Talent = new()
@@ -604,7 +643,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                         Talent = talent,
                         IsHidden = talentJson.IsHidden
                     };
-                    await _repositoryPT.Add(pokemon_Talent);
+                    await _repositoryPT.AddAsync(pokemon_Talent);
                 }
             }
             
@@ -621,7 +660,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                         Level = attaqueJson.Level,
                         CTCS = attaqueJson.CTCS
                     };
-                    await _repositoryPAT.Add(pokemon_Attaque);
+                    await _repositoryPAT.AddAsync(pokemon_Attaque);
                 }
             }
         }
@@ -646,7 +685,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 NextUrl = dataInfoJson.NextUrl
             };
 
-            await _repositoryDI.Add(dataInfo);
+            await _repositoryDI.AddAsync(dataInfo);
             return await Task.FromResult(dataInfo);
         }
         #endregion

@@ -38,8 +38,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Quizz
                 question_Answers.Add(questionAnswer);
             }
 
-            await AddRange(question_Answers);
-            return await Task.FromResult(question_Answers);
+            await AddRangeAsync(question_Answers);
+            return question_Answers;
         }
         #endregion
     }

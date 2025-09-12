@@ -22,7 +22,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             {
                 TypePok typePok = new();
                 MapToInstance(typePok, typePokJson);
-                await this.Add(typePok);
+                await AddAsync(typePok);
             }
         }
         #endregion
@@ -30,7 +30,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
         #region Read
         public async Task<TypePok> GetByName(string name)
         {
-            return await this._context.TypesPok.SingleAsync(x => x.Name_FR.Equals(name));
+            return await _context.TypesPok.SingleAsync(x => x.Name_FR.Equals(name));
         }
         
         public Task<TypePok> GetTypeRandom()

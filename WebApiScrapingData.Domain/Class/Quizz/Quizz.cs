@@ -10,7 +10,7 @@ namespace WebApiScrapingData.Domain.Class.Quizz
     {
         //Identifiant des questions
         [DataMember(Name = DataMember.Questions)]
-        public List<Quizz_Question> Quizz_Questions { get; set; }
+        public IEnumerable<Quizz_Question> Quizz_Questions { get; set; }
 
         //Si Filtre Gen 1 Active
         [DataMember(Name = DataMember.Gen1)]

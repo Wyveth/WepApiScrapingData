@@ -298,7 +298,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     Order = pair.Key + 1
                 };
 
-                await Add(answer);
+                await AddAsync(answer);
                 answers.Add(answer);
             }
 
@@ -341,7 +341,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 else
                 {
                     answerExist.Order = pair.Key + 1;
-                    Update(answerExist);
+                    await UpdateAsync(answerExist);
                 }
             }
 
@@ -378,7 +378,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     Order = pair.Key + 1
                 };
 
-                await Add(answer);
+                await AddAsync(answer);
                 answers.Add(answer);
             }
 
@@ -421,7 +421,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 else
                 {
                     answerExist.Order = pair.Key + 1;
-                    Update(answerExist);
+                    await UpdateAsync(answerExist);
                 }
             }
 
@@ -459,7 +459,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     Order = pair.Key + 1
                 };
 
-                await Add(answer);
+                await AddAsync(answer);
                 answers.Add(answer);
             }
 
@@ -503,7 +503,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 else
                 {
                     answerExist.Order = pair.Key + 1;
-                    Update(answerExist);
+                    await UpdateAsync(answerExist);
                 }
             }
 
@@ -583,7 +583,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     Order = pair.Key + 1
                 };
 
-                await Add(answer);
+                await AddAsync(answer);
                 answers.Add(answer);
             }
 
@@ -618,7 +618,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     Order = pair.Key + 1
                 };
 
-                await Add(answer);
+                await AddAsync(answer);
                 answers.Add(answer);
             }
 
@@ -662,7 +662,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 else
                 {
                     answerExist.Order = pair.Key + 1;
-                    Update(answerExist);
+                    await UpdateAsync(answerExist);
                 }
             }
 
@@ -701,7 +701,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                     Order = pair.Key + 1
                 };
 
-                await Add(answer);
+                await AddAsync(answer);
                 answers.Add(answer);
             }
 
@@ -748,7 +748,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
             {
                 Answer answerExist = pokemonsAnswer.Find(m => m.IsCorrectID.Equals(pair.Value.Id));
                 answerExist.Order = pair.Key + 1;
-                Update(answerExist);
+                await UpdateAsync(answerExist);
 
                 statAnswers.Remove(GetValueStat(pair.Value, typeStat));
             }
@@ -781,6 +781,28 @@ namespace WebApiScrapingData.Infrastructure.Repository
             }
 
             return await Task.FromResult(pokemonsAnswer);
+        }
+        #endregion
+
+        #region Answer
+        public async Task<List<Answer>> UpdateAfterValidation(List<Answer> answersSelected)
+        {
+            foreach (Answer answer in answersSelected)
+            {
+                if (answer.Id != 0)
+                {
+                    answer.IsSelected = true;
+                    await UpdateAsync(answer);
+                }
+                else
+                {
+                    answer.IsSelected = true;
+                    answer.IsCorrect = false;
+                    await AddAsync(answer);
+                }
+            }
+
+            return await Task.FromResult(answersSelected);
         }
         #endregion
         #endregion
@@ -817,7 +839,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 foreach (var item in pokemon.FR.Evolutions.Split(','))
                 {
                     if (!item.Equals(pokemon.Id.ToString()))
-                        pokemonsAnswer.Add(await _repositoryP.Get(int.Parse(item)));
+                        pokemonsAnswer.Add(await _repositoryP.SingleOrDefault(m => m.FR.Name.Equals(item)));
                 }
             }
 

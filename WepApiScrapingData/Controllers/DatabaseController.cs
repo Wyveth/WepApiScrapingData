@@ -86,209 +86,204 @@ namespace WepApiScrapingData.Controllers
 
         [HttpGet]
         [Route("ImportDb")]
-        public Task ImportDb()
+        public async Task ImportDb()
         {
             string json;
 
-            #region Game
-            using (StreamReader r = new StreamReader(Constantes.pathExport + "GameDbToJson.json"))
-            {
-                json = r.ReadToEnd();
-                if (!string.IsNullOrEmpty(json))
-                {
-                    List<GameExportJson> games = JsonConvert.DeserializeObject<List<GameExportJson>>(json);
-                    foreach (GameExportJson gameJson in games)
-                    {
-                        Game game = new Game()
-                        {
-                            Name_FR = gameJson.Name_FR,
-                            Name_EN = gameJson.Name_EN,
-                            Name_ES = gameJson.Name_ES,
-                            Name_IT = gameJson.Name_IT,
-                            Name_DE = gameJson.Name_DE,
-                            Name_RU = gameJson.Name_RU,
-                            Name_CO = gameJson.Name_CO,
-                            Name_CN = gameJson.Name_CN,
-                            Name_JP = gameJson.Name_JP
-                        };
+            //#region Game
+            //using (StreamReader r = new StreamReader(Constantes.pathExport + "GameDbToJson.json"))
+            //{
+            //    json = r.ReadToEnd();
+            //    if (!string.IsNullOrEmpty(json))
+            //    {
+            //        List<GameExportJson> games = JsonConvert.DeserializeObject<List<GameExportJson>>(json);
+            //        foreach (GameExportJson gameJson in games)
+            //        {
+            //            Game game = new Game()
+            //            {
+            //                Name_FR = gameJson.Name_FR,
+            //                Name_EN = gameJson.Name_EN,
+            //                Name_ES = gameJson.Name_ES,
+            //                Name_IT = gameJson.Name_IT,
+            //                Name_DE = gameJson.Name_DE,
+            //                Name_RU = gameJson.Name_RU,
+            //                Name_CO = gameJson.Name_CO,
+            //                Name_CN = gameJson.Name_CN,
+            //                Name_JP = gameJson.Name_JP
+            //            };
 
-                        _repositoryG.Add(game);
-                    }
-                }
-            }
-            #endregion
+            //            await _repositoryG.AddAsync(game);
+            //        }
+            //    }
+            //}
+            //#endregion
 
-            #region TypeAttaque
-            using (StreamReader r = new StreamReader(Constantes.pathExport + "TypeAttaqueDbToJson.json"))
-            {
-                json = r.ReadToEnd();
-                if (!string.IsNullOrEmpty(json))
-                {
-                    List<TypeAttaqueExportJson> typesAttackJson = JsonConvert.DeserializeObject<List<TypeAttaqueExportJson>>(json);
-                    foreach (TypeAttaqueExportJson typeAttackJson in typesAttackJson)
-                    {
-                        TypeAttaque typeAttaque = new TypeAttaque()
-                        {
-                            Name_FR = typeAttackJson.Name_FR,
-                            Description_FR = typeAttackJson.Description_FR,
-                            Name_EN = typeAttackJson.Name_EN,
-                            Description_EN = typeAttackJson.Description_EN,
-                            Name_ES = typeAttackJson.Name_ES,
-                            Description_ES = typeAttackJson.Description_ES,
-                            Name_IT = typeAttackJson.Name_IT,
-                            Description_IT = typeAttackJson.Description_IT,
-                            Name_DE = typeAttackJson.Name_DE,
-                            Description_DE = typeAttackJson.Description_DE,
-                            Name_RU = typeAttackJson.Name_RU,
-                            Description_RU = typeAttackJson.Description_RU,
-                            Name_CO = typeAttackJson.Name_CO,
-                            Description_CO = typeAttackJson.Description_CO,
-                            Name_CN = typeAttackJson.Name_CN,
-                            Description_CN = typeAttackJson.Description_CN,
-                            Name_JP = typeAttackJson.Name_JP,
-                            Description_JP = typeAttackJson.Description_JP,
-                            UrlImg = typeAttackJson.UrlImg
-                        };
+            //#region TypeAttaque
+            //using (StreamReader r = new StreamReader(Constantes.pathExport + "TypeAttaqueDbToJson.json"))
+            //{
+            //    json = r.ReadToEnd();
+            //    if (!string.IsNullOrEmpty(json))
+            //    {
+            //        List<TypeAttaqueExportJson> typesAttackJson = JsonConvert.DeserializeObject<List<TypeAttaqueExportJson>>(json);
+            //        foreach (TypeAttaqueExportJson typeAttackJson in typesAttackJson)
+            //        {
+            //            TypeAttaque typeAttaque = new TypeAttaque()
+            //            {
+            //                Name_FR = typeAttackJson.Name_FR,
+            //                Description_FR = typeAttackJson.Description_FR,
+            //                Name_EN = typeAttackJson.Name_EN,
+            //                Description_EN = typeAttackJson.Description_EN,
+            //                Name_ES = typeAttackJson.Name_ES,
+            //                Description_ES = typeAttackJson.Description_ES,
+            //                Name_IT = typeAttackJson.Name_IT,
+            //                Description_IT = typeAttackJson.Description_IT,
+            //                Name_DE = typeAttackJson.Name_DE,
+            //                Description_DE = typeAttackJson.Description_DE,
+            //                Name_RU = typeAttackJson.Name_RU,
+            //                Description_RU = typeAttackJson.Description_RU,
+            //                Name_CO = typeAttackJson.Name_CO,
+            //                Description_CO = typeAttackJson.Description_CO,
+            //                Name_CN = typeAttackJson.Name_CN,
+            //                Description_CN = typeAttackJson.Description_CN,
+            //                Name_JP = typeAttackJson.Name_JP,
+            //                Description_JP = typeAttackJson.Description_JP,
+            //                UrlImg = typeAttackJson.UrlImg
+            //            };
 
-                        _repositoryTA.Add(typeAttaque);
-                    }
-                }
-            }
-            #endregion
+            //            await _repositoryTA.AddAsync(typeAttaque);
+            //        }
+            //    }
+            //}
+            //#endregion
 
-            #region TypePok
-            using (StreamReader r = new StreamReader(Constantes.pathExport + "TypePokDbToJson.json"))
-            {
-                json = r.ReadToEnd();
-                if (!string.IsNullOrEmpty(json))
-                {
-                    List<TypePokExportJson> typePoksJson = JsonConvert.DeserializeObject<List<TypePokExportJson>>(json);
-                    foreach (TypePokExportJson typePokJson in typePoksJson)
-                    {
-                        TypePok typePok = new()
-                        {
-                            Name_FR = typePokJson.Name_FR,
-                            PathMiniHome_FR = typePokJson.UrlMiniHome_FR,
-                            Name_EN = typePokJson.Name_EN,
-                            PathMiniHome_EN = typePokJson.UrlMiniHome_EN,
-                            Name_ES = typePokJson.Name_ES,
-                            PathMiniHome_ES = typePokJson.UrlMiniHome_ES,
-                            Name_IT = typePokJson.Name_IT,
-                            PathMiniHome_IT = typePokJson.UrlMiniHome_IT,
-                            Name_DE = typePokJson.Name_DE,
-                            PathMiniHome_DE = typePokJson.UrlMiniHome_DE,
-                            Name_RU = typePokJson.Name_RU,
-                            PathMiniHome_RU = typePokJson.UrlMiniHome_RU,
-                            Name_CO = typePokJson.Name_CO,
-                            PathMiniHome_CO = typePokJson.UrlMiniHome_CO,
-                            Name_CN = typePokJson.Name_CN,
-                            PathMiniHome_CN = typePokJson.UrlMiniHome_CN,
-                            Name_JP = typePokJson.Name_JP,
-                            PathMiniHome_JP = typePokJson.UrlMiniHome_JP,
-                            UrlMiniGo = typePokJson.UrlMiniGo,
-                            UrlFondGo = typePokJson.UrlFondGo,
-                            UrlIconHome = typePokJson.UrlIconHome,
-                            UrlAutoHome = typePokJson.UrlAutoHome,
-                            ImgColor = typePokJson.ImgColor,
-                            InfoColor = typePokJson.InfoColor,
-                            TypeColor = typePokJson.TypeColor
-                        };
-                        _repositoryTP.Add(typePok);
-                    }
-                }
-            }
-            #endregion
+            //#region TypePok
+            //using (StreamReader r = new StreamReader(Constantes.pathExport + "TypePokDbToJson.json"))
+            //{
+            //    json = r.ReadToEnd();
+            //    if (!string.IsNullOrEmpty(json))
+            //    {
+            //        List<TypePokExportJson> typePoksJson = JsonConvert.DeserializeObject<List<TypePokExportJson>>(json);
+            //        foreach (TypePokExportJson typePokJson in typePoksJson)
+            //        {
+            //            TypePok typePok = new()
+            //            {
+            //                Name_FR = typePokJson.Name_FR,
+            //                PathMiniHome_FR = typePokJson.UrlMiniHome_FR,
+            //                Name_EN = typePokJson.Name_EN,
+            //                PathMiniHome_EN = typePokJson.UrlMiniHome_EN,
+            //                Name_ES = typePokJson.Name_ES,
+            //                PathMiniHome_ES = typePokJson.UrlMiniHome_ES,
+            //                Name_IT = typePokJson.Name_IT,
+            //                PathMiniHome_IT = typePokJson.UrlMiniHome_IT,
+            //                Name_DE = typePokJson.Name_DE,
+            //                PathMiniHome_DE = typePokJson.UrlMiniHome_DE,
+            //                Name_RU = typePokJson.Name_RU,
+            //                PathMiniHome_RU = typePokJson.UrlMiniHome_RU,
+            //                Name_CO = typePokJson.Name_CO,
+            //                PathMiniHome_CO = typePokJson.UrlMiniHome_CO,
+            //                Name_CN = typePokJson.Name_CN,
+            //                PathMiniHome_CN = typePokJson.UrlMiniHome_CN,
+            //                Name_JP = typePokJson.Name_JP,
+            //                PathMiniHome_JP = typePokJson.UrlMiniHome_JP,
+            //                UrlMiniGo = typePokJson.UrlMiniGo,
+            //                UrlFondGo = typePokJson.UrlFondGo,
+            //                UrlIconHome = typePokJson.UrlIconHome,
+            //                UrlAutoHome = typePokJson.UrlAutoHome,
+            //                ImgColor = typePokJson.ImgColor,
+            //                InfoColor = typePokJson.InfoColor,
+            //                TypeColor = typePokJson.TypeColor
+            //            };
+            //            await _repositoryTP.AddAsync(typePok);
+            //        }
+            //    }
+            //}
+            //#endregion
 
-            #region Talent
-            using (StreamReader r = new StreamReader(Constantes.pathExport + "TalentDbToJson.json"))
-            {
-                json = r.ReadToEnd();
-                if (!string.IsNullOrEmpty(json))
-                {
-                    List<TalentExportJson> talentsJson = JsonConvert.DeserializeObject<List<TalentExportJson>>(json);
-                    foreach (TalentExportJson talentJson in talentsJson)
-                    {
-                        Talent talent = new()
-                        {
-                            Name_FR = talentJson.Name_FR,
-                            Description_FR = talentJson.Description_FR,
-                            Name_EN = talentJson.Name_EN,
-                            Description_EN = talentJson.Description_EN,
-                            Name_ES = talentJson.Name_ES,
-                            Description_ES = talentJson.Description_ES,
-                            Name_IT = talentJson.Name_IT,
-                            Description_IT = talentJson.Description_IT,
-                            Name_DE = talentJson.Name_DE,
-                            Description_DE = talentJson.Description_DE,
-                            Name_RU = talentJson.Name_RU,
-                            Description_RU = talentJson.Description_RU,
-                            Name_CO = talentJson.Name_CO,
-                            Description_CO = talentJson.Description_CO,
-                            Name_CN = talentJson.Name_CN,
-                            Description_CN = talentJson.Description_CN,
-                            Name_JP = talentJson.Name_JP,
-                            Description_JP = talentJson.Description_JP
-                        };
-                        _repositoryTL.Add(talent);
-                    }
-                }
-            }
-            #endregion
+            //#region Talent
+            //using (StreamReader r = new StreamReader(Constantes.pathExport + "TalentDbToJson.json"))
+            //{
+            //    json = r.ReadToEnd();
+            //    if (!string.IsNullOrEmpty(json))
+            //    {
+            //        List<TalentExportJson> talentsJson = JsonConvert.DeserializeObject<List<TalentExportJson>>(json);
+            //        foreach (TalentExportJson talentJson in talentsJson)
+            //        {
+            //            Talent talent = new()
+            //            {
+            //                Name_FR = talentJson.Name_FR,
+            //                Description_FR = talentJson.Description_FR,
+            //                Name_EN = talentJson.Name_EN,
+            //                Description_EN = talentJson.Description_EN,
+            //                Name_ES = talentJson.Name_ES,
+            //                Description_ES = talentJson.Description_ES,
+            //                Name_IT = talentJson.Name_IT,
+            //                Description_IT = talentJson.Description_IT,
+            //                Name_DE = talentJson.Name_DE,
+            //                Description_DE = talentJson.Description_DE,
+            //                Name_RU = talentJson.Name_RU,
+            //                Description_RU = talentJson.Description_RU,
+            //                Name_CO = talentJson.Name_CO,
+            //                Description_CO = talentJson.Description_CO,
+            //                Name_CN = talentJson.Name_CN,
+            //                Description_CN = talentJson.Description_CN,
+            //                Name_JP = talentJson.Name_JP,
+            //                Description_JP = talentJson.Description_JP
+            //            };
+            //            await _repositoryTL.AddAsync(talent);
+            //        }
+            //    }
+            //}
+            //#endregion
 
-            _repository.UnitOfWork.SaveChanges();
+            //#region Attaque
+            //using (StreamReader r = new StreamReader(Constantes.pathExport + "AttaqueDbToJson.json"))
+            //{
+            //    json = r.ReadToEnd();
+            //    if (!string.IsNullOrEmpty(json))
+            //    {
+            //        List<AttaqueExportJson> attaquesJson = JsonConvert.DeserializeObject<List<AttaqueExportJson>>(json);
+            //        foreach (AttaqueExportJson attaqueJson in attaquesJson)
+            //        {
+            //            TypePok typePok = (await _repositoryTP.Find(m => m.Name_EN.Equals(attaqueJson.Types.Name_EN))).FirstOrDefault();
+            //            TypeAttaque typeAttaque = (await _repositoryTA.Find(m => m.Name_EN.Equals(attaqueJson.TypeAttaque.Name_EN))).FirstOrDefault();
+            //            Attaque attaque = new()
+            //            {
+            //                Name_FR = attaqueJson.Name_FR,
+            //                Description_FR = attaqueJson.Description_FR,
+            //                Name_EN = attaqueJson.Name_EN,
+            //                Description_EN = attaqueJson.Description_EN,
+            //                Name_ES = attaqueJson.Name_ES,
+            //                Description_ES = attaqueJson.Description_ES,
+            //                Name_IT = attaqueJson.Name_IT,
+            //                Description_IT = attaqueJson.Description_IT,
+            //                Name_DE = attaqueJson.Name_DE,
+            //                Description_DE = attaqueJson.Description_DE,
+            //                Name_RU = attaqueJson.Name_RU,
+            //                Description_RU = attaqueJson.Description_RU,
+            //                Name_CO = attaqueJson.Name_CO,
+            //                Description_CO = attaqueJson.Description_CO,
+            //                Name_CN = attaqueJson.Name_CN,
+            //                Description_CN = attaqueJson.Description_CN,
+            //                Name_JP = attaqueJson.Name_JP,
+            //                Description_JP = attaqueJson.Description_JP,
+            //                TypeAttaque = typeAttaque,
+            //                TypePok = typePok,
+            //                Power = attaqueJson.Puissance,
+            //                Precision = attaqueJson.Precision,
+            //                PP = attaqueJson.PP
+            //            };
+            //            await _repositoryAT.AddAsync(attaque);
+            //        }
+            //    }
+            //}
+            //#endregion
 
-            #region Attaque
-            using (StreamReader r = new StreamReader(Constantes.pathExport + "AttaqueDbToJson.json"))
-            {
-                json = r.ReadToEnd();
-                if (!string.IsNullOrEmpty(json))
-                {
-                    List<AttaqueExportJson> attaquesJson = JsonConvert.DeserializeObject<List<AttaqueExportJson>>(json);
-                    foreach (AttaqueExportJson attaqueJson in attaquesJson)
-                    {
-                        TypePok typePok = _repositoryTP.Find(m => m.Name_EN.Equals(attaqueJson.Types.Name_EN)).Result.FirstOrDefault();
-                        TypeAttaque typeAttaque = _repositoryTA.Find(m => m.Name_EN.Equals(attaqueJson.TypeAttaque.Name_EN)).Result.FirstOrDefault();
-                        Attaque attaque = new()
-                        {
-                            Name_FR = attaqueJson.Name_FR,
-                            Description_FR = attaqueJson.Description_FR,
-                            Name_EN = attaqueJson.Name_EN,
-                            Description_EN = attaqueJson.Description_EN,
-                            Name_ES = attaqueJson.Name_ES,
-                            Description_ES = attaqueJson.Description_ES,
-                            Name_IT = attaqueJson.Name_IT,
-                            Description_IT = attaqueJson.Description_IT,
-                            Name_DE = attaqueJson.Name_DE,
-                            Description_DE = attaqueJson.Description_DE,
-                            Name_RU = attaqueJson.Name_RU,
-                            Description_RU = attaqueJson.Description_RU,
-                            Name_CO = attaqueJson.Name_CO,
-                            Description_CO = attaqueJson.Description_CO,
-                            Name_CN = attaqueJson.Name_CN,
-                            Description_CN = attaqueJson.Description_CN,
-                            Name_JP = attaqueJson.Name_JP,
-                            Description_JP = attaqueJson.Description_JP,
-                            TypeAttaque = typeAttaque,
-                            TypePok = typePok,
-                            Power = attaqueJson.Puissance,
-                            Precision = attaqueJson.Precision,
-                            PP = attaqueJson.PP
-                        };
-                        _repositoryAT.Add(attaque);
-                    }
-                }
-            }
-            #endregion
-
-            _repository.UnitOfWork.SaveChanges();
 
             using (StreamReader sr = new StreamReader(Constantes.pathExport + "DbToJson.json"))
             {
                 json = sr.ReadToEnd();
-                _repository.ImportJsonToDb(json);
+                await _repository.ImportJsonToDb(json);
             }
-
-            return Task.CompletedTask;
         }
 
         [HttpPost]
@@ -599,7 +594,7 @@ namespace WepApiScrapingData.Controllers
             if (_repositoryG.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
-            await _repositoryG.AddRange(games);
+            await _repositoryG.AddRangeAsync(games);
             _repository.UnitOfWork.SaveChanges();
         }
 
@@ -607,7 +602,7 @@ namespace WepApiScrapingData.Controllers
         [Route("AddMissingTalent")]
         public async Task AddMissingTalent()
         {
-            Talent talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Analytic_FR)).Result.FirstOrDefault();
+            Talent talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Analytic_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -623,10 +618,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Analytic_DE,
                     Description_DE = Constantes.Description_Analytic_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_PowerOfAlchemy_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_PowerOfAlchemy_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -642,10 +637,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_PowerOfAlchemy_DE,
                     Description_DE = Constantes.Description_PowerOfAlchemy_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Harvest_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Harvest_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -661,10 +656,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Harvest_DE,
                     Description_DE = Constantes.Description_Harvest_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Imposter_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Imposter_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -680,10 +675,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Imposter_DE,
                     Description_DE = Constantes.Description_Imposter_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Multiscale_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Multiscale_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -699,10 +694,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Multiscale_DE,
                     Description_DE = Constantes.Description_Multiscale_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Moody_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Moody_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -718,10 +713,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Moody_DE,
                     Description_DE = Constantes.Description_Moody_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_ToxicBoost_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_ToxicBoost_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -737,10 +732,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_ToxicBoost_DE,
                     Description_DE = Constantes.Description_ToxicBoost_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Protean_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Protean_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -756,10 +751,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Protean_DE,
                     Description_DE = Constantes.Description_Protean_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_FlareBoost_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_FlareBoost_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -775,10 +770,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_FlareBoost_DE,
                     Description_DE = Constantes.Description_FlareBoost_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_ZenMode_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_ZenMode_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -794,10 +789,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_ZenMode_DE,
                     Description_DE = Constantes.Description_ZenMode_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_GaleWings_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_GaleWings_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -813,10 +808,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_GaleWings_DE,
                     Description_DE = Constantes.Description_GaleWings_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Symbiosis_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Symbiosis_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -832,10 +827,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Symbiosis_DE,
                     Description_DE = Constantes.Description_Symbiosis_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_GrassPelt_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_GrassPelt_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -851,10 +846,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_GrassPelt_DE,
                     Description_DE = Constantes.Description_GrassPelt_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_LongReach_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_LongReach_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -870,10 +865,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_LongReach_DE,
                     Description_DE = Constantes.Description_LongReach_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_LiquidVoice_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_LiquidVoice_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -889,10 +884,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_LiquidVoice_DE,
                     Description_DE = Constantes.Description_LiquidVoice_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Libero_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Libero_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -908,10 +903,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Libero_DE,
                     Description_DE = Constantes.Description_Libero_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_MirrorArmor_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_MirrorArmor_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -927,10 +922,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_MirrorArmor_DE,
                     Description_DE = Constantes.Description_MirrorArmor_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_PropellerTail_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_PropellerTail_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -946,10 +941,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_PropellerTail_DE,
                     Description_DE = Constantes.Description_PropellerTail_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_SteelySpirit_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_SteelySpirit_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -965,10 +960,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_SteelySpirit_DE,
                     Description_DE = Constantes.Description_SteelySpirit_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_PerishBody_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_PerishBody_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -984,10 +979,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_PerishBody_DE,
                     Description_DE = Constantes.Description_PerishBody_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_IceScales_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_IceScales_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -1003,10 +998,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_IceScales_DE,
                     Description_DE = Constantes.Description_IceScales_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Stalwart_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Stalwart_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -1022,10 +1017,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Stalwart_DE,
                     Description_DE = Constantes.Description_Stalwart_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Sharpness_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Sharpness_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -1041,10 +1036,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Sharpness_DE,
                     Description_DE = Constantes.Description_Sharpness_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_RockyPayload_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_RockyPayload_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -1060,10 +1055,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_RockyPayload_DE,
                     Description_DE = Constantes.Description_RockyPayload_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Costar_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Costar_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -1079,7 +1074,7 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Costar_DE,
                     Description_DE = Constantes.Description_Costar_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
             _repositoryTL.UnitOfWork.SaveChanges();
@@ -1152,7 +1147,7 @@ namespace WepApiScrapingData.Controllers
             if (_repositoryD.Find(m => m.Code.Equals(Constantes.Expert_Code)).Result.Count() == 0)
                 difficulties.Add(difficulty);
 
-            await _repositoryD.AddRange(difficulties);
+            await _repositoryD.AddRangeAsync(difficulties);
             _repository.UnitOfWork.SaveChanges();
         }
         
@@ -2459,7 +2454,7 @@ namespace WepApiScrapingData.Controllers
             #endregion
             #endregion
 
-            await _repositoryQT.AddRange(questionTypes);
+            await _repositoryQT.AddRangeAsync(questionTypes);
             _repository.UnitOfWork.SaveChanges();
         }
 
@@ -2635,7 +2630,7 @@ namespace WepApiScrapingData.Controllers
                 }
             }
 
-            await _repositoryTL.AddRange(newTalents);
+            await _repositoryTL.AddRangeAsync(newTalents);
             _repository.UnitOfWork.SaveChanges();
         }
 
@@ -2643,7 +2638,7 @@ namespace WepApiScrapingData.Controllers
         [Route("UpdateGameInDB")]
         public async Task UpdateGameInDB()
         {
-            Game game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.RedBlue_Name_FR)).Result.FirstOrDefault();
+            Game game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.RedBlue_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.RedBlue_Name_FR;
             game.Name_EN = Constantes.RedBlue_Name_EN;
             game.Name_ES = Constantes.RedBlue_Name_ES;
@@ -2653,9 +2648,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.RedBlue_Name_CO;
             game.Name_CN = Constantes.RedBlue_Name_CN;
             game.Name_JP = Constantes.RedBlue_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Yellow_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Yellow_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.Yellow_Name_FR;
             game.Name_EN = Constantes.Yellow_Name_EN;
             game.Name_ES = Constantes.Yellow_Name_ES;
@@ -2665,9 +2660,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Yellow_Name_CO;
             game.Name_CN = Constantes.Yellow_Name_CN;
             game.Name_JP = Constantes.Yellow_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.GoldSilver_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.GoldSilver_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.GoldSilver_Name_FR;
             game.Name_EN = Constantes.GoldSilver_Name_EN;
             game.Name_ES = Constantes.GoldSilver_Name_ES;
@@ -2677,9 +2672,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.GoldSilver_Name_CO;
             game.Name_CN = Constantes.GoldSilver_Name_CN;
             game.Name_JP = Constantes.GoldSilver_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync (game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Crystal_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Crystal_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.Crystal_Name_FR;
             game.Name_EN = Constantes.Crystal_Name_EN;
             game.Name_ES = Constantes.Crystal_Name_ES;
@@ -2689,9 +2684,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Crystal_Name_CO;
             game.Name_CN = Constantes.Crystal_Name_CN;
             game.Name_JP = Constantes.Crystal_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.RubySapphire_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.RubySapphire_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.RubySapphire_Name_FR;
             game.Name_EN = Constantes.RubySapphire_Name_EN;
             game.Name_ES = Constantes.RubySapphire_Name_ES;
@@ -2701,9 +2696,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.RubySapphire_Name_CO;
             game.Name_CN = Constantes.RubySapphire_Name_CN;
             game.Name_JP = Constantes.RubySapphire_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Emerald_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Emerald_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.Emerald_Name_FR;
             game.Name_EN = Constantes.Emerald_Name_EN;
             game.Name_ES = Constantes.Emerald_Name_ES;
@@ -2713,9 +2708,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Emerald_Name_CO;
             game.Name_CN = Constantes.Emerald_Name_CN;
             game.Name_JP = Constantes.Emerald_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.FireRedLeafGreen_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.FireRedLeafGreen_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.FireRedLeafGreen_Name_FR;
             game.Name_EN = Constantes.FireRedLeafGreen_Name_EN;
             game.Name_ES = Constantes.FireRedLeafGreen_Name_ES;
@@ -2725,9 +2720,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.FireRedLeafGreen_Name_CO;
             game.Name_CN = Constantes.FireRedLeafGreen_Name_CN;
             game.Name_JP = Constantes.FireRedLeafGreen_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.DiamondPearl_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.DiamondPearl_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.DiamondPearl_Name_FR;
             game.Name_EN = Constantes.DiamondPearl_Name_EN;
             game.Name_ES = Constantes.DiamondPearl_Name_ES;
@@ -2737,9 +2732,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.DiamondPearl_Name_CO;
             game.Name_CN = Constantes.DiamondPearl_Name_CN;
             game.Name_JP = Constantes.DiamondPearl_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Platinum_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Platinum_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.Platinum_Name_FR;
             game.Name_EN = Constantes.Platinum_Name_EN;
             game.Name_ES = Constantes.Platinum_Name_ES;
@@ -2749,9 +2744,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Platinum_Name_CO;
             game.Name_CN = Constantes.Platinum_Name_CN;
             game.Name_JP = Constantes.Platinum_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.HeartGoldSoulSilver_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.HeartGoldSoulSilver_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.HeartGoldSoulSilver_Name_FR;
             game.Name_EN = Constantes.HeartGoldSoulSilver_Name_EN;
             game.Name_ES = Constantes.HeartGoldSoulSilver_Name_ES;
@@ -2761,7 +2756,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.HeartGoldSoulSilver_Name_CO;
             game.Name_CN = Constantes.HeartGoldSoulSilver_Name_CN;
             game.Name_JP = Constantes.HeartGoldSoulSilver_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.BlackWhite_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.BlackWhite_Name_FR;
@@ -2773,7 +2768,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.BlackWhite_Name_CO;
             game.Name_CN = Constantes.BlackWhite_Name_CN;
             game.Name_JP = Constantes.BlackWhite_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Black2White2_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.Black2White2_Name_FR;
@@ -2785,7 +2780,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Black2White2_Name_CO;
             game.Name_CN = Constantes.Black2White2_Name_CN;
             game.Name_JP = Constantes.Black2White2_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.X_Y_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.X_Y_Name_FR;
@@ -2797,7 +2792,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.X_Y_Name_CO;
             game.Name_CN = Constantes.X_Y_Name_CN;
             game.Name_JP = Constantes.X_Y_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.SunMoon_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.SunMoon_Name_FR;
@@ -2809,7 +2804,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.SunMoon_Name_CO;
             game.Name_CN = Constantes.SunMoon_Name_CN;
             game.Name_JP = Constantes.SunMoon_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.UltraSunUltraMoon_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.UltraSunUltraMoon_Name_FR;
@@ -2821,7 +2816,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.UltraSunUltraMoon_Name_CO;
             game.Name_CN = Constantes.UltraSunUltraMoon_Name_CN;
             game.Name_JP = Constantes.UltraSunUltraMoon_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.LetsGoPikachuEvoli_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.LetsGoPikachuEvoli_Name_FR;
@@ -2833,7 +2828,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.LetsGoPikachuEvoli_Name_CO;
             game.Name_CN = Constantes.LetsGoPikachuEvoli_Name_CN;
             game.Name_JP = Constantes.LetsGoPikachuEvoli_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.SwordShield_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.SwordShield_Name_FR;
@@ -2845,7 +2840,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.SwordShield_Name_CO;
             game.Name_CN = Constantes.SwordShield_Name_CN;
             game.Name_JP = Constantes.SwordShield_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.ShiningDiamondShiningPearl_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.ShiningDiamondShiningPearl_Name_FR;
@@ -2857,7 +2852,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.ShiningDiamondShiningPearl_Name_CO;
             game.Name_CN = Constantes.ShiningDiamondShiningPearl_Name_CN;
             game.Name_JP = Constantes.ShiningDiamondShiningPearl_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Arceus_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.Arceus_Name_FR;
@@ -2869,7 +2864,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Arceus_Name_CO;
             game.Name_CN = Constantes.Arceus_Name_CN;
             game.Name_JP = Constantes.Arceus_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.ScarletViolet_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.ScarletViolet_Name_FR;
@@ -2881,7 +2876,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.ScarletViolet_Name_CO;
             game.Name_CN = Constantes.ScarletViolet_Name_CN;
             game.Name_JP = Constantes.ScarletViolet_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             _repositoryG.UnitOfWork.SaveChanges();
         }
@@ -2907,7 +2902,7 @@ namespace WepApiScrapingData.Controllers
                     pokemon_TypePoks.Add(pokemon_TypePok);
                 }
 
-                _repositoryPTP.AddRange(pokemon_TypePoks);
+                _repositoryPTP.AddRangeAsync(pokemon_TypePoks);
             }
 
             _repository.UnitOfWork.SaveChanges();
@@ -2936,7 +2931,7 @@ namespace WepApiScrapingData.Controllers
                         pokemon_Weaknesses.Add(pokemon_Weakness);
                     }
 
-                    await _repositoryPWN.AddRange(pokemon_Weaknesses);
+                    await _repositoryPWN.AddRangeAsync(pokemon_Weaknesses);
                 }
 
                 _repository.UnitOfWork.SaveChanges();
@@ -2968,7 +2963,7 @@ namespace WepApiScrapingData.Controllers
                     pokemon_Talents.Add(pokemon_Talent);
                 }
 
-                _repositoryPTL.AddRange(pokemon_Talents);
+                _repositoryPTL.AddRangeAsync(pokemon_Talents);
             }
 
             _repository.UnitOfWork.SaveChanges();
@@ -3049,7 +3044,7 @@ namespace WepApiScrapingData.Controllers
             if (_repositoryTA.Find(m => m.Name_FR.Equals(typeAttaque.Name_FR)).Result.Count() == 0)
                 typeAttaques.Add(typeAttaque);
 
-            await _repositoryTA.AddRange(typeAttaques);
+            await _repositoryTA.AddRangeAsync(typeAttaques);
             _repositoryTA.UnitOfWork.SaveChanges();
         }
 
@@ -3141,7 +3136,7 @@ namespace WepApiScrapingData.Controllers
 
         [HttpPut]
         [Route("UpdateGlobale")]
-        public void UpdateGlobale()
+        public async Task UpdateGlobale()
         {
             List<Talent> talents = this._repositoryTL.GetAll().Result.ToList();
             foreach (var item in talents)
@@ -3149,7 +3144,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryTL.UpdateRange(talents);
+            await this._repositoryTL.UpdateRangeAsync(talents);
             _repositoryTL.UnitOfWork.SaveChanges();
 
             List<Attaque> attaques = this._repositoryAT.GetAll().Result.ToList();
@@ -3158,7 +3153,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryAT.UpdateRange(attaques);
+            await this._repositoryAT.UpdateRangeAsync(attaques);
             _repositoryAT.UnitOfWork.SaveChanges();
 
             List<Pokemon_Attaque> pokemon_Attaques = this._repositoryPAT.GetAll().Result.ToList();
@@ -3167,7 +3162,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryPAT.UpdateRange(pokemon_Attaques);
+            await this._repositoryPAT.UpdateRangeAsync(pokemon_Attaques);
             _repositoryPAT.UnitOfWork.SaveChanges();
 
             List<Pokemon_Talent> pokemon_Talents = this._repositoryPTL.GetAll().Result.ToList();
@@ -3176,7 +3171,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryPTL.UpdateRange(pokemon_Talents);
+            await this._repositoryPTL.UpdateRangeAsync(pokemon_Talents);
             _repositoryPTL.UnitOfWork.SaveChanges();
         }
         #endregion
