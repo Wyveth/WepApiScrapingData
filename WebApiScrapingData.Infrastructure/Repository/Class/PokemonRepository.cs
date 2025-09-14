@@ -76,6 +76,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
                 .Where(predicate ?? (s => true))
+                .OrderBy(m => Convert.ToInt32(m.Number))
                 .AsNoTracking()
                 .AsSplitQuery()
                 .ToListAsync();
@@ -192,6 +193,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
+                .OrderBy(m => Convert.ToInt32(m.Number))
                 .AsNoTracking()
                 .AsSplitQuery()
                 .ToListAsync();
@@ -210,6 +212,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.CN)
                 .Include(m => m.JP)
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .OrderBy(m => Convert.ToInt32(m.Number))
                 .AsNoTracking()
                 .AsSplitQuery()
                 .ToListAsync();
@@ -249,6 +252,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
+                .OrderBy(m => Convert.ToInt32(m.Number))
                 .AsNoTracking()
                 .AsSplitQuery()
                 .ToListAsync();
@@ -323,9 +327,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 foreach (PokemonExportJson pokemonJson in pokemonsJson)
                 {
                     Pokemon pokemon = new();
-                    int x = int.Parse(pokemonJson.Number);
-                    if (x > 521)
-                        await MapToInstanceImport(pokemon, pokemonJson);
+                    await MapToInstanceImport(pokemon, pokemonJson);
                     Console.WriteLine("Pokemon:" + pokemon.FR.Name);
                 }
             }
