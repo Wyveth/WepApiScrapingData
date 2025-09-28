@@ -33,6 +33,11 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
             return await _context.Set<T>().FirstOrDefaultAsync(x => x.Guid.Equals(guid));
         }
 
+        public virtual async Task<T?> GetByGuid(Guid guid)
+        {
+            return await _context.Set<T>().SingleAsync(x => x.Guid.Equals(guid));
+        }
+
         public virtual IQueryable<T> Query()
         {
             return _context.Set<T>().AsQueryable();
@@ -146,6 +151,22 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
                 guid = Guid.NewGuid();
                 var obj = await GetByGuid(guid);
                 if (obj == null)
+                    guidOK = true;
+
+            } while (!guidOK);
+
+            return guid;
+        }
+
+        private Guid UpdateGuid()
+        {
+            bool guidOK = false;
+            Guid guid;
+            do
+            {
+                guid = Guid.NewGuid();
+                Task<T?> obj = GetByGuid(guid);
+                if (obj.Result != null)
                     guidOK = true;
 
             } while (!guidOK);

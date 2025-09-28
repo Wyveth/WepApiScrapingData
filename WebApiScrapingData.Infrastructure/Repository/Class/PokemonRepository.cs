@@ -152,6 +152,27 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .FirstOrDefaultAsync(x => x.Guid.Equals(guid));
         }
 
+        public override async Task<Pokemon?> GetByGuid(Guid guid)
+        {
+            return await _context.Pokemons
+                .Include(m => m.FR)
+                .Include(m => m.EN)
+                .Include(m => m.ES)
+                .Include(m => m.IT)
+                .Include(m => m.DE)
+                .Include(m => m.RU)
+                .Include(m => m.CO)
+                .Include(m => m.CN)
+                .Include(m => m.JP)
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Game)
+                .SingleAsync(x => x.Guid.Equals(guid));
+        }
+
         public override IQueryable<Pokemon> Query()
         {
             return _context.Pokemons
@@ -733,7 +754,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             pokemon.UrlImg = pokemonJson.UrlImg;
             pokemon.UrlSprite = pokemonJson.UrlSprite;
         }
-        
+
         private async Task<List<Pokemon>> GetPokemonsWithFilterGen(List<Pokemon> result, bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus)
         {
             List<Pokemon> resultFilterGen = new List<Pokemon>();

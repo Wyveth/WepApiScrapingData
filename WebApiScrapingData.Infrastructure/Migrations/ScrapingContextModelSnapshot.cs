@@ -989,6 +989,88 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.ToTable("Question_Answer");
                 });
 
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateModification")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long?>("QuestionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("QuizzId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserCreation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserModification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("versionModification")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("QuizzId");
+
+                    b.ToTable("QuestionAnswers");
+                });
+
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer_Answer", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("AnswerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateModification")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("QuestionAnswerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserCreation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserModification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("versionModification")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("QuestionAnswerId");
+
+                    b.ToTable("QuestionAnswer_Answer");
+                });
+
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionType", b =>
                 {
                     b.Property<long>("Id")
