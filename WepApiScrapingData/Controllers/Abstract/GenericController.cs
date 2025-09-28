@@ -115,7 +115,7 @@ namespace WepApiScrapingData.Controllers.Abstract
             try
             {
                 T entity = _mapper.MapReverse(dto, _context);
-                var success = await _repository.Add(entity);
+                var success = await _repository.AddAsync(entity);
 
                 if (success)
                 {
@@ -148,7 +148,7 @@ namespace WepApiScrapingData.Controllers.Abstract
                     entities.Add(_mapper.MapReverse(dto, _context));
                 }
 
-                var success = await _repository.AddRange(entities);
+                var success = await _repository.AddRangeAsync(entities);
 
                 if (success)
                 {
@@ -171,14 +171,14 @@ namespace WepApiScrapingData.Controllers.Abstract
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("Update")]
-        public virtual IActionResult Update([FromBody] D dto)
+        public virtual async Task<IActionResult> Update([FromBody] D dto)
         {
             IActionResult result = this.BadRequest();
 
             try
             {
                 T entity = _mapper.MapReverse(dto, _context);
-                var success = _repository.Update(entity);
+                var success = await _repository.UpdateAsync(entity);
 
                 if (success)
                 {
@@ -199,7 +199,7 @@ namespace WepApiScrapingData.Controllers.Abstract
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("UpdateRange")]
-        public virtual IActionResult UpdateRange([FromBody] IEnumerable<D> dtos)
+        public virtual async Task<IActionResult> UpdateRange([FromBody] IEnumerable<D> dtos)
         {
             IActionResult result = this.BadRequest();
 
@@ -211,19 +211,19 @@ namespace WepApiScrapingData.Controllers.Abstract
                     entities.Add(_mapper.MapReverse(dto, _context));
                 }
 
-                var success = _repository.UpdateRange(entities);
+                var success = await _repository.UpdateRangeAsync(entities);
 
                 if (success)
                 {
                     result = this.CreatedAtAction(nameof(GetAll), entities);
                 }
 
-                return result;
+                return await Task.FromResult(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
         #endregion
@@ -244,7 +244,7 @@ namespace WepApiScrapingData.Controllers.Abstract
                 T entity = await _repository.Get(id);
                 if (entity != null)
                 {
-                    var success = _repository.Remove(entity);
+                    var success = await _repository.RemoveAsync(entity);
 
                     if (success)
                     {
@@ -287,7 +287,7 @@ namespace WepApiScrapingData.Controllers.Abstract
 
                 if (entities.Count > 0)
                 {
-                    var success = _repository.RemoveRange(entities);
+                    var success = await _repository.RemoveRangeAsync(entities);
 
                     if (success)
                     {

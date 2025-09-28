@@ -119,16 +119,34 @@ namespace WebApiScrapingData.Domain.Class
         public string? UrlImg { get; set; }
 
         //Url de l'Image Interne
-        [DataMember(Name = DataMember.PathImg)]
-        public string? PathImg { get; set; }
+        [DataMember(Name = DataMember.PathImgLegacy)]
+        public string? PathImgLegacy { get; set; }
+
+        [DataMember(Name = DataMember.PathImgNormal)]
+        public string? PathImgNormal { get; set; }
+
+        [DataMember(Name = DataMember.PathImgShiny)]
+        public string? PathImgShiny { get; set; }
+
+        [DataMember(Name = DataMember.PathAnimatedImg)]
+        public string? PathAnimatedImg { get; set; }
+
+        [DataMember(Name = DataMember.PathAnimatedImgShiny)]
+        public string? PathAnimatedImgShiny { get; set; }
 
         //Url du Sprite Scrap
         [DataMember(Name = DataMember.UrlSprite)]
         public string? UrlSprite { get; set; }
 
         //Url du Sprite
-        [DataMember(Name = DataMember.PathSprite)]
-        public string? PathSprite { get; set; }
+        [DataMember(Name = DataMember.PathSpriteLegacy)]
+        public string? PathSpriteLegacy { get; set; }
+
+        [DataMember(Name = DataMember.PathSpriteNormal)]
+        public string? PathSpriteNormal { get; set; }
+
+        [DataMember(Name = DataMember.PathSpriteShiny)]
+        public string? PathSpriteShiny { get; set; }
 
         //Url du Sound Scrap
         [DataMember(Name = DataMember.UrlSound)]
@@ -137,6 +155,12 @@ namespace WebApiScrapingData.Domain.Class
         //Url du Sound
         [DataMember(Name = DataMember.PathSound)]
         public string? PathSound { get; set; }
+
+        [DataMember(Name = DataMember.PathSoundLegacy)]
+        public string? PathSoundLegacy { get; set; }
+
+        [DataMember(Name = DataMember.PathSoundCurrent)]
+        public string? PathSoundCurrent { get; set; }
 
         [DataMember(Name = DataMember.Game)]
         public Game? Game { get; set; }

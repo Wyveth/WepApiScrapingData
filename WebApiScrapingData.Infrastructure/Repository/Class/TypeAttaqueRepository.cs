@@ -15,7 +15,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
         #region Read
         public async Task<TypeAttaque> GetByName(string name)
         {
-            return await this._context.TypeAttaques.SingleAsync(x => x.Name_FR.Equals(name));
+            return await this._context.TypeAttaques.FirstOrDefaultAsync(x => x.Name_FR.Equals(name));
         }
         #endregion
         #endregion

@@ -5,9 +5,11 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Text;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Domain.ClassJson;
+using WebApiScrapingData.Infrastructure.Repository;
 using WebApiScrapingData.Infrastructure.Repository.Class;
-using WebApiScrapingData.Infrastructure.Repository.Generic;
+using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
@@ -29,6 +31,8 @@ namespace WepApiScrapingData.Controllers
         private readonly Pokemon_WeaknessRepository _repositoryPWN;
         private readonly Pokemon_TalentRepository _repositoryPTL;
         private readonly Pokemon_AttaqueRepository _repositoryPAT;
+        private readonly DifficultyRepository _repositoryD;
+        private readonly QuestionTypeRepository _repositoryQT;
         #endregion
 
         #region Constructors
@@ -41,7 +45,9 @@ namespace WepApiScrapingData.Controllers
             Pokemon_TypePokRepository repositoryPTP, 
             Pokemon_WeaknessRepository repositoryPWN, 
             Pokemon_TalentRepository repositoryPTL, 
-            Pokemon_AttaqueRepository repositoryPAT)
+            Pokemon_AttaqueRepository repositoryPAT,
+            DifficultyRepository repositoryD,
+            QuestionTypeRepository repositoryQT)
         {
             _repository = repository;
             _repositoryTP = repositoryTP;
@@ -53,6 +59,8 @@ namespace WepApiScrapingData.Controllers
             _repositoryPWN = repositoryPWN;
             _repositoryPTL = repositoryPTL;
             _repositoryPAT = repositoryPAT;
+            _repositoryD = repositoryD;
+            _repositoryQT = repositoryQT;
         }
         #endregion
         
@@ -78,7 +86,7 @@ namespace WepApiScrapingData.Controllers
 
         [HttpGet]
         [Route("ImportDb")]
-        public Task ImportDb()
+        public async Task ImportDb()
         {
             string json;
 
@@ -104,7 +112,7 @@ namespace WepApiScrapingData.Controllers
                             Name_JP = gameJson.Name_JP
                         };
 
-                        _repositoryG.Add(game);
+                        await _repositoryG.AddAsync(game);
                     }
                 }
             }
@@ -113,174 +121,169 @@ namespace WepApiScrapingData.Controllers
             #region TypeAttaque
             using (StreamReader r = new StreamReader(Constantes.pathExport + "TypeAttaqueDbToJson.json"))
             {
-                json = r.ReadToEnd();
-                if (!string.IsNullOrEmpty(json))
-                {
-                    List<TypeAttaqueExportJson> typesAttackJson = JsonConvert.DeserializeObject<List<TypeAttaqueExportJson>>(json);
-                    foreach (TypeAttaqueExportJson typeAttackJson in typesAttackJson)
-                    {
-                        TypeAttaque typeAttaque = new TypeAttaque()
-                        {
-                            Name_FR = typeAttackJson.Name_FR,
-                            Description_FR = typeAttackJson.Description_FR,
-                            Name_EN = typeAttackJson.Name_EN,
-                            Description_EN = typeAttackJson.Description_EN,
-                            Name_ES = typeAttackJson.Name_ES,
-                            Description_ES = typeAttackJson.Description_ES,
-                            Name_IT = typeAttackJson.Name_IT,
-                            Description_IT = typeAttackJson.Description_IT,
-                            Name_DE = typeAttackJson.Name_DE,
-                            Description_DE = typeAttackJson.Description_DE,
-                            Name_RU = typeAttackJson.Name_RU,
-                            Description_RU = typeAttackJson.Description_RU,
-                            Name_CO = typeAttackJson.Name_CO,
-                            Description_CO = typeAttackJson.Description_CO,
-                            Name_CN = typeAttackJson.Name_CN,
-                            Description_CN = typeAttackJson.Description_CN,
-                            Name_JP = typeAttackJson.Name_JP,
-                            Description_JP = typeAttackJson.Description_JP,
-                            UrlImg = typeAttackJson.UrlImg
-                        };
+               json = r.ReadToEnd();
+               if (!string.IsNullOrEmpty(json))
+               {
+                   List<TypeAttaqueExportJson> typesAttackJson = JsonConvert.DeserializeObject<List<TypeAttaqueExportJson>>(json);
+                   foreach (TypeAttaqueExportJson typeAttackJson in typesAttackJson)
+                   {
+                       TypeAttaque typeAttaque = new TypeAttaque()
+                       {
+                           Name_FR = typeAttackJson.Name_FR,
+                           Description_FR = typeAttackJson.Description_FR,
+                           Name_EN = typeAttackJson.Name_EN,
+                           Description_EN = typeAttackJson.Description_EN,
+                           Name_ES = typeAttackJson.Name_ES,
+                           Description_ES = typeAttackJson.Description_ES,
+                           Name_IT = typeAttackJson.Name_IT,
+                           Description_IT = typeAttackJson.Description_IT,
+                           Name_DE = typeAttackJson.Name_DE,
+                           Description_DE = typeAttackJson.Description_DE,
+                           Name_RU = typeAttackJson.Name_RU,
+                           Description_RU = typeAttackJson.Description_RU,
+                           Name_CO = typeAttackJson.Name_CO,
+                           Description_CO = typeAttackJson.Description_CO,
+                           Name_CN = typeAttackJson.Name_CN,
+                           Description_CN = typeAttackJson.Description_CN,
+                           Name_JP = typeAttackJson.Name_JP,
+                           Description_JP = typeAttackJson.Description_JP,
+                           UrlImg = typeAttackJson.UrlImg
+                       };
 
-                        _repositoryTA.Add(typeAttaque);
-                    }
-                }
+                       await _repositoryTA.AddAsync(typeAttaque);
+                   }
+               }
             }
             #endregion
 
             #region TypePok
             using (StreamReader r = new StreamReader(Constantes.pathExport + "TypePokDbToJson.json"))
             {
-                json = r.ReadToEnd();
-                if (!string.IsNullOrEmpty(json))
-                {
-                    List<TypePokExportJson> typePoksJson = JsonConvert.DeserializeObject<List<TypePokExportJson>>(json);
-                    foreach (TypePokExportJson typePokJson in typePoksJson)
-                    {
-                        TypePok typePok = new()
-                        {
-                            Name_FR = typePokJson.Name_FR,
-                            PathMiniHome_FR = typePokJson.UrlMiniHome_FR,
-                            Name_EN = typePokJson.Name_EN,
-                            PathMiniHome_EN = typePokJson.UrlMiniHome_EN,
-                            Name_ES = typePokJson.Name_ES,
-                            PathMiniHome_ES = typePokJson.UrlMiniHome_ES,
-                            Name_IT = typePokJson.Name_IT,
-                            PathMiniHome_IT = typePokJson.UrlMiniHome_IT,
-                            Name_DE = typePokJson.Name_DE,
-                            PathMiniHome_DE = typePokJson.UrlMiniHome_DE,
-                            Name_RU = typePokJson.Name_RU,
-                            PathMiniHome_RU = typePokJson.UrlMiniHome_RU,
-                            Name_CO = typePokJson.Name_CO,
-                            PathMiniHome_CO = typePokJson.UrlMiniHome_CO,
-                            Name_CN = typePokJson.Name_CN,
-                            PathMiniHome_CN = typePokJson.UrlMiniHome_CN,
-                            Name_JP = typePokJson.Name_JP,
-                            PathMiniHome_JP = typePokJson.UrlMiniHome_JP,
-                            UrlMiniGo = typePokJson.UrlMiniGo,
-                            UrlFondGo = typePokJson.UrlFondGo,
-                            UrlIconHome = typePokJson.UrlIconHome,
-                            UrlAutoHome = typePokJson.UrlAutoHome,
-                            ImgColor = typePokJson.ImgColor,
-                            InfoColor = typePokJson.InfoColor,
-                            TypeColor = typePokJson.TypeColor
-                        };
-                        _repositoryTP.Add(typePok);
-                    }
-                }
+               json = r.ReadToEnd();
+               if (!string.IsNullOrEmpty(json))
+               {
+                   List<TypePokExportJson> typePoksJson = JsonConvert.DeserializeObject<List<TypePokExportJson>>(json);
+                   foreach (TypePokExportJson typePokJson in typePoksJson)
+                   {
+                       TypePok typePok = new()
+                       {
+                           Name_FR = typePokJson.Name_FR,
+                           PathMiniHome_FR = typePokJson.UrlMiniHome_FR,
+                           Name_EN = typePokJson.Name_EN,
+                           PathMiniHome_EN = typePokJson.UrlMiniHome_EN,
+                           Name_ES = typePokJson.Name_ES,
+                           PathMiniHome_ES = typePokJson.UrlMiniHome_ES,
+                           Name_IT = typePokJson.Name_IT,
+                           PathMiniHome_IT = typePokJson.UrlMiniHome_IT,
+                           Name_DE = typePokJson.Name_DE,
+                           PathMiniHome_DE = typePokJson.UrlMiniHome_DE,
+                           Name_RU = typePokJson.Name_RU,
+                           PathMiniHome_RU = typePokJson.UrlMiniHome_RU,
+                           Name_CO = typePokJson.Name_CO,
+                           PathMiniHome_CO = typePokJson.UrlMiniHome_CO,
+                           Name_CN = typePokJson.Name_CN,
+                           PathMiniHome_CN = typePokJson.UrlMiniHome_CN,
+                           Name_JP = typePokJson.Name_JP,
+                           PathMiniHome_JP = typePokJson.UrlMiniHome_JP,
+                           UrlMiniGo = typePokJson.UrlMiniGo,
+                           UrlFondGo = typePokJson.UrlFondGo,
+                           UrlIconHome = typePokJson.UrlIconHome,
+                           UrlAutoHome = typePokJson.UrlAutoHome,
+                           ImgColor = typePokJson.ImgColor,
+                           InfoColor = typePokJson.InfoColor,
+                           TypeColor = typePokJson.TypeColor
+                       };
+                       await _repositoryTP.AddAsync(typePok);
+                   }
+               }
             }
             #endregion
 
             #region Talent
             using (StreamReader r = new StreamReader(Constantes.pathExport + "TalentDbToJson.json"))
             {
-                json = r.ReadToEnd();
-                if (!string.IsNullOrEmpty(json))
-                {
-                    List<TalentExportJson> talentsJson = JsonConvert.DeserializeObject<List<TalentExportJson>>(json);
-                    foreach (TalentExportJson talentJson in talentsJson)
-                    {
-                        Talent talent = new()
-                        {
-                            Name_FR = talentJson.Name_FR,
-                            Description_FR = talentJson.Description_FR,
-                            Name_EN = talentJson.Name_EN,
-                            Description_EN = talentJson.Description_EN,
-                            Name_ES = talentJson.Name_ES,
-                            Description_ES = talentJson.Description_ES,
-                            Name_IT = talentJson.Name_IT,
-                            Description_IT = talentJson.Description_IT,
-                            Name_DE = talentJson.Name_DE,
-                            Description_DE = talentJson.Description_DE,
-                            Name_RU = talentJson.Name_RU,
-                            Description_RU = talentJson.Description_RU,
-                            Name_CO = talentJson.Name_CO,
-                            Description_CO = talentJson.Description_CO,
-                            Name_CN = talentJson.Name_CN,
-                            Description_CN = talentJson.Description_CN,
-                            Name_JP = talentJson.Name_JP,
-                            Description_JP = talentJson.Description_JP
-                        };
-                        _repositoryTL.Add(talent);
-                    }
-                }
+               json = r.ReadToEnd();
+               if (!string.IsNullOrEmpty(json))
+               {
+                   List<TalentExportJson> talentsJson = JsonConvert.DeserializeObject<List<TalentExportJson>>(json);
+                   foreach (TalentExportJson talentJson in talentsJson)
+                   {
+                       Talent talent = new()
+                       {
+                           Name_FR = talentJson.Name_FR,
+                           Description_FR = talentJson.Description_FR,
+                           Name_EN = talentJson.Name_EN,
+                           Description_EN = talentJson.Description_EN,
+                           Name_ES = talentJson.Name_ES,
+                           Description_ES = talentJson.Description_ES,
+                           Name_IT = talentJson.Name_IT,
+                           Description_IT = talentJson.Description_IT,
+                           Name_DE = talentJson.Name_DE,
+                           Description_DE = talentJson.Description_DE,
+                           Name_RU = talentJson.Name_RU,
+                           Description_RU = talentJson.Description_RU,
+                           Name_CO = talentJson.Name_CO,
+                           Description_CO = talentJson.Description_CO,
+                           Name_CN = talentJson.Name_CN,
+                           Description_CN = talentJson.Description_CN,
+                           Name_JP = talentJson.Name_JP,
+                           Description_JP = talentJson.Description_JP
+                       };
+                       await _repositoryTL.AddAsync(talent);
+                   }
+               }
             }
             #endregion
-
-            _repository.UnitOfWork.SaveChanges();
 
             #region Attaque
             using (StreamReader r = new StreamReader(Constantes.pathExport + "AttaqueDbToJson.json"))
             {
-                json = r.ReadToEnd();
-                if (!string.IsNullOrEmpty(json))
-                {
-                    List<AttaqueExportJson> attaquesJson = JsonConvert.DeserializeObject<List<AttaqueExportJson>>(json);
-                    foreach (AttaqueExportJson attaqueJson in attaquesJson)
-                    {
-                        TypePok typePok = _repositoryTP.Find(m => m.Name_EN.Equals(attaqueJson.Types.Name_EN)).Result.FirstOrDefault();
-                        TypeAttaque typeAttaque = _repositoryTA.Find(m => m.Name_EN.Equals(attaqueJson.TypeAttaque.Name_EN)).Result.FirstOrDefault();
-                        Attaque attaque = new()
-                        {
-                            Name_FR = attaqueJson.Name_FR,
-                            Description_FR = attaqueJson.Description_FR,
-                            Name_EN = attaqueJson.Name_EN,
-                            Description_EN = attaqueJson.Description_EN,
-                            Name_ES = attaqueJson.Name_ES,
-                            Description_ES = attaqueJson.Description_ES,
-                            Name_IT = attaqueJson.Name_IT,
-                            Description_IT = attaqueJson.Description_IT,
-                            Name_DE = attaqueJson.Name_DE,
-                            Description_DE = attaqueJson.Description_DE,
-                            Name_RU = attaqueJson.Name_RU,
-                            Description_RU = attaqueJson.Description_RU,
-                            Name_CO = attaqueJson.Name_CO,
-                            Description_CO = attaqueJson.Description_CO,
-                            Name_CN = attaqueJson.Name_CN,
-                            Description_CN = attaqueJson.Description_CN,
-                            Name_JP = attaqueJson.Name_JP,
-                            Description_JP = attaqueJson.Description_JP,
-                            TypeAttaque = typeAttaque,
-                            TypePok = typePok,
-                            Power = attaqueJson.Puissance,
-                            Precision = attaqueJson.Precision,
-                            PP = attaqueJson.PP
-                        };
-                        _repositoryAT.Add(attaque);
-                    }
-                }
+               json = r.ReadToEnd();
+               if (!string.IsNullOrEmpty(json))
+               {
+                   List<AttaqueExportJson> attaquesJson = JsonConvert.DeserializeObject<List<AttaqueExportJson>>(json);
+                   foreach (AttaqueExportJson attaqueJson in attaquesJson)
+                   {
+                       TypePok typePok = (await _repositoryTP.Find(m => m.Name_EN.Equals(attaqueJson.Types.Name_EN))).FirstOrDefault();
+                       TypeAttaque typeAttaque = (await _repositoryTA.Find(m => m.Name_EN.Equals(attaqueJson.TypeAttaque.Name_EN))).FirstOrDefault();
+                       Attaque attaque = new()
+                       {
+                           Name_FR = attaqueJson.Name_FR,
+                           Description_FR = attaqueJson.Description_FR,
+                           Name_EN = attaqueJson.Name_EN,
+                           Description_EN = attaqueJson.Description_EN,
+                           Name_ES = attaqueJson.Name_ES,
+                           Description_ES = attaqueJson.Description_ES,
+                           Name_IT = attaqueJson.Name_IT,
+                           Description_IT = attaqueJson.Description_IT,
+                           Name_DE = attaqueJson.Name_DE,
+                           Description_DE = attaqueJson.Description_DE,
+                           Name_RU = attaqueJson.Name_RU,
+                           Description_RU = attaqueJson.Description_RU,
+                           Name_CO = attaqueJson.Name_CO,
+                           Description_CO = attaqueJson.Description_CO,
+                           Name_CN = attaqueJson.Name_CN,
+                           Description_CN = attaqueJson.Description_CN,
+                           Name_JP = attaqueJson.Name_JP,
+                           Description_JP = attaqueJson.Description_JP,
+                           TypeAttaque = typeAttaque,
+                           TypePok = typePok,
+                           Power = attaqueJson.Puissance,
+                           Precision = attaqueJson.Precision,
+                           PP = attaqueJson.PP
+                       };
+                       await _repositoryAT.AddAsync(attaque);
+                   }
+               }
             }
             #endregion
 
-            _repository.UnitOfWork.SaveChanges();
 
             using (StreamReader sr = new StreamReader(Constantes.pathExport + "DbToJson.json"))
             {
                 json = sr.ReadToEnd();
-                _repository.ImportJsonToDb(json);
+                await _repository.ImportJsonToDb(json);
             }
-
-            return Task.CompletedTask;
         }
 
         [HttpPost]
@@ -591,7 +594,7 @@ namespace WepApiScrapingData.Controllers
             if (_repositoryG.Find(m => m.Name_FR.Equals(game.Name_FR)).Result.Count() == 0)
                 games.Add(game);
 
-            await _repositoryG.AddRange(games);
+            await _repositoryG.AddRangeAsync(games);
             _repository.UnitOfWork.SaveChanges();
         }
 
@@ -599,7 +602,7 @@ namespace WepApiScrapingData.Controllers
         [Route("AddMissingTalent")]
         public async Task AddMissingTalent()
         {
-            Talent talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Analytic_FR)).Result.FirstOrDefault();
+            Talent talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Analytic_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -615,10 +618,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Analytic_DE,
                     Description_DE = Constantes.Description_Analytic_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_PowerOfAlchemy_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_PowerOfAlchemy_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -634,10 +637,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_PowerOfAlchemy_DE,
                     Description_DE = Constantes.Description_PowerOfAlchemy_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Harvest_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Harvest_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -653,10 +656,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Harvest_DE,
                     Description_DE = Constantes.Description_Harvest_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Imposter_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Imposter_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -672,10 +675,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Imposter_DE,
                     Description_DE = Constantes.Description_Imposter_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Multiscale_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Multiscale_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -691,10 +694,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Multiscale_DE,
                     Description_DE = Constantes.Description_Multiscale_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Moody_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Moody_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -710,10 +713,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Moody_DE,
                     Description_DE = Constantes.Description_Moody_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_ToxicBoost_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_ToxicBoost_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -729,10 +732,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_ToxicBoost_DE,
                     Description_DE = Constantes.Description_ToxicBoost_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Protean_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Protean_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -748,10 +751,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Protean_DE,
                     Description_DE = Constantes.Description_Protean_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_FlareBoost_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_FlareBoost_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -767,10 +770,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_FlareBoost_DE,
                     Description_DE = Constantes.Description_FlareBoost_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_ZenMode_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_ZenMode_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -786,10 +789,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_ZenMode_DE,
                     Description_DE = Constantes.Description_ZenMode_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_GaleWings_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_GaleWings_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -805,10 +808,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_GaleWings_DE,
                     Description_DE = Constantes.Description_GaleWings_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Symbiosis_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Symbiosis_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -824,10 +827,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Symbiosis_DE,
                     Description_DE = Constantes.Description_Symbiosis_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_GrassPelt_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_GrassPelt_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -843,10 +846,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_GrassPelt_DE,
                     Description_DE = Constantes.Description_GrassPelt_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_LongReach_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_LongReach_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -862,10 +865,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_LongReach_DE,
                     Description_DE = Constantes.Description_LongReach_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_LiquidVoice_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_LiquidVoice_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -881,10 +884,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_LiquidVoice_DE,
                     Description_DE = Constantes.Description_LiquidVoice_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Libero_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Libero_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -900,10 +903,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Libero_DE,
                     Description_DE = Constantes.Description_Libero_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_MirrorArmor_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_MirrorArmor_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -919,10 +922,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_MirrorArmor_DE,
                     Description_DE = Constantes.Description_MirrorArmor_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_PropellerTail_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_PropellerTail_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -938,10 +941,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_PropellerTail_DE,
                     Description_DE = Constantes.Description_PropellerTail_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_SteelySpirit_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_SteelySpirit_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -957,10 +960,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_SteelySpirit_DE,
                     Description_DE = Constantes.Description_SteelySpirit_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_PerishBody_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_PerishBody_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -976,10 +979,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_PerishBody_DE,
                     Description_DE = Constantes.Description_PerishBody_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_IceScales_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_IceScales_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -995,10 +998,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_IceScales_DE,
                     Description_DE = Constantes.Description_IceScales_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Stalwart_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Stalwart_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -1014,10 +1017,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Stalwart_DE,
                     Description_DE = Constantes.Description_Stalwart_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Sharpness_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Sharpness_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -1033,10 +1036,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Sharpness_DE,
                     Description_DE = Constantes.Description_Sharpness_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_RockyPayload_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_RockyPayload_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -1052,10 +1055,10 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_RockyPayload_DE,
                     Description_DE = Constantes.Description_RockyPayload_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
-            talent = _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Costar_FR)).Result.FirstOrDefault();
+            talent = (await _repositoryTL.Find(m => m.Name_FR.Equals(Constantes.Name_Costar_FR))).FirstOrDefault();
             if (talent == null)
             {
                 talent = new()
@@ -1071,10 +1074,1388 @@ namespace WepApiScrapingData.Controllers
                     Name_DE = Constantes.Name_Costar_DE,
                     Description_DE = Constantes.Description_Costar_DE
                 };
-                await _repositoryTL.Add(talent);
+                await _repositoryTL.AddAsync(talent);
             }
 
             _repositoryTL.UnitOfWork.SaveChanges();
+        }
+
+        [HttpPost]
+        [Route("AddDifficultyInDB")]
+        public async Task AddDifficultyInDB()
+        {
+            List<Difficulty> difficulties = new List<Difficulty>();
+
+            Difficulty difficulty = new();
+
+            difficulty.Code = Constantes.Easy_Code;
+            difficulty.Libelle_FR = Constantes.Easy_Libelle_FR;
+            difficulty.Libelle_EN = Constantes.Easy_Libelle_EN;
+            difficulty.Libelle_ES = Constantes.Easy_Libelle_ES;
+            difficulty.Libelle_IT = Constantes.Easy_Libelle_IT;
+            difficulty.Libelle_DE = Constantes.Easy_Libelle_DE;
+            difficulty.Libelle_RU = Constantes.Easy_Libelle_RU;
+            difficulty.Libelle_CO = Constantes.Easy_Libelle_CO;
+            difficulty.Libelle_CN = Constantes.Easy_Libelle_CN;
+            difficulty.Libelle_JP = Constantes.Easy_Libelle_JP;
+            
+            if (_repositoryD.Find(m => m.Code.Equals(Constantes.Easy_Code)).Result.Count() == 0)
+                difficulties.Add(difficulty);
+
+            difficulty = new Difficulty();
+            difficulty.Code = Constantes.Normal_Code;
+            difficulty.Libelle_FR = Constantes.Normal_Libelle_FR;
+            difficulty.Libelle_EN = Constantes.Normal_Libelle_EN;
+            difficulty.Libelle_ES = Constantes.Normal_Libelle_ES;
+            difficulty.Libelle_IT = Constantes.Normal_Libelle_IT;
+            difficulty.Libelle_DE = Constantes.Normal_Libelle_DE;
+            difficulty.Libelle_RU = Constantes.Normal_Libelle_RU;
+            difficulty.Libelle_CO = Constantes.Normal_Libelle_CO;
+            difficulty.Libelle_CN = Constantes.Normal_Libelle_CN;
+            difficulty.Libelle_JP = Constantes.Normal_Libelle_JP;
+
+            if (_repositoryD.Find(m => m.Code.Equals(Constantes.Normal_Code)).Result.Count() == 0)
+                difficulties.Add(difficulty);
+
+            difficulty = new Difficulty();
+            difficulty.Code = Constantes.Hard_Code;
+            difficulty.Libelle_FR = Constantes.Hard_Libelle_FR;
+            difficulty.Libelle_EN = Constantes.Hard_Libelle_EN;
+            difficulty.Libelle_ES = Constantes.Hard_Libelle_ES;
+            difficulty.Libelle_IT = Constantes.Hard_Libelle_IT;
+            difficulty.Libelle_DE = Constantes.Hard_Libelle_DE;
+            difficulty.Libelle_RU = Constantes.Hard_Libelle_RU;
+            difficulty.Libelle_CO = Constantes.Hard_Libelle_CO;
+            difficulty.Libelle_CN = Constantes.Hard_Libelle_CN;
+            difficulty.Libelle_JP = Constantes.Hard_Libelle_JP;
+
+            if (_repositoryD.Find(m => m.Code.Equals(Constantes.Hard_Code)).Result.Count() == 0)
+                difficulties.Add(difficulty);
+
+            difficulty = new Difficulty();
+            difficulty.Code = Constantes.Expert_Code;
+            difficulty.Libelle_FR = Constantes.Expert_Libelle_FR;
+            difficulty.Libelle_EN = Constantes.Expert_Libelle_EN;
+            difficulty.Libelle_ES = Constantes.Expert_Libelle_ES;
+            difficulty.Libelle_IT = Constantes.Expert_Libelle_IT;
+            difficulty.Libelle_DE = Constantes.Expert_Libelle_DE;
+            difficulty.Libelle_RU = Constantes.Expert_Libelle_RU;
+            difficulty.Libelle_CO = Constantes.Expert_Libelle_CO;
+            difficulty.Libelle_CN = Constantes.Expert_Libelle_CN;
+            difficulty.Libelle_JP = Constantes.Expert_Libelle_JP;
+
+            if (_repositoryD.Find(m => m.Code.Equals(Constantes.Expert_Code)).Result.Count() == 0)
+                difficulties.Add(difficulty);
+
+            await _repositoryD.AddRangeAsync(difficulties);
+            _repository.UnitOfWork.SaveChanges();
+        }
+        
+        [HttpPost]
+        [Route("AddQuestionTypeInDB")]
+        public async Task AddQuestionTypeInDB()
+        {
+            List<QuestionType> questionTypes = new List<QuestionType>();
+            
+            QuestionType questionType;
+            
+            #region Easy
+            Difficulty difficultyEasy = await _repositoryD.SingleOrDefault(m => m.Code.Equals(Constantes.Easy_Code));
+
+            #region QTypPok
+            questionType = new QuestionType(){
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokDesc
+            questionType = new QuestionType()
+                {
+                Code = Constantes.QTypPokDesc_Code,
+                Libelle_FR = Constantes.QTypPokDesc_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokDesc_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokDesc_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokDesc_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokDesc_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokDesc_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokDesc_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokDesc_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokDesc_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokDesc_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokDescReverse
+            questionType = new QuestionType(){
+                Code = Constantes.QTypPokDescReverse_Code,
+                Libelle_FR = Constantes.QTypPokDescReverse_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokDescReverse_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokDescReverse_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokDescReverse_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokDescReverse_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokDescReverse_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokDescReverse_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokDescReverse_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokDescReverse_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokDescReverse_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTypPok
+            questionType = new QuestionType(){
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 6,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTyp
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTyp_Code,
+                Libelle_FR = Constantes.QTypTyp_Libelle_FR,
+                Libelle_EN = Constantes.QTypTyp_Libelle_EN,
+                Libelle_ES = Constantes.QTypTyp_Libelle_ES,
+                Libelle_IT = Constantes.QTypTyp_Libelle_IT,
+                Libelle_DE = Constantes.QTypTyp_Libelle_DE,
+                Libelle_RU = Constantes.QTypTyp_Libelle_RU,
+                Libelle_CO = Constantes.QTypTyp_Libelle_CO,
+                Libelle_CN = Constantes.QTypTyp_Libelle_CN,
+                Libelle_JP = Constantes.QTypTyp_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 6,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTyp_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTalent
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTalent_Code,
+                Libelle_FR = Constantes.QTypTalent_Libelle_FR,
+                Libelle_EN = Constantes.QTypTalent_Libelle_EN,
+                Libelle_ES = Constantes.QTypTalent_Libelle_ES,
+                Libelle_IT = Constantes.QTypTalent_Libelle_IT,
+                Libelle_DE = Constantes.QTypTalent_Libelle_DE,
+                Libelle_RU = Constantes.QTypTalent_Libelle_RU,
+                Libelle_CO = Constantes.QTypTalent_Libelle_CO,
+                Libelle_CN = Constantes.QTypTalent_Libelle_CN,
+                Libelle_JP = Constantes.QTypTalent_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTalent_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTalentReverse
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTalentReverse_Code,
+                Libelle_FR = Constantes.QTypTalentReverse_Libelle_FR,
+                Libelle_EN = Constantes.QTypTalentReverse_Libelle_EN,
+                Libelle_ES = Constantes.QTypTalentReverse_Libelle_ES,
+                Libelle_IT = Constantes.QTypTalentReverse_Libelle_IT,
+                Libelle_DE = Constantes.QTypTalentReverse_Libelle_DE,
+                Libelle_RU = Constantes.QTypTalentReverse_Libelle_RU,
+                Libelle_CO = Constantes.QTypTalentReverse_Libelle_CO,
+                Libelle_CN = Constantes.QTypTalentReverse_Libelle_CN,
+                Libelle_JP = Constantes.QTypTalentReverse_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTalentReverse_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokStat
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokStat_Code,
+                Libelle_FR = Constantes.QTypPokStat_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokStat_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokStat_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokStat_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokStat_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokStat_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokStat_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokStat_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokStat_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokStat_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTypPokVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 6,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypWeakPokVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 6,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokTalentVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokTalentVarious_Code,
+                Libelle_FR = Constantes.QTypPokTalentVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokTalentVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokTalentVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokTalentVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokTalentVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokTalentVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokTalentVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokTalentVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokTalentVarious_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokTalentVarious_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokFamilyVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokFamilyVarious_Code,
+                Libelle_FR = Constantes.QTypPokFamilyVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokFamilyVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokFamilyVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokFamilyVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokFamilyVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokFamilyVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokFamilyVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokFamilyVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokFamilyVarious_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokFamilyVarious_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokTypVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokTypVarious_Code,
+                Libelle_FR = Constantes.QTypPokTypVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokTypVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokTypVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokTypVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokTypVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokTypVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokTypVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokTypVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokTypVarious_Libelle_JP,
+                Difficulty = difficultyEasy,
+                NbAnswers = 4,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokTypVarious_Code) && m.Difficulty.Id.Equals(difficultyEasy.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+            #endregion
+
+            #region Normal
+            Difficulty difficultyNormal = await _repositoryD.SingleOrDefault(m => m.Code.Equals(Constantes.Normal_Code));
+
+            #region QTypPok
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && !m.IsBlurred && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsBlurred = true,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsBlurred).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsHide = true,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokDesc
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokDesc_Code,
+                Libelle_FR = Constantes.QTypPokDesc_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokDesc_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokDesc_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokDesc_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokDesc_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokDesc_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokDesc_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokDesc_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokDesc_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 6,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokDesc_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokDescReverse
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokDescReverse_Code,
+                Libelle_FR = Constantes.QTypPokDescReverse_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokDescReverse_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokDescReverse_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokDescReverse_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokDescReverse_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokDescReverse_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokDescReverse_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokDescReverse_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokDescReverse_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 6,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokDescReverse_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTypPok
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && !m.IsBlurred && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsBlurred = true,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsBlurred).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsHide = true,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTyp
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTyp_Code,
+                Libelle_FR = Constantes.QTypTyp_Libelle_FR,
+                Libelle_EN = Constantes.QTypTyp_Libelle_EN,
+                Libelle_ES = Constantes.QTypTyp_Libelle_ES,
+                Libelle_IT = Constantes.QTypTyp_Libelle_IT,
+                Libelle_DE = Constantes.QTypTyp_Libelle_DE,
+                Libelle_RU = Constantes.QTypTyp_Libelle_RU,
+                Libelle_CO = Constantes.QTypTyp_Libelle_CO,
+                Libelle_CN = Constantes.QTypTyp_Libelle_CN,
+                Libelle_JP = Constantes.QTypTyp_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTyp_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTalent
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTalent_Code,
+                Libelle_FR = Constantes.QTypTalent_Libelle_FR,
+                Libelle_EN = Constantes.QTypTalent_Libelle_EN,
+                Libelle_ES = Constantes.QTypTalent_Libelle_ES,
+                Libelle_IT = Constantes.QTypTalent_Libelle_IT,
+                Libelle_DE = Constantes.QTypTalent_Libelle_DE,
+                Libelle_RU = Constantes.QTypTalent_Libelle_RU,
+                Libelle_CO = Constantes.QTypTalent_Libelle_CO,
+                Libelle_CN = Constantes.QTypTalent_Libelle_CN,
+                Libelle_JP = Constantes.QTypTalent_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 6,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTalent_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTalentReverse
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTalentReverse_Code,
+                Libelle_FR = Constantes.QTypTalentReverse_Libelle_FR,
+                Libelle_EN = Constantes.QTypTalentReverse_Libelle_EN,
+                Libelle_ES = Constantes.QTypTalentReverse_Libelle_ES,
+                Libelle_IT = Constantes.QTypTalentReverse_Libelle_IT,
+                Libelle_DE = Constantes.QTypTalentReverse_Libelle_DE,
+                Libelle_RU = Constantes.QTypTalentReverse_Libelle_RU,
+                Libelle_CO = Constantes.QTypTalentReverse_Libelle_CO,
+                Libelle_CN = Constantes.QTypTalentReverse_Libelle_CN,
+                Libelle_JP = Constantes.QTypTalentReverse_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 6,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTalentReverse_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokStat
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokStat_Code,
+                Libelle_FR = Constantes.QTypPokStat_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokStat_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokStat_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokStat_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokStat_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokStat_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokStat_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokStat_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokStat_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokStat_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTypPokVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && !m.IsBlurred && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsBlurred = true,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsBlurred).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsHide = true,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypWeakPokVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && !m.IsBlurred && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsBlurred = true,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsBlurred).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                IsHide = true,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokTalentVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokTalentVarious_Code,
+                Libelle_FR = Constantes.QTypPokTalentVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokTalentVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokTalentVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokTalentVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokTalentVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokTalentVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokTalentVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokTalentVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokTalentVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 8,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokTalentVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokFamilyVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokFamilyVarious_Code,
+                Libelle_FR = Constantes.QTypPokFamilyVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokFamilyVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokFamilyVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokFamilyVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokFamilyVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokFamilyVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokFamilyVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokFamilyVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokFamilyVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 8,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokFamilyVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokTypVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokTypVarious_Code,
+                Libelle_FR = Constantes.QTypPokTypVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokTypVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokTypVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokTypVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokTypVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokTypVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokTypVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokTypVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokTypVarious_Libelle_JP,
+                Difficulty = difficultyNormal,
+                NbAnswers = 8,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokTypVarious_Code) && m.Difficulty.Id.Equals(difficultyNormal.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+            #endregion
+
+            #region Hard
+            Difficulty difficultyHard = await _repositoryD.SingleOrDefault(m => m.Code.Equals(Constantes.Hard_Code));
+
+            #region QTypPok
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && !m.IsBlurred && !m.IsGrayscale && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsGrayscale = true,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsGrayscale).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 12,
+                IsHide = true,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPok_Code,
+                Libelle_FR = Constantes.QTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsHide = true,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsHide && m.IsBlurred).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokDesc
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokDesc_Code,
+                Libelle_FR = Constantes.QTypPokDesc_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokDesc_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokDesc_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokDesc_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokDesc_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokDesc_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokDesc_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokDesc_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokDesc_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokDesc_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokDescReverse
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokDescReverse_Code,
+                Libelle_FR = Constantes.QTypPokDescReverse_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokDescReverse_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokDescReverse_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokDescReverse_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokDescReverse_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokDescReverse_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokDescReverse_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokDescReverse_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokDescReverse_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokDescReverse_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTypPok
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 18,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && !m.IsBlurred && !m.IsGrayscale && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsGrayscale = true,
+                NbAnswers = 18,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsGrayscale).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsHide = true,
+                NbAnswers = 18,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPok_Code,
+                Libelle_FR = Constantes.QTypTypPok_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPok_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPok_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPok_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPok_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPok_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPok_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPok_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPok_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsHide = true,
+                NbAnswers = 18,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPok_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTyp
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTyp_Code,
+                Libelle_FR = Constantes.QTypTyp_Libelle_FR,
+                Libelle_EN = Constantes.QTypTyp_Libelle_EN,
+                Libelle_ES = Constantes.QTypTyp_Libelle_ES,
+                Libelle_IT = Constantes.QTypTyp_Libelle_IT,
+                Libelle_DE = Constantes.QTypTyp_Libelle_DE,
+                Libelle_RU = Constantes.QTypTyp_Libelle_RU,
+                Libelle_CO = Constantes.QTypTyp_Libelle_CO,
+                Libelle_CN = Constantes.QTypTyp_Libelle_CN,
+                Libelle_JP = Constantes.QTypTyp_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 18,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTyp_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTalent
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTalent_Code,
+                Libelle_FR = Constantes.QTypTalent_Libelle_FR,
+                Libelle_EN = Constantes.QTypTalent_Libelle_EN,
+                Libelle_ES = Constantes.QTypTalent_Libelle_ES,
+                Libelle_IT = Constantes.QTypTalent_Libelle_IT,
+                Libelle_DE = Constantes.QTypTalent_Libelle_DE,
+                Libelle_RU = Constantes.QTypTalent_Libelle_RU,
+                Libelle_CO = Constantes.QTypTalent_Libelle_CO,
+                Libelle_CN = Constantes.QTypTalent_Libelle_CN,
+                Libelle_JP = Constantes.QTypTalent_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTalent_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTalentReverse
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTalentReverse_Code,
+                Libelle_FR = Constantes.QTypTalentReverse_Libelle_FR,
+                Libelle_EN = Constantes.QTypTalentReverse_Libelle_EN,
+                Libelle_ES = Constantes.QTypTalentReverse_Libelle_ES,
+                Libelle_IT = Constantes.QTypTalentReverse_Libelle_IT,
+                Libelle_DE = Constantes.QTypTalentReverse_Libelle_DE,
+                Libelle_RU = Constantes.QTypTalentReverse_Libelle_RU,
+                Libelle_CO = Constantes.QTypTalentReverse_Libelle_CO,
+                Libelle_CN = Constantes.QTypTalentReverse_Libelle_CN,
+                Libelle_JP = Constantes.QTypTalentReverse_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 8,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTalentReverse_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokStat
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokStat_Code,
+                Libelle_FR = Constantes.QTypPokStat_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokStat_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokStat_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokStat_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokStat_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokStat_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokStat_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokStat_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokStat_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 12,
+                NbAnswersPossible = 1
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokStat_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypTypPokVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && !m.IsBlurred && !m.IsGrayscale && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsGrayscale = true,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsGrayscale).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsHide = true,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypTypPokVarious_Code,
+                Libelle_FR = Constantes.QTypTypPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypTypPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypTypPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypTypPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypTypPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypTypPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypTypPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypTypPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypTypPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsHide = true,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypTypPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypWeakPokVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && !m.IsBlurred && !m.IsGrayscale && !m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsGrayscale = true,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsGrayscale).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsHide = true,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypWeakPokVarious_Code,
+                Libelle_FR = Constantes.QTypWeakPokVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypWeakPokVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypWeakPokVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypWeakPokVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypWeakPokVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypWeakPokVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypWeakPokVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypWeakPokVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypWeakPokVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                IsBlurred = true,
+                IsHide = true,
+                NbAnswers = 18,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypWeakPokVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id) && m.IsBlurred && m.IsHide).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokTalentVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokTalentVarious_Code,
+                Libelle_FR = Constantes.QTypPokTalentVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokTalentVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokTalentVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokTalentVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokTalentVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokTalentVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokTalentVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokTalentVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokTalentVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokTalentVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokFamilyVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokFamilyVarious_Code,
+                Libelle_FR = Constantes.QTypPokFamilyVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokFamilyVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokFamilyVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokFamilyVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokFamilyVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokFamilyVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokFamilyVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokFamilyVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokFamilyVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokFamilyVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+
+            #region QTypPokTypVarious
+            questionType = new QuestionType()
+            {
+                Code = Constantes.QTypPokTypVarious_Code,
+                Libelle_FR = Constantes.QTypPokTypVarious_Libelle_FR,
+                Libelle_EN = Constantes.QTypPokTypVarious_Libelle_EN,
+                Libelle_ES = Constantes.QTypPokTypVarious_Libelle_ES,
+                Libelle_IT = Constantes.QTypPokTypVarious_Libelle_IT,
+                Libelle_DE = Constantes.QTypPokTypVarious_Libelle_DE,
+                Libelle_RU = Constantes.QTypPokTypVarious_Libelle_RU,
+                Libelle_CO = Constantes.QTypPokTypVarious_Libelle_CO,
+                Libelle_CN = Constantes.QTypPokTypVarious_Libelle_CN,
+                Libelle_JP = Constantes.QTypPokTypVarious_Libelle_JP,
+                Difficulty = difficultyHard,
+                NbAnswers = 12,
+                IsMultipleAnswers = true
+            };
+
+            if (_repositoryQT.Find(m => m.Code.Equals(Constantes.QTypPokTypVarious_Code) && m.Difficulty.Id.Equals(difficultyHard.Id)).Result.Count() == 0)
+                questionTypes.Add(questionType);
+            #endregion
+            #endregion
+
+            await _repositoryQT.AddRangeAsync(questionTypes);
+            _repository.UnitOfWork.SaveChanges();
         }
 
         [HttpPost]
@@ -1249,7 +2630,7 @@ namespace WepApiScrapingData.Controllers
                 }
             }
 
-            await _repositoryTL.AddRange(newTalents);
+            await _repositoryTL.AddRangeAsync(newTalents);
             _repository.UnitOfWork.SaveChanges();
         }
 
@@ -1257,7 +2638,7 @@ namespace WepApiScrapingData.Controllers
         [Route("UpdateGameInDB")]
         public async Task UpdateGameInDB()
         {
-            Game game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.RedBlue_Name_FR)).Result.FirstOrDefault();
+            Game game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.RedBlue_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.RedBlue_Name_FR;
             game.Name_EN = Constantes.RedBlue_Name_EN;
             game.Name_ES = Constantes.RedBlue_Name_ES;
@@ -1267,9 +2648,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.RedBlue_Name_CO;
             game.Name_CN = Constantes.RedBlue_Name_CN;
             game.Name_JP = Constantes.RedBlue_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Yellow_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Yellow_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.Yellow_Name_FR;
             game.Name_EN = Constantes.Yellow_Name_EN;
             game.Name_ES = Constantes.Yellow_Name_ES;
@@ -1279,9 +2660,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Yellow_Name_CO;
             game.Name_CN = Constantes.Yellow_Name_CN;
             game.Name_JP = Constantes.Yellow_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.GoldSilver_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.GoldSilver_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.GoldSilver_Name_FR;
             game.Name_EN = Constantes.GoldSilver_Name_EN;
             game.Name_ES = Constantes.GoldSilver_Name_ES;
@@ -1291,9 +2672,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.GoldSilver_Name_CO;
             game.Name_CN = Constantes.GoldSilver_Name_CN;
             game.Name_JP = Constantes.GoldSilver_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync (game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Crystal_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Crystal_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.Crystal_Name_FR;
             game.Name_EN = Constantes.Crystal_Name_EN;
             game.Name_ES = Constantes.Crystal_Name_ES;
@@ -1303,9 +2684,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Crystal_Name_CO;
             game.Name_CN = Constantes.Crystal_Name_CN;
             game.Name_JP = Constantes.Crystal_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.RubySapphire_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.RubySapphire_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.RubySapphire_Name_FR;
             game.Name_EN = Constantes.RubySapphire_Name_EN;
             game.Name_ES = Constantes.RubySapphire_Name_ES;
@@ -1315,9 +2696,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.RubySapphire_Name_CO;
             game.Name_CN = Constantes.RubySapphire_Name_CN;
             game.Name_JP = Constantes.RubySapphire_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Emerald_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Emerald_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.Emerald_Name_FR;
             game.Name_EN = Constantes.Emerald_Name_EN;
             game.Name_ES = Constantes.Emerald_Name_ES;
@@ -1327,9 +2708,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Emerald_Name_CO;
             game.Name_CN = Constantes.Emerald_Name_CN;
             game.Name_JP = Constantes.Emerald_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.FireRedLeafGreen_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.FireRedLeafGreen_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.FireRedLeafGreen_Name_FR;
             game.Name_EN = Constantes.FireRedLeafGreen_Name_EN;
             game.Name_ES = Constantes.FireRedLeafGreen_Name_ES;
@@ -1339,9 +2720,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.FireRedLeafGreen_Name_CO;
             game.Name_CN = Constantes.FireRedLeafGreen_Name_CN;
             game.Name_JP = Constantes.FireRedLeafGreen_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.DiamondPearl_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.DiamondPearl_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.DiamondPearl_Name_FR;
             game.Name_EN = Constantes.DiamondPearl_Name_EN;
             game.Name_ES = Constantes.DiamondPearl_Name_ES;
@@ -1351,9 +2732,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.DiamondPearl_Name_CO;
             game.Name_CN = Constantes.DiamondPearl_Name_CN;
             game.Name_JP = Constantes.DiamondPearl_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Platinum_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Platinum_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.Platinum_Name_FR;
             game.Name_EN = Constantes.Platinum_Name_EN;
             game.Name_ES = Constantes.Platinum_Name_ES;
@@ -1363,9 +2744,9 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Platinum_Name_CO;
             game.Name_CN = Constantes.Platinum_Name_CN;
             game.Name_JP = Constantes.Platinum_Name_JP;
-            _repositoryG.Update(game);
+            await _repositoryG.UpdateAsync(game);
 
-            game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.HeartGoldSoulSilver_Name_FR)).Result.FirstOrDefault();
+            game = (await _repositoryG.Find(m => m.Name_FR.Equals(Constantes.HeartGoldSoulSilver_Name_FR))).FirstOrDefault();
             game.Name_FR = Constantes.HeartGoldSoulSilver_Name_FR;
             game.Name_EN = Constantes.HeartGoldSoulSilver_Name_EN;
             game.Name_ES = Constantes.HeartGoldSoulSilver_Name_ES;
@@ -1375,7 +2756,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.HeartGoldSoulSilver_Name_CO;
             game.Name_CN = Constantes.HeartGoldSoulSilver_Name_CN;
             game.Name_JP = Constantes.HeartGoldSoulSilver_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.BlackWhite_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.BlackWhite_Name_FR;
@@ -1387,7 +2768,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.BlackWhite_Name_CO;
             game.Name_CN = Constantes.BlackWhite_Name_CN;
             game.Name_JP = Constantes.BlackWhite_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Black2White2_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.Black2White2_Name_FR;
@@ -1399,7 +2780,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Black2White2_Name_CO;
             game.Name_CN = Constantes.Black2White2_Name_CN;
             game.Name_JP = Constantes.Black2White2_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.X_Y_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.X_Y_Name_FR;
@@ -1411,7 +2792,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.X_Y_Name_CO;
             game.Name_CN = Constantes.X_Y_Name_CN;
             game.Name_JP = Constantes.X_Y_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.SunMoon_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.SunMoon_Name_FR;
@@ -1423,7 +2804,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.SunMoon_Name_CO;
             game.Name_CN = Constantes.SunMoon_Name_CN;
             game.Name_JP = Constantes.SunMoon_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.UltraSunUltraMoon_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.UltraSunUltraMoon_Name_FR;
@@ -1435,7 +2816,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.UltraSunUltraMoon_Name_CO;
             game.Name_CN = Constantes.UltraSunUltraMoon_Name_CN;
             game.Name_JP = Constantes.UltraSunUltraMoon_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.LetsGoPikachuEvoli_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.LetsGoPikachuEvoli_Name_FR;
@@ -1447,7 +2828,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.LetsGoPikachuEvoli_Name_CO;
             game.Name_CN = Constantes.LetsGoPikachuEvoli_Name_CN;
             game.Name_JP = Constantes.LetsGoPikachuEvoli_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.SwordShield_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.SwordShield_Name_FR;
@@ -1459,7 +2840,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.SwordShield_Name_CO;
             game.Name_CN = Constantes.SwordShield_Name_CN;
             game.Name_JP = Constantes.SwordShield_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.ShiningDiamondShiningPearl_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.ShiningDiamondShiningPearl_Name_FR;
@@ -1471,7 +2852,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.ShiningDiamondShiningPearl_Name_CO;
             game.Name_CN = Constantes.ShiningDiamondShiningPearl_Name_CN;
             game.Name_JP = Constantes.ShiningDiamondShiningPearl_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.Arceus_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.Arceus_Name_FR;
@@ -1483,7 +2864,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.Arceus_Name_CO;
             game.Name_CN = Constantes.Arceus_Name_CN;
             game.Name_JP = Constantes.Arceus_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             game = _repositoryG.Find(m => m.Name_FR.Equals(Constantes.ScarletViolet_Name_FR)).Result.FirstOrDefault();
             game.Name_FR = Constantes.ScarletViolet_Name_FR;
@@ -1495,7 +2876,7 @@ namespace WepApiScrapingData.Controllers
             game.Name_CO = Constantes.ScarletViolet_Name_CO;
             game.Name_CN = Constantes.ScarletViolet_Name_CN;
             game.Name_JP = Constantes.ScarletViolet_Name_JP;
-            _repositoryG.Update(game);
+            _repositoryG.UpdateAsync(game);
 
             _repositoryG.UnitOfWork.SaveChanges();
         }
@@ -1521,7 +2902,7 @@ namespace WepApiScrapingData.Controllers
                     pokemon_TypePoks.Add(pokemon_TypePok);
                 }
 
-                _repositoryPTP.AddRange(pokemon_TypePoks);
+                _repositoryPTP.AddRangeAsync(pokemon_TypePoks);
             }
 
             _repository.UnitOfWork.SaveChanges();
@@ -1550,7 +2931,7 @@ namespace WepApiScrapingData.Controllers
                         pokemon_Weaknesses.Add(pokemon_Weakness);
                     }
 
-                    await _repositoryPWN.AddRange(pokemon_Weaknesses);
+                    await _repositoryPWN.AddRangeAsync(pokemon_Weaknesses);
                 }
 
                 _repository.UnitOfWork.SaveChanges();
@@ -1582,7 +2963,7 @@ namespace WepApiScrapingData.Controllers
                     pokemon_Talents.Add(pokemon_Talent);
                 }
 
-                _repositoryPTL.AddRange(pokemon_Talents);
+                _repositoryPTL.AddRangeAsync(pokemon_Talents);
             }
 
             _repository.UnitOfWork.SaveChanges();
@@ -1663,7 +3044,7 @@ namespace WepApiScrapingData.Controllers
             if (_repositoryTA.Find(m => m.Name_FR.Equals(typeAttaque.Name_FR)).Result.Count() == 0)
                 typeAttaques.Add(typeAttaque);
 
-            await _repositoryTA.AddRange(typeAttaques);
+            await _repositoryTA.AddRangeAsync(typeAttaques);
             _repositoryTA.UnitOfWork.SaveChanges();
         }
 
@@ -1702,10 +3083,10 @@ namespace WepApiScrapingData.Controllers
         {
             var httpClient = new HttpClient();
             IEnumerable<Pokemon> pokemons = await _repository.GetAll();
-            foreach (Pokemon pokemon in pokemons.Where(m => m.PathImg == null))
+            foreach (Pokemon pokemon in pokemons.Where(m => m.PathImgLegacy == null))
             {
-                pokemon.PathImg = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlImg, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation);
-                pokemon.PathSprite = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlSprite, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation, true);
+                pokemon.PathImgLegacy = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlImg, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation);
+                pokemon.PathSpriteLegacy = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlSprite, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation, true);
             }
 
             _repository.UnitOfWork.SaveChanges();
@@ -1720,6 +3101,49 @@ namespace WepApiScrapingData.Controllers
             string response = HttpClientUtils.CallUrl(Constantes.urlAllSprites).Result;
             ScrapingDataUtils.GetUrlsMini(response, _repository);
         }
+
+        [HttpPut]
+        [Route("UpdateAnimatedImg")]
+        public async Task UpdateAnimatedImg()
+        {
+            var pokemons = (await _repository.GetAll()).ToList();
+
+            foreach (var pokemon in pokemons)
+            {
+                pokemon.PathAnimatedImg =
+                    $"Content/AnimatedImages/G{pokemon.Generation}/Normal/{pokemon.EN.Name.Replace(" ", "_")}.gif";
+                pokemon.PathAnimatedImgShiny =
+                    $"Content/AnimatedImages/G{pokemon.Generation}/Shiny/{pokemon.EN.Name.Replace(" ", "_")}.gif";
+            }
+
+            _repository.UnitOfWork.SaveChanges();
+        }
+
+        [HttpPut]
+        [Route("UpdatePathPokeApi")]
+        public async Task UpdatePathPokeApi()
+        {
+            var pokemons = (await _repository.GetAll()).ToList();
+
+            foreach (var pokemon in pokemons)
+            {
+                pokemon.PathImgNormal =
+                    $"Content/Images/G{pokemon.Generation}/Normal/{pokemon.EN.Name.Replace(" ", "_")}.png";
+                pokemon.PathImgShiny =
+                    $"Content/Images/G{pokemon.Generation}/Shiny/{pokemon.EN.Name.Replace(" ", "_")}.png";
+                pokemon.PathSpriteNormal =
+                    $"Content/Sprites/G{pokemon.Generation}/Normal/{pokemon.EN.Name.Replace(" ", "_")}.png";
+                pokemon.PathSpriteShiny =
+                    $"Content/Sprites/G{pokemon.Generation}/Shiny/{pokemon.EN.Name.Replace(" ", "_")}.png";
+                pokemon.PathSoundLegacy =
+                    $"Content/Sound/G{pokemon.Generation}/Normal/{pokemon.EN.Name.Replace(" ", "_")}.ogg";
+                pokemon.PathSoundCurrent =
+                    $"Content/Sound/G{pokemon.Generation}/Shiny/{pokemon.EN.Name.Replace(" ", "_")}.ogg";
+            }
+
+            _repository.UnitOfWork.SaveChanges();
+        }
+
 
         [HttpPut]
         [Route("DlUpdatePathUrlSound")]
@@ -1755,7 +3179,7 @@ namespace WepApiScrapingData.Controllers
 
         [HttpPut]
         [Route("UpdateGlobale")]
-        public void UpdateGlobale()
+        public async Task UpdateGlobale()
         {
             List<Talent> talents = this._repositoryTL.GetAll().Result.ToList();
             foreach (var item in talents)
@@ -1763,7 +3187,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryTL.UpdateRange(talents);
+            await this._repositoryTL.UpdateRangeAsync(talents);
             _repositoryTL.UnitOfWork.SaveChanges();
 
             List<Attaque> attaques = this._repositoryAT.GetAll().Result.ToList();
@@ -1772,7 +3196,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryAT.UpdateRange(attaques);
+            await this._repositoryAT.UpdateRangeAsync(attaques);
             _repositoryAT.UnitOfWork.SaveChanges();
 
             List<Pokemon_Attaque> pokemon_Attaques = this._repositoryPAT.GetAll().Result.ToList();
@@ -1781,7 +3205,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryPAT.UpdateRange(pokemon_Attaques);
+            await this._repositoryPAT.UpdateRangeAsync(pokemon_Attaques);
             _repositoryPAT.UnitOfWork.SaveChanges();
 
             List<Pokemon_Talent> pokemon_Talents = this._repositoryPTL.GetAll().Result.ToList();
@@ -1790,7 +3214,7 @@ namespace WepApiScrapingData.Controllers
                 item.UserCreation = "System";
                 item.DateCreation = DateTime.Now;
             }
-            this._repositoryPTL.UpdateRange(pokemon_Talents);
+            await this._repositoryPTL.UpdateRangeAsync(pokemon_Talents);
             _repositoryPTL.UnitOfWork.SaveChanges();
         }
         #endregion

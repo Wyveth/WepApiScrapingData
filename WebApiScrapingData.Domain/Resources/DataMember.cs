@@ -138,15 +138,31 @@
 
         public const string UrlImg = "UrlImg";
 
-        public const string PathImg = "PathImg";
+        public const string PathImgLegacy = "PathImgLegacy";
+
+        public const string PathImgNormal = "PathImgNormal";
+
+        public const string PathImgShiny = "PathImgShiny";
+
+        public const string PathAnimatedImg = "PathAnimatedImg";
+
+        public const string PathAnimatedImgShiny = "PathAnimatedImgShiny";
         
         public const string UrlSprite = "UrlSprite";
 
-        public const string PathSprite = "PathSprite";
+        public const string PathSpriteLegacy = "PathSpriteLegacy";
+
+        public const string PathSpriteNormal = "PathSpriteNormal";
+
+        public const string PathSpriteShiny = "PathSpriteShiny";
         
         public const string UrlSound = "UrlSound";
 
         public const string PathSound = "PathSound";
+
+        public const string PathSoundLegacy = "PathSoundLegacy";
+
+        public const string PathSoundCurrent = "PathSoundCurrent";
 
         public const string NextUrl = "NextUrl";
 

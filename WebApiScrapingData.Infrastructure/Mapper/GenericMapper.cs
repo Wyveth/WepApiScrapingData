@@ -7,7 +7,7 @@ namespace WebApiScrapingData.Infrastructure.Mapper
 {
     // Implémentation du mapper pour transférer des données de Person à PersonDto
     public class GenericMapper<TFrom, TTo> : IGenericMapper<TFrom, TTo>
-        where TFrom : class, ITIdentity,  new()
+        where TFrom : class, ITIdentity, new()
         where TTo : class, IIdentityDto, new()
     {
         public TTo Map(TFrom source)
@@ -76,17 +76,8 @@ namespace WebApiScrapingData.Infrastructure.Mapper
                     {
                         string name = "";
                         // Gérez les propriétés de navigation en appliquant récursivement la logique de mappage
-                        if (destinationProperty.PropertyType.Name.Contains("List"))
-                        {
-                            var lolilol = typeof(TFrom).Name;
-                            name = destinationProperty.Name;
-                            name = GetType(destinationProperty.Name);
-                        }
-                        else
-                        {
-                            name = destinationProperty.PropertyType.Name;
-                        }
-                        
+                        name = destinationProperty.PropertyType.Name;
+
                         var entityType = context.GetEntityTypeByName(name);
                         var method = typeof(ScrapingContext).GetMethod(nameof(context.GetDbSetByName));
                         var genericMethod = method?.MakeGenericMethod(entityType);
@@ -106,7 +97,7 @@ namespace WebApiScrapingData.Infrastructure.Mapper
                             var convertedValue = Convert.ChangeType(newValue, destinationProperty.PropertyType);
                             destinationProperty.SetValue(destination, convertedValue);
                         }
-                        
+
                     }
                 }
                 // Ajoutez une logique pour traiter les propriétés manquantes si nécessaire
@@ -129,24 +120,24 @@ namespace WebApiScrapingData.Infrastructure.Mapper
         private string GetName(string type, string objName)
         {
             string name = "";
-                switch (type)
-                {
-                    case "Pokemon_TypePoks":
-                        name = "TypePok";
-                        break;
-                    case "Pokemon_Weaknesses":
-                        name = "TypePok";
-                        break;
-                    case "Pokemon_Talents":
-                        name = "Talent";
-                        break;
-                    case "Pokemon_Attaques":
-                        name = "Attaque";
-                        break;
-                    default:
-                        name = "";
-                        break;
-                }
+            switch (type)
+            {
+                case "Pokemon_TypePoks":
+                    name = "TypePok";
+                    break;
+                case "Pokemon_Weaknesses":
+                    name = "TypePok";
+                    break;
+                case "Pokemon_Talents":
+                    name = "Talent";
+                    break;
+                case "Pokemon_Attaques":
+                    name = "Attaque";
+                    break;
+                default:
+                    name = "";
+                    break;
+            }
 
             return name;
         }
@@ -158,19 +149,19 @@ namespace WebApiScrapingData.Infrastructure.Mapper
             {
                 case "Pokemon_Attaques":
                     name = "Pokemon_Attaque";
-                break;
+                    break;
                 case "Pokemon_Talents":
                     name = "Pokemon_Talent";
-                break;
+                    break;
                 case "Pokemon_TypePoks":
                     name = "Pokemon_TypePok";
-                break;
+                    break;
                 case "Pokemon_Weaknesses":
                     name = "Pokemon_TypePok";
-                break;
+                    break;
                 default:
                     name = "";
-                break;
+                    break;
             }
 
             return name;

@@ -7,6 +7,7 @@ using WebApiScrapingData.Domain.ClassJson;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Repository.Generic;
 using WebApiScrapingData.Infrastructure.Utils;
+using ClassQuizz = WebApiScrapingData.Domain.Class.Quizz;
 
 namespace WebApiScrapingData.Infrastructure.Repository.Class
 {
@@ -49,8 +50,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             foreach (PokemonJson pokemonJson in pokemonsJson)
             {
                 Pokemon pokemon = new();
-                MapToInstance(pokemon, pokemonJson);
-                await Add(pokemon);
+                await MapToInstance(pokemon, pokemonJson);
+                await AddAsync(pokemon);
             }
         }
         #endregion
@@ -74,10 +75,14 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
-                .Where(predicate ?? (s => true)).ToListAsync();
+                .Where(predicate ?? (s => true))
+                .OrderBy(m => Convert.ToInt32(m.Number))
+                .AsNoTracking()
+                .AsSplitQuery()
+                .ToListAsync();
         }
 
-        public override async Task<Pokemon?> Get(int id)
+        public override async Task<Pokemon> SingleOrDefault(Expression<Func<Pokemon, bool>> predicate)
         {
             return await _context.Pokemons
                 .Include(m => m.FR)
@@ -95,7 +100,56 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
-                .SingleAsync(x => x.Id.Equals(id));
+                .Where(predicate ?? (s => true))
+                .AsNoTracking()
+                .AsSplitQuery()
+                .FirstOrDefaultAsync();
+        }
+
+        public override async Task<Pokemon?> Get(long id)
+        {
+            return await _context.Pokemons
+                .Include(m => m.FR)
+                .Include(m => m.EN)
+                .Include(m => m.ES)
+                .Include(m => m.IT)
+                .Include(m => m.DE)
+                .Include(m => m.RU)
+                .Include(m => m.CO)
+                .Include(m => m.CN)
+                .Include(m => m.JP)
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Game)
+                .AsNoTracking()
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(x => x.Id.Equals(id));
+        }
+
+        public override async Task<Pokemon?> GetByGuid(Guid guid)
+        {
+            return await _context.Pokemons
+                .Include(m => m.FR)
+                .Include(m => m.EN)
+                .Include(m => m.ES)
+                .Include(m => m.IT)
+                .Include(m => m.DE)
+                .Include(m => m.RU)
+                .Include(m => m.CO)
+                .Include(m => m.CN)
+                .Include(m => m.JP)
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Game)
+                .AsNoTracking()
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(x => x.Guid.Equals(guid));
         }
 
         public override async Task<Pokemon?> GetByGuid(Guid guid)
@@ -137,6 +191,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
+                .AsNoTracking()
+                .AsSplitQuery()
                 .AsQueryable();
         }
 
@@ -158,12 +214,14 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
+                .OrderBy(m => Convert.ToInt32(m.Number))
+                .AsSplitQuery()
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Pokemon>> GetAllLight()
+        public async Task<IEnumerable<Pokemon>> GetAllLight(int? gen = null, bool desc = false)
         {
-            return await _context.Pokemons
+            var query = _context.Pokemons
                 .Include(m => m.FR)
                 .Include(m => m.EN)
                 .Include(m => m.ES)
@@ -173,8 +231,22 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.CO)
                 .Include(m => m.CN)
                 .Include(m => m.JP)
-                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
-                .ToListAsync();
+                .Include(m => m.Pokemon_TypePoks)
+                    .ThenInclude(u => u.TypePok)
+                .AsNoTracking()
+                .AsSplitQuery()
+                .AsQueryable();
+            
+            // 🔹 Filtrer par génération si gen est spécifié
+            if (gen.HasValue)
+                query = query.Where(m => m.Generation == gen.Value);
+
+            // 🔹 Appliquer le tri
+            query = desc
+                ? query.OrderByDescending(m => Convert.ToInt32(m.Number))
+                : query.OrderBy(m => Convert.ToInt32(m.Number));
+
+            return await query.ToListAsync();
         }
         
         public async Task<List<Pokemon>> GetFamilyWithoutVariantAsync(string family)
@@ -211,7 +283,70 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
+                .OrderBy(m => Convert.ToInt32(m.Number))
+                .AsNoTracking()
+                .AsSplitQuery()
                 .ToListAsync();
+        }
+        #endregion
+
+        #region Generate Quizz
+        public async Task<Pokemon> GetPokemonRandom(bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus)
+        {
+            List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), gen1, gen2, gen3, gen4, gen5, gen6, gen7, gen8, gen9, genArceus);
+
+            Random random = new Random();
+            int numberRandom = random.Next(resultFilterGen.Count);
+
+            return await Task.FromResult(resultFilterGen[numberRandom]);
+        }
+        
+        public async Task<Pokemon> GetPokemonRandom(ClassQuizz.Quizz quizz)
+        {
+            List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), quizz.Gen1, quizz.Gen2, quizz.Gen3, quizz.Gen4, quizz.Gen5, quizz.Gen6, quizz.Gen7, quizz.Gen8, quizz.Gen9, quizz.GenArceus);
+
+            Random random = new Random();
+            int numberRandom = random.Next(resultFilterGen.Count);
+
+            return await Task.FromResult(resultFilterGen[numberRandom]);
+        }
+
+        public async Task<Pokemon> GetPokemonRandom(ClassQuizz.Quizz quizz, List<Pokemon> alreadySelected)
+        {
+            List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), quizz.Gen1, quizz.Gen2, quizz.Gen3, quizz.Gen4, quizz.Gen5, quizz.Gen6, quizz.Gen7, quizz.Gen8, quizz.Gen9, quizz.GenArceus);
+
+            Random random = new Random();
+            int numberRandom = random.Next(resultFilterGen.Count);
+            Pokemon pokemon = alreadySelected.Find(m => m.Id.Equals(resultFilterGen[numberRandom].Id));
+
+            while (pokemon != null)
+            {
+                numberRandom = random.Next(resultFilterGen.Count);
+                pokemon = alreadySelected.Find(m => m.Id.Equals(resultFilterGen[numberRandom].Id));
+            }
+
+            return await Task.FromResult(resultFilterGen[numberRandom]);
+        }
+
+        public async Task<Pokemon> GetPokemonRandom(ClassQuizz.Quizz quizz, TypePok typePok, List<Pokemon> alreadySelected)
+        {
+            List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), quizz.Gen1, quizz.Gen2, quizz.Gen3, quizz.Gen4, quizz.Gen5, quizz.Gen6, quizz.Gen7, quizz.Gen8, quizz.Gen9, quizz.GenArceus);
+            resultFilterGen = await GetPokemonByFilterType(resultFilterGen, typePok.Name_EN);
+
+            Random random = new Random();
+            int numberRandom = random.Next(resultFilterGen.Count);
+            Pokemon pokemon = alreadySelected.Find(m => m.Id.Equals(resultFilterGen[numberRandom].Id));
+
+            while (pokemon != null)
+            {
+                numberRandom = random.Next(resultFilterGen.Count);
+                pokemon = alreadySelected.Find(m => m.Id.Equals(resultFilterGen[numberRandom].Id));
+
+                if (alreadySelected.Count.Equals(resultFilterGen.Count))
+                    break;
+            }
+
+            return await Task.FromResult(resultFilterGen[numberRandom]);
         }
         #endregion
 
@@ -223,7 +358,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 foreach (PokemonExportJson pokemonJson in pokemonsJson)
                 {
                     Pokemon pokemon = new();
-                    MapToInstanceImport(pokemon, pokemonJson);
+                    await MapToInstanceImport(pokemon, pokemonJson);
                     Console.WriteLine("Pokemon:" + pokemon.FR.Name);
                 }
             }
@@ -236,7 +371,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             return await Task.FromResult(true);
         }
 
-        public Task SaveInfoPokemonAttackInDB(string json)
+        public async Task SaveInfoPokemonAttackInDB(string json)
         {
             List<string> Erreurs = new();
             List<PokemonPokeBipJson> pokemonsPokeBipJson = JsonConvert.DeserializeObject<List<PokemonPokeBipJson>>(json);
@@ -342,8 +477,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 Console.WriteLine(ex.Message);
             }
 
-            _repositoryPT.AddRange(pokemon_Talents);
-            _repositoryAT.AddRange(attaques);
+            await _repositoryPT.AddRangeAsync(pokemon_Talents);
+            await _repositoryAT.AddRangeAsync(attaques);
             _context.SaveChanges();
             #endregion
 
@@ -462,10 +597,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 });
             }
 
-            _repositoryPAT.AddRange(pokemon_Attaques);
+            await _repositoryPAT.AddRangeAsync(pokemon_Attaques);
             _context.SaveChanges();
-
-            return Task.FromResult(true);
         }
         #endregion
 
@@ -495,18 +628,24 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             pokemon.CaptureRate = pokemonJson.CaptureRate;
             pokemon.BasicHappiness = pokemonJson.BasicHappiness;
             pokemon.UrlImg = pokemonJson.UrlImg;
-            pokemon.PathImg = pokemonJson.PathImg;
+            pokemon.PathImgLegacy = pokemonJson.PathImgLegacy;
+            pokemon.PathImgNormal = pokemonJson.PathImgNormal;
+            pokemon.PathImgShiny = pokemonJson.PathImgShiny;
             pokemon.UrlSprite = pokemonJson.UrlSprite;
-            pokemon.PathSprite = pokemonJson.PathSprite;
+            pokemon.PathSpriteLegacy = pokemonJson.PathSpriteLegacy;
+            pokemon.PathSpriteNormal = pokemonJson.PathSpriteNormal;
+            pokemon.PathSpriteShiny = pokemonJson.PathSpriteShiny;
             pokemon.UrlSound = pokemonJson.UrlSound;
             pokemon.PathSound = pokemonJson.PathSound;
+            pokemon.PathSoundLegacy = pokemonJson.PathSoundLegacy;
+            pokemon.PathSoundCurrent = pokemonJson.PathSoundCurrent;
             pokemon.Game = _repositoryG.Find(m => m.Name_EN.Equals(pokemonJson.Game.Name_EN)).Result.FirstOrDefault();
 
-            await Add(pokemon);
+            await AddAsync(pokemon);
 
             foreach (TypesPokExportJson typePokJson in pokemonJson.Types)
             {
-                TypePok typePok = _repositoryTP.Find(m => m.Name_EN.Equals(typePokJson.TypePok.Name_EN)).Result.FirstOrDefault();
+                TypePok typePok = (await _repositoryTP.Find(m => m.Name_EN.Equals(typePokJson.TypePok.Name_EN))).FirstOrDefault();
                 if (typePok != null)
                 {
                     Pokemon_TypePok pokemon_TypePok = new()
@@ -514,13 +653,13 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                         Pokemon = pokemon,
                         TypePok = typePok
                     };
-                    await _repositoryPTP.Add(pokemon_TypePok);
+                    await _repositoryPTP.AddAsync(pokemon_TypePok);
                 }
             }
 
             foreach (TypesPokExportJson weaknessJson in pokemonJson.Weaknesses)
             {
-                TypePok typePok = _repositoryTP.Find(m => m.Name_EN.Equals(weaknessJson.TypePok.Name_EN)).Result.FirstOrDefault();
+                TypePok typePok = (await _repositoryTP.Find(m => m.Name_EN.Equals(weaknessJson.TypePok.Name_EN))).FirstOrDefault();
                 if (typePok != null)
                 {
                     Pokemon_Weakness pokemon_Weakness = new()
@@ -528,13 +667,13 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                         Pokemon = pokemon,
                         TypePok = typePok
                     };
-                    await _repositoryPW.Add(pokemon_Weakness);
+                    await _repositoryPW.AddAsync(pokemon_Weakness);
                 }
             }
 
             foreach (TalentsExportJson talentJson in pokemonJson.Talents)
             {
-                Talent talent = _repositoryTL.Find(m => m.Name_EN.Equals(talentJson.Talent.Name_EN)).Result.FirstOrDefault();
+                Talent talent = (await _repositoryTL.Find(m => m.Name_EN.Equals(talentJson.Talent.Name_EN))).FirstOrDefault();
                 if (talent != null)
                 {
                     Pokemon_Talent pokemon_Talent = new()
@@ -543,7 +682,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                         Talent = talent,
                         IsHidden = talentJson.IsHidden
                     };
-                    await _repositoryPT.Add(pokemon_Talent);
+                    await _repositoryPT.AddAsync(pokemon_Talent);
                 }
             }
             
@@ -560,7 +699,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                         Level = attaqueJson.Level,
                         CTCS = attaqueJson.CTCS
                     };
-                    await _repositoryPAT.Add(pokemon_Attaque);
+                    await _repositoryPAT.AddAsync(pokemon_Attaque);
                 }
             }
         }
@@ -585,10 +724,12 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 NextUrl = dataInfoJson.NextUrl
             };
 
-            await _repositoryDI.Add(dataInfo);
+            await _repositoryDI.AddAsync(dataInfo);
             return await Task.FromResult(dataInfo);
         }
+        #endregion
 
+        #region Private Methods
         private async Task MapToInstance(Pokemon pokemon, PokemonJson pokemonJson)
         {
             pokemon.Number = pokemonJson.Number;
@@ -612,6 +753,114 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             pokemon.Generation = pokemonJson.Generation;
             pokemon.UrlImg = pokemonJson.UrlImg;
             pokemon.UrlSprite = pokemonJson.UrlSprite;
+        }
+
+        private async Task<List<Pokemon>> GetPokemonsWithFilterGen(List<Pokemon> result, bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus)
+        {
+            List<Pokemon> resultFilterGen = new List<Pokemon>();
+
+            if (gen1)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(1) && m.TypeEvolution.Equals(Constantes.NormalEvolution)));
+            if (gen2)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(2) && m.TypeEvolution.Equals(Constantes.NormalEvolution)));
+            if (gen3)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(3) && m.TypeEvolution.Equals(Constantes.NormalEvolution)));
+            if (gen4)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(4) && m.TypeEvolution.Equals(Constantes.NormalEvolution)));
+            if (gen5)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(5) && m.TypeEvolution.Equals(Constantes.NormalEvolution)));
+            if (gen6)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(6) || m.TypeEvolution.Equals(Constantes.MegaEvolution)).Distinct());
+            if (gen7)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(7) || m.TypeEvolution.Equals(Constantes.Alola)).Distinct());
+            if (gen8)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(8) || m.TypeEvolution.Equals(Constantes.Galar) || m.TypeEvolution.Equals(Constantes.GigaEvolution)).Distinct());
+            if (gen9)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(9) || m.TypeEvolution.Equals(Constantes.Paldea)));
+            if (genArceus)
+                resultFilterGen.AddRange(result.FindAll(m => m.Generation.Equals(0) || m.TypeEvolution.Equals(Constantes.Hisui)).Distinct());
+
+            if (resultFilterGen.Count.Equals(0))
+                resultFilterGen = result;
+
+            return await Task.FromResult(resultFilterGen);
+        }
+
+        private async Task<List<Pokemon>> GetPokemonsWithFilterType(List<Pokemon> resultFilterGen, bool steel, bool fighting, bool dragon, bool water, bool electric, bool fairy, bool fire, bool ice, bool bug, bool normal, bool grass, bool poison, bool psychic, bool rock, bool ground, bool ghost, bool dark, bool flying)
+        {
+            List<Pokemon> resultFilterType = new List<Pokemon>();
+            if (steel)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Steel));
+
+            if (fighting)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Fighting));
+
+            if (dragon)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Dragon));
+
+            if (water)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Water));
+
+            if (electric)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Electric));
+
+            if (fairy)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Fairy));
+
+            if (fire)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Fire));
+
+            if (ice)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Ice));
+
+            if (bug)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Bug));
+
+            if (normal)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Normal));
+
+            if (grass)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Grass));
+
+            if (poison)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Poison));
+
+            if (psychic)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Psychic));
+
+            if (rock)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Rock));
+
+            if (ground)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Ground));
+
+            if (ghost)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Ghost));
+
+            if (dark)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Dark));
+
+            if (flying)
+                resultFilterType.AddRange(await GetPokemonByFilterType(resultFilterGen, Constantes.Flying));
+
+            if (resultFilterType.Count.Equals(0))
+                resultFilterType = resultFilterGen;
+
+            return await Task.FromResult(resultFilterType);
+        }
+
+        private async Task<List<Pokemon>> GetPokemonByFilterType(IEnumerable<Pokemon> resultFilterGen, string typeName)
+        {
+            List<Pokemon> pokemons = new List<Pokemon>();
+            TypePok typePok = await _repositoryTP.Single(m => m.Name_EN.Equals(typeName));
+            List<Pokemon_TypePok> pokemonTypePoks = await _repositoryPTP.GetPokemonsByTypePok(typePok.Id);
+            foreach (Pokemon_TypePok pokemonTypePok in pokemonTypePoks)
+            {
+                Pokemon pokemon = resultFilterGen.Single(m => m.Id.Equals(pokemonTypePok.PokemonId));
+                if (pokemon != null)
+                    pokemons.Add(pokemon);
+            }
+            return pokemons;
         }
         #endregion
     }

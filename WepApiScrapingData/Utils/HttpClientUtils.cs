@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using ScrapySharp.Network;
 using System.Net;
+using WebApiScrapingData.Infrastructure.Utils;
 
 namespace WepApiScrapingData.Utils
 {

@@ -517,13 +517,37 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<string>("Number")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PathImg")
+                    b.Property<string>("PathAnimatedImg")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PathAnimatedImgShiny")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PathImgLegacy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PathImgNormal")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PathImgShiny")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PathSound")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PathSprite")
+                    b.Property<string>("PathSoundCurrent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PathSoundLegacy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PathSpriteLegacy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PathSpriteNormal")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PathSpriteShiny")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StatAttaque")
@@ -789,6 +813,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
+                    b.Property<long>("IsCorrectID")
+                        .HasColumnType("bigint");
+
                     b.Property<bool>("IsSelected")
                         .HasColumnType("bit");
 
@@ -884,8 +911,8 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int>("DataObjectID")
-                        .HasColumnType("int");
+                    b.Property<long>("DataObjectID")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -1082,7 +1109,31 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<bool>("IsSameType")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Libelle")
+                    b.Property<string>("Libelle_CN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Libelle_CO")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Libelle_DE")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Libelle_EN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Libelle_ES")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Libelle_FR")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Libelle_IT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Libelle_JP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Libelle_RU")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NbAnswers")
@@ -1149,6 +1200,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("Gen8")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Gen9")
                         .HasColumnType("bit");
 
                     b.Property<bool>("GenArceus")
@@ -1823,42 +1877,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer", b =>
-                {
-                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Quizz", "Quizz")
-                        .WithMany()
-                        .HasForeignKey("QuizzId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Question");
-
-                    b.Navigation("Quizz");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer_Answer", b =>
-                {
-                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Answer", "Answer")
-                        .WithMany()
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer", "QuestionAnswer")
-                        .WithMany("QuestionAnswer_Answers")
-                        .HasForeignKey("QuestionAnswerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Answer");
-
-                    b.Navigation("QuestionAnswer");
-                });
-
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionType", b =>
                 {
                     b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Difficulty", "Difficulty")
@@ -1927,11 +1945,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Question", b =>
                 {
                     b.Navigation("Question_Answers");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer", b =>
-                {
-                    b.Navigation("QuestionAnswer_Answers");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Quizz", b =>

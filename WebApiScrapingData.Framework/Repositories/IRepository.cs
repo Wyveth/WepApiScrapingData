@@ -11,21 +11,22 @@ namespace WebApiScrapingData.Core.Repositories
     {
         IUnitOfWork UnitOfWork { get; }
 
-        Task<T?> Get(int id);
+        Task<T?> Get(long id);
         IQueryable<T> Query();
         Task<IEnumerable<T>> GetAll();
         Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
 
         Task<T?> SingleOrDefault(Expression<Func<T, bool>> predicate);
 
-        Task<bool> Add(T entity);
-        Task<bool> AddRange(IEnumerable<T> entities);
+        Task<bool> AddAsync(T entity);
+        Task<bool> AddRangeAsync(IEnumerable<T> entities);
+
+        Task<bool> UpdateAsync(T entity);
+        Task<bool> UpdateRangeAsync(IEnumerable<T> entities);
+
+        Task<bool> RemoveAsync(T entity);
+        Task<bool> RemoveRangeAsync(IEnumerable<T> entities);
+
         Task SaveJsonInDb(string json);
-
-        bool Update(T entity);
-        bool UpdateRange(IEnumerable<T> entities);
-
-        bool Remove(T entity);
-        bool RemoveRange(IEnumerable<T> entities);
     }
 }

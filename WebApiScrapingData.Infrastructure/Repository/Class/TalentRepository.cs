@@ -13,9 +13,31 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
         #region Public Methods
         #region Read
-        public async Task<Talent> GetByName(string name)
+        public async Task<Talent> GetTalentRandom()
         {
-            return await this._context.Talents.SingleAsync(x => x.Name_FR.Equals(name));
+            List<Talent> result = GetAll().Result.ToList();
+
+            Random random = new Random();
+            int numberRandom = random.Next(result.Count);
+
+            return await Task.FromResult(result[numberRandom]);
+        }
+
+        public async Task<Talent> GetTalentRandom(List<Talent> alreadySelected)
+        {
+            List<Talent> result = GetAll().Result.ToList();
+
+            Random random = new Random();
+            int numberRandom = random.Next(result.Count);
+            Talent talent = alreadySelected.Find(m => m.Id.Equals(result[numberRandom].Id));
+
+            while (talent != null)
+            {
+                numberRandom = random.Next(result.Count);
+                talent = alreadySelected.Find(m => m.Id.Equals(result[numberRandom].Id));
+            }
+
+            return await Task.FromResult(result[numberRandom]);
         }
         #endregion
         #endregion

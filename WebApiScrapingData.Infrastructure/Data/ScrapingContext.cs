@@ -47,8 +47,6 @@ namespace WebApiScrapingData.Infrastructure.Data
         public virtual DbSet<Quizz_Question> Quizz_Question { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<Question_Answer> Question_Answer { get; set; }
-        public virtual DbSet<QuestionAnswer> QuestionAnswers { get; set; }
-        public virtual DbSet<QuestionAnswer_Answer> QuestionAnswer_Answer { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Difficulty> Difficulties { get; set; }
         public virtual DbSet<QuestionType> QuestionTypes { get; set; }
@@ -112,13 +110,8 @@ namespace WebApiScrapingData.Infrastructure.Data
             // Charger l'assembly du projet où se trouve la classe
             Assembly assembly = Assembly.Load("WebApiScrapingData.Domain");
 
-
             // Utilisation de la réflexion pour obtenir le type de la classe par son nom
-            var entityType = assembly.GetTypes().FirstOrDefault(t => t.Name == entityTypeName);
-            var entityType3 = Assembly.GetExecutingAssembly().GetTypes()
-                .FirstOrDefault(t => t.Name == entityTypeName);
-
-            return entityType;
+            return assembly.GetTypes().FirstOrDefault(t => t.Name == entityTypeName);
         }
         #endregion
     }

@@ -21,7 +21,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             {
                 DataInfo dataInfo = new();
                 MapToInstance(dataInfo, dataInfoJson);
-                await this.Add(dataInfo);
+                await AddAsync(dataInfo);
             }
         }
 
@@ -29,7 +29,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
         {
             DataInfo dataInfo = new();
             MapToInstance(dataInfo, dataInfoJson);
-            await Add(dataInfo);
+            await AddAsync(dataInfo);
             return await Task.FromResult(dataInfo);
         }
         #endregion

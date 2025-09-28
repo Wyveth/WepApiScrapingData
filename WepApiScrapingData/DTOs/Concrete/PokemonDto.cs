@@ -48,15 +48,27 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public string? UrlImg { get; set; }
 
-        public string? PathImg { get; set; }
+        public string? PathImgLegacy { get; set; }
+
+        public string? PathImgNormal { get; set; }
+
+        public string? PathImgShiny { get; set; }
 
         public string? UrlSprite { get; set; }
 
-        public string? PathSprite { get; set; }
+        public string? PathSpriteLegacy { get; set; }
+
+        public string? PathSpriteNormal { get; set; }
+
+        public string? PathSpriteShiny { get; set; }
 
         public string? UrlSound { get; set; }
 
         public string? PathSound { get; set; }
+
+        public string? PathSoundLegacy { get; set; }
+        
+        public string? PathSoundCurrent { get; set; }
 
         public long Game { get; set; }
         

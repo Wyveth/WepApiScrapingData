@@ -1,4 +1,5 @@
 ﻿using WebApiScrapingData.Domain.ClassJson;
+using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.Utils;
 
 namespace WebApiScrapingData.Test.Utils

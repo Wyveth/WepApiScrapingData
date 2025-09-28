@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
@@ -75,7 +76,17 @@ if (!builder.Environment.IsDevelopment())
     });
 }
 
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    // Ne pas compresser les images
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes
+        .Where(m => !m.StartsWith("image/"));
+});
+
 var app = builder.Build();
+
+app.UseResponseCompression();
 
 app.UseMiddleware<LogRequestMiddleware>();
 

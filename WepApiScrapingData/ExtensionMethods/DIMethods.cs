@@ -30,15 +30,13 @@ namespace WepApiScrapingData.ExtensionMethods
 
             #region Quizz
             services.AddScoped<QuizzRepository>();
-            services.AddScoped<Question_AnswerRepository>();
-            services.AddScoped<QuestionAnswer_AnswerRepository>();
             services.AddScoped<Quizz_QuestionRepository>();
             services.AddScoped<QuestionRepository>();
+            services.AddScoped<Question_AnswerRepository>();
             services.AddScoped<AnswerRepository>();
             services.AddScoped<QuestionTypeRepository>();
             services.AddScoped<QuizzDifficultyRepository>();
             services.AddScoped<DifficultyRepository>();
-            services.AddScoped<QuestionAnswerRepository>();
             #endregion
             #endregion
 

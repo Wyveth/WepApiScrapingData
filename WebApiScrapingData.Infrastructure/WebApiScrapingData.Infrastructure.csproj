@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -30,6 +30,12 @@
   <ItemGroup>
     <ProjectReference Include="..\WebApiScrapingData.Domain\WebApiScrapingData.Domain.csproj" />
     <ProjectReference Include="..\WebApiScrapingData.Framework\WebApiScrapingData.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Settings\appSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

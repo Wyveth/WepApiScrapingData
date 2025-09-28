@@ -6,6 +6,7 @@ using System.Text;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.ClassJson;
 using WebApiScrapingData.Infrastructure.Repository.Generic;
+using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
 
@@ -486,7 +487,7 @@ namespace WepApiScrapingData.Controllers
 
             }
 
-            _repositoryA.UpdateRange(attaques);
+            await _repositoryA.UpdateRangeAsync(attaques);
         }
 
         [HttpPut]
@@ -546,7 +547,7 @@ namespace WepApiScrapingData.Controllers
                 }
             }
 
-            _repositoryTL.UpdateRange(talents);
+            await _repositoryTL.UpdateRangeAsync(talents);
             _repositoryTL.UnitOfWork.SaveChanges();
         }
         #endregion
