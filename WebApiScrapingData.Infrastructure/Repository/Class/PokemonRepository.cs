@@ -82,9 +82,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .ToListAsync();
         }
 
-        public override async Task<Pokemon> SingleOrDefault(Expression<Func<Pokemon, bool>> predicate)
+        public override async Task<Pokemon?> SingleOrDefault(Expression<Func<Pokemon, bool>> predicate)
         {
-            return await _context.Pokemons
+            var pokemon = await _context.Pokemons
                 .Include(m => m.FR)
                 .Include(m => m.EN)
                 .Include(m => m.ES)
@@ -104,11 +104,22 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .AsNoTracking()
                 .AsSplitQuery()
                 .FirstOrDefaultAsync();
+
+            if (pokemon != null)
+            {
+                // Trier selon l'ordre d'insertion en base (Id de la table de jonction)
+                pokemon.Pokemon_TypePoks = pokemon.Pokemon_TypePoks.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Weaknesses = pokemon.Pokemon_Weaknesses.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Talents = pokemon.Pokemon_Talents.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Attaques = pokemon.Pokemon_Attaques.OrderBy(t => t.Id).ToList();
+            }
+
+            return pokemon;
         }
 
         public override async Task<Pokemon?> Get(long id)
         {
-            return await _context.Pokemons
+            var pokemon = await _context.Pokemons
                 .Include(m => m.FR)
                 .Include(m => m.EN)
                 .Include(m => m.ES)
@@ -127,11 +138,22 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .AsNoTracking()
                 .AsSplitQuery()
                 .FirstOrDefaultAsync(x => x.Id.Equals(id));
+
+            if (pokemon != null)
+            {
+                // Trier selon l'ordre d'insertion en base (Id de la table de jonction)
+                pokemon.Pokemon_TypePoks = pokemon.Pokemon_TypePoks.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Weaknesses = pokemon.Pokemon_Weaknesses.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Talents = pokemon.Pokemon_Talents.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Attaques = pokemon.Pokemon_Attaques.OrderBy(t => t.Id).ToList();
+            }
+
+            return pokemon;
         }
 
         public override async Task<Pokemon?> GetByGuid(Guid guid)
         {
-            return await _context.Pokemons
+            var pokemon = await _context.Pokemons
                 .Include(m => m.FR)
                 .Include(m => m.EN)
                 .Include(m => m.ES)
@@ -150,6 +172,17 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .AsNoTracking()
                 .AsSplitQuery()
                 .FirstOrDefaultAsync(x => x.Guid.Equals(guid));
+
+            if (pokemon != null)
+            {
+                // Trier selon l'ordre d'insertion en base (Id de la table de jonction)
+                pokemon.Pokemon_TypePoks = pokemon.Pokemon_TypePoks.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Weaknesses = pokemon.Pokemon_Weaknesses.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Talents = pokemon.Pokemon_Talents.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Attaques = pokemon.Pokemon_Attaques.OrderBy(t => t.Id).ToList();
+            }
+
+            return pokemon;
         }
 
         public override IQueryable<Pokemon> Query()
@@ -225,7 +258,15 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 ? query.OrderByDescending(m => Convert.ToInt32(m.Number))
                 : query.OrderBy(m => Convert.ToInt32(m.Number));
 
-            return await query.ToListAsync();
+            var pokemons = await query.ToListAsync();
+
+            // Appliquer le même ordre que la base pour chaque Pokémon
+            foreach (var p in pokemons)
+            {
+                p.Pokemon_TypePoks = p.Pokemon_TypePoks.OrderBy(t => t.Id).ToList();
+            }
+
+            return pokemons;
         }
         
         public async Task<List<Pokemon>> GetFamilyWithoutVariantAsync(string family)
