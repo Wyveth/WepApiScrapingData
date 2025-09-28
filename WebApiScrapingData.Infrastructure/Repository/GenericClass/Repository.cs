@@ -33,11 +33,6 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
             return await _context.Set<T>().FirstOrDefaultAsync(x => x.Guid.Equals(guid));
         }
 
-        public virtual async Task<T?> GetByGuid(Guid guid)
-        {
-            return await _context.Set<T>().SingleAsync(x => x.Guid.Equals(guid));
-        }
-
         public virtual IQueryable<T> Query()
         {
             return _context.Set<T>().AsQueryable();
