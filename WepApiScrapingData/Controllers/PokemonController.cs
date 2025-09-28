@@ -36,9 +36,9 @@ namespace WepApiScrapingData.Controllers
 
         [HttpGet]
         [Route("Light/{limit}/{max}")]
-        public async Task<IEnumerable<Pokemon>> GetAllLight(int max = 20, bool limit = true)
+        public async Task<IEnumerable<Pokemon>> GetAllLight(int max = 20, bool limit = true, int? gen = null, bool desc = false)
         {
-            IEnumerable<Pokemon> pokemons = await _repository.GetAllLight();
+            IEnumerable<Pokemon> pokemons = await _repository.GetAllLight(gen, desc);
             if (limit)
                 return pokemons.Take(max);
             else
@@ -61,9 +61,9 @@ namespace WepApiScrapingData.Controllers
 
         [HttpGet]
         [Route("Research")]
-        public async Task<IEnumerable<Pokemon>> Research([FromBody] Research research, string loc)
+        public async Task<IEnumerable<Pokemon>> Research([FromBody] Research research, string loc, int? gen = null, bool desc = false)
         {
-            IEnumerable<Pokemon> pokemons = await _repository.GetAllLight();
+            IEnumerable<Pokemon> pokemons = await _repository.GetAllLight(gen, desc);
             return null;
             //return pokemons.Where(m => m.);
         }

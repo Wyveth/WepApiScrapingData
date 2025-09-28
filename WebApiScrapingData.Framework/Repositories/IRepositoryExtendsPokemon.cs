@@ -6,7 +6,7 @@ namespace WebApiScrapingData.Core.Repositories
 {
     public interface IRepositoryExtendsPokemon<T> : IRepository<T> where T : class, ITIdentity
     {
-        Task<IEnumerable<Pokemon>> GetAllLight();
+        Task<IEnumerable<Pokemon>> GetAllLight(int? gen = null, bool desc = false);
 
         Task<List<Pokemon>> GetFamilyWithoutVariantAsync(string family);
 

@@ -194,14 +194,13 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
                 .OrderBy(m => Convert.ToInt32(m.Number))
-                .AsNoTracking()
                 .AsSplitQuery()
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Pokemon>> GetAllLight()
+        public async Task<IEnumerable<Pokemon>> GetAllLight(int? gen = null, bool desc = false)
         {
-            return await _context.Pokemons
+            var query = _context.Pokemons
                 .Include(m => m.FR)
                 .Include(m => m.EN)
                 .Include(m => m.ES)
@@ -211,11 +210,22 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.CO)
                 .Include(m => m.CN)
                 .Include(m => m.JP)
-                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
-                .OrderBy(m => Convert.ToInt32(m.Number))
+                .Include(m => m.Pokemon_TypePoks)
+                    .ThenInclude(u => u.TypePok)
                 .AsNoTracking()
                 .AsSplitQuery()
-                .ToListAsync();
+                .AsQueryable();
+            
+            // 🔹 Filtrer par génération si gen est spécifié
+            if (gen.HasValue)
+                query = query.Where(m => m.Generation == gen.Value);
+
+            // 🔹 Appliquer le tri
+            query = desc
+                ? query.OrderByDescending(m => Convert.ToInt32(m.Number))
+                : query.OrderBy(m => Convert.ToInt32(m.Number));
+
+            return await query.ToListAsync();
         }
         
         public async Task<List<Pokemon>> GetFamilyWithoutVariantAsync(string family)
@@ -597,11 +607,17 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             pokemon.CaptureRate = pokemonJson.CaptureRate;
             pokemon.BasicHappiness = pokemonJson.BasicHappiness;
             pokemon.UrlImg = pokemonJson.UrlImg;
-            pokemon.PathImg = pokemonJson.PathImg;
+            pokemon.PathImgLegacy = pokemonJson.PathImgLegacy;
+            pokemon.PathImgNormal = pokemonJson.PathImgNormal;
+            pokemon.PathImgShiny = pokemonJson.PathImgShiny;
             pokemon.UrlSprite = pokemonJson.UrlSprite;
-            pokemon.PathSprite = pokemonJson.PathSprite;
+            pokemon.PathSpriteLegacy = pokemonJson.PathSpriteLegacy;
+            pokemon.PathSpriteNormal = pokemonJson.PathSpriteNormal;
+            pokemon.PathSpriteShiny = pokemonJson.PathSpriteShiny;
             pokemon.UrlSound = pokemonJson.UrlSound;
             pokemon.PathSound = pokemonJson.PathSound;
+            pokemon.PathSoundLegacy = pokemonJson.PathSoundLegacy;
+            pokemon.PathSoundCurrent = pokemonJson.PathSoundCurrent;
             pokemon.Game = _repositoryG.Find(m => m.Name_EN.Equals(pokemonJson.Game.Name_EN)).Result.FirstOrDefault();
 
             await AddAsync(pokemon);

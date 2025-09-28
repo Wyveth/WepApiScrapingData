@@ -90,193 +90,193 @@ namespace WepApiScrapingData.Controllers
         {
             string json;
 
-            //#region Game
-            //using (StreamReader r = new StreamReader(Constantes.pathExport + "GameDbToJson.json"))
-            //{
-            //    json = r.ReadToEnd();
-            //    if (!string.IsNullOrEmpty(json))
-            //    {
-            //        List<GameExportJson> games = JsonConvert.DeserializeObject<List<GameExportJson>>(json);
-            //        foreach (GameExportJson gameJson in games)
-            //        {
-            //            Game game = new Game()
-            //            {
-            //                Name_FR = gameJson.Name_FR,
-            //                Name_EN = gameJson.Name_EN,
-            //                Name_ES = gameJson.Name_ES,
-            //                Name_IT = gameJson.Name_IT,
-            //                Name_DE = gameJson.Name_DE,
-            //                Name_RU = gameJson.Name_RU,
-            //                Name_CO = gameJson.Name_CO,
-            //                Name_CN = gameJson.Name_CN,
-            //                Name_JP = gameJson.Name_JP
-            //            };
+            #region Game
+            using (StreamReader r = new StreamReader(Constantes.pathExport + "GameDbToJson.json"))
+            {
+                json = r.ReadToEnd();
+                if (!string.IsNullOrEmpty(json))
+                {
+                    List<GameExportJson> games = JsonConvert.DeserializeObject<List<GameExportJson>>(json);
+                    foreach (GameExportJson gameJson in games)
+                    {
+                        Game game = new Game()
+                        {
+                            Name_FR = gameJson.Name_FR,
+                            Name_EN = gameJson.Name_EN,
+                            Name_ES = gameJson.Name_ES,
+                            Name_IT = gameJson.Name_IT,
+                            Name_DE = gameJson.Name_DE,
+                            Name_RU = gameJson.Name_RU,
+                            Name_CO = gameJson.Name_CO,
+                            Name_CN = gameJson.Name_CN,
+                            Name_JP = gameJson.Name_JP
+                        };
 
-            //            await _repositoryG.AddAsync(game);
-            //        }
-            //    }
-            //}
-            //#endregion
+                        await _repositoryG.AddAsync(game);
+                    }
+                }
+            }
+            #endregion
 
-            //#region TypeAttaque
-            //using (StreamReader r = new StreamReader(Constantes.pathExport + "TypeAttaqueDbToJson.json"))
-            //{
-            //    json = r.ReadToEnd();
-            //    if (!string.IsNullOrEmpty(json))
-            //    {
-            //        List<TypeAttaqueExportJson> typesAttackJson = JsonConvert.DeserializeObject<List<TypeAttaqueExportJson>>(json);
-            //        foreach (TypeAttaqueExportJson typeAttackJson in typesAttackJson)
-            //        {
-            //            TypeAttaque typeAttaque = new TypeAttaque()
-            //            {
-            //                Name_FR = typeAttackJson.Name_FR,
-            //                Description_FR = typeAttackJson.Description_FR,
-            //                Name_EN = typeAttackJson.Name_EN,
-            //                Description_EN = typeAttackJson.Description_EN,
-            //                Name_ES = typeAttackJson.Name_ES,
-            //                Description_ES = typeAttackJson.Description_ES,
-            //                Name_IT = typeAttackJson.Name_IT,
-            //                Description_IT = typeAttackJson.Description_IT,
-            //                Name_DE = typeAttackJson.Name_DE,
-            //                Description_DE = typeAttackJson.Description_DE,
-            //                Name_RU = typeAttackJson.Name_RU,
-            //                Description_RU = typeAttackJson.Description_RU,
-            //                Name_CO = typeAttackJson.Name_CO,
-            //                Description_CO = typeAttackJson.Description_CO,
-            //                Name_CN = typeAttackJson.Name_CN,
-            //                Description_CN = typeAttackJson.Description_CN,
-            //                Name_JP = typeAttackJson.Name_JP,
-            //                Description_JP = typeAttackJson.Description_JP,
-            //                UrlImg = typeAttackJson.UrlImg
-            //            };
+            #region TypeAttaque
+            using (StreamReader r = new StreamReader(Constantes.pathExport + "TypeAttaqueDbToJson.json"))
+            {
+               json = r.ReadToEnd();
+               if (!string.IsNullOrEmpty(json))
+               {
+                   List<TypeAttaqueExportJson> typesAttackJson = JsonConvert.DeserializeObject<List<TypeAttaqueExportJson>>(json);
+                   foreach (TypeAttaqueExportJson typeAttackJson in typesAttackJson)
+                   {
+                       TypeAttaque typeAttaque = new TypeAttaque()
+                       {
+                           Name_FR = typeAttackJson.Name_FR,
+                           Description_FR = typeAttackJson.Description_FR,
+                           Name_EN = typeAttackJson.Name_EN,
+                           Description_EN = typeAttackJson.Description_EN,
+                           Name_ES = typeAttackJson.Name_ES,
+                           Description_ES = typeAttackJson.Description_ES,
+                           Name_IT = typeAttackJson.Name_IT,
+                           Description_IT = typeAttackJson.Description_IT,
+                           Name_DE = typeAttackJson.Name_DE,
+                           Description_DE = typeAttackJson.Description_DE,
+                           Name_RU = typeAttackJson.Name_RU,
+                           Description_RU = typeAttackJson.Description_RU,
+                           Name_CO = typeAttackJson.Name_CO,
+                           Description_CO = typeAttackJson.Description_CO,
+                           Name_CN = typeAttackJson.Name_CN,
+                           Description_CN = typeAttackJson.Description_CN,
+                           Name_JP = typeAttackJson.Name_JP,
+                           Description_JP = typeAttackJson.Description_JP,
+                           UrlImg = typeAttackJson.UrlImg
+                       };
 
-            //            await _repositoryTA.AddAsync(typeAttaque);
-            //        }
-            //    }
-            //}
-            //#endregion
+                       await _repositoryTA.AddAsync(typeAttaque);
+                   }
+               }
+            }
+            #endregion
 
-            //#region TypePok
-            //using (StreamReader r = new StreamReader(Constantes.pathExport + "TypePokDbToJson.json"))
-            //{
-            //    json = r.ReadToEnd();
-            //    if (!string.IsNullOrEmpty(json))
-            //    {
-            //        List<TypePokExportJson> typePoksJson = JsonConvert.DeserializeObject<List<TypePokExportJson>>(json);
-            //        foreach (TypePokExportJson typePokJson in typePoksJson)
-            //        {
-            //            TypePok typePok = new()
-            //            {
-            //                Name_FR = typePokJson.Name_FR,
-            //                PathMiniHome_FR = typePokJson.UrlMiniHome_FR,
-            //                Name_EN = typePokJson.Name_EN,
-            //                PathMiniHome_EN = typePokJson.UrlMiniHome_EN,
-            //                Name_ES = typePokJson.Name_ES,
-            //                PathMiniHome_ES = typePokJson.UrlMiniHome_ES,
-            //                Name_IT = typePokJson.Name_IT,
-            //                PathMiniHome_IT = typePokJson.UrlMiniHome_IT,
-            //                Name_DE = typePokJson.Name_DE,
-            //                PathMiniHome_DE = typePokJson.UrlMiniHome_DE,
-            //                Name_RU = typePokJson.Name_RU,
-            //                PathMiniHome_RU = typePokJson.UrlMiniHome_RU,
-            //                Name_CO = typePokJson.Name_CO,
-            //                PathMiniHome_CO = typePokJson.UrlMiniHome_CO,
-            //                Name_CN = typePokJson.Name_CN,
-            //                PathMiniHome_CN = typePokJson.UrlMiniHome_CN,
-            //                Name_JP = typePokJson.Name_JP,
-            //                PathMiniHome_JP = typePokJson.UrlMiniHome_JP,
-            //                UrlMiniGo = typePokJson.UrlMiniGo,
-            //                UrlFondGo = typePokJson.UrlFondGo,
-            //                UrlIconHome = typePokJson.UrlIconHome,
-            //                UrlAutoHome = typePokJson.UrlAutoHome,
-            //                ImgColor = typePokJson.ImgColor,
-            //                InfoColor = typePokJson.InfoColor,
-            //                TypeColor = typePokJson.TypeColor
-            //            };
-            //            await _repositoryTP.AddAsync(typePok);
-            //        }
-            //    }
-            //}
-            //#endregion
+            #region TypePok
+            using (StreamReader r = new StreamReader(Constantes.pathExport + "TypePokDbToJson.json"))
+            {
+               json = r.ReadToEnd();
+               if (!string.IsNullOrEmpty(json))
+               {
+                   List<TypePokExportJson> typePoksJson = JsonConvert.DeserializeObject<List<TypePokExportJson>>(json);
+                   foreach (TypePokExportJson typePokJson in typePoksJson)
+                   {
+                       TypePok typePok = new()
+                       {
+                           Name_FR = typePokJson.Name_FR,
+                           PathMiniHome_FR = typePokJson.UrlMiniHome_FR,
+                           Name_EN = typePokJson.Name_EN,
+                           PathMiniHome_EN = typePokJson.UrlMiniHome_EN,
+                           Name_ES = typePokJson.Name_ES,
+                           PathMiniHome_ES = typePokJson.UrlMiniHome_ES,
+                           Name_IT = typePokJson.Name_IT,
+                           PathMiniHome_IT = typePokJson.UrlMiniHome_IT,
+                           Name_DE = typePokJson.Name_DE,
+                           PathMiniHome_DE = typePokJson.UrlMiniHome_DE,
+                           Name_RU = typePokJson.Name_RU,
+                           PathMiniHome_RU = typePokJson.UrlMiniHome_RU,
+                           Name_CO = typePokJson.Name_CO,
+                           PathMiniHome_CO = typePokJson.UrlMiniHome_CO,
+                           Name_CN = typePokJson.Name_CN,
+                           PathMiniHome_CN = typePokJson.UrlMiniHome_CN,
+                           Name_JP = typePokJson.Name_JP,
+                           PathMiniHome_JP = typePokJson.UrlMiniHome_JP,
+                           UrlMiniGo = typePokJson.UrlMiniGo,
+                           UrlFondGo = typePokJson.UrlFondGo,
+                           UrlIconHome = typePokJson.UrlIconHome,
+                           UrlAutoHome = typePokJson.UrlAutoHome,
+                           ImgColor = typePokJson.ImgColor,
+                           InfoColor = typePokJson.InfoColor,
+                           TypeColor = typePokJson.TypeColor
+                       };
+                       await _repositoryTP.AddAsync(typePok);
+                   }
+               }
+            }
+            #endregion
 
-            //#region Talent
-            //using (StreamReader r = new StreamReader(Constantes.pathExport + "TalentDbToJson.json"))
-            //{
-            //    json = r.ReadToEnd();
-            //    if (!string.IsNullOrEmpty(json))
-            //    {
-            //        List<TalentExportJson> talentsJson = JsonConvert.DeserializeObject<List<TalentExportJson>>(json);
-            //        foreach (TalentExportJson talentJson in talentsJson)
-            //        {
-            //            Talent talent = new()
-            //            {
-            //                Name_FR = talentJson.Name_FR,
-            //                Description_FR = talentJson.Description_FR,
-            //                Name_EN = talentJson.Name_EN,
-            //                Description_EN = talentJson.Description_EN,
-            //                Name_ES = talentJson.Name_ES,
-            //                Description_ES = talentJson.Description_ES,
-            //                Name_IT = talentJson.Name_IT,
-            //                Description_IT = talentJson.Description_IT,
-            //                Name_DE = talentJson.Name_DE,
-            //                Description_DE = talentJson.Description_DE,
-            //                Name_RU = talentJson.Name_RU,
-            //                Description_RU = talentJson.Description_RU,
-            //                Name_CO = talentJson.Name_CO,
-            //                Description_CO = talentJson.Description_CO,
-            //                Name_CN = talentJson.Name_CN,
-            //                Description_CN = talentJson.Description_CN,
-            //                Name_JP = talentJson.Name_JP,
-            //                Description_JP = talentJson.Description_JP
-            //            };
-            //            await _repositoryTL.AddAsync(talent);
-            //        }
-            //    }
-            //}
-            //#endregion
+            #region Talent
+            using (StreamReader r = new StreamReader(Constantes.pathExport + "TalentDbToJson.json"))
+            {
+               json = r.ReadToEnd();
+               if (!string.IsNullOrEmpty(json))
+               {
+                   List<TalentExportJson> talentsJson = JsonConvert.DeserializeObject<List<TalentExportJson>>(json);
+                   foreach (TalentExportJson talentJson in talentsJson)
+                   {
+                       Talent talent = new()
+                       {
+                           Name_FR = talentJson.Name_FR,
+                           Description_FR = talentJson.Description_FR,
+                           Name_EN = talentJson.Name_EN,
+                           Description_EN = talentJson.Description_EN,
+                           Name_ES = talentJson.Name_ES,
+                           Description_ES = talentJson.Description_ES,
+                           Name_IT = talentJson.Name_IT,
+                           Description_IT = talentJson.Description_IT,
+                           Name_DE = talentJson.Name_DE,
+                           Description_DE = talentJson.Description_DE,
+                           Name_RU = talentJson.Name_RU,
+                           Description_RU = talentJson.Description_RU,
+                           Name_CO = talentJson.Name_CO,
+                           Description_CO = talentJson.Description_CO,
+                           Name_CN = talentJson.Name_CN,
+                           Description_CN = talentJson.Description_CN,
+                           Name_JP = talentJson.Name_JP,
+                           Description_JP = talentJson.Description_JP
+                       };
+                       await _repositoryTL.AddAsync(talent);
+                   }
+               }
+            }
+            #endregion
 
-            //#region Attaque
-            //using (StreamReader r = new StreamReader(Constantes.pathExport + "AttaqueDbToJson.json"))
-            //{
-            //    json = r.ReadToEnd();
-            //    if (!string.IsNullOrEmpty(json))
-            //    {
-            //        List<AttaqueExportJson> attaquesJson = JsonConvert.DeserializeObject<List<AttaqueExportJson>>(json);
-            //        foreach (AttaqueExportJson attaqueJson in attaquesJson)
-            //        {
-            //            TypePok typePok = (await _repositoryTP.Find(m => m.Name_EN.Equals(attaqueJson.Types.Name_EN))).FirstOrDefault();
-            //            TypeAttaque typeAttaque = (await _repositoryTA.Find(m => m.Name_EN.Equals(attaqueJson.TypeAttaque.Name_EN))).FirstOrDefault();
-            //            Attaque attaque = new()
-            //            {
-            //                Name_FR = attaqueJson.Name_FR,
-            //                Description_FR = attaqueJson.Description_FR,
-            //                Name_EN = attaqueJson.Name_EN,
-            //                Description_EN = attaqueJson.Description_EN,
-            //                Name_ES = attaqueJson.Name_ES,
-            //                Description_ES = attaqueJson.Description_ES,
-            //                Name_IT = attaqueJson.Name_IT,
-            //                Description_IT = attaqueJson.Description_IT,
-            //                Name_DE = attaqueJson.Name_DE,
-            //                Description_DE = attaqueJson.Description_DE,
-            //                Name_RU = attaqueJson.Name_RU,
-            //                Description_RU = attaqueJson.Description_RU,
-            //                Name_CO = attaqueJson.Name_CO,
-            //                Description_CO = attaqueJson.Description_CO,
-            //                Name_CN = attaqueJson.Name_CN,
-            //                Description_CN = attaqueJson.Description_CN,
-            //                Name_JP = attaqueJson.Name_JP,
-            //                Description_JP = attaqueJson.Description_JP,
-            //                TypeAttaque = typeAttaque,
-            //                TypePok = typePok,
-            //                Power = attaqueJson.Puissance,
-            //                Precision = attaqueJson.Precision,
-            //                PP = attaqueJson.PP
-            //            };
-            //            await _repositoryAT.AddAsync(attaque);
-            //        }
-            //    }
-            //}
-            //#endregion
+            #region Attaque
+            using (StreamReader r = new StreamReader(Constantes.pathExport + "AttaqueDbToJson.json"))
+            {
+               json = r.ReadToEnd();
+               if (!string.IsNullOrEmpty(json))
+               {
+                   List<AttaqueExportJson> attaquesJson = JsonConvert.DeserializeObject<List<AttaqueExportJson>>(json);
+                   foreach (AttaqueExportJson attaqueJson in attaquesJson)
+                   {
+                       TypePok typePok = (await _repositoryTP.Find(m => m.Name_EN.Equals(attaqueJson.Types.Name_EN))).FirstOrDefault();
+                       TypeAttaque typeAttaque = (await _repositoryTA.Find(m => m.Name_EN.Equals(attaqueJson.TypeAttaque.Name_EN))).FirstOrDefault();
+                       Attaque attaque = new()
+                       {
+                           Name_FR = attaqueJson.Name_FR,
+                           Description_FR = attaqueJson.Description_FR,
+                           Name_EN = attaqueJson.Name_EN,
+                           Description_EN = attaqueJson.Description_EN,
+                           Name_ES = attaqueJson.Name_ES,
+                           Description_ES = attaqueJson.Description_ES,
+                           Name_IT = attaqueJson.Name_IT,
+                           Description_IT = attaqueJson.Description_IT,
+                           Name_DE = attaqueJson.Name_DE,
+                           Description_DE = attaqueJson.Description_DE,
+                           Name_RU = attaqueJson.Name_RU,
+                           Description_RU = attaqueJson.Description_RU,
+                           Name_CO = attaqueJson.Name_CO,
+                           Description_CO = attaqueJson.Description_CO,
+                           Name_CN = attaqueJson.Name_CN,
+                           Description_CN = attaqueJson.Description_CN,
+                           Name_JP = attaqueJson.Name_JP,
+                           Description_JP = attaqueJson.Description_JP,
+                           TypeAttaque = typeAttaque,
+                           TypePok = typePok,
+                           Power = attaqueJson.Puissance,
+                           Precision = attaqueJson.Precision,
+                           PP = attaqueJson.PP
+                       };
+                       await _repositoryAT.AddAsync(attaque);
+                   }
+               }
+            }
+            #endregion
 
 
             using (StreamReader sr = new StreamReader(Constantes.pathExport + "DbToJson.json"))
@@ -3083,10 +3083,10 @@ namespace WepApiScrapingData.Controllers
         {
             var httpClient = new HttpClient();
             IEnumerable<Pokemon> pokemons = await _repository.GetAll();
-            foreach (Pokemon pokemon in pokemons.Where(m => m.PathImg == null))
+            foreach (Pokemon pokemon in pokemons.Where(m => m.PathImgLegacy == null))
             {
-                pokemon.PathImg = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlImg, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation);
-                pokemon.PathSprite = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlSprite, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation, true);
+                pokemon.PathImgLegacy = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlImg, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation);
+                pokemon.PathSpriteLegacy = await HttpClientUtils.DownloadFileTaskAsync(httpClient, pokemon.UrlSprite, pokemon.EN.Name.Replace(" ", "_"), pokemon.Generation, true);
             }
 
             _repository.UnitOfWork.SaveChanges();
@@ -3101,6 +3101,49 @@ namespace WepApiScrapingData.Controllers
             string response = HttpClientUtils.CallUrl(Constantes.urlAllSprites).Result;
             ScrapingDataUtils.GetUrlsMini(response, _repository);
         }
+
+        [HttpPut]
+        [Route("UpdateAnimatedImg")]
+        public async Task UpdateAnimatedImg()
+        {
+            var pokemons = (await _repository.GetAll()).ToList();
+
+            foreach (var pokemon in pokemons)
+            {
+                pokemon.PathAnimatedImg =
+                    $"Content/AnimatedImages/G{pokemon.Generation}/Normal/{pokemon.EN.Name.Replace(" ", "_")}.gif";
+                pokemon.PathAnimatedImgShiny =
+                    $"Content/AnimatedImages/G{pokemon.Generation}/Shiny/{pokemon.EN.Name.Replace(" ", "_")}.gif";
+            }
+
+            _repository.UnitOfWork.SaveChanges();
+        }
+
+        [HttpPut]
+        [Route("UpdatePathPokeApi")]
+        public async Task UpdatePathPokeApi()
+        {
+            var pokemons = (await _repository.GetAll()).ToList();
+
+            foreach (var pokemon in pokemons)
+            {
+                pokemon.PathImgNormal =
+                    $"Content/Images/G{pokemon.Generation}/Normal/{pokemon.EN.Name.Replace(" ", "_")}.png";
+                pokemon.PathImgShiny =
+                    $"Content/Images/G{pokemon.Generation}/Shiny/{pokemon.EN.Name.Replace(" ", "_")}.png";
+                pokemon.PathSpriteNormal =
+                    $"Content/Sprites/G{pokemon.Generation}/Normal/{pokemon.EN.Name.Replace(" ", "_")}.png";
+                pokemon.PathSpriteShiny =
+                    $"Content/Sprites/G{pokemon.Generation}/Shiny/{pokemon.EN.Name.Replace(" ", "_")}.png";
+                pokemon.PathSoundLegacy =
+                    $"Content/Sound/G{pokemon.Generation}/Normal/{pokemon.EN.Name.Replace(" ", "_")}.ogg";
+                pokemon.PathSoundCurrent =
+                    $"Content/Sound/G{pokemon.Generation}/Shiny/{pokemon.EN.Name.Replace(" ", "_")}.ogg";
+            }
+
+            _repository.UnitOfWork.SaveChanges();
+        }
+
 
         [HttpPut]
         [Route("DlUpdatePathUrlSound")]

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiScrapingData.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using WebApiScrapingData.Infrastructure.Data;
 namespace WebApiScrapingData.Infrastructure.Migrations
 {
     [DbContext(typeof(ScrapingContext))]
-    partial class ScrapingContextModelSnapshot : ModelSnapshot
+    [Migration("20250917115108_AddAnimatedImgPathToPokemon")]
+    partial class AddAnimatedImgPathToPokemon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -520,34 +522,13 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<string>("PathAnimatedImg")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PathAnimatedImgShiny")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PathImgLegacy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PathImgNormal")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PathImgShiny")
+                    b.Property<string>("PathImg")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PathSound")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PathSoundCurrent")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PathSoundLegacy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PathSpriteLegacy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PathSpriteNormal")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PathSpriteShiny")
+                    b.Property<string>("PathSprite")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StatAttaque")

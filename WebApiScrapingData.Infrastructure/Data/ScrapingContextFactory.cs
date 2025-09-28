@@ -8,37 +8,48 @@ namespace WebApiScrapingData.Infrastructure.Data
     {
         public ScrapingContext CreateDbContext(string[] args)
         {
-            // 1️⃣ Obtenir le répertoire de la solution, même depuis bin/Debug/net6.0
-            string basePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));
+            var optionsBuilder = new DbContextOptionsBuilder<ScrapingContext>();
+            string connectionString = null;
 
-            // 2️⃣ Construire le chemin complet vers appSettings.json
-            string appSettingsPath = System.IO.Path.Combine(basePath, "WebApiScrapingData.Infrastructure", "Settings", "appSettings.json");
-
-            // 3️⃣ Vérifier que le fichier existe
-            if (!File.Exists(appSettingsPath))
+            // 1️⃣ Essayer de charger la configuration depuis appSettings.json
+            try
             {
-                throw new FileNotFoundException($"Le fichier de configuration '{appSettingsPath}' n'a pas été trouvé. " +
-                    "Vérifiez qu'il est bien présent et qu'il est configuré pour être copié dans le répertoire de sortie si nécessaire.");
+                string basePath = AppContext.BaseDirectory; // répertoire de sortie bin/Debug/net6.0 ou net7.0/...
+                string appSettingsPath = System.IO.Path.Combine(basePath, "Settings", "appSettings.json");
+
+                if (File.Exists(appSettingsPath))
+                {
+                    IConfigurationRoot configuration = new ConfigurationBuilder()
+                        .SetBasePath(System.IO.Path.GetDirectoryName(appSettingsPath))
+                        .AddJsonFile(System.IO.Path.GetFileName(appSettingsPath), optional: false, reloadOnChange: true)
+                        .Build();
+
+                    connectionString = configuration.GetConnectionString("PokemonDataBase");
+                }
+            }
+            catch
+            {
+                // Ignorer et passer au fallback
             }
 
-            // 4️⃣ Construire la configuration à partir de appSettings.json
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(System.IO.Path.GetDirectoryName(appSettingsPath)) // répertoire contenant le fichier JSON
-                .AddJsonFile(System.IO.Path.GetFileName(appSettingsPath), optional: false, reloadOnChange: true)
-                .Build();
-
-            // 5️⃣ Créer DbContextOptions avec la chaîne de connexion
-            var optionsBuilder = new DbContextOptionsBuilder<ScrapingContext>();
-            string connectionString = configuration.GetConnectionString("PokemonDataBase");
-
+            // 2️⃣ Fallback sur variable d'environnement si nécessaire
             if (string.IsNullOrEmpty(connectionString))
             {
-                throw new InvalidOperationException("La chaîne de connexion 'PokemonDataBase' n'a pas été trouvée dans appSettings.json.");
+                connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
             }
 
+            // 3️⃣ Si aucune connection string n'est trouvée, lancer une exception
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException(
+                    "La chaîne de connexion n'a pas été trouvée. " +
+                    "Vérifiez que 'appSettings.json' est présent dans Settings ou que la variable d'environnement DB_CONNECTION est définie."
+                );
+            }
+
+            // 4️⃣ Configurer le DbContext avec SQL Server
             optionsBuilder.UseSqlServer(connectionString);
 
-            // 6️⃣ Retourner le DbContext
             return new ScrapingContext(optionsBuilder.Options);
         }
     }
