@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+ï»¿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -10,6 +10,7 @@ using System.Net;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.GraphQL;
 using WebApiScrapingData.Infrastructure.Loggers;
+using WepApiScrapingData.Controllers;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Middlewares;
 
@@ -28,7 +29,7 @@ builder.Services.AddSwaggerGen(m => {
         var controllerName = apiDesc.ActionDescriptor.RouteValues["controller"];     
         var httpMethod = apiDesc.HttpMethod;
 
-        // Assignez des valeurs numériques plus grandes aux méthodes DELETE
+        // Assignez des valeurs numÃ©riques plus grandes aux mÃ©thodes DELETE
         var httpMethodOrder = httpMethod.ToLower() == "delete" ? 4 :
                               httpMethod.ToLower() == "put" ? 3 :
                               httpMethod.ToLower() == "post" ? 2 :
@@ -36,14 +37,26 @@ builder.Services.AddSwaggerGen(m => {
 
         var relativePath = apiDesc.RelativePath;
 
-        // Concaténation des critères pour former une clé composite
+        // ConcatÃ©nation des critÃ¨res pour former une clÃ© composite
         return $"{controllerName}_{httpMethodOrder}_{relativePath}";
     });
 });
 
+// ðŸ”¹ On charge la config du fichier JSON + les variables d'environnement
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
 //Ajout du DBContext
-builder.Services.AddDbContextFactory<ScrapingContext>(options => {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PokemonDataBase"));
+builder.Services.AddDbContextFactory<ScrapingContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("PokemonDataBase");
+    options.UseSqlServer(connectionString);
+});
+
+builder.Services.AddHttpClient("pokeapi", client =>
+{
+    client.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
 });
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
