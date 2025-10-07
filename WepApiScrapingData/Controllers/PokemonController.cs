@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiScrapingData.Domain.Body;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Domain.Query;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Class;
@@ -35,12 +36,12 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
-        [Route("Light/{limit}/{max}")]
-        public async Task<IEnumerable<Pokemon>> GetAllLight(int max = 20, bool limit = true, int? gen = null, bool desc = false)
+        [Route("Light")]
+        public async Task<IEnumerable<Pokemon>> GetAllLight([FromBody] PokemonQuery pokeQuery)
         {
-            IEnumerable<Pokemon> pokemons = await _repository.GetAllLight(gen, desc);
-            if (limit)
-                return pokemons.Take(max);
+            IEnumerable<Pokemon> pokemons = await _repository.GetAllLight(pokeQuery.Gen, pokeQuery.Desc);
+            if (pokeQuery.Limit)
+                return pokemons.Take(pokeQuery.Max);
             else
                 return pokemons;
         }

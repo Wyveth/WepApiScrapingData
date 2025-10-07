@@ -231,7 +231,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Pokemon>> GetAllLight(int? gen = null, bool desc = false)
+        public async Task<IEnumerable<Pokemon>> GetAllLight(int? gen = null, bool desc = false, string lang = "FR")
         {
             var query = _context.Pokemons
                 .Include(m => m.FR)

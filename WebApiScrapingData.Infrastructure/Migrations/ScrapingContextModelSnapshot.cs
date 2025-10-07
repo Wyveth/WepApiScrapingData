@@ -17,10 +17,10 @@ namespace WebApiScrapingData.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.12")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -55,7 +55,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -145,7 +145,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -226,7 +226,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -330,7 +330,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
@@ -403,7 +403,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -461,7 +461,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("BasicHappiness")
                         .HasColumnType("nvarchar(max)");
@@ -623,7 +623,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<long>("AttaqueId")
                         .HasColumnType("bigint");
@@ -673,7 +673,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -717,7 +717,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -758,7 +758,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -799,7 +799,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -848,7 +848,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
@@ -909,7 +909,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<long>("DataObjectID")
                         .HasColumnType("bigint");
@@ -948,136 +948,13 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Question_Answer", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<long>("AnswerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("QuestionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserCreation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserModification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("versionModification")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnswerId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("Question_Answer");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long?>("QuestionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("QuizzId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserCreation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserModification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("versionModification")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("QuizzId");
-
-                    b.ToTable("QuestionAnswers");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionAnswer_Answer", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<long>("AnswerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("QuestionAnswerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserCreation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserModification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("versionModification")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnswerId");
-
-                    b.HasIndex("QuestionAnswerId");
-
-                    b.ToTable("QuestionAnswer_Answer");
-                });
-
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionType", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
@@ -1158,13 +1035,54 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.ToTable("QuestionTypes");
                 });
 
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Question_Answer", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("AnswerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateModification")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("QuestionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserCreation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserModification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("versionModification")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Question_Answer");
+                });
+
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Quizz", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -1236,54 +1154,13 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.ToTable("Quizzs");
                 });
 
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Quizz_Question", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("QuestionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("QuizzId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserCreation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserModification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("versionModification")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("QuizzId");
-
-                    b.ToTable("Quizz_Question");
-                });
-
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuizzDifficulty", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -1325,13 +1202,54 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.ToTable("QuizzDifficulties");
                 });
 
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Quizz_Question", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("DateCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateModification")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("QuestionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("QuizzId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserCreation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserModification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("versionModification")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("QuizzId");
+
+                    b.ToTable("Quizz_Question");
+                });
+
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Talent", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -1416,7 +1334,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -1507,7 +1425,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
@@ -1858,6 +1776,16 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Navigation("QuestionType");
                 });
 
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionType", b =>
+                {
+                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Difficulty", "Difficulty")
+                        .WithMany()
+                        .HasForeignKey("DifficultyId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Difficulty");
+                });
+
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Question_Answer", b =>
                 {
                     b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Answer", "Answer")
@@ -1877,16 +1805,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuestionType", b =>
-                {
-                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Difficulty", "Difficulty")
-                        .WithMany()
-                        .HasForeignKey("DifficultyId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Difficulty");
-                });
-
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Quizz", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
@@ -1895,6 +1813,16 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("IdentityUser");
+                });
+
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuizzDifficulty", b =>
+                {
+                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Quizz", "Quizz")
+                        .WithMany()
+                        .HasForeignKey("QuizzId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Quizz");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.Quizz_Question", b =>
@@ -1912,16 +1840,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Question");
-
-                    b.Navigation("Quizz");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Quizz.QuizzDifficulty", b =>
-                {
-                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Quizz", "Quizz")
-                        .WithMany()
-                        .HasForeignKey("QuizzId")
-                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Quizz");
                 });
