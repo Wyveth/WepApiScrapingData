@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 [ApiController]
 [Route("api/[controller]")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class DebugController : ControllerBase
 {
     [HttpGet("scanfiles")]

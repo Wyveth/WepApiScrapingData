@@ -10,6 +10,7 @@ namespace WepApiScrapingData.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class Pokemon_WeaknessController : GenericController<Pokemon_Weakness, Pokemon_WeaknessDto, Pokemon_WeaknessRepository>
     {
         public Pokemon_WeaknessController(ILogger<Pokemon_Weakness> logger, GenericMapper<Pokemon_Weakness, Pokemon_WeaknessDto> mapper, Pokemon_WeaknessRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)

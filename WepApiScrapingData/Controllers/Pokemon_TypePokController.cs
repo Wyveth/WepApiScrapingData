@@ -10,6 +10,7 @@ namespace WepApiScrapingData.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class Pokemon_TypePokController : GenericController<Pokemon_TypePok, Pokemon_TypePokDto, Pokemon_TypePokRepository>
     {
         public Pokemon_TypePokController(ILogger<Pokemon_TypePok> logger, GenericMapper<Pokemon_TypePok, Pokemon_TypePokDto> mapper, Pokemon_TypePokRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)

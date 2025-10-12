@@ -10,6 +10,7 @@ namespace WepApiScrapingData.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class Pokemon_TalentController : GenericController<Pokemon_Talent, Pokemon_TalentDto, Pokemon_TalentRepository>
     {
         public Pokemon_TalentController(ILogger<Pokemon_Talent> logger, GenericMapper<Pokemon_Talent, Pokemon_TalentDto> mapper, Pokemon_TalentRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)

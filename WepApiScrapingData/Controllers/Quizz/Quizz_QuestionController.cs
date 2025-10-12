@@ -15,6 +15,7 @@ namespace WepApiScrapingData.Controllers.Quizz
     [ApiController]
     [Route("api/v1.0/[controller]")]
     [EnableCors(SecurityMethods.DEFAULT_POLICY)]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class Quizz_QuestionController : GenericController<Quizz_Question, Quizz_QuestionDto, Quizz_QuestionRepository>
     {
         #region Constructors

@@ -97,6 +97,9 @@ builder.Services.AddResponseCompression(options =>
         .Where(m => !m.StartsWith("image/"));
 });
 
+//builder.Services.Configure<JwtOptions>(
+//    builder.Configuration.GetSection("Jwt"));
+
 var app = builder.Build();
 
 app.UseResponseCompression();

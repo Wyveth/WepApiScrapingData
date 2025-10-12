@@ -11,6 +11,7 @@ namespace WepApiScrapingData.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class DataInfoController : GenericController<DataInfo, DataInfoDto, DataInfoRepository>
     {
         public DataInfoController(ILogger<DataInfo> logger, GenericMapper<DataInfo, DataInfoDto> mapper, DataInfoRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)
