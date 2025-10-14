@@ -49,8 +49,7 @@ namespace WepApiScrapingData.Controllers
 
             if (success.Succeeded)
             {
-                dtoUser.Token = this.GenerateJwtToken(user);
-                result = this.Ok(dtoUser);
+                result = this.Ok(this.GenerateJwtToken(user));
             }
 
             return result;
@@ -73,13 +72,7 @@ namespace WepApiScrapingData.Controllers
                     var verif = await this._userManager.CheckPasswordAsync(user, dtoUser.Password);
                     if (verif)
                     {
-
-                        result = this.Ok(new AuthenticateUserDto()
-                        {
-                            Email = user.Email,
-                            UserName = user.UserName,
-                            Token = this.GenerateJwtToken(user)
-                        });
+                        result = this.Ok(this.GenerateJwtToken(user));
                     }
                 }
             }
