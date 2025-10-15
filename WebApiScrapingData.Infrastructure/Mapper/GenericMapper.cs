@@ -7,50 +7,45 @@ namespace WebApiScrapingData.Infrastructure.Mapper
 {
     // Implémentation du mapper pour transférer des données de Person à PersonDto
     public class GenericMapper<TFrom, TTo> : IGenericMapper<TFrom, TTo>
-        where TFrom : class, ITIdentity, new()
-        where TTo : class, IIdentityDto, new()
+    where TFrom : class, ITIdentity, new()
+    where TTo : class, IIdentityDto, new()
     {
         public TTo Map(TFrom source)
         {
-            //TTo destination = new();
-
-            //foreach (var sourceProperty in typeof(TFrom).GetProperties())
-            //{
-            //    var destinationProperty = typeof(TTo).GetProperty(sourceProperty.Name);
-            //    if (destinationProperty != null && destinationProperty.CanWrite)
-            //    {
-            //        destinationProperty.SetValue(destination, sourceProperty.GetValue(source));
-            //    }
-            //}
-
-            //return destination;
+            if (source == null) return null;
 
             TTo destination = new();
 
             foreach (var sourceProperty in typeof(TFrom).GetProperties())
             {
                 var destinationProperty = typeof(TTo).GetProperty(sourceProperty.Name);
+                if (destinationProperty == null || !destinationProperty.CanWrite)
+                    continue;
 
-                if (destinationProperty != null && destinationProperty.CanWrite)
-                {
-                    // Vérifiez si les types sont compatibles avant de définir la valeur
-                    if (sourceProperty.PropertyType == destinationProperty.PropertyType)
-                    {
-                        destinationProperty.SetValue(destination, sourceProperty.GetValue(source));
-                    }
-                    else
-                    {
-                        // Ajoutez une logique de conversion si les types ne sont pas directement compatibles
-                        // Exemple basique : vous pourriez utiliser Convert.ChangeType
-                        var convertedValue = Convert.ChangeType(sourceProperty.GetValue(source), destinationProperty.PropertyType);
-                        destinationProperty.SetValue(destination, convertedValue);
-                    }
-                }
-                // Ajoutez une logique pour traiter les propriétés manquantes si nécessaire
-                // Exemple : initialisez avec une valeur par défaut
-                else if (destinationProperty != null && destinationProperty.CanWrite)
+                var sourceValue = sourceProperty.GetValue(source);
+
+                if (sourceValue == null)
                 {
                     destinationProperty.SetValue(destination, GetDefaultValue(destinationProperty.PropertyType));
+                    continue;
+                }
+
+                // Si les types sont compatibles
+                if (destinationProperty.PropertyType.IsAssignableFrom(sourceProperty.PropertyType))
+                {
+                    destinationProperty.SetValue(destination, sourceValue);
+                }
+                else
+                {
+                    try
+                    {
+                        var convertedValue = Convert.ChangeType(sourceValue, destinationProperty.PropertyType);
+                        destinationProperty.SetValue(destination, convertedValue);
+                    }
+                    catch
+                    {
+                        destinationProperty.SetValue(destination, GetDefaultValue(destinationProperty.PropertyType));
+                    }
                 }
             }
 
@@ -59,63 +54,66 @@ namespace WebApiScrapingData.Infrastructure.Mapper
 
         public TFrom MapReverse(TTo source, ScrapingContext context)
         {
+            if (source == null) return null;
+
             TFrom destination = new();
 
             foreach (var sourceProperty in typeof(TTo).GetProperties())
             {
                 var destinationProperty = typeof(TFrom).GetProperty(sourceProperty.Name);
+                if (destinationProperty == null || !destinationProperty.CanWrite)
+                    continue;
 
-                if (destinationProperty != null && destinationProperty.CanWrite)
-                {
-                    // Vérifiez si les types sont compatibles avant de définir la valeur
-                    if (sourceProperty.PropertyType == destinationProperty.PropertyType)
-                    {
-                        destinationProperty.SetValue(destination, sourceProperty.GetValue(source));
-                    }
-                    else
-                    {
-                        string name = "";
-                        // Gérez les propriétés de navigation en appliquant récursivement la logique de mappage
-                        name = destinationProperty.PropertyType.Name;
+                var sourceValue = sourceProperty.GetValue(source);
 
-                        var entityType = context.GetEntityTypeByName(name);
-                        var method = typeof(ScrapingContext).GetMethod(nameof(context.GetDbSetByName));
-                        var genericMethod = method?.MakeGenericMethod(entityType);
-                        object[] parameters = { name, context };
-                        var dbSet = genericMethod?.Invoke(context, parameters);
-
-                        if (dbSet != null)
-                        {
-                            var id = int.Parse(sourceProperty.GetValue(source).ToString());
-
-                            var methodGetById = typeof(ScrapingContext).GetMethod(nameof(context.GetEntityById));
-                            var genericMethodGetById = methodGetById?.MakeGenericMethod(entityType);
-                            object[] parametersGetById = { dbSet, id };
-
-                            var newValue = genericMethodGetById?.Invoke(context, parametersGetById);
-
-                            var convertedValue = Convert.ChangeType(newValue, destinationProperty.PropertyType);
-                            destinationProperty.SetValue(destination, convertedValue);
-                        }
-
-                    }
-                }
-                // Ajoutez une logique pour traiter les propriétés manquantes si nécessaire
-                // Initialisez avec une valeur par défaut
-                else if (destinationProperty != null && destinationProperty.CanWrite)
+                if (sourceValue == null)
                 {
                     destinationProperty.SetValue(destination, GetDefaultValue(destinationProperty.PropertyType));
+                    continue;
+                }
+
+                if (destinationProperty.PropertyType.IsAssignableFrom(sourceProperty.PropertyType))
+                {
+                    destinationProperty.SetValue(destination, sourceValue);
+                }
+                else
+                {
+                    try
+                    {
+                        // Gestion des propriétés de navigation via le ScrapingContext
+                        string entityName = destinationProperty.PropertyType.Name;
+                        var entityType = context.GetEntityTypeByName(entityName);
+
+                        var getDbSetMethod = typeof(ScrapingContext).GetMethod(nameof(context.GetDbSetByName))
+                            ?.MakeGenericMethod(entityType);
+                        var dbSet = getDbSetMethod?.Invoke(context, new object[] { entityName, context });
+
+                        if (dbSet != null && int.TryParse(sourceValue.ToString(), out int id))
+                        {
+                            var getByIdMethod = typeof(ScrapingContext).GetMethod(nameof(context.GetEntityById))
+                                ?.MakeGenericMethod(entityType);
+                            var newValue = getByIdMethod?.Invoke(context, new object[] { dbSet, id });
+
+                            destinationProperty.SetValue(destination, newValue);
+                        }
+                        else
+                        {
+                            destinationProperty.SetValue(destination, GetDefaultValue(destinationProperty.PropertyType));
+                        }
+                    }
+                    catch
+                    {
+                        destinationProperty.SetValue(destination, GetDefaultValue(destinationProperty.PropertyType));
+                    }
                 }
             }
 
             return destination;
         }
 
-        // Méthode utilitaire pour obtenir la valeur par défaut d'un type
         private object GetDefaultValue(Type type)
-        {
-            return type.IsValueType ? Activator.CreateInstance(type) : null;
-        }
+            => type.IsValueType ? Activator.CreateInstance(type) : null;
+
 
         private string GetName(string type, string objName)
         {

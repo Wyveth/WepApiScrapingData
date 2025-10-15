@@ -22,10 +22,6 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public string? DescriptionTalent { get; set; }
 
-        public string? Types { get; set; }
-
-        public string? Weakness { get; set; }
-
         public string? Evolutions { get; set; }
 
         public string? WhenEvolution { get; set; }

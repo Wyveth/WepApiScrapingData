@@ -1,7 +1,8 @@
-﻿using WebApiScrapingData.Infrastructure.Repository;
+﻿using WebApiScrapingData.Infrastructure.Mapper;
+using WebApiScrapingData.Infrastructure.Repository;
 using WebApiScrapingData.Infrastructure.Repository.Class;
-using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Quizz;
+using WepApiScrapingData.Mapper;
 
 namespace WepApiScrapingData.ExtensionMethods
 {
@@ -16,6 +17,12 @@ namespace WepApiScrapingData.ExtensionMethods
         {
             #region Controller
             services.AddScoped(typeof(GenericMapper<,>));
+            services.AddScoped<PokemonMapper>();
+            services.AddScoped<TypePokMapper>();
+            services.AddScoped<TalentMapper>();
+            services.AddScoped<AttaqueMapper>();
+            services.AddScoped<TypeAttaqueMapper>();
+            services.AddScoped<GameMapper>();
             services.AddScoped<GameRepository>();
             services.AddScoped<AttaqueRepository>();
             services.AddScoped<DataInfoRepository>();

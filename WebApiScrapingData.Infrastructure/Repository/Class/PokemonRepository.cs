@@ -231,7 +231,39 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Pokemon>> GetAllLight(int? gen = null, bool desc = false, string lang = "FR")
+        public async Task<IEnumerable<Pokemon>> FindByNameAsync(string name, string lang)
+        {
+            lang = lang?.ToUpper() ?? "FR";
+
+            IQueryable<Pokemon> query = _context.Pokemons
+                .Include(p => p.Game)
+                .Include(p => p.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(p => p.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(p => p.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque);
+
+            query = lang switch
+            {
+                "FR" => query.Include(p => p.FR).Where(p => EF.Functions.Collate(p.FR.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "ES" => query.Include(p => p.ES).Where(p => EF.Functions.Collate(p.ES.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "DE" => query.Include(p => p.DE).Where(p => EF.Functions.Collate(p.DE.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "IT" => query.Include(p => p.IT).Where(p => EF.Functions.Collate(p.IT.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "RU" => query.Include(p => p.RU).Where(p => EF.Functions.Collate(p.RU.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "CO" => query.Include(p => p.CO).Where(p => EF.Functions.Collate(p.CO.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "CN" => query.Include(p => p.CN).Where(p => EF.Functions.Collate(p.CN.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "JP" => query.Include(p => p.JP).Where(p => EF.Functions.Collate(p.JP.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                _ => query.Include(p => p.EN).Where(p => EF.Functions.Collate(p.EN.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name))
+            };
+
+            return await query
+                .OrderBy(p => Convert.ToInt32(p.Number))
+                .AsSplitQuery()
+                .ToListAsync();
+        }
+
+
+        public async Task<IEnumerable<Pokemon>> GetAllLight(int? gen = null, bool desc = false, int max = 0, string lang = "FR")
         {
             var query = _context.Pokemons
                 .Include(m => m.FR)
@@ -245,9 +277,20 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.JP)
                 .Include(m => m.Pokemon_TypePoks)
                     .ThenInclude(u => u.TypePok)
-                .AsNoTracking()
-                .AsSplitQuery()
-                .AsQueryable();
+                .AsSplitQuery();
+
+            query = lang switch
+            {
+                "FR" => query.Include(p => p.FR),
+                "ES" => query.Include(p => p.ES),
+                "DE" => query.Include(p => p.DE),
+                "IT" => query.Include(p => p.IT),
+                "RU" => query.Include(p => p.RU),
+                "CO" => query.Include(p => p.CO),
+                "CN" => query.Include(p => p.CN),
+                "JP" => query.Include(p => p.JP),
+                _ => query.Include(p => p.EN)
+            };
             
             // 🔹 Filtrer par génération si gen est spécifié
             if (gen.HasValue)
@@ -257,6 +300,10 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             query = desc
                 ? query.OrderByDescending(m => Convert.ToInt32(m.Number))
                 : query.OrderBy(m => Convert.ToInt32(m.Number));
+
+            // 🔹 Appliquer une limite côté SQL
+            if (max > 0)
+                query = query.Take(max);
 
             var pokemons = await query.ToListAsync();
 

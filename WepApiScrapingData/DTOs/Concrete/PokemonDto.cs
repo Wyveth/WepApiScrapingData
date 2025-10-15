@@ -7,20 +7,12 @@ namespace WepApiScrapingData.DTOs.Concrete
     {
         public string? Number { get; set; }
 
-        public DataInfo FR { get; set; }
-        public DataInfo EN { get; set; }
-        public DataInfo ES { get; set; }
-        public DataInfo IT { get; set; }
-        public DataInfo DE { get; set; }
-        public DataInfo RU { get; set; }
-        public DataInfo CO { get; set; }
-        public DataInfo CN { get; set; }
-        public DataInfo JP { get; set; }
+        public DataInfoDto DataInfo { get; set; }
 
-        public List<long>? Pokemon_TypePoks { get; set; }
-        public List<long>? Pokemon_Weaknesses { get; set; }
-        public List<long>? Pokemon_Talents { get; set; }
-        public List<long>? Pokemon_Attaques { get; set; }
+        public List<TypePokDto>? TypePoks { get; set; }
+        public List<TypePokDto>? Weaknesses { get; set; }
+        public List<TalentDto>? Talents { get; set; }
+        public List<AttaqueDto>? Attaques { get; set; }
 
         public string? TypeEvolution { get; set; }
 
@@ -46,15 +38,11 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public int Generation { get; set; }
 
-        public string? UrlImg { get; set; }
-
         public string? PathImgLegacy { get; set; }
 
         public string? PathImgNormal { get; set; }
 
         public string? PathImgShiny { get; set; }
-
-        public string? UrlSprite { get; set; }
 
         public string? PathSpriteLegacy { get; set; }
 
@@ -62,32 +50,27 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public string? PathSpriteShiny { get; set; }
 
-        public string? UrlSound { get; set; }
-
         public string? PathSound { get; set; }
 
         public string? PathSoundLegacy { get; set; }
         
         public string? PathSoundCurrent { get; set; }
 
-        public long Game { get; set; }
+        public string? PathAnimatedImg { get; set; }
+
+        public string? PathAnimatedImgShiny { get; set; }
+
+        public GameDto Game { get; set; }
         
         public PokemonDto()
         {
-            FR = new();
-            EN = new();
-            ES = new();
-            IT = new();
-            DE = new();
-            RU = new();
-            CO = new();
-            CN = new();
-            JP = new();
+            DataInfo = new();
             
-            Pokemon_TypePoks = new ();
-            Pokemon_Weaknesses = new ();
-            Pokemon_Talents = new ();
-            Pokemon_Attaques = new ();
+            TypePoks = new ();
+            Weaknesses = new ();
+            Talents = new ();
+            Attaques = new ();
+            Game = new();
         }
     }
 }
