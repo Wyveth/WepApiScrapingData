@@ -77,16 +77,30 @@ namespace WepApiScrapingData.Controllers
 
         [HttpGet]
         [Route("GetEvol/{family}")]
-        public async Task<IEnumerable<Pokemon>> GetEvol(string family)
+        public async Task<ActionResult<IEnumerable<PokemonDto>>> GetEvol(string family, [FromQuery] string lang = "fr")
         {
-            return await _repository.GetFamilyWithoutVariantAsync(family);
+            var entities = await _repository.GetFamilyWithoutVariantAsync(family, lang);
+
+            if (entities == null || !entities.Any())
+                return NotFound();
+
+            var result = entities.Select(p => _mapper.Map(p, lang)).ToList();
+
+            return Ok(result ?? []);
         }
 
         [HttpGet]
         [Route("GetVariant/{number}")]
-        public async Task<IEnumerable<Pokemon>> GetVariant(string number)
+        public async Task<ActionResult<IEnumerable<PokemonDto>>> GetVariant(string number, [FromQuery] string lang = "fr")
         {
-            return await _repository.GetAllVariantAsync(number);
+            var entities = await _repository.GetAllVariantAsync(number, lang);
+
+            if (entities == null || !entities.Any())
+                return NotFound();
+
+            var result = entities.Select(p => _mapper.Map(p, lang)).ToList();
+
+            return Ok(result ?? []);
         }
         #endregion
     }

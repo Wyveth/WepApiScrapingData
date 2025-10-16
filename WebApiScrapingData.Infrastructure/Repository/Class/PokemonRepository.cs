@@ -84,16 +84,16 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
         public override async Task<Pokemon?> SingleOrDefault(Expression<Func<Pokemon, bool>> predicate)
         {
-            var pokemon = await _context.Pokemons
-                .Include(m => m.FR)
-                .Include(m => m.EN)
-                .Include(m => m.ES)
-                .Include(m => m.IT)
-                .Include(m => m.DE)
-                .Include(m => m.RU)
-                .Include(m => m.CO)
-                .Include(m => m.CN)
-                .Include(m => m.JP)
+            return await _context.Pokemons
+                .Include(p => p.FR)
+                .Include(p => p.EN)
+                .Include(p => p.ES)
+                .Include(p => p.DE)
+                .Include(p => p.IT)
+                .Include(p => p.RU)
+                .Include(p => p.CO)
+                .Include(p => p.CN)
+                .Include(p => p.JP)
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
@@ -101,20 +101,41 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
                 .Where(predicate ?? (s => true))
+                .OrderBy(p => Convert.ToInt32(p.Number))
                 .AsNoTracking()
                 .AsSplitQuery()
                 .FirstOrDefaultAsync();
+        }
 
-            if (pokemon != null)
+        public async Task<Pokemon?> FirstOrDefaultByName(string name, string lang = "FR")
+        {
+            var query = _context.Pokemons
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Game)
+                .AsSplitQuery();
+
+            query = lang switch
             {
-                // Trier selon l'ordre d'insertion en base (Id de la table de jonction)
-                pokemon.Pokemon_TypePoks = pokemon.Pokemon_TypePoks.OrderBy(t => t.Id).ToList();
-                pokemon.Pokemon_Weaknesses = pokemon.Pokemon_Weaknesses.OrderBy(t => t.Id).ToList();
-                pokemon.Pokemon_Talents = pokemon.Pokemon_Talents.OrderBy(t => t.Id).ToList();
-                pokemon.Pokemon_Attaques = pokemon.Pokemon_Attaques.OrderBy(t => t.Id).ToList();
-            }
+                "FR" => query.Include(p => p.FR).Where(p => EF.Functions.Collate(p.FR.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "ES" => query.Include(p => p.ES).Where(p => EF.Functions.Collate(p.ES.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "DE" => query.Include(p => p.DE).Where(p => EF.Functions.Collate(p.DE.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "IT" => query.Include(p => p.IT).Where(p => EF.Functions.Collate(p.IT.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "RU" => query.Include(p => p.RU).Where(p => EF.Functions.Collate(p.RU.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "CO" => query.Include(p => p.CO).Where(p => EF.Functions.Collate(p.CO.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "CN" => query.Include(p => p.CN).Where(p => EF.Functions.Collate(p.CN.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                "JP" => query.Include(p => p.JP).Where(p => EF.Functions.Collate(p.JP.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                _ => query.Include(p => p.EN).Where(p => EF.Functions.Collate(p.EN.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name))
+            };
 
-            return pokemon;
+            return await query
+                .OrderBy(p => Convert.ToInt32(p.Number))
+                .AsNoTracking()
+                .AsSplitQuery()
+                .FirstOrDefaultAsync();
         }
 
         public override async Task<Pokemon?> Get(long id)
@@ -231,7 +252,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Pokemon>> GetAllByLang(string lang)
+        public async Task<IEnumerable<Pokemon>> GetAllByLang(string lang = "FR")
         {
             var query = _context.Pokemons
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
@@ -261,9 +282,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Pokemon>> FindByNameAsync(string name, string lang)
+        public async Task<IEnumerable<Pokemon>> FindByNameAsync(string name, string lang = "FR")
         {
-            lang = lang?.ToUpper() ?? "FR";
+            lang = lang.ToUpper();
 
             IQueryable<Pokemon> query = _context.Pokemons
                 .Include(p => p.Game)
@@ -338,14 +359,14 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             return pokemons;
         }
         
-        public async Task<List<Pokemon>> GetFamilyWithoutVariantAsync(string family)
+        public async Task<IEnumerable<Pokemon>> GetFamilyWithoutVariantAsync(string family, string lang = "FR")
         {
             string[] vs = family.Split(',');
-            List<Pokemon> result = new List<Pokemon>();
+            List<Pokemon> result = new();
             
             foreach (var item in vs)
             {
-                Pokemon pokemon = Find(m => m.FR.Name.Equals(item)).Result.FirstOrDefault();
+                Pokemon pokemon = await FirstOrDefaultByName(item, lang.ToUpper());
                 if (pokemon != null)
                     result.Add(pokemon);
             }
@@ -353,27 +374,33 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             return await Task.FromResult(result);
         }
 
-        public async Task<IEnumerable<Pokemon>> GetAllVariantAsync(string number)
+        public async Task<IEnumerable<Pokemon>> GetAllVariantAsync(string number, string lang = "FR")
         {
-            return await _context.Pokemons
-                .Where(m => m.Number.Equals(number) && !m.TypeEvolution.Equals("Normal")).OrderBy(m => m.Number)
-                .Include(m => m.FR)
-                .Include(m => m.EN)
-                .Include(m => m.ES)
-                .Include(m => m.IT)
-                .Include(m => m.DE)
-                .Include(m => m.RU)
-                .Include(m => m.CO)
-                .Include(m => m.CN)
-                .Include(m => m.JP)
+            var query = _context.Pokemons
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
-                .OrderBy(m => Convert.ToInt32(m.Number))
-                .AsNoTracking()
+                .AsSplitQuery();
+
+            query = lang switch
+            {
+                "FR" => query.Include(p => p.FR),
+                "ES" => query.Include(p => p.ES),
+                "DE" => query.Include(p => p.DE),
+                "IT" => query.Include(p => p.IT),
+                "RU" => query.Include(p => p.RU),
+                "CO" => query.Include(p => p.CO),
+                "CN" => query.Include(p => p.CN),
+                "JP" => query.Include(p => p.JP),
+                _ => query.Include(p => p.EN)
+            };
+
+            return await query
+                .Where(m => m.Number.Equals(number) && !m.TypeEvolution.Equals("Normal")).OrderBy(m => m.Number)
+                .OrderBy(p => Convert.ToInt32(p.Number))
                 .AsSplitQuery()
                 .ToListAsync();
         }
@@ -816,9 +843,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             await _repositoryDI.AddAsync(dataInfo);
             return await Task.FromResult(dataInfo);
         }
-        #endregion
 
-        #region Private Methods
         private async Task MapToInstance(Pokemon pokemon, PokemonJson pokemonJson)
         {
             pokemon.Number = pokemonJson.Number;
