@@ -2,7 +2,7 @@
 
 namespace WepApiScrapingData.DTOs.Concrete
 {
-    public class AttaqueDto : IdentityDto
+    public class Pokemon_AttaqueDto : IdentityDto
     {
         public string? Name { get; set; }
 
@@ -11,6 +11,12 @@ namespace WepApiScrapingData.DTOs.Concrete
         public TypeAttaqueDto? TypeAttaque { get; set; }
         
         public TypePokDto? TypePok { get; set; }
+
+        public string? TypeLearn { get; set; }
+
+        public string? Level { get; set; }
+
+        public string? CTCS { get; set; }
 
         public string? Power { get; set; }
         

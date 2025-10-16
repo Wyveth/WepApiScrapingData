@@ -37,34 +37,5 @@ namespace WepApiScrapingData.Mapper
 
             return dto;
         }
-
-        public TypePok MapReverse(TypePokDto dto, string langue)
-        {
-            if (dto == null) return null;
-
-            var entity = new TypePok
-            {
-                Id = dto.Id,
-                PathMiniGo = dto.PathMiniGo,
-                PathFondGo = dto.PathFondGo,
-                PathIconHome = dto.PathIconHome,
-                PathAutoHome = dto.PathAutoHome,
-                ImgColor = dto.ImgColor,
-                InfoColor = dto.InfoColor,
-                TypeColor = dto.TypeColor,
-            };
-
-            var lang = langue?.ToUpper() ?? "FR";
-
-            var nameProp = typeof(TypePok).GetProperty($"Name_{lang}");
-            if (nameProp != null)
-                nameProp.SetValue(entity, dto.Name);
-
-            var pathProp = typeof(TypePok).GetProperty($"PathMiniHome_{lang}");
-            if (pathProp != null)
-                pathProp.SetValue(entity, dto.PathMiniHome);
-
-            return entity;
-        }
     }
 }

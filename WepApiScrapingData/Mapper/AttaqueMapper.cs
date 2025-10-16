@@ -1,5 +1,4 @@
-﻿using HotChocolate.Language;
-using WebApiScrapingData.Domain.Class;
+﻿using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Infrastructure.Mapper;
 using WepApiScrapingData.DTOs.Concrete;
 
@@ -7,21 +6,16 @@ namespace WepApiScrapingData.Mapper
 {
     public class AttaqueMapper : GenericMapper<Attaque, AttaqueDto>
     {
-        public AttaqueDto Map(Pokemon_Attaque source, string langue)
+        public override AttaqueDto Map(Attaque source, string langue)
         {
-            Attaque attaque = source.Attaque;
-
-            if (source.Attaque == null) return null;
+            if (source == null) return null;
 
             var dto = new AttaqueDto
             {
                 Id = source.Id,
-                CTCS = source.CTCS,
-                Level = source.Level,
-                TypeLearn = source.TypeLearn,
-                Power = source.Attaque.Power,
-                Precision = source.Attaque.Precision,
-                PP = source.Attaque.PP
+                Power = source.Power,
+                Precision = source.Precision,
+                PP = source.PP
             };
 
             // Déterminer les propriétés dynamiquement selon la langue
@@ -30,52 +24,26 @@ namespace WepApiScrapingData.Mapper
             // Nom
             var nameProp = typeof(Attaque).GetProperty($"Name_{lang}");
             if (nameProp != null)
-                dto.Name = nameProp.GetValue(attaque)?.ToString();
+                dto.Name = nameProp.GetValue(source)?.ToString();
 
             // Description
             var descProp = typeof(Attaque).GetProperty($"Description_{lang}");
             if (descProp != null)
-                dto.Description = descProp.GetValue(attaque)?.ToString();
+                dto.Description = descProp.GetValue(source)?.ToString();
 
-            if (attaque.TypePok != null)
+            if (source.TypePok != null)
             {
                 var typeMapper = new TypePokMapper();
-                dto.TypePok = typeMapper.Map(attaque.TypePok, lang);
+                dto.TypePok = typeMapper.Map(source.TypePok, lang);
             }
 
-            if (attaque.TypeAttaque != null)
+            if (source.TypeAttaque != null)
             {
                 var typeAttaqueMapper = new TypeAttaqueMapper();
-                dto.TypeAttaque = typeAttaqueMapper.Map(attaque.TypeAttaque, lang);
+                dto.TypeAttaque = typeAttaqueMapper.Map(source.TypeAttaque, lang);
             }
 
             return dto;
-        }
-
-        public Attaque MapReverse(AttaqueDto dto, string langue)
-        {
-            if (dto == null) return null;
-
-            var entity = new Attaque
-            {
-                Id = dto.Id,
-                Power = dto.Power,
-                Precision = dto.Precision,
-                PP = dto.PP
-            };
-
-            var lang = langue?.ToUpper() ?? "FR";
-
-            var nameProp = typeof(Attaque).GetProperty($"Name_{lang}");
-            if (nameProp != null)
-                nameProp.SetValue(entity, dto.Name);
-
-            var descProp = typeof(Attaque).GetProperty($"Description_{lang}");
-            if (descProp != null)
-                descProp.SetValue(entity, dto.Description);
-
-
-            return entity;
         }
     }
 }

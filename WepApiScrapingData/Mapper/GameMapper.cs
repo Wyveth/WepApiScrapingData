@@ -25,23 +25,5 @@ namespace WepApiScrapingData.Mapper
 
             return dto;
         }
-
-        public Game MapReverse(GameDto dto, string langue)
-        {
-            if (dto == null) return null;
-
-            var entity = new Game
-            {
-                Id = dto.Id
-            };
-
-            var lang = langue?.ToUpper() ?? "FR";
-
-            var nameProp = typeof(Game).GetProperty($"Name_{lang}");
-            if (nameProp != null)
-                nameProp.SetValue(entity, dto.Name);
-
-            return entity;
-        }
     }
 }

@@ -10,15 +10,15 @@ namespace WepApiScrapingData.Mapper
     {
         private readonly GenericMapper<DataInfo, DataInfoDto> _dataInfoMapper;
         private readonly TypePokMapper _typeMapper;
-        private readonly TalentMapper _talentMapper;
-        private readonly AttaqueMapper _attaqueMapper;
+        private readonly Pokemon_TalentMapper _talentMapper;
+        private readonly Pokemon_AttaqueMapper _attaqueMapper;
         private readonly GameMapper _gameMapper;
 
         public PokemonMapper(
             GenericMapper<DataInfo, DataInfoDto> dataInfoMapper,
             TypePokMapper typeMapper,
-            TalentMapper talentMapper,
-            AttaqueMapper attaqueMapper,
+            Pokemon_TalentMapper talentMapper,
+            Pokemon_AttaqueMapper attaqueMapper,
             GameMapper gameMapper)
         {
             _dataInfoMapper = dataInfoMapper;

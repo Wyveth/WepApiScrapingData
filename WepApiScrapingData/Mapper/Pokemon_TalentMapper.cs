@@ -4,15 +4,18 @@ using WepApiScrapingData.DTOs.Concrete;
 
 namespace WepApiScrapingData.Mapper
 {
-    public class TalentMapper : GenericMapper<Talent, TalentDto>
+    public class Pokemon_TalentMapper : GenericMapper<Pokemon_Talent, Pokemon_TalentDto>
     {
-        public override TalentDto Map(Talent source, string langue)
+        public override Pokemon_TalentDto Map(Pokemon_Talent source, string langue)
         {
-            if (source == null) return null;
+            Talent talent = source.Talent;
 
-            var dto = new TalentDto
+            if (source.Talent == null) return null;
+
+            var dto = new Pokemon_TalentDto
             {
-                Id = source.Id
+                Id = source.Talent.Id,
+                IsHidden = source.IsHidden
             };
 
             // Déterminer les propriétés dynamiquement selon la langue
@@ -21,12 +24,12 @@ namespace WepApiScrapingData.Mapper
             // Nom
             var nameProp = typeof(Talent).GetProperty($"Name_{lang}");
             if (nameProp != null)
-                dto.Name = nameProp.GetValue(source)?.ToString();
+                dto.Name = nameProp.GetValue(talent)?.ToString();
 
             // Description
             var pathProp = typeof(Talent).GetProperty($"Description_{lang}");
             if (pathProp != null)
-                dto.Description = pathProp.GetValue(source)?.ToString();
+                dto.Description = pathProp.GetValue(talent)?.ToString();
 
             return dto;
         }
