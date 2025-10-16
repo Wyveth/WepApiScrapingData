@@ -1,9 +1,10 @@
 ﻿using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WepApiScrapingData.DTOs.Concrete;
 
 namespace WepApiScrapingData.Mapper
 {
-    public class TalentMapper
+    public class TalentMapper : GenericMapper<Talent, TalentDto>
     {
         public TalentDto Map(Pokemon_Talent source, string langue)
         {

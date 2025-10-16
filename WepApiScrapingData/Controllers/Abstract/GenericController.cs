@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR.Protocol;
 using WebApiScrapingData.Domain.Interface;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Mapper;
@@ -39,22 +40,24 @@ namespace WepApiScrapingData.Controllers.Abstract
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public virtual async Task<IActionResult> GetAll()
+        public virtual async Task<ActionResult<IEnumerable<D>>> GetAll([FromQuery] string lang = "FR")
         {
-            IActionResult result = this.BadRequest();
-
             try
             {
                 var entities = await _repository.GetAll();
-                result = this.Ok(entities);
+
+                if (entities == null || !entities.Any())
+                    return NotFound();
+
+                var result = entities.Select(p => _mapper.Map(p, lang)).ToList();
+
+                return Ok(result ?? []);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                result = this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-
-            return result;
         }
 
         [HttpGet]
@@ -62,21 +65,23 @@ namespace WepApiScrapingData.Controllers.Abstract
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("{id}")]
-        public virtual async Task<IActionResult> GetSingle(int id)
+        public virtual async Task<ActionResult<D>> GetSingle(int id, [FromQuery] string lang = "FR")
         {
-            IActionResult result = this.BadRequest();
-
             try
             {
-                result = this.Ok(await _repository.Get(id));
+                var entity = await _repository.Get(id);
+                if (entity == null)
+                    return NotFound();
+
+                var result = _mapper.Map(entity, lang);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                result = this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-
-            return result;
         }
 
         [HttpGet]
@@ -84,21 +89,23 @@ namespace WepApiScrapingData.Controllers.Abstract
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("GetByGuid/{guid}")]
-        public virtual async Task<IActionResult> GetByGuid(Guid guid)
+        public virtual async Task<IActionResult> GetByGuid(Guid guid, [FromQuery] string lang = "FR")
         {
-            IActionResult result = this.BadRequest();
-
             try
             {
-                result = this.Ok(await _repository.Find(m => m.Guid.Equals(guid)));
+                var entity = await _repository.GetByGuid(guid);
+                if (entity == null)
+                    return NotFound();
+
+                var result = _mapper.Map(entity, lang);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                result = this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-
-            return result;
         }
         #endregion
 

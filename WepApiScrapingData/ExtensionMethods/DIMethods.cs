@@ -1,7 +1,9 @@
-﻿using WebApiScrapingData.Infrastructure.Mapper;
+﻿using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository;
 using WebApiScrapingData.Infrastructure.Repository.Class;
 using WebApiScrapingData.Infrastructure.Repository.Quizz;
+using WepApiScrapingData.DTOs.Concrete;
 using WepApiScrapingData.Mapper;
 
 namespace WepApiScrapingData.ExtensionMethods
@@ -17,12 +19,20 @@ namespace WepApiScrapingData.ExtensionMethods
         {
             #region Controller
             services.AddScoped(typeof(GenericMapper<,>));
-            services.AddScoped<PokemonMapper>();
+            services.AddScoped<GameMapper>();
+            services.AddScoped<TypeAttaqueMapper>();
             services.AddScoped<TypePokMapper>();
             services.AddScoped<TalentMapper>();
             services.AddScoped<AttaqueMapper>();
-            services.AddScoped<TypeAttaqueMapper>();
-            services.AddScoped<GameMapper>();
+            services.AddScoped<PokemonMapper>();
+
+            services.AddScoped<GenericMapper<Game, GameDto>, GameMapper>();
+            services.AddScoped<GenericMapper<TypeAttaque, TypeAttaqueDto>, TypeAttaqueMapper>();
+            services.AddScoped<GenericMapper<TypePok, TypePokDto>, TypePokMapper>();
+            services.AddScoped<GenericMapper<Talent, TalentDto>, TalentMapper>();
+            services.AddScoped<GenericMapper<Attaque, AttaqueDto>, AttaqueMapper>();
+            services.AddScoped<GenericMapper<Pokemon, PokemonDto>, PokemonMapper>();
+
             services.AddScoped<GameRepository>();
             services.AddScoped<AttaqueRepository>();
             services.AddScoped<DataInfoRepository>();

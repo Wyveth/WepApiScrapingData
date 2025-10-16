@@ -6,6 +6,8 @@ namespace WebApiScrapingData.Core.Repositories
 {
     public interface IRepositoryExtendsPokemon<T> : IRepository<T> where T : class, ITIdentity
     {
+        Task<IEnumerable<T>> GetAllByLang(string lang = "FR");
+
         Task<IEnumerable<Pokemon>> GetAllLight(int? gen = null, bool desc = false, int max = 0, string lang = "FR");
 
         Task<List<Pokemon>> GetFamilyWithoutVariantAsync(string family);
@@ -13,6 +15,7 @@ namespace WebApiScrapingData.Core.Repositories
         Task<IEnumerable<Pokemon>> GetAllVariantAsync(string number);
 
         Task<Pokemon> GetPokemonRandom(bool gen1, bool gen2, bool gen3, bool gen4, bool gen5, bool gen6, bool gen7, bool gen8, bool gen9, bool genArceus);
+        
         Task<Pokemon> GetPokemonRandom(ClassQuizz.Quizz quizz);
 
         Task<Pokemon> GetPokemonRandom(ClassQuizz.Quizz quizz, TypePok typePok, List<Pokemon> alreadySelected);

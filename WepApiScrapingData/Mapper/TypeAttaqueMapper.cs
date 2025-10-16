@@ -1,11 +1,12 @@
 ﻿using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WepApiScrapingData.DTOs.Concrete;
 
 namespace WepApiScrapingData.Mapper
 {
-    public class TypeAttaqueMapper
+    public class TypeAttaqueMapper : GenericMapper<TypeAttaque, TypeAttaqueDto>
     {
-        public TypeAttaqueDto Map(TypeAttaque source, string langue)
+        public override TypeAttaqueDto Map(TypeAttaque source, string langue)
         {
             if (source == null) return null;
 

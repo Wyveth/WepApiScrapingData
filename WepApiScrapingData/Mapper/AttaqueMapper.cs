@@ -1,10 +1,11 @@
 ﻿using HotChocolate.Language;
 using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WepApiScrapingData.DTOs.Concrete;
 
 namespace WepApiScrapingData.Mapper
 {
-    public class AttaqueMapper
+    public class AttaqueMapper : GenericMapper<Attaque, AttaqueDto>
     {
         public AttaqueDto Map(Pokemon_Attaque source, string langue)
         {

@@ -226,7 +226,37 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
                 .Include(m => m.Game)
-                .OrderBy(m => Convert.ToInt32(m.Number))
+                .OrderBy(p => Convert.ToInt32(p.Number))
+                .AsSplitQuery()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Pokemon>> GetAllByLang(string lang)
+        {
+            var query = _context.Pokemons
+                .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Game)
+                .AsSplitQuery();
+
+            query = lang switch
+            {
+                "FR" => query.Include(p => p.FR),
+                "ES" => query.Include(p => p.ES),
+                "DE" => query.Include(p => p.DE),
+                "IT" => query.Include(p => p.IT),
+                "RU" => query.Include(p => p.RU),
+                "CO" => query.Include(p => p.CO),
+                "CN" => query.Include(p => p.CN),
+                "JP" => query.Include(p => p.JP),
+                _ => query.Include(p => p.EN)
+            };
+
+            return await query
+                .OrderBy(p => Convert.ToInt32(p.Number))
                 .AsSplitQuery()
                 .ToListAsync();
         }
@@ -241,7 +271,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(p => p.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
                 .Include(p => p.Pokemon_Talents).ThenInclude(u => u.Talent)
                 .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque);
+                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .AsSplitQuery();
 
             query = lang switch
             {
@@ -266,15 +297,6 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
         public async Task<IEnumerable<Pokemon>> GetAllLight(int? gen = null, bool desc = false, int max = 0, string lang = "FR")
         {
             var query = _context.Pokemons
-                .Include(m => m.FR)
-                .Include(m => m.EN)
-                .Include(m => m.ES)
-                .Include(m => m.IT)
-                .Include(m => m.DE)
-                .Include(m => m.RU)
-                .Include(m => m.CO)
-                .Include(m => m.CN)
-                .Include(m => m.JP)
                 .Include(m => m.Pokemon_TypePoks)
                     .ThenInclude(u => u.TypePok)
                 .AsSplitQuery();

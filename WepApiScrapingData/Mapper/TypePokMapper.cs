@@ -1,11 +1,12 @@
 ﻿using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WepApiScrapingData.DTOs.Concrete;
 
 namespace WepApiScrapingData.Mapper
 {
-    public class TypePokMapper
+    public class TypePokMapper : GenericMapper<TypePok, TypePokDto>
     {
-        public TypePokDto Map(TypePok source, string langue)
+        public override TypePokDto Map(TypePok source, string langue)
         {
             if (source == null) return null;
 

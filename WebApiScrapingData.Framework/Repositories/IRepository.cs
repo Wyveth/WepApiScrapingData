@@ -14,6 +14,7 @@ namespace WebApiScrapingData.Core.Repositories
         Task<T?> Get(long id);
         IQueryable<T> Query();
         Task<IEnumerable<T>> GetAll();
+
         Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
 
         Task<T?> SingleOrDefault(Expression<Func<T, bool>> predicate);

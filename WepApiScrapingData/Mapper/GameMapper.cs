@@ -1,11 +1,12 @@
 ﻿using WebApiScrapingData.Domain.Class;
+using WebApiScrapingData.Infrastructure.Mapper;
 using WepApiScrapingData.DTOs.Concrete;
 
 namespace WepApiScrapingData.Mapper
 {
-    public class GameMapper
+    public class GameMapper : GenericMapper<Game, GameDto>
     {
-        public GameDto Map(Game source, string langue)
+        public override GameDto Map(Game source, string langue)
         {
             if (source == null) return null;
 

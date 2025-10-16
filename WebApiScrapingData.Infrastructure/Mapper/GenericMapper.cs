@@ -10,7 +10,7 @@ namespace WebApiScrapingData.Infrastructure.Mapper
     where TFrom : class, ITIdentity, new()
     where TTo : class, IIdentityDto, new()
     {
-        public TTo Map(TFrom source)
+        public virtual TTo Map(TFrom source, string lang = "FR")
         {
             if (source == null) return null;
 
@@ -52,7 +52,7 @@ namespace WebApiScrapingData.Infrastructure.Mapper
             return destination;
         }
 
-        public TFrom MapReverse(TTo source, ScrapingContext context)
+        public virtual TFrom MapReverse(TTo source, ScrapingContext context)
         {
             if (source == null) return null;
 

@@ -28,7 +28,7 @@ namespace WepApiScrapingData.Mapper
             _gameMapper = gameMapper;
         }
 
-        public PokemonDto Map(Pokemon source, string langue)
+        public override PokemonDto Map(Pokemon source, string lang)
         {
             if (source == null)
                 return null;
@@ -37,7 +37,7 @@ namespace WepApiScrapingData.Mapper
             var dto = base.Map(source);
 
             // 🧩 Étape 2 — Choisir la DataInfo selon la langue
-            var langueKey = (langue ?? "FR").ToUpperInvariant();
+            var langueKey = (lang ?? "FR").ToUpperInvariant();
             var prop = typeof(Pokemon).GetProperty(langueKey);
 
             if (prop != null && prop.GetValue(source) is DataInfo dataInfo)
@@ -84,7 +84,7 @@ namespace WepApiScrapingData.Mapper
             return dto;
         }
 
-        public PokemonLightDto MapLight(Pokemon source, string langue)
+        public PokemonLightDto MapLight(Pokemon source, string lang)
         {
             if (source == null)
                 return null;
@@ -93,7 +93,7 @@ namespace WepApiScrapingData.Mapper
             var dto = base.Map(source);
 
             // 🧩 Étape 2 — Choisir la DataInfo selon la langue
-            var langueKey = (langue ?? "FR").ToUpperInvariant();
+            var langueKey = (lang ?? "FR").ToUpperInvariant();
             var prop = typeof(Pokemon).GetProperty(langueKey);
 
             if (prop != null && prop.GetValue(source) is DataInfo dataInfo)
@@ -130,7 +130,7 @@ namespace WepApiScrapingData.Mapper
             };
         }
 
-        public Pokemon MapReverse(PokemonDto dto, ScrapingContext context, string langue)
+        public Pokemon MapReverse(PokemonDto dto, ScrapingContext context, string lang)
         {
             if (dto == null) return null;
 
@@ -138,7 +138,7 @@ namespace WepApiScrapingData.Mapper
             var entity = base.MapReverse(dto, context);
 
             // Étape 2 — Rattacher la DataInfo selon la langue
-            var languePropertyName = langue?.ToUpper();
+            var languePropertyName = lang?.ToUpper();
 
             if (!string.IsNullOrEmpty(languePropertyName) && dto.DataInfo != null)
             {

@@ -30,17 +30,6 @@ namespace WepApiScrapingData.Controllers
 
         #region Public Methods
         [HttpGet]
-        [Route("{limit}/{max}")]
-        public async Task<IEnumerable<Pokemon>> GetAllinDB(int max = 20, bool limit = true)
-        {
-            IEnumerable<Pokemon> pokemons = await _repository.GetAll();
-            if (limit)
-                return pokemons.Take(max);
-            else
-                return pokemons;
-        }
-
-        [HttpGet]
         [Route("Light")]
         public async Task<ActionResult<IEnumerable<PokemonLightDto>>> GetAllLight(
             [FromQuery] int? gen = null,
