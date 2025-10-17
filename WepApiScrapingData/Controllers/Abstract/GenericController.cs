@@ -6,6 +6,7 @@ using WebApiScrapingData.Domain.Interface;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Generic;
+using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.DTOs.Abstract;
 
 namespace WepApiScrapingData.Controllers.Abstract
@@ -40,7 +41,7 @@ namespace WepApiScrapingData.Controllers.Abstract
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public virtual async Task<ActionResult<IEnumerable<D>>> GetAll([FromQuery] string lang = "FR")
+        public virtual async Task<ActionResult<IEnumerable<D>>> GetAll([FromQuery] string lang = Constantes.FR)
         {
             try
             {
@@ -65,7 +66,7 @@ namespace WepApiScrapingData.Controllers.Abstract
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("{id}")]
-        public virtual async Task<ActionResult<D>> GetSingle(int id, [FromQuery] string lang = "FR")
+        public virtual async Task<ActionResult<D>> GetSingle(int id, [FromQuery] string lang = Constantes.FR)
         {
             try
             {
@@ -89,7 +90,7 @@ namespace WepApiScrapingData.Controllers.Abstract
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("GetByGuid/{guid}")]
-        public virtual async Task<IActionResult> GetByGuid(Guid guid, [FromQuery] string lang = "FR")
+        public virtual async Task<IActionResult> GetByGuid(Guid guid, [FromQuery] string lang = Constantes.FR)
         {
             try
             {

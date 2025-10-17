@@ -107,7 +107,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Pokemon?> FirstOrDefaultByName(string name, string lang = "FR")
+        public async Task<Pokemon?> FirstOrDefaultByName(string name, string lang = Constantes.FR)
         {
             var query = _context.Pokemons
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
@@ -120,14 +120,14 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
             query = lang switch
             {
-                "FR" => query.Include(p => p.FR).Where(p => EF.Functions.Collate(p.FR.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "ES" => query.Include(p => p.ES).Where(p => EF.Functions.Collate(p.ES.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "DE" => query.Include(p => p.DE).Where(p => EF.Functions.Collate(p.DE.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "IT" => query.Include(p => p.IT).Where(p => EF.Functions.Collate(p.IT.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "RU" => query.Include(p => p.RU).Where(p => EF.Functions.Collate(p.RU.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "CO" => query.Include(p => p.CO).Where(p => EF.Functions.Collate(p.CO.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "CN" => query.Include(p => p.CN).Where(p => EF.Functions.Collate(p.CN.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "JP" => query.Include(p => p.JP).Where(p => EF.Functions.Collate(p.JP.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.FR => query.Include(p => p.FR).Where(p => EF.Functions.Collate(p.FR.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.ES => query.Include(p => p.ES).Where(p => EF.Functions.Collate(p.ES.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.DE => query.Include(p => p.DE).Where(p => EF.Functions.Collate(p.DE.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.IT => query.Include(p => p.IT).Where(p => EF.Functions.Collate(p.IT.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.RU => query.Include(p => p.RU).Where(p => EF.Functions.Collate(p.RU.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.CO => query.Include(p => p.CO).Where(p => EF.Functions.Collate(p.CO.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.CN => query.Include(p => p.CN).Where(p => EF.Functions.Collate(p.CN.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.JP => query.Include(p => p.JP).Where(p => EF.Functions.Collate(p.JP.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
                 _ => query.Include(p => p.EN).Where(p => EF.Functions.Collate(p.EN.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name))
             };
 
@@ -265,14 +265,14 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
             query = lang switch
             {
-                "FR" => query.Include(p => p.FR),
-                "ES" => query.Include(p => p.ES),
-                "DE" => query.Include(p => p.DE),
-                "IT" => query.Include(p => p.IT),
-                "RU" => query.Include(p => p.RU),
-                "CO" => query.Include(p => p.CO),
-                "CN" => query.Include(p => p.CN),
-                "JP" => query.Include(p => p.JP),
+                Constantes.FR => query.Include(p => p.FR),
+                Constantes.ES => query.Include(p => p.ES),
+                Constantes.DE => query.Include(p => p.DE),
+                Constantes.IT => query.Include(p => p.IT),
+                Constantes.RU => query.Include(p => p.RU),
+                Constantes.CO => query.Include(p => p.CO),
+                Constantes.CN => query.Include(p => p.CN),
+                Constantes.JP => query.Include(p => p.JP),
                 _ => query.Include(p => p.EN)
             };
 
@@ -297,14 +297,14 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
             query = lang switch
             {
-                "FR" => query.Include(p => p.FR).Where(p => EF.Functions.Collate(p.FR.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "ES" => query.Include(p => p.ES).Where(p => EF.Functions.Collate(p.ES.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "DE" => query.Include(p => p.DE).Where(p => EF.Functions.Collate(p.DE.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "IT" => query.Include(p => p.IT).Where(p => EF.Functions.Collate(p.IT.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "RU" => query.Include(p => p.RU).Where(p => EF.Functions.Collate(p.RU.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "CO" => query.Include(p => p.CO).Where(p => EF.Functions.Collate(p.CO.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "CN" => query.Include(p => p.CN).Where(p => EF.Functions.Collate(p.CN.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
-                "JP" => query.Include(p => p.JP).Where(p => EF.Functions.Collate(p.JP.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.FR => query.Include(p => p.FR).Where(p => EF.Functions.Collate(p.FR.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.ES => query.Include(p => p.ES).Where(p => EF.Functions.Collate(p.ES.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.DE => query.Include(p => p.DE).Where(p => EF.Functions.Collate(p.DE.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.IT => query.Include(p => p.IT).Where(p => EF.Functions.Collate(p.IT.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.RU => query.Include(p => p.RU).Where(p => EF.Functions.Collate(p.RU.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.CO => query.Include(p => p.CO).Where(p => EF.Functions.Collate(p.CO.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.CN => query.Include(p => p.CN).Where(p => EF.Functions.Collate(p.CN.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
+                Constantes.JP => query.Include(p => p.JP).Where(p => EF.Functions.Collate(p.JP.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name)),
                 _ => query.Include(p => p.EN).Where(p => EF.Functions.Collate(p.EN.Name, "SQL_Latin1_General_CP1_CI_AI").Contains(name))
             };
 
@@ -387,14 +387,14 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
             query = lang switch
             {
-                "FR" => query.Include(p => p.FR),
-                "ES" => query.Include(p => p.ES),
-                "DE" => query.Include(p => p.DE),
-                "IT" => query.Include(p => p.IT),
-                "RU" => query.Include(p => p.RU),
-                "CO" => query.Include(p => p.CO),
-                "CN" => query.Include(p => p.CN),
-                "JP" => query.Include(p => p.JP),
+                Constantes.FR => query.Include(p => p.FR),
+                Constantes.ES => query.Include(p => p.ES),
+                Constantes.DE => query.Include(p => p.DE),
+                Constantes.IT => query.Include(p => p.IT),
+                Constantes.RU => query.Include(p => p.RU),
+                Constantes.CO => query.Include(p => p.CO),
+                Constantes.CN => query.Include(p => p.CN),
+                Constantes.JP => query.Include(p => p.JP),
                 _ => query.Include(p => p.EN)
             };
 

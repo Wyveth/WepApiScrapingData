@@ -2,6 +2,7 @@
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Mapper;
+using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.DTOs.Concrete;
 
 namespace WepApiScrapingData.Mapper
@@ -37,7 +38,7 @@ namespace WepApiScrapingData.Mapper
             var dto = base.Map(source);
 
             // 🧩 Étape 2 — Choisir la DataInfo selon la langue
-            var langueKey = (lang ?? "FR").ToUpperInvariant();
+            var langueKey = (lang ?? Constantes.FR).ToUpperInvariant();
             var prop = typeof(Pokemon).GetProperty(langueKey);
 
             if (prop != null && prop.GetValue(source) is DataInfo dataInfo)
@@ -93,7 +94,7 @@ namespace WepApiScrapingData.Mapper
             var dto = base.Map(source);
 
             // 🧩 Étape 2 — Choisir la DataInfo selon la langue
-            var langueKey = (lang ?? "FR").ToUpperInvariant();
+            var langueKey = (lang ?? Constantes.FR).ToUpperInvariant();
             var prop = typeof(Pokemon).GetProperty(langueKey);
 
             if (prop != null && prop.GetValue(source) is DataInfo dataInfo)

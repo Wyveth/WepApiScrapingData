@@ -1,5 +1,6 @@
 ﻿using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Infrastructure.Mapper;
+using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.DTOs.Concrete;
 
 namespace WepApiScrapingData.Mapper
@@ -19,7 +20,7 @@ namespace WepApiScrapingData.Mapper
             };
 
             // Déterminer les propriétés dynamiquement selon la langue
-            var lang = langue?.ToUpper() ?? "FR";
+            var lang = langue?.ToUpper() ?? Constantes.FR;
 
             // Nom
             var nameProp = typeof(Attaque).GetProperty($"Name_{lang}");

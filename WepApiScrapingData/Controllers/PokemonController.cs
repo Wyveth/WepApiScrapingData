@@ -7,6 +7,7 @@ using WebApiScrapingData.Domain.Query;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Class;
+using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.Controllers.Abstract;
 using WepApiScrapingData.DTOs.Concrete;
 using WepApiScrapingData.ExtensionMethods;
@@ -35,7 +36,7 @@ namespace WepApiScrapingData.Controllers
             [FromQuery] int? gen = null,
             [FromQuery] bool desc = false,
             [FromQuery] int max = 0,
-            [FromQuery] string lang = "FR")
+            [FromQuery] string lang = Constantes.FR)
         {
             var entities = await _repository.GetAllLight(gen, desc, max, lang);
 
@@ -44,12 +45,12 @@ namespace WepApiScrapingData.Controllers
 
             var result = entities.Select(p => _mapper.MapLight(p, lang)).ToList();
 
-            return Ok(result ?? []);
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("FindByName/{name}")]
-        public async Task<ActionResult<IEnumerable<PokemonDto>>> GetFindByName(string name, [FromQuery] string lang = "fr")
+        public async Task<ActionResult<IEnumerable<PokemonDto>>> GetFindByName(string name, [FromQuery] string lang = Constantes.FR)
         {
             var entities = await _repository.FindByNameAsync(name, lang);
 
@@ -58,12 +59,12 @@ namespace WepApiScrapingData.Controllers
 
             var result = entities.Select(p => _mapper.Map(p, lang)).ToList();
 
-            return Ok(result ?? []);
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("FindByNumber/{number}")]
-        public async Task<ActionResult<IEnumerable<PokemonDto>>> GetFindByNumber(string number, [FromQuery] string lang = "fr")
+        public async Task<ActionResult<IEnumerable<PokemonDto>>> GetFindByNumber(string number, [FromQuery] string lang = Constantes.FR)
         {
             var entities = await _repository.Find(m => m.Number.Equals(number));
 
@@ -72,35 +73,33 @@ namespace WepApiScrapingData.Controllers
 
             var result = entities.Select(p => _mapper.Map(p, lang)).ToList();
 
-            return Ok(result ?? []);
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("GetEvol/{family}")]
-        public async Task<ActionResult<IEnumerable<PokemonDto>>> GetEvol(string family, [FromQuery] string lang = "fr")
+        public async Task<ActionResult<IEnumerable<PokemonDto>>> GetEvol(string family, [FromQuery] string lang = Constantes.FR)
         {
             var entities = await _repository.GetFamilyWithoutVariantAsync(family, lang);
 
-            if (entities == null || !entities.Any())
-                return NotFound();
+            var result = (entities ?? Enumerable.Empty<Pokemon>())
+                .Select(p => _mapper.Map(p, lang))
+                .ToList();
 
-            var result = entities.Select(p => _mapper.Map(p, lang)).ToList();
-
-            return Ok(result ?? []);
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("GetVariant/{number}")]
-        public async Task<ActionResult<IEnumerable<PokemonDto>>> GetVariant(string number, [FromQuery] string lang = "fr")
+        public async Task<ActionResult<IEnumerable<PokemonDto>>> GetVariant(string number, [FromQuery] string lang = Constantes.FR)
         {
             var entities = await _repository.GetAllVariantAsync(number, lang);
 
-            if (entities == null || !entities.Any())
-                return NotFound();
+            var result = (entities ?? Enumerable.Empty<Pokemon>())
+                .Select(p => _mapper.Map(p, lang))
+                .ToList();
 
-            var result = entities.Select(p => _mapper.Map(p, lang)).ToList();
-
-            return Ok(result ?? []);
+            return Ok(result);
         }
         #endregion
     }

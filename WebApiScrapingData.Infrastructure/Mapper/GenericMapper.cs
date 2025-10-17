@@ -2,6 +2,7 @@
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.Interface;
 using WebApiScrapingData.Infrastructure.Data;
+using WebApiScrapingData.Infrastructure.Utils;
 
 namespace WebApiScrapingData.Infrastructure.Mapper
 {
@@ -10,7 +11,7 @@ namespace WebApiScrapingData.Infrastructure.Mapper
     where TFrom : class, ITIdentity, new()
     where TTo : class, IIdentityDto, new()
     {
-        public virtual TTo Map(TFrom source, string lang = "FR")
+        public virtual TTo Map(TFrom source, string lang = Constantes.FR)
         {
             if (source == null) return null;
 
