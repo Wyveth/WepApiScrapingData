@@ -40,19 +40,38 @@ namespace WepApiScrapingData.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] AuthenticateUserDto dtoUser)
         {
-            IActionResult result = this.BadRequest();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            var user = new IdentityUser(dtoUser.Email);
-            user.Email = dtoUser.Email;
-            user.UserName = dtoUser.UserName;
-            var success = await _userManager.CreateAsync(user, dtoUser.Password);
+            // Vérifie si l'email existe déjà
+            var existingEmail = await _userManager.FindByEmailAsync(dtoUser.Email);
+            if (existingEmail != null)
+                return BadRequest(new { error = "Cette adresse e-mail est déjà utilisée." });
 
-            if (success.Succeeded)
+            // Vérifie si le nom d'utilisateur existe déjà
+            var existingUser = await _userManager.FindByNameAsync(dtoUser.UserName);
+            if (existingUser != null)
+                return BadRequest(new { error = "Ce nom d’utilisateur est déjà pris." });
+
+            // Crée un nouvel utilisateur
+            var user = new IdentityUser
             {
-                result = this.Ok(this.GenerateJwtToken(user));
+                UserName = dtoUser.UserName,
+                Email = dtoUser.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, dtoUser.Password);
+
+            // Succès
+            if (result.Succeeded)
+            {
+                var token = GenerateJwtToken(user);
+                return Ok(new { token });
             }
 
-            return result;
+            // ❌ Erreurs : retourne la liste complète des messages Identity
+            var errors = result.Errors.Select(e => e.Description).ToList();
+            return BadRequest(new { errors });
         }
 
         [HttpPost]

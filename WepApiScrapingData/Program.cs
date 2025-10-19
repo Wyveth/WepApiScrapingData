@@ -61,6 +61,7 @@ builder.Services.AddHttpClient("pokeapi", client =>
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
+    options.User.RequireUniqueEmail = true;
     //options.SignIn.RequireConfirmedEmail = true;
 }).AddEntityFrameworkStores<ScrapingContext>();
 
