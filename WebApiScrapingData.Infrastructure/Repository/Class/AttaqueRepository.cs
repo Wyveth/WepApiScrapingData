@@ -31,7 +31,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
         public async Task<Attaque?> GetByName(string name)
         {
-            return await this._context.Attaques.Include(m => m.TypeAttaque).Include(m => m.TypePok).FirstOrDefaultAsync(x => x.Name_FR.Equals(name));
+            return await this._context.Attaques.Include(m => m.TypeAttaque).Include(m => m.TypePok).FirstOrDefaultAsync(x => x.Name_EN.Equals(name));
         }
 
         public override IQueryable<Attaque> Query()

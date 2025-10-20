@@ -5,7 +5,6 @@ using WebApiScrapingData.Domain.Body;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.Query;
 using WebApiScrapingData.Infrastructure.Data;
-using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Class;
 using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.Controllers.Abstract;
