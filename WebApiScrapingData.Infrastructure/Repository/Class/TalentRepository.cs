@@ -13,6 +13,11 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
         #region Public Methods
         #region Read
+        public async Task<Talent> GetByName(string name)
+        {
+            return await _context.Talents.FirstOrDefaultAsync(x => x.Name_EN.Equals(name));
+        }
+
         public async Task<Talent> GetTalentRandom()
         {
             List<Talent> result = GetAll().Result.ToList();

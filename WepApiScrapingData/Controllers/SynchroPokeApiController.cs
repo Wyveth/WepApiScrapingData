@@ -22,14 +22,16 @@ namespace WepApiScrapingData.Controllers
         private readonly AttaqueRepository _repositoryAT;
         private readonly TypeAttaqueRepository _repositoryTA;
         private readonly TypePokRepository _repositoryTP;
+        private readonly TalentRepository _repositoryT;
         #endregion
 
-        public SynchroPokeController(ILogger<SynchroPokeController> logger, 
-            ScrapingContext context, 
-            IHttpClientFactory httpClientFactory, 
-            AttaqueRepository repositoryAT, 
-            TypeAttaqueRepository repositoryTA, 
-            TypePokRepository repositoryTP)
+        public SynchroPokeController(ILogger<SynchroPokeController> logger,
+            ScrapingContext context,
+            IHttpClientFactory httpClientFactory,
+            AttaqueRepository repositoryAT,
+            TypeAttaqueRepository repositoryTA,
+            TypePokRepository repositoryTP,
+            TalentRepository repositoryT)
         {
             _logger = logger;
             _context = context;
@@ -39,6 +41,7 @@ namespace WepApiScrapingData.Controllers
             _repositoryTP = repositoryTP;
 
             _pokeApiClient = httpClientFactory.CreateClient("pokeapi");
+            _repositoryT = repositoryT;
         }
 
         [HttpGet("SynchroAttacksFromPokeApi")]
@@ -182,6 +185,138 @@ namespace WepApiScrapingData.Controllers
                 return Ok();
             }
         }
+
+        [HttpGet("SynchroAbilitiesFromPokeApi")]
+        public async Task<IActionResult> SynchroAbilities()
+        {
+            // 1️⃣ Récupère la liste complète des abilities
+            var abilityList = await _pokeApiClient.GetFromJsonAsync<PokeList>("ability?limit=10000");
+            if (abilityList == null)
+                return BadRequest("Impossible de récupérer les abilities depuis PokéAPI");
+
+            var abilities = new List<AbilityDto>();
+
+            // 2️⃣ Parcourt chaque ability et récupère ses infos détaillées
+            foreach (var item in abilityList.Results)
+            {
+                var abilityData = await _pokeApiClient.GetFromJsonAsync<JsonElement>(new Uri(item.Url));
+
+                var dto = new AbilityDto
+                {
+                    Identifier = abilityData.GetProperty("name").GetString(),
+                    Names = new Dictionary<string, string>(),
+                    Descriptions = new Dictionary<string, string>()
+                };
+
+                // 3️⃣ Récupération des noms multilingues
+                if (abilityData.TryGetProperty("names", out var names))
+                {
+                    foreach (var nameEntry in names.EnumerateArray())
+                    {
+                        var lang = nameEntry.GetProperty("language").GetProperty("name").GetString();
+                        var value = nameEntry.GetProperty("name").GetString();
+                        if (!string.IsNullOrEmpty(lang) && !string.IsNullOrEmpty(value))
+                            dto.Names[lang] = value;
+                    }
+                }
+
+                // 4️⃣ Récupération des descriptions multilingues
+                if (abilityData.TryGetProperty("flavor_text_entries", out var flavorTexts))
+                {
+                    foreach (var entry in flavorTexts.EnumerateArray())
+                    {
+                        var lang = entry.GetProperty("language").GetProperty("name").GetString();
+                        var value = entry.GetProperty("flavor_text").GetString()?.Replace("\n", " ").Replace("\f", " ");
+
+                        if (!string.IsNullOrEmpty(lang) && !string.IsNullOrEmpty(value))
+                        {
+                            // garde la première description trouvée pour chaque langue
+                            if (!dto.Descriptions.ContainsKey(lang))
+                                dto.Descriptions[lang] = value;
+                        }
+                    }
+                }
+
+                abilities.Add(dto);
+
+                await Task.Delay(150);
+            }
+
+            return Ok(abilities);
+        }
+
+        [HttpGet("SynchroAbilitiesForDB")]
+        public async Task<IActionResult> SynchroAbilitiesForDB()
+        {
+            string json;
+            using (StreamReader r = new StreamReader(Constantes.pathExport + "PokeApi/Talents.json"))
+            {
+                json = r.ReadToEnd();
+
+                List<AbilityDto> isExist = new();
+                List<Talent> talentsNotExist = new();
+
+                if (!string.IsNullOrEmpty(json))
+                {
+                    List<AbilityDto> abilities = JsonConvert.DeserializeObject<List<AbilityDto>>(json);
+
+                    foreach (AbilityDto ability in abilities)
+                    {
+                        Talent? talent = await this._repositoryT.GetByName(ability.Names["en"]);
+
+                        if (talent != null)
+                        {
+                            talent.Name_FR = ability.Names.GetValueOrDefault("fr") ?? talent.Name_FR;
+                            talent.Description_FR = ability.Descriptions.GetValueOrDefault("fr") ?? talent.Description_FR;
+                            talent.Name_EN = ability.Names.GetValueOrDefault("en") ?? talent.Name_EN;
+                            talent.Description_EN = ability.Descriptions.GetValueOrDefault("en") ?? talent.Description_EN;
+                            talent.Name_ES = ability.Names.GetValueOrDefault("es") ?? talent.Name_ES;
+                            talent.Description_ES = ability.Descriptions.GetValueOrDefault("es") ?? talent.Description_ES;
+                            talent.Name_IT = ability.Names.GetValueOrDefault("it") ?? talent.Name_IT;
+                            talent.Description_IT = ability.Descriptions.GetValueOrDefault("it") ?? talent.Description_IT;
+                            talent.Name_DE = ability.Names.GetValueOrDefault("de") ?? talent.Name_DE;
+                            talent.Description_DE = ability.Descriptions.GetValueOrDefault("de") ?? talent.Description_DE;
+                            talent.Name_CO = ability.Names.GetValueOrDefault("ko") ?? talent.Name_CO;
+                            talent.Description_CO = ability.Descriptions.GetValueOrDefault("ko") ?? talent.Description_CO;
+                            talent.Name_CN = ability.Names.GetValueOrDefault("zh-Hans") ?? talent.Name_CN;
+                            talent.Description_CN = ability.Descriptions.GetValueOrDefault("zh-Hans") ?? talent.Description_CN;
+                            talent.Name_JP = ability.Names.GetValueOrDefault("ja") ?? talent.Name_JP;
+                            talent.Description_JP = ability.Descriptions.GetValueOrDefault("ja") ?? talent.Description_JP;
+
+                            await this._repositoryT.UpdateAsync(talent);
+                        }
+                        else
+                        {
+                            Talent newTalent = new()
+                            {
+                                Name_FR = ability.Names.GetValueOrDefault("fr"),
+                                Description_FR = ability.Descriptions.GetValueOrDefault("fr"),
+                                Name_EN = ability.Names.GetValueOrDefault("en"),
+                                Description_EN = ability.Descriptions.GetValueOrDefault("en"),
+                                Name_ES = ability.Names.GetValueOrDefault("es"),
+                                Description_ES = ability.Descriptions.GetValueOrDefault("es"),
+                                Name_IT = ability.Names.GetValueOrDefault("it"),
+                                Description_IT = ability.Descriptions.GetValueOrDefault("it"),
+                                Name_DE = ability.Names.GetValueOrDefault("de"),
+                                Description_DE = ability.Descriptions.GetValueOrDefault("de"),
+                                Name_CO = ability.Names.GetValueOrDefault("ko"),
+                                Description_CO = ability.Descriptions.GetValueOrDefault("ko"),
+                                Name_CN = ability.Names.GetValueOrDefault("zh-Hans"),
+                                Description_CN = ability.Descriptions.GetValueOrDefault("zh-Hans"),
+                                Name_JP = ability.Names.GetValueOrDefault("ja"),
+                                Description_JP = ability.Descriptions.GetValueOrDefault("ja")
+                            };
+
+                            talentsNotExist.Add(newTalent);
+                        }
+                    }
+
+                    await this._repositoryT.AddRangeAsync(talentsNotExist);
+                }
+
+                return Ok();
+            }
+        }
     }
 
     record PokeList(List<PokeRef> Results);
@@ -201,5 +336,12 @@ namespace WepApiScrapingData.Controllers
 
         // Descriptions multilingues
         public Dictionary<string, string> Descriptions { get; set; } = new();
+    }
+
+    public class AbilityDto
+    {
+        public string Identifier { get; set; }
+        public Dictionary<string, string> Names { get; set; }
+        public Dictionary<string, string> Descriptions { get; set; }
     }
 }
