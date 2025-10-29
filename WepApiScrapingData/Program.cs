@@ -40,6 +40,32 @@ builder.Services.AddSwaggerGen(m => {
         // Concaténation des critères pour former une clé composite
         return $"{controllerName}_{httpMethodOrder}_{relativePath}";
     });
+
+    // Définir le schéma JWT
+    m.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Entrez 'Bearer {votre_token}'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    // Ajouter l’exigence de sécurité par défaut
+    m.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
 });
 
 // 🔹 On charge la config du fichier JSON + les variables d'environnement

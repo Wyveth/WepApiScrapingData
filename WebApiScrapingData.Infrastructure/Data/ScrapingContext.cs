@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using WebApiScrapingData.Domain.Class;
@@ -8,10 +9,10 @@ using WebApiScrapingData.Framework;
 
 namespace WebApiScrapingData.Infrastructure.Data
 {
-    public class ScrapingContext : IdentityDbContext, IUnitOfWork
+    public class ScrapingContext : IdentityDbContext<IdentityUser>, IUnitOfWork
     {
         #region Constructor
-        public ScrapingContext(DbContextOptions options) : base(options)
+        public ScrapingContext(DbContextOptions<ScrapingContext> options) : base(options)
         {
             //Use without Migration
             //Database.EnsureCreated();
@@ -21,16 +22,28 @@ namespace WebApiScrapingData.Infrastructure.Data
         #region Internal Methods
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            // Appel de la base d'abord pour que Identity crée ses tables
+            base.OnModelCreating(builder);
+
+            // 🔒 Par défaut, toutes les relations ont un DeleteBehavior.Restrict
+            foreach (var relationship in builder.Model.GetEntityTypes()
+                .SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
-            base.OnModelCreating(builder);
+            // ✅ Exception : si on supprime un utilisateur, on supprime aussi ses RefreshTokens
+            builder.Entity<RefreshToken>()
+                .HasOne(rt => rt.User)
+                .WithMany()
+                .HasForeignKey(rt => rt.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
         #endregion
 
         #region Properties
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
         public virtual DbSet<Pokemon> Pokemons { get; set; }
         public virtual DbSet<DataInfo> DataInfos { get; set; }
         public virtual DbSet<TypePok> TypesPok { get; set; }

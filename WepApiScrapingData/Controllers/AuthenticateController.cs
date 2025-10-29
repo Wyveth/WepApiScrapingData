@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Infrastructure.Configurations;
+using WebApiScrapingData.Infrastructure.Data;
 using WepApiScrapingData.DTOs;
 using WepApiScrapingData.ExtensionMethods;
 
@@ -20,40 +24,40 @@ namespace WepApiScrapingData.Controllers
         #region Fields
         private readonly SecurityOption _option;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IConfiguration _configuration;
         private readonly ILogger<AuthenticateController> _logger;
+        private readonly ScrapingContext _context;
         #endregion
 
         #region Constructor
-        public AuthenticateController(ILogger<AuthenticateController> logger, UserManager<IdentityUser> userManager, IConfiguration configuration, IOptions<SecurityOption> options)
+        public AuthenticateController(
+            ILogger<AuthenticateController> logger,
+            UserManager<IdentityUser> userManager,
+            IOptions<SecurityOption> options,
+            ScrapingContext context)
         {
             _option = options.Value;
             _userManager = userManager;
-            _configuration = configuration;
             _logger = logger;
+            _context = context;
         }
         #endregion
 
         #region Public methods
 
-        [HttpPost]
-        [Route("register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] AuthenticateUserDto dtoUser)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Vérifie si l'email existe déjà
             var existingEmail = await _userManager.FindByEmailAsync(dtoUser.Email);
             if (existingEmail != null)
                 return BadRequest(new { error = "Cette adresse e-mail est déjà utilisée." });
 
-            // Vérifie si le nom d'utilisateur existe déjà
             var existingUser = await _userManager.FindByNameAsync(dtoUser.UserName);
             if (existingUser != null)
                 return BadRequest(new { error = "Ce nom d’utilisateur est déjà pris." });
 
-            // Crée un nouvel utilisateur
             var user = new IdentityUser
             {
                 UserName = dtoUser.UserName,
@@ -62,86 +66,281 @@ namespace WepApiScrapingData.Controllers
 
             var result = await _userManager.CreateAsync(user, dtoUser.Password);
 
-            // Succès
             if (result.Succeeded)
             {
-                var token = GenerateJwtToken(user);
-                return Ok(new { token });
+                var tokens = await GenerateTokensAsync(user);
+                return Ok(tokens);
             }
 
-            // ❌ Erreurs : retourne la liste complète des messages Identity
             var errors = result.Errors.Select(e => e.Description).ToList();
             return BadRequest(new { errors });
         }
 
-        [HttpPost]
-        [Route("login")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] AuthenticateUserDto dtoUser)
         {
-            IActionResult result = this.BadRequest();
-
             try
             {
                 var user = await _userManager.FindByEmailAsync(dtoUser.Email);
-                if (user != null)
+                if (user != null && await _userManager.CheckPasswordAsync(user, dtoUser.Password))
                 {
-                    var verif = await this._userManager.CheckPasswordAsync(user, dtoUser.Password);
-                    if (verif)
-                    {
-                        result = this.Ok(this.GenerateJwtToken(user));
-                    }
+                    var tokens = await GenerateTokensAsync(user);
+                    return Ok(tokens);
                 }
+
+                return BadRequest(new { error = "Email ou mot de passe incorrect." });
             }
             catch (Exception ex)
             {
-                this._logger.LogError("Login", ex, dtoUser);
-                result = this.Problem("Cannot log");
+                _logger.LogError(ex, "Erreur lors du login");
+                return Problem("Erreur interne lors de la connexion.");
+            }
+        }
+
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.FindFirstValue("Id");
+            if (userId == null)
+                return Unauthorized();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound(new { error = "Utilisateur introuvable" });
+
+            return Ok(new
+            {
+                user.UserName,
+                user.Email,
+                user.Id
+            });
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] TokenRequestDto request)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_option.Key);
+
+            try
+            {
+                var principal = jwtTokenHandler.ValidateToken(request.Token, new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateLifetime = false // on veut pouvoir rafraîchir un token expiré
+                }, out var validatedToken);
+
+                if (validatedToken is not JwtSecurityToken jwtSecurityToken ||
+                    !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return BadRequest(new { error = "Token invalide" });
+                }
+
+                var jti = jwtSecurityToken.Id;
+                var userId = principal.Claims.FirstOrDefault(x => x.Type == "Id")?.Value;
+
+                var storedRefreshToken = await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Token == request.RefreshToken);
+                if (storedRefreshToken == null)
+                    return BadRequest(new { error = "Refresh token invalide" });
+
+                if (storedRefreshToken.ExpiresAt < DateTime.UtcNow)
+                    return BadRequest(new { error = "Refresh token expiré" });
+
+                if (storedRefreshToken.Used || storedRefreshToken.Revoked)
+                    return BadRequest(new { error = "Refresh token déjà utilisé ou révoqué" });
+
+                if (storedRefreshToken.JwtId != jti)
+                    return BadRequest(new { error = "Le refresh token ne correspond pas au JWT" });
+
+                storedRefreshToken.Used = true;
+                _context.RefreshTokens.Update(storedRefreshToken);
+                await _context.SaveChangesAsync();
+
+                var user = await _userManager.FindByIdAsync(userId);
+                var tokens = await GenerateTokensAsync(user);
+
+                return Ok(tokens);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erreur lors du rafraîchissement du token");
+                return BadRequest(new { error = "Token invalide" });
+            }
+        }
+
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound(new { error = "Utilisateur introuvable" });
+
+            var result = await _userManager.ChangePasswordAsync(user, dto.OldPassword, dto.NewPassword);
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            // 🔒 Révoque tous les refresh tokens du user
+            var tokens = await _context.RefreshTokens
+                .Where(t => t.UserId == user.Id && !t.Revoked && !t.Used)
+                .ToListAsync();
+
+            foreach (var token in tokens)
+            {
+                token.Revoked = true;
+                token.Used = true;
+                token.RevokedAt = DateTime.UtcNow;
             }
 
-            return result;
+            _context.RefreshTokens.UpdateRange(tokens);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Tous les refresh tokens ont été révoqués pour l'utilisateur {UserId} après changement de mot de passe", user.Id);
+
+            return Ok(new { message = "Mot de passe changé. Tous les tokens ont été révoqués." });
+        }
+
+        [HttpPost("logout")]
+        [Authorize] // Nécessite que l’utilisateur soit connecté
+        public async Task<IActionResult> Logout([FromBody] TokenRequestDto request)
+        {
+            try
+            {
+                // Recherche du refresh token
+                var storedToken = await _context.RefreshTokens
+                    .FirstOrDefaultAsync(x => x.Token == request.RefreshToken);
+
+                if (storedToken == null)
+                    return BadRequest(new { error = "Refresh token introuvable." });
+
+                if (storedToken.Revoked)
+                    return BadRequest(new { error = "Refresh token déjà révoqué." });
+
+                // Révocation
+                storedToken.Revoked = true;
+                storedToken.Used = true;
+                _context.RefreshTokens.Update(storedToken);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Refresh token révoqué pour l'utilisateur {UserId}", storedToken.UserId);
+
+                return Ok(new { message = "Déconnexion réussie. Le refresh token a été révoqué." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erreur lors de la déconnexion.");
+                return Problem("Erreur interne lors de la déconnexion.");
+            }
+        }
+
+        [HttpPost("logout-all")]
+        [Authorize] // Nécessite que l’utilisateur soit connecté
+        public async Task<IActionResult> LogoutAll([FromBody] TokenRequestDto request)
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (userId == null)
+                    return Unauthorized(new { error = "Utilisateur non identifié." });
+
+                // Récupère tous les refresh tokens actifs de l'utilisateur
+                var tokens = await _context.RefreshTokens
+                    .Where(t => t.UserId == userId && !t.Revoked && !t.Used)
+                    .ToListAsync();
+
+                if (!tokens.Any())
+                    return Ok(new { message = "Aucun refresh token actif à révoquer." });
+
+                // Révoque tous les refresh tokens
+                foreach (var token in tokens)
+                {
+                    token.Revoked = true;
+                    token.Used = true;
+                    token.RevokedAt = DateTime.UtcNow;
+                }
+
+                _context.RefreshTokens.UpdateRange(tokens);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Tous les refresh tokens ont été révoqués pour l'utilisateur {UserId}", userId);
+
+                return Ok(new { message = "Déconnexion réussie. Tous les refresh tokens ont été révoqués." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erreur lors de la déconnexion.");
+                return Problem("Erreur interne lors de la déconnexion.");
+            }
         }
         #endregion
 
         #region Internal methods
-        private string GenerateJwtToken(IdentityUser user)
+
+        private async Task<object> GenerateTokensAsync(IdentityUser user)
         {
-            // Now its ime to define the jwt token which will be responsible of creating our tokens
             var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_option.Key);
 
-            // We get our secret from the appsettings
-            var key = Encoding.UTF8.GetBytes(this._option.Key);
+            // 1️⃣ Crée les claims pour le JWT
+            var claims = new[]
+            {
+        new Claim("Id", user.Id),
+        new Claim(ClaimTypes.NameIdentifier, user.Id),
+        new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+        new Claim(JwtRegisteredClaimNames.Email, user.Email),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // JWT ID unique
+    };
 
-            // we define our token descriptor
-            // We need to utilise claims which are properties in our token which gives information about the token
-            // which belong to the specific user who it belongs to
-            // so it could contain their id, name, email the good part is that these information
-            // are generated by our server and identity framework which is valid and trusted
+            // 2️⃣ Crée le token JWT
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                new Claim("Id", user.Id),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                // the JTI is used for our refresh token which we will be convering in the next video
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            }),
-                // the life span of the token needs to be shorter and utilise refresh token to keep the user signedin
-                // but since this is a demo app we can extend it to fit our current need
-                Expires = DateTime.UtcNow.AddHours(12),
-                // here we are adding the encryption alogorithim information which will be used to decrypt our token
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddMinutes(30), // JWT court
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
             };
 
             var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-
             var jwtToken = jwtTokenHandler.WriteToken(token);
 
-            return jwtToken;
+            // 3️⃣ Supprime les anciens refresh tokens expirés ou utilisés
+            var oldTokens = _context.RefreshTokens
+                .Where(t => t.UserId == user.Id && (t.Used || (t.ExpiresAt.HasValue && t.ExpiresAt.Value < DateTime.UtcNow)));
+
+            if (oldTokens.Any())
+            {
+                _context.RefreshTokens.RemoveRange(oldTokens);
+                await _context.SaveChangesAsync();
+            }
+
+            // 4️⃣ Crée un nouveau refresh token
+            var refreshToken = new RefreshToken
+            {
+                Token = Guid.NewGuid().ToString(),     // Token unique
+                JwtId = token.Id,                      // Lie le refresh token au JWT
+                UserId = user.Id,
+                CreatedAt = DateTime.UtcNow,
+                ExpiresAt = DateTime.UtcNow.AddDays(7) // Refresh token long
+            };
+
+            await _context.RefreshTokens.AddAsync(refreshToken);
+            await _context.SaveChangesAsync();
+
+            // 5️⃣ Retourne JWT + refresh token + expiration
+            return new
+            {
+                token = jwtToken,
+                refreshToken = refreshToken.Token,
+                tokenExpiresAt = tokenDescriptor.Expires,
+                refreshTokenExpiresAt = refreshToken.ExpiresAt
+            };
         }
+
+
         #endregion
     }
 }
