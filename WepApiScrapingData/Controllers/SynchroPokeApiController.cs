@@ -324,7 +324,7 @@ namespace WepApiScrapingData.Controllers
         public async Task<IActionResult> SynchroPokemons()
         {
             // Exemple : récupérer 150 Pokémon à partir de l'offset 0
-            var pokeList = await _pokeApiClient.GetFromJsonAsync<PokeList>("pokemon?limit=150&offset=0");
+            var pokeList = await _pokeApiClient.GetFromJsonAsync<PokeList>("pokemon?limit=100000&offset=0");
             if (pokeList?.Results == null || pokeList.Results.Count == 0)
                 return BadRequest("Impossible de récupérer la liste des Pokémon depuis PokéAPI.");
 
@@ -382,6 +382,13 @@ namespace WepApiScrapingData.Controllers
                             Stats = new Dictionary<string, int>(),
                             Moves = new List<PokeMoveDto>()
                         };
+
+                        // ID national (numéro de Pokédex)
+                        if (pokemonData.TryGetProperty("id", out var idProp))
+                        {
+                            dto.NationalId = idProp.GetInt32();
+                            dto.NationalIdFormatted = dto.NationalId.ToString("D4"); // formate en "0001"
+                        }
 
                         // Types
                         if (pokemonData.TryGetProperty("types", out var types) && types.ValueKind == JsonValueKind.Array)
@@ -519,7 +526,15 @@ namespace WepApiScrapingData.Controllers
                 Console.WriteLine($"Progression : {i + batch.Count}/{pokeList.Results.Count} Pokémon traités");
             }
 
-            return Ok(pokemons);
+            var json = System.Text.Json.JsonSerializer.Serialize(pokemons,
+                new JsonSerializerOptions { WriteIndented = true });
+
+            var bytes = System.Text.Encoding.UTF8.GetBytes(json);
+            var fileName = $"pokemons_{DateTime.Now:yyyyMMdd_HHmmss}.json";
+
+            return File(bytes, "application/json", fileName);
+
+            //return Ok(pokemons);
         }
 
         // Méthode helper async pour récupérer le nom anglais d’un move
@@ -752,6 +767,8 @@ namespace WepApiScrapingData.Controllers
     public class PokeDto
     {
         public string Identifier { get; set; }
+        public int NationalId { get; set; }         // ex: 1
+        public string NationalIdFormatted { get; set; } // ex: "0001"
         public int Height { get; set; }
         public int Weight { get; set; }
         public int BaseExperience { get; set; }
