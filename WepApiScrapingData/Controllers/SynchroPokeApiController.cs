@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
 using System.Text.Json;
@@ -323,14 +324,16 @@ namespace WepApiScrapingData.Controllers
         [HttpGet("SynchroPokemonsFromPokeApi")]
         public async Task<IActionResult> SynchroPokemons()
         {
-            // Exemple : récupérer 150 Pokémon à partir de l'offset 0
+            List<string> ErrorForm = new();
+            List<string> Error = new();
+
             var pokeList = await _pokeApiClient.GetFromJsonAsync<PokeList>("pokemon?limit=100000&offset=0");
             if (pokeList?.Results == null || pokeList.Results.Count == 0)
                 return BadRequest("Impossible de récupérer la liste des Pokémon depuis PokéAPI.");
 
             var pokemons = new ConcurrentBag<PokeDto>();
 
-            // Cache des types
+            // 🔹 Cache des types pour calcul des faiblesses
             var typeNames = new[]
             {
                 "normal","fire","water","electric","grass","ice","fighting","poison",
@@ -349,15 +352,13 @@ namespace WepApiScrapingData.Controllers
                 catch { }
             });
 
-            // 3️⃣ Cache global pour éviter les appels répétés de moves
+            // 🔹 Cache global des moves
             var moveNameCache = new ConcurrentDictionary<string, Task<string>>();
-
             int batchSize = 10;
 
             for (int i = 0; i < pokeList.Results.Count; i += batchSize)
             {
                 var batch = pokeList.Results.Skip(i).Take(batchSize).ToList();
-
                 var tasks = batch.Select(async item =>
                 {
                     try
@@ -365,30 +366,105 @@ namespace WepApiScrapingData.Controllers
                         var pokemonData = await _pokeApiClient.GetFromJsonAsync<JsonElement>(new Uri(item.Url));
                         if (pokemonData.ValueKind == JsonValueKind.Undefined) return;
 
-                        var speciesUrl = pokemonData.GetProperty("species").GetProperty("url").GetString();
-                        var speciesData = await _pokeApiClient.GetFromJsonAsync<JsonElement>(new Uri(speciesUrl));
 
-                        var dto = new PokeDto
-                        {
-                            Identifier = pokemonData.GetProperty("name").GetString(),
-                            Height = pokemonData.TryGetProperty("height", out var h) ? h.GetInt32() : 0,
-                            Weight = pokemonData.TryGetProperty("weight", out var w) ? w.GetInt32() : 0,
-                            BaseExperience = pokemonData.TryGetProperty("base_experience", out var exp) ? exp.GetInt32() : 0,
-                            Types = new List<string>(),
-                            Abilities = new List<string>(),
-                            Names = new Dictionary<string, string>(),
-                            Descriptions = new Dictionary<string, string>(),
-                            Weaknesses = new Dictionary<string, double>(),
-                            Stats = new Dictionary<string, int>(),
-                            Moves = new List<PokeMoveDto>()
-                        };
+                        int id = pokemonData.GetProperty("id").GetInt32();
+                        bool isSpecialForm = id >= 10000;
+                        JsonElement? speciesData = null;
+                        var dto = new PokeDto();
 
-                        // ID national (numéro de Pokédex)
-                        if (pokemonData.TryGetProperty("id", out var idProp))
+                        // --- 🔸 Si c’est une forme spéciale ---
+                        if (isSpecialForm)
                         {
-                            dto.NationalId = idProp.GetInt32();
-                            dto.NationalIdFormatted = dto.NationalId.ToString("D4"); // formate en "0001"
+                            try
+                            {
+                                string urlForm = pokemonData.GetProperty("forms")[0].GetProperty("url").GetString();
+
+                                var formData = await _pokeApiClient.GetFromJsonAsync<JsonElement>(
+                                    new Uri(urlForm)
+                                );
+
+                                dto.IsSpecialForm = true;
+                                dto.FormIdentifier = formData.TryGetProperty("form_name", out var fn) ? fn.GetString() : null;
+                                dto.FormNames = new Dictionary<string, string>();
+                                dto.FormNameEn = null;
+
+                                // Noms multilingues de la forme
+                                if (formData.TryGetProperty("form_names", out var formNames) && formNames.ValueKind == JsonValueKind.Array)
+                                {
+                                    foreach (var n in formNames.EnumerateArray())
+                                    {
+                                        var lang = n.GetProperty("language").GetProperty("name").GetString();
+                                        var value = n.GetProperty("name").GetString();
+                                        if (!string.IsNullOrEmpty(lang) && !string.IsNullOrEmpty(value))
+                                            dto.FormNames[lang] = value;
+                                    }
+
+                                    if (dto.FormNames.TryGetValue("en", out var en)) dto.FormNameEn = en;
+                                }
+
+                                // Récupération du lien vers la species
+                                if (formData.TryGetProperty("pokemon", out var pokeRef) &&
+                                    pokeRef.TryGetProperty("url", out var pokeUrlProp))
+                                {
+                                    var pokeUrl = pokeUrlProp.GetString();
+                                    if (!string.IsNullOrEmpty(pokeUrl))
+                                    {
+                                        var pokeEntity = await _pokeApiClient.GetFromJsonAsync<JsonElement>(new Uri(pokeUrl));
+                                        var speciesUrl = pokeEntity.GetProperty("species").GetProperty("url").GetString();
+                                        speciesData = await _pokeApiClient.GetFromJsonAsync<JsonElement>(new Uri(speciesUrl));
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Erreur récupération forme spéciale {item.Name}: {ex.Message}");
+                                ErrorForm.Add($"Erreur récupération forme spéciale {item.Name}: {ex.Message}");
+                            }
                         }
+
+                        // --- 🔹 Si pas de forme spéciale ---
+                        else
+                        {
+                            var speciesUrl = pokemonData.GetProperty("species").GetProperty("url").GetString();
+                            speciesData = await _pokeApiClient.GetFromJsonAsync<JsonElement>(new Uri(speciesUrl));
+                        }
+
+                        // --- Données de base ---
+                        dto.Identifier = pokemonData.GetProperty("name").GetString();
+                        int nationalNumber = id;
+                        // Recherche du vrai numéro Pokédex national depuis la species
+                        if (speciesData.Value.TryGetProperty("pokedex_numbers", out var pokedexNumbers) &&
+                        pokedexNumbers.ValueKind == JsonValueKind.Array)
+                        {
+                            foreach (var p in pokedexNumbers.EnumerateArray())
+                            {
+                                var pokedex = p.GetProperty("pokedex").GetProperty("name").GetString();
+                                if (pokedex == "national")
+                                {
+                                    nationalNumber = p.GetProperty("entry_number").GetInt32();
+                                    break;
+                                }
+                            }
+                        }
+                        dto.NationalId = nationalNumber;
+                        dto.NationalIdFormatted = nationalNumber.ToString("D4");
+                        dto.Height = pokemonData.TryGetProperty("height", out var h) ? h.GetInt32() : 0;
+                        dto.Weight = pokemonData.TryGetProperty("weight", out var w) ? w.GetInt32() : 0;
+
+                        // --- Conversion métrique ---
+                        dto.HeightMeters = Math.Round(dto.Height / 10.0, 2);  // dm → m
+                        dto.WeightKilograms = Math.Round(dto.Weight / 10.0, 2); // hg → kg
+
+                        // --- Conversion impériale ---
+                        // 1 mètre = 3.28084 pieds
+                        // 1 kg = 2.20462 livres
+                        double totalFeet = dto.HeightMeters * 3.28084;
+                        int feet = (int)Math.Floor(totalFeet);
+                        int inches = (int)Math.Round((totalFeet - feet) * 12);
+                        dto.HeightFeetInches = $"{feet}'{inches}\"";
+                        dto.WeightPounds = Math.Round(dto.WeightKilograms * 2.20462, 2);
+
+                        dto.BaseExperience = pokemonData.TryGetProperty("base_experience", out var exp) ? exp.GetInt32() : 0;
 
                         // Types
                         if (pokemonData.TryGetProperty("types", out var types) && types.ValueKind == JsonValueKind.Array)
@@ -398,7 +474,13 @@ namespace WepApiScrapingData.Controllers
                         // Abilities
                         if (pokemonData.TryGetProperty("abilities", out var abilities) && abilities.ValueKind == JsonValueKind.Array)
                             foreach (var a in abilities.EnumerateArray())
-                                dto.Abilities.Add(a.GetProperty("ability").GetProperty("name").GetString());
+                            {
+                                var abilityDto = new AbilityLightDto();
+                                abilityDto.Identifier = a.GetProperty("ability").GetProperty("name").GetString();
+                                abilityDto.IsHidden = a.GetProperty("is_hidden").GetBoolean();
+
+                                dto.Abilities.Add(abilityDto);
+                            }
 
                         // Stats
                         int statTotal = 0;
@@ -415,7 +497,8 @@ namespace WepApiScrapingData.Controllers
                         }
 
                         // Noms multilingues
-                        if (speciesData.TryGetProperty("names", out var names) && names.ValueKind == JsonValueKind.Array)
+                        if (speciesData.Value.TryGetProperty("names", out var names) && names.ValueKind == JsonValueKind.Array)
+                        {
                             foreach (var nameEntry in names.EnumerateArray())
                             {
                                 var lang = nameEntry.GetProperty("language").GetProperty("name").GetString();
@@ -423,26 +506,43 @@ namespace WepApiScrapingData.Controllers
                                 if (!string.IsNullOrEmpty(lang) && !string.IsNullOrEmpty(value))
                                     dto.Names[lang] = value;
                             }
+                        }
 
-                        // Descriptions multilingues
-                        if (speciesData.TryGetProperty("flavor_text_entries", out var flavorTexts) && flavorTexts.ValueKind == JsonValueKind.Array)
+                        // Descriptions Pokédex
+                        if (speciesData.Value.TryGetProperty("flavor_text_entries", out var flavorTexts)
+                            && flavorTexts.ValueKind == JsonValueKind.Array)
+                        {
                             foreach (var entry in flavorTexts.EnumerateArray())
                             {
                                 var lang = entry.GetProperty("language").GetProperty("name").GetString();
                                 var value = entry.TryGetProperty("flavor_text", out var textProp)
                                     ? textProp.GetString()?.Replace("\n", " ").Replace("\f", " ")
                                     : null;
-                                if (!string.IsNullOrEmpty(lang) && !string.IsNullOrEmpty(value) && !dto.Descriptions.ContainsKey(lang))
+                                if (!string.IsNullOrEmpty(lang) && !string.IsNullOrEmpty(value)
+                                    && !dto.Descriptions.ContainsKey(lang))
                                     dto.Descriptions[lang] = value;
                             }
+                        }
 
-                        // Base happiness, capture rate, steps to hatch
-                        if (speciesData.TryGetProperty("base_happiness", out var happiness)) dto.BaseHappiness = happiness.GetInt32();
-                        if (speciesData.TryGetProperty("capture_rate", out var capture)) dto.CaptureRate = capture.GetInt32();
-                        if (speciesData.TryGetProperty("hatch_counter", out var hatch) && hatch.ValueKind == JsonValueKind.Number)
+                        // Reproduction & capture
+                        if (speciesData.Value.TryGetProperty("base_happiness", out var happiness))
+                            dto.BaseHappiness = happiness.GetInt32();
+                        if (speciesData.Value.TryGetProperty("capture_rate", out var capture))
+                            dto.CaptureRate = capture.GetInt32();
+                        if (speciesData.Value.TryGetProperty("hatch_counter", out var hatch) && hatch.ValueKind == JsonValueKind.Number)
                             dto.StepsToHatch = hatch.GetInt32() * 255;
+                        if (speciesData.Value.TryGetProperty("color", out var color))
+                            dto.Color = color.GetProperty("name").GetString();
+                        if (speciesData.Value.TryGetProperty("has_gender_differences", out var has_gender_differences))
+                            dto.HasGenderDifferences = has_gender_differences.GetBoolean();
+                        if (speciesData.Value.TryGetProperty("is_baby", out var is_baby))
+                            dto.IsBaby = is_baby.GetBoolean();
+                        if (speciesData.Value.TryGetProperty("is_legendary", out var is_legendary))
+                            dto.IsLegendary = is_legendary.GetBoolean();
+                        if (speciesData.Value.TryGetProperty("is_mythical", out var is_mythical))
+                            dto.IsMythical = is_mythical.GetBoolean();
 
-                        // 🔹 Moves avec cache global
+                        // Moves (avec cache)
                         var moveSet = new HashSet<string>();
                         if (pokemonData.TryGetProperty("moves", out var moves) && moves.ValueKind == JsonValueKind.Array)
                         {
@@ -457,12 +557,10 @@ namespace WepApiScrapingData.Controllers
                                     foreach (var versionDetail in details.EnumerateArray())
                                     {
                                         var method = versionDetail.GetProperty("move_learn_method").GetProperty("name").GetString();
+                                        var level = versionDetail.GetProperty("level_learned_at").GetInt32();
                                         var key = $"{moveNameEn}|{method}";
-                                        if (!moveSet.Contains(key))
-                                        {
-                                            moveSet.Add(key);
-                                            dto.Moves.Add(new PokeMoveDto { NameEn = moveNameEn, LearnMethod = method });
-                                        }
+                                        if (moveSet.Add(key))
+                                            dto.Moves.Add(new PokeMoveDto { NameEn = moveNameEn, LearnMethod = method, Level = level });
                                     }
                                 }
                             }
@@ -493,10 +591,11 @@ namespace WepApiScrapingData.Controllers
                             if (damageRelations.TryGetProperty("no_damage_from", out var noFrom))
                                 Apply(noFrom.EnumerateArray(), 0.0);
                         }
-                        dto.Weaknesses = damageMultipliers.Where(kv => kv.Value != 1.0).ToDictionary(kv => kv.Key, kv => kv.Value);
+                        dto.Weaknesses = damageMultipliers.Where(kv => kv.Value != 1.0)
+                                                          .ToDictionary(kv => kv.Key, kv => kv.Value);
 
-                        // 1️⃣ Evolutions et famille
-                        if (speciesData.TryGetProperty("evolution_chain", out var evoChainProp))
+                        // Évolutions
+                        if (speciesData.Value.TryGetProperty("evolution_chain", out var evoChainProp))
                         {
                             var evoChainUrl = evoChainProp.GetProperty("url").GetString();
                             if (!string.IsNullOrEmpty(evoChainUrl))
@@ -506,11 +605,12 @@ namespace WepApiScrapingData.Controllers
                             }
                         }
 
-                        // 2️⃣ Formes spéciales (Méga, G-Max, Alola...)
-                        dto.Forms = await GetSpecialFormsAsync(speciesUrl);
+                        // Formes spéciales liées
+                        var speciesUrlForForms = pokemonData.GetProperty("species").GetProperty("url").GetString();
+                        dto.Forms = await GetSpecialFormsAsync(speciesUrlForForms);
 
-                        // 3️⃣ Génération
-                        if (speciesData.TryGetProperty("generation", out var genProp))
+                        // Génération
+                        if (speciesData.Value.TryGetProperty("generation", out var genProp))
                             dto.Generation = genProp.GetProperty("name").GetString();
 
                         pokemons.Add(dto);
@@ -518,24 +618,28 @@ namespace WepApiScrapingData.Controllers
                     catch (Exception ex)
                     {
                         Console.WriteLine($"Erreur sur {item.Name}: {ex.Message}");
+                        Error.Add($"Erreur sur {item.Name}: {ex.Message}");
                     }
                 });
 
                 await Task.WhenAll(tasks);
+
                 await Task.Delay(500);
                 Console.WriteLine($"Progression : {i + batch.Count}/{pokeList.Results.Count} Pokémon traités");
             }
 
-            var json = System.Text.Json.JsonSerializer.Serialize(pokemons,
-                new JsonSerializerOptions { WriteIndented = true });
-
+            // 🔹 Export JSON téléchargeable
+            var options = new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+            var json = System.Text.Json.JsonSerializer.Serialize(pokemons, options);
             var bytes = System.Text.Encoding.UTF8.GetBytes(json);
             var fileName = $"pokemons_{DateTime.Now:yyyyMMdd_HHmmss}.json";
 
-            return File(bytes, "application/json", fileName);
+            var x = Error;
 
-            //return Ok(pokemons);
+            return File(bytes, "application/json", fileName);
         }
+
+
 
         // Méthode helper async pour récupérer le nom anglais d’un move
         private async Task<string> GetMoveNameEnAsync(string moveUrl, JsonElement moveEntry)
@@ -764,36 +868,73 @@ namespace WepApiScrapingData.Controllers
         public Dictionary<string, string> Descriptions { get; set; }
     }
 
-    public class PokeDto
+    public class AbilityLightDto
     {
         public string Identifier { get; set; }
-        public int NationalId { get; set; }         // ex: 1
-        public string NationalIdFormatted { get; set; } // ex: "0001"
+        public bool IsHidden { get; set; }
+    }
+
+    public class PokeDto
+    {
+        // --- Informations de base ---
+        public string Identifier { get; set; }              // nom interne (ex: "venusaur-mega")
+        public int NationalId { get; set; }                 // ex: 1 ou 10033
+        public string NationalIdFormatted { get; set; }     // ex: "0001"
         public int Height { get; set; }
         public int Weight { get; set; }
+        public double HeightMeters { get; set; }
+        public double WeightKilograms { get; set; }
+        public string HeightFeetInches { get; set; }
+        public double WeightPounds { get; set; }
         public int BaseExperience { get; set; }
-        public List<string> Types { get; set; }
-        public List<string> Abilities { get; set; }
-        public Dictionary<string, string> Names { get; set; }
-        public Dictionary<string, string> Descriptions { get; set; }
-        public Dictionary<string, double> Weaknesses { get; set; }
-        public Dictionary<string, int> Stats { get; set; }
+
+        // --- Typage & compétences ---
+        public List<string> Types { get; set; } = new();
+        public List<AbilityLightDto> Abilities { get; set; } = new();
+
+        // --- Multilingue ---
+        public Dictionary<string, string> Names { get; set; } = new();         // noms de la species (FR, EN, JP...)
+        public Dictionary<string, string> Descriptions { get; set; } = new();  // textes descriptifs
+
+        // --- Statistiques ---
+        public Dictionary<string, int> Stats { get; set; } = new();
         public int StatsTotal { get; set; }
+
+        // --- Informations de reproduction et capture ---
         public int? BaseHappiness { get; set; }
         public int? CaptureRate { get; set; }
         public int? StepsToHatch { get; set; }
-        public List<PokeMoveDto> Moves { get; set; }
-        public List<string> Family { get; set; }
-        public List<PokeEvolutionDto> Evolutions { get; set; }
-        public List<SpecialFormDto> Forms { get; set; }
-        public string Generation { get; set; }
+        public string? Color { get; set; }
+        public bool HasGenderDifferences { get; set; }
+        public bool IsBaby { get; set; }
+        public bool IsLegendary { get; set; }
+        public bool IsMythical { get; set; }
 
+        // --- Capacités ---
+        public List<PokeMoveDto> Moves { get; set; } = new();
+
+        // --- Évolution ---
+        public List<string> Family { get; set; } = new();                   // noms anglais de la lignée évolutive
+        public List<PokeEvolutionDto> Evolutions { get; set; } = new();     // détails des conditions d'évolution
+
+        // --- Formes spéciales ---
+        public List<SpecialFormDto> Forms { get; set; } = new();            // liste des formes alternatives
+        public bool IsSpecialForm { get; set; }                             // indique si ce Pokémon est une forme spéciale
+        public string FormIdentifier { get; set; }                          // ex: "mega", "gmax", "alola"
+        public string FormNameEn { get; set; }                              // nom anglais spécifique à la forme
+        public Dictionary<string, string> FormNames { get; set; } = new();  // noms localisés de la forme                        // sprite propre à la forme (si différent)
+
+        // --- Faiblesses et génération ---
+        public Dictionary<string, double> Weaknesses { get; set; } = new();
+        public string Generation { get; set; }
     }
+
 
     public class PokeMoveDto
     {
         public string NameEn { get; set; }          // Nom de l'attaque en anglais
         public string LearnMethod { get; set; }     // Méthode d'apprentissage (level-up, egg, tutor, machine)
+        public int? Level { get; set; }
     }
 
     public class PokeEvolutionDto
