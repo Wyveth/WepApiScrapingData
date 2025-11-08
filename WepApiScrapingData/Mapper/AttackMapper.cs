@@ -5,13 +5,13 @@ using WepApiScrapingData.DTOs.Concrete;
 
 namespace WepApiScrapingData.Mapper
 {
-    public class AttaqueMapper : GenericMapper<Attaque, AttaqueDto>
+    public class AttackMapper : GenericMapper<Attack, AttackDto>
     {
-        public override AttaqueDto Map(Attaque source, string langue)
+        public override AttackDto Map(Attack source, string langue)
         {
             if (source == null) return null;
 
-            var dto = new AttaqueDto
+            var dto = new AttackDto
             {
                 Id = source.Id,
                 Power = source.Power,
@@ -23,12 +23,12 @@ namespace WepApiScrapingData.Mapper
             var lang = langue?.ToUpper() ?? Constantes.FR;
 
             // Nom
-            var nameProp = typeof(Attaque).GetProperty($"Name_{lang}");
+            var nameProp = typeof(Attack).GetProperty($"Name_{lang}");
             if (nameProp != null)
                 dto.Name = nameProp.GetValue(source)?.ToString();
 
             // Description
-            var descProp = typeof(Attaque).GetProperty($"Description_{lang}");
+            var descProp = typeof(Attack).GetProperty($"Description_{lang}");
             if (descProp != null)
                 dto.Description = descProp.GetValue(source)?.ToString();
 
@@ -38,10 +38,10 @@ namespace WepApiScrapingData.Mapper
                 dto.TypePok = typeMapper.Map(source.TypePok, lang);
             }
 
-            if (source.TypeAttaque != null)
+            if (source.TypeAttack != null)
             {
-                var typeAttaqueMapper = new TypeAttaqueMapper();
-                dto.TypeAttaque = typeAttaqueMapper.Map(source.TypeAttaque, lang);
+                var typeAttaqueMapper = new TypeAttackMapper();
+                dto.TypeAttaque = typeAttaqueMapper.Map(source.TypeAttack, lang);
             }
 
             return dto;

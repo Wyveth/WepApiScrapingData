@@ -14,11 +14,11 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #region fields
         private readonly PokemonRepository _repositoryP;
         private readonly TypePokRepository _repositoryTP;
-        private readonly TalentRepository _repositoryT;
+        private readonly AbilityRepository _repositoryT;
         #endregion
 
         #region Constructor
-        public AnswerRepository(ScrapingContext context, PokemonRepository repositoryP, TypePokRepository repositoryTP, TalentRepository repositoryT) : base(context)
+        public AnswerRepository(ScrapingContext context, PokemonRepository repositoryP, TypePokRepository repositoryTP, AbilityRepository repositoryT) : base(context)
         {
             _repositoryP = repositoryP;
             _repositoryTP = repositoryTP;
@@ -34,7 +34,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
             List<Pokemon> alreadyExistQTypPok = new();
             List<Pokemon> alreadyExistQTypTypPok = new();
             List<TypePok> alreadyExistQTypTyp = new();
-            List<Talent> alreadyExistQTypTalent = new();
+            List<Ability> alreadyExistQTypTalent = new();
             List<Pokemon> alreadyExistQTypPokStat = new();
 
             if (questionType.Code.Equals(Constantes.QTypPok_Code)
@@ -201,7 +201,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
             {
                 Console.WriteLine("GenerateAnswers - QTypTalent");
 
-                List<Talent> talents = new List<Talent>();
+                List<Ability> talents = new List<Ability>();
                 foreach (Answer item in answers)
                 {
                     talents.Add(await _repositoryT.Get(item.IsCorrectID));
@@ -211,7 +211,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
                 for (int i = 0; i < qMissing; i++)
                 {
-                    talents.Add(await _repositoryT.GetTalentRandom(talents));
+                    talents.Add(await _repositoryT.GetAbilityRandom(talents));
                 }
 
                 if (questionType.Code.Equals(Constantes.QTypTalent_Code))
@@ -555,12 +555,12 @@ namespace WebApiScrapingData.Infrastructure.Repository
         #endregion
 
         #region Quizz Talent
-        public async Task<List<Answer>> GenerateCorrectAnswers(QuestionType questionType, List<Talent> talentsAnswer, bool Reverse)
+        public async Task<List<Answer>> GenerateCorrectAnswers(QuestionType questionType, List<Ability> talentsAnswer, bool Reverse)
         {
             List<Answer> answers = new List<Answer>();
             Random random = new Random();
 
-            Dictionary<int, Talent> dic = new Dictionary<int, Talent>();
+            Dictionary<int, Ability> dic = new Dictionary<int, Ability>();
             foreach (var talent in talentsAnswer)
             {
                 while (!dic.ContainsValue(talent))
@@ -572,7 +572,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 }
             }
 
-            foreach (KeyValuePair<int, Talent> pair in dic)
+            foreach (KeyValuePair<int, Ability> pair in dic)
             {
                 Answer answer = new Answer()
                 {
@@ -590,12 +590,12 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return await Task.FromResult(answers);
         }
 
-        public async Task<List<Answer>> GenerateCorrectAnswers(QuestionType questionType, List<Talent> talentsAnswer)
+        public async Task<List<Answer>> GenerateCorrectAnswers(QuestionType questionType, List<Ability> talentsAnswer)
         {
             List<Answer> answers = new List<Answer>();
             Random random = new Random();
 
-            Dictionary<int, Talent> dic = new Dictionary<int, Talent>();
+            Dictionary<int, Ability> dic = new Dictionary<int, Ability>();
             foreach (var type in talentsAnswer)
             {
                 while (!dic.ContainsValue(type))
@@ -607,7 +607,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 }
             }
 
-            foreach (KeyValuePair<int, Talent> pair in dic)
+            foreach (KeyValuePair<int, Ability> pair in dic)
             {
                 Answer answer = new Answer()
                 {
@@ -625,12 +625,12 @@ namespace WebApiScrapingData.Infrastructure.Repository
             return await Task.FromResult(answers);
         }
 
-        private async Task<List<Answer>> GenerateAnswers(QuestionType questionType, List<Talent> talents, List<Answer> talentsAnswer, bool Reverse = false)
+        private async Task<List<Answer>> GenerateAnswers(QuestionType questionType, List<Ability> talents, List<Answer> talentsAnswer, bool Reverse = false)
         {
             Random random = new Random();
 
             string result = string.Empty;
-            Dictionary<int, Talent> dic = new Dictionary<int, Talent>();
+            Dictionary<int, Ability> dic = new Dictionary<int, Ability>();
 
             foreach (var talent in talents)
             {
@@ -643,7 +643,7 @@ namespace WebApiScrapingData.Infrastructure.Repository
                 }
             }
 
-            foreach (KeyValuePair<int, Talent> pair in dic)
+            foreach (KeyValuePair<int, Ability> pair in dic)
             {
                 Answer answerExist = talentsAnswer.Find(m => m.IsCorrectID.Equals(pair.Value.Id));
                 if (answerExist == null)
@@ -713,16 +713,16 @@ namespace WebApiScrapingData.Infrastructure.Repository
             string libelle = string.Empty;
             if (typeStat.Equals(Constantes.Pv))
                 libelle = pokemon.StatPv.ToString();
-            else if (typeStat.Equals(Constantes.Attaque))
-                libelle = pokemon.StatAttaque.ToString();
+            else if (typeStat.Equals(Constantes.Attack))
+                libelle = pokemon.StatAttack.ToString();
             else if (typeStat.Equals(Constantes.Defense))
                 libelle = pokemon.StatDefense.ToString();
-            else if (typeStat.Equals(Constantes.AttaqueSpe))
-                libelle = pokemon.StatAttaqueSpe.ToString();
+            else if (typeStat.Equals(Constantes.AttackSpe))
+                libelle = pokemon.StatAttackSpe.ToString();
             else if (typeStat.Equals(Constantes.DefenseSpe))
                 libelle = pokemon.StatDefenseSpe.ToString();
-            else if (typeStat.Equals(Constantes.Vitesse))
-                libelle = pokemon.StatVitesse.ToString();
+            else if (typeStat.Equals(Constantes.Speed))
+                libelle = pokemon.StatSpeed.ToString();
 
             return libelle;
         }
@@ -936,27 +936,27 @@ namespace WebApiScrapingData.Infrastructure.Repository
 
         private async Task<List<Answer>> GetAnswersID_QTypTalentPok(QuestionType questionType, Pokemon pokemon)
         {
-            List<Talent> talentsAnswer = new List<Talent>();
-            List<Pokemon_Talent> pokemonTalentServices = pokemon.Pokemon_Talents;
+            List<Ability> talentsAnswer = new List<Ability>();
+            List<Pokemon_Ability> pokemonTalentServices = pokemon.Pokemon_Abilities;
 
             if (pokemonTalentServices != null)
-                foreach (Pokemon_Talent item in pokemonTalentServices)
-                    talentsAnswer.Add(item.Talent);
+                foreach (Pokemon_Ability item in pokemonTalentServices)
+                    talentsAnswer.Add(item.Ability);
 
             return await Task.FromResult(GenerateCorrectAnswers(questionType, talentsAnswer).Result);
         }
 
-        private async Task<List<Answer>> GetAnswersID_QTypTalent(QuestionType questionType, List<Talent> alreadySelected)
+        private async Task<List<Answer>> GetAnswersID_QTypTalent(QuestionType questionType, List<Ability> alreadySelected)
         {
             List<Task> tasks = new List<Task>();
-            List<Talent> talentsAnswer = new List<Talent>();
+            List<Ability> talentsAnswer = new List<Ability>();
 
             for (int nbAnswer = 0; nbAnswer < questionType.NbAnswersPossible; nbAnswer++)
             {
                 tasks.Add(
                     Task.Run(async () =>
                     {
-                        talentsAnswer.Add(await _repositoryT.GetTalentRandom(alreadySelected));
+                        talentsAnswer.Add(await _repositoryT.GetAbilityRandom(alreadySelected));
                     })
                 );
             }
@@ -1001,11 +1001,11 @@ namespace WebApiScrapingData.Infrastructure.Repository
             switch (numberRandom)
             {
                 case 0: typeStat = Constantes.Pv; break;
-                case 1: typeStat = Constantes.Attaque; break;
+                case 1: typeStat = Constantes.Attack; break;
                 case 2: typeStat = Constantes.Defense; break;
-                case 3: typeStat = Constantes.AttaqueSpe; break;
+                case 3: typeStat = Constantes.AttackSpe; break;
                 case 4: typeStat = Constantes.DefenseSpe; break;
-                case 5: typeStat = Constantes.Vitesse; break;
+                case 5: typeStat = Constantes.Speed; break;
             }
 
             return typeStat;

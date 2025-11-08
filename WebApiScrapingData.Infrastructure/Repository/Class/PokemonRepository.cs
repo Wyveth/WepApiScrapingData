@@ -16,14 +16,14 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
         #region Fields
         private readonly DataInfoRepository _repositoryDI;
         private readonly TypePokRepository _repositoryTP;
-        private readonly TalentRepository _repositoryTL;
-        private readonly AttaqueRepository _repositoryAT;
-        private readonly TypeAttaqueRepository _repositoryTA;
+        private readonly AbilityRepository _repositoryTL;
+        private readonly AttackRepository _repositoryAT;
+        private readonly TypeAttackRepository _repositoryTA;
         private readonly GameRepository _repositoryG;
         private readonly Pokemon_TypePokRepository _repositoryPTP;
         private readonly Pokemon_WeaknessRepository _repositoryPW;
-        private readonly Pokemon_AttaqueRepository _repositoryPAT;
-        private readonly Pokemon_TalentRepository _repositoryPT;
+        private readonly Pokemon_AttackRepository _repositoryPAT;
+        private readonly Pokemon_AbilityRepository _repositoryPT;
         #endregion
 
         #region Constructor
@@ -31,13 +31,13 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
         {
             _repositoryDI = new DataInfoRepository(context);
             _repositoryTP = new TypePokRepository(context);
-            _repositoryTL = new TalentRepository(context);
-            _repositoryAT = new AttaqueRepository(context);
-            _repositoryTA = new TypeAttaqueRepository(context);
+            _repositoryTL = new AbilityRepository(context);
+            _repositoryAT = new AttackRepository(context);
+            _repositoryTA = new TypeAttackRepository(context);
             _repositoryPTP = new Pokemon_TypePokRepository(context);
             _repositoryPW = new Pokemon_WeaknessRepository(context);
-            _repositoryPAT = new Pokemon_AttaqueRepository(context);
-            _repositoryPT = new Pokemon_TalentRepository(context);
+            _repositoryPAT = new Pokemon_AttackRepository(context);
+            _repositoryPT = new Pokemon_AbilityRepository(context);
             _repositoryG = new GameRepository(context);
         }
         #endregion
@@ -71,9 +71,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.JP)
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Pokemon_Abilities).ThenInclude(u => u.Ability)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypeAttack)
                 .Include(m => m.Game)
                 .Where(predicate ?? (s => true))
                 .OrderBy(m => Convert.ToInt32(m.Number))
@@ -96,9 +96,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(p => p.JP)
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Pokemon_Abilities).ThenInclude(u => u.Ability)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypeAttack)
                 .Include(m => m.Game)
                 .Where(predicate ?? (s => true))
                 .OrderBy(p => Convert.ToInt32(p.Number))
@@ -112,9 +112,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             var query = _context.Pokemons
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Pokemon_Abilities).ThenInclude(u => u.Ability)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypeAttack)
                 .Include(m => m.Game)
                 .AsSplitQuery();
 
@@ -152,9 +152,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.JP)
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Pokemon_Abilities).ThenInclude(u => u.Ability)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypeAttack)
                 .Include(m => m.Game)
                 .AsNoTracking()
                 .AsSplitQuery()
@@ -165,8 +165,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 // Trier selon l'ordre d'insertion en base (Id de la table de jonction)
                 pokemon.Pokemon_TypePoks = pokemon.Pokemon_TypePoks.OrderBy(t => t.Id).ToList();
                 pokemon.Pokemon_Weaknesses = pokemon.Pokemon_Weaknesses.OrderBy(t => t.Id).ToList();
-                pokemon.Pokemon_Talents = pokemon.Pokemon_Talents.OrderBy(t => t.Id).ToList();
-                pokemon.Pokemon_Attaques = pokemon.Pokemon_Attaques.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Abilities = pokemon.Pokemon_Abilities.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Attacks = pokemon.Pokemon_Attacks.OrderBy(t => t.Id).ToList();
             }
 
             return pokemon;
@@ -186,9 +186,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.JP)
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Pokemon_Abilities).ThenInclude(u => u.Ability)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypeAttack)
                 .Include(m => m.Game)
                 .AsNoTracking()
                 .AsSplitQuery()
@@ -199,8 +199,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 // Trier selon l'ordre d'insertion en base (Id de la table de jonction)
                 pokemon.Pokemon_TypePoks = pokemon.Pokemon_TypePoks.OrderBy(t => t.Id).ToList();
                 pokemon.Pokemon_Weaknesses = pokemon.Pokemon_Weaknesses.OrderBy(t => t.Id).ToList();
-                pokemon.Pokemon_Talents = pokemon.Pokemon_Talents.OrderBy(t => t.Id).ToList();
-                pokemon.Pokemon_Attaques = pokemon.Pokemon_Attaques.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Abilities = pokemon.Pokemon_Abilities.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Attacks = pokemon.Pokemon_Attacks.OrderBy(t => t.Id).ToList();
             }
 
             return pokemon;
@@ -220,9 +220,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.JP)
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Pokemon_Abilities).ThenInclude(u => u.Ability)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypeAttack)
                 .Include(m => m.Game)
                 .AsNoTracking()
                 .AsSplitQuery()
@@ -243,9 +243,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(m => m.JP)
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Pokemon_Abilities).ThenInclude(u => u.Ability)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypeAttack)
                 .Include(m => m.Game)
                 .OrderBy(p => Convert.ToInt32(p.Number))
                 .AsSplitQuery()
@@ -257,9 +257,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             var query = _context.Pokemons
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Pokemon_Abilities).ThenInclude(u => u.Ability)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypeAttack)
                 .Include(m => m.Game)
                 .AsSplitQuery();
 
@@ -290,9 +290,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(p => p.Game)
                 .Include(p => p.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(p => p.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Include(p => p.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Pokemon_Abilities).ThenInclude(u => u.Ability)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypeAttack)
                 .AsSplitQuery();
 
             query = lang switch
@@ -379,9 +379,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             var query = _context.Pokemons
                 .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
                 .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Talents).ThenInclude(u => u.Talent)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypePok)
-                .Include(m => m.Pokemon_Attaques).ThenInclude(u => u.Attaque).ThenInclude(u => u.TypeAttaque)
+                .Include(m => m.Pokemon_Abilities).ThenInclude(u => u.Ability)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypeAttack)
                 .Include(m => m.Game)
                 .AsSplitQuery();
 
@@ -491,12 +491,12 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
         {
             List<string> Erreurs = new();
             List<PokemonPokeBipJson> pokemonsPokeBipJson = JsonConvert.DeserializeObject<List<PokemonPokeBipJson>>(json);
-            List<Attaque> attaques = new();
-            List<Pokemon_Talent> pokemon_Talents = new();
+            List<Attack> attacks = new();
+            List<Pokemon_Ability> pokemon_Abilities = new();
 
-            List<Attaque> attackAlreadyExist = _repositoryAT.GetAll().Result.ToList();
-            List<Talent> talents = _repositoryTL.GetAll().Result.ToList();
-            List<Pokemon_Talent> pokemonTalent_alreadyExist = _repositoryPT.GetAll().Result.ToList();
+            List<Attack> attackAlreadyExist = _repositoryAT.GetAll().Result.ToList();
+            List<Ability> talents = _repositoryTL.GetAll().Result.ToList();
+            List<Pokemon_Ability> pokemonTalent_alreadyExist = _repositoryPT.GetAll().Result.ToList();
 
             #region Update Info + Add/Update Attack
             try
@@ -516,21 +516,21 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
                         if (!string.IsNullOrEmpty(pokemonPokeBipJson.HiddenSkill))
                         {
-                            Talent talent = talents.Find(m => m.Name_FR.Equals(pokemonPokeBipJson.HiddenSkill));
+                            Ability talent = talents.Find(m => m.Name_FR.Equals(pokemonPokeBipJson.HiddenSkill));
                             if (talent != null)
                             {
-                                Pokemon_Talent pokemon_Talent = pokemonTalent_alreadyExist.Find(m => m.PokemonId.Equals(pokemon.Id) && m.TalentId.Equals(talent.Id));
+                                Pokemon_Ability pokemon_Ability = pokemonTalent_alreadyExist.Find(m => m.PokemonId.Equals(pokemon.Id) && m.AbilityId.Equals(talent.Id));
 
-                                if (talent != null && pokemon_Talent == null)
+                                if (talent != null && pokemon_Ability == null)
                                 {
-                                    Pokemon_Talent newPokemon_Talent = new()
+                                    Pokemon_Ability newPokemon_Talent = new()
                                     {
                                         PokemonId = pokemon.Id,
-                                        TalentId = talent.Id,
+                                        AbilityId = talent.Id,
                                         IsHidden = true
                                     };
 
-                                    pokemon_Talents.Add(newPokemon_Talent);
+                                    pokemon_Abilities.Add(newPokemon_Talent);
                                     pokemonTalent_alreadyExist.Add(newPokemon_Talent);
                                 }
                             }
@@ -542,25 +542,25 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
                         pokemonPokeBipJson.AttackJsons.ForEach(attackJson =>
                         {
-                            Attaque attaque = attackAlreadyExist.FirstOrDefault(a => a.Name_FR == attackJson.Name);
+                            Attack attack = attackAlreadyExist.FirstOrDefault(a => a.Name_FR == attackJson.Name);
 
-                            TypeAttaque typeAttaque = new TypeAttaque();
+                            TypeAttack typeAttack = new TypeAttack();
                             switch (attackJson.Category)
                             {
                                 case "Physique":
-                                    typeAttaque = _repositoryTA.SingleOrDefault(t => t.Name_FR == "Capacités Physiques").Result;
+                                    typeAttack = _repositoryTA.SingleOrDefault(t => t.Name_FR == "Capacités Physiques").Result;
                                     break;
                                 case "Spéciale":
-                                    typeAttaque = _repositoryTA.SingleOrDefault(t => t.Name_FR == "Capacités Spéciales").Result;
+                                    typeAttack = _repositoryTA.SingleOrDefault(t => t.Name_FR == "Capacités Spéciales").Result;
                                     break;
                                 case "Statut":
-                                    typeAttaque = _repositoryTA.SingleOrDefault(t => t.Name_FR == "Capacités de Statut").Result;
+                                    typeAttack = _repositoryTA.SingleOrDefault(t => t.Name_FR == "Capacités de Statut").Result;
                                     break;
                             }
 
-                            if (attaque == null)
+                            if (attack == null)
                             {
-                                attaque = new Attaque
+                                attack = new Attack
                                 {
                                     Name_FR = attackJson.Name,
                                     Name_EN = attackJson.NameEN,
@@ -568,16 +568,16 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                                     Power = attackJson.Power,
                                     Precision = attackJson.Precision,
                                     PP = attackJson.PP,
-                                    TypeAttaque = typeAttaque,
+                                    TypeAttack = typeAttack,
                                     TypePok = _repositoryTP.Find(t => t.Name_FR == attackJson.Type).Result.FirstOrDefault()
                                 };
-                                attaques.Add(attaque);
-                                attackAlreadyExist.Add(attaque);
+                                attacks.Add(attack);
+                                attackAlreadyExist.Add(attack);
                             }
                             else
                             {
-                                attaque.TypeAttaque = typeAttaque;
-                                attaque.TypePok = _repositoryTP.Find(t => t.Name_FR == attackJson.Type).Result.FirstOrDefault();
+                                attack.TypeAttack = typeAttack;
+                                attack.TypePok = _repositoryTP.Find(t => t.Name_FR == attackJson.Type).Result.FirstOrDefault();
                             }
                         });
                     }
@@ -593,14 +593,14 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 Console.WriteLine(ex.Message);
             }
 
-            await _repositoryPT.AddRangeAsync(pokemon_Talents);
-            await _repositoryAT.AddRangeAsync(attaques);
+            await _repositoryPT.AddRangeAsync(pokemon_Abilities);
+            await _repositoryAT.AddRangeAsync(attacks);
             _context.SaveChanges();
             #endregion
 
             attackAlreadyExist = _repositoryAT.GetAll().Result.ToList();
-            List<Pokemon_Attaque> pokemon_AttaquesAlreadyExist = _repositoryPAT.GetAll().Result.ToList();
-            List<Pokemon_Attaque> pokemon_Attaques = new();
+            List<Pokemon_Attack> pokemon_AttacksAlreadyExist = _repositoryPAT.GetAll().Result.ToList();
+            List<Pokemon_Attack> pokemon_Attacks = new();
 
             foreach (PokemonPokeBipJson pokemonPokeBipJson in pokemonsPokeBipJson)
             {
@@ -608,8 +608,8 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
                 pokemonPokeBipJson.AttackJsons.ForEach(attackJson =>
                 {
-                    Attaque attaque = attackAlreadyExist.FirstOrDefault(a => a.Name_FR == attackJson.Name);
-                    Pokemon_Attaque pokemon_Attaque = pokemon_AttaquesAlreadyExist.FirstOrDefault(m => m.PokemonId == pokemon.Id && m.AttaqueId == attaque.Id);
+                    Attack attack = attackAlreadyExist.FirstOrDefault(a => a.Name_FR == attackJson.Name);
+                    Pokemon_Attack pokemon_Attack = pokemon_AttacksAlreadyExist.FirstOrDefault(m => m.PokemonId == pokemon.Id && m.AttackId == attack.Id);
 
                     if (pokemon != null && pokemon.Game == null)
                     {
@@ -694,26 +694,26 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                         }
                     }
 
-                    if (pokemon_Attaque == null)
+                    if (pokemon_Attack == null)
                     {
-                        pokemon_Attaque = new()
+                        pokemon_Attack = new()
                         {
                             PokemonId = pokemon.Id,
                             Pokemon = null,
-                            AttaqueId = attaque.Id,
-                            Attaque = null,
+                            AttackId = attack.Id,
+                            Attack = null,
                             Level = attackJson.Level,
                             CTCS = attackJson.CTCS,
                             TypeLearn = attackJson.TypeLearn
                         };
 
-                        pokemon_Attaques.Add(pokemon_Attaque);
-                        pokemon_AttaquesAlreadyExist.Add(pokemon_Attaque);
+                        pokemon_Attacks.Add(pokemon_Attack);
+                        pokemon_AttacksAlreadyExist.Add(pokemon_Attack);
                     }
                 });
             }
 
-            await _repositoryPAT.AddRangeAsync(pokemon_Attaques);
+            await _repositoryPAT.AddRangeAsync(pokemon_Attacks);
             _context.SaveChanges();
         }
         #endregion
@@ -733,11 +733,11 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             pokemon.JP = await MapToInstanceImport(pokemonJson.JP);
             pokemon.TypeEvolution = pokemonJson.TypeEvolution;
             pokemon.StatPv = Convert.ToInt32(pokemonJson.StatPv);
-            pokemon.StatAttaque = Convert.ToInt32(pokemonJson.StatAttaque);
+            pokemon.StatAttack = Convert.ToInt32(pokemonJson.StatAttaque);
             pokemon.StatDefense = Convert.ToInt32(pokemonJson.StatDefense);
-            pokemon.StatAttaqueSpe = Convert.ToInt32(pokemonJson.StatAttaqueSpe);
+            pokemon.StatAttackSpe = Convert.ToInt32(pokemonJson.StatAttaqueSpe);
             pokemon.StatDefenseSpe = Convert.ToInt32(pokemonJson.StatDefenseSpe);
-            pokemon.StatVitesse = Convert.ToInt32(pokemonJson.StatVitesse);
+            pokemon.StatSpeed = Convert.ToInt32(pokemonJson.StatVitesse);
             pokemon.StatTotal = Convert.ToInt32(pokemonJson.StatTotal);
             pokemon.Generation = Convert.ToInt32(pokemonJson.Generation);
             pokemon.EggMoves = pokemonJson.EggMoves;
@@ -789,33 +789,33 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
             foreach (TalentsExportJson talentJson in pokemonJson.Talents)
             {
-                Talent talent = (await _repositoryTL.Find(m => m.Name_EN.Equals(talentJson.Talent.Name_EN))).FirstOrDefault();
+                Ability talent = (await _repositoryTL.Find(m => m.Name_EN.Equals(talentJson.Talent.Name_EN))).FirstOrDefault();
                 if (talent != null)
                 {
-                    Pokemon_Talent pokemon_Talent = new()
+                    Pokemon_Ability pokemon_Ability = new()
                     {
                         Pokemon = pokemon,
-                        Talent = talent,
+                        Ability = talent,
                         IsHidden = talentJson.IsHidden
                     };
-                    await _repositoryPT.AddAsync(pokemon_Talent);
+                    await _repositoryPT.AddAsync(pokemon_Ability);
                 }
             }
             
-            foreach (AttaquesExportJson attaqueJson in pokemonJson.Attaques)
+            foreach (AttaquesExportJson attackJson in pokemonJson.Attaques)
             {
-                Attaque attaque = _repositoryAT.Find(m => m.Name_EN.Equals(attaqueJson.Attaque.Name_EN)).Result.FirstOrDefault();
-                if (attaque != null)
+                Attack attack = _repositoryAT.Find(m => m.Name_EN.Equals(attackJson.Attaque.Name_EN)).Result.FirstOrDefault();
+                if (attack != null)
                 {
-                    Pokemon_Attaque pokemon_Attaque = new()
+                    Pokemon_Attack pokemon_Attack = new()
                     {
                         Pokemon = pokemon,
-                        Attaque = attaque,
-                        TypeLearn = attaqueJson.TypeLearn,
-                        Level = attaqueJson.Level,
-                        CTCS = attaqueJson.CTCS
+                        Attack = attack,
+                        TypeLearn = attackJson.TypeLearn,
+                        Level = attackJson.Level,
+                        CTCS = attackJson.CTCS
                     };
-                    await _repositoryPAT.AddAsync(pokemon_Attaque);
+                    await _repositoryPAT.AddAsync(pokemon_Attack);
                 }
             }
         }
@@ -858,11 +858,11 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             pokemon.JP = await _repositoryDI.SaveJsonInDb(pokemonJson.JP);
             pokemon.TypeEvolution = pokemonJson.TypeEvolution;
             pokemon.StatPv = pokemonJson.StatPv;
-            pokemon.StatAttaque = pokemonJson.StatAttaque;
+            pokemon.StatAttack = pokemonJson.StatAttaque;
             pokemon.StatDefense = pokemonJson.StatDefense;
-            pokemon.StatAttaqueSpe = pokemonJson.StatAttaqueSpe;
+            pokemon.StatAttackSpe = pokemonJson.StatAttaqueSpe;
             pokemon.StatDefenseSpe = pokemonJson.StatDefenseSpe;
-            pokemon.StatVitesse = pokemonJson.StatVitesse;
+            pokemon.StatSpeed = pokemonJson.StatVitesse;
             pokemon.StatTotal = pokemonJson.StatTotal;
             pokemon.Generation = pokemonJson.Generation;
             pokemon.UrlImg = pokemonJson.UrlImg;

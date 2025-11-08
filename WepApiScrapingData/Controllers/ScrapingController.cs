@@ -19,12 +19,12 @@ namespace WepApiScrapingData.Controllers
     public class ScrapingController : ControllerBase
     {
         #region Fields
-        private readonly Repository<Attaque> _repositoryA;
-        private readonly Repository<Talent> _repositoryTL;
+        private readonly Repository<Attack> _repositoryA;
+        private readonly Repository<Ability> _repositoryTL;
         #endregion
 
         #region Constructors
-        public ScrapingController(Repository<Attaque> repositoryA, Repository<Talent> repositoryTL)
+        public ScrapingController(Repository<Attack> repositoryA, Repository<Ability> repositoryTL)
         {
             _repositoryA = repositoryA;
             _repositoryTL = repositoryTL;
@@ -312,8 +312,8 @@ namespace WepApiScrapingData.Controllers
         [Route("UpdateNameAttaque")]
         public async Task UpdateNameAttaque()
         {
-            IEnumerable<Attaque> attaques = await _repositoryA.GetAll();
-            foreach (Attaque item in attaques.ToList())
+            IEnumerable<Attack> attaques = await _repositoryA.GetAll();
+            foreach (Attack item in attaques.ToList())
             {
                 StringBuilder url = new StringBuilder();
                 url.Append(Constantes.urlBulbapedia);
@@ -495,9 +495,9 @@ namespace WepApiScrapingData.Controllers
         [Route("UpdateTalentNameRUCOCNJP")]
         public async Task UpdateNameTalentRUCOCNJP()
         {
-            IEnumerable<Talent> talents = await _repositoryTL.GetAll();
+            IEnumerable<Ability> talents = await _repositoryTL.GetAll();
 
-            foreach (Talent item in talents.ToList())
+            foreach (Ability item in talents.ToList())
             {
                 StringBuilder url = new StringBuilder();
                 url.Append(Constantes.urlBulbapedia);

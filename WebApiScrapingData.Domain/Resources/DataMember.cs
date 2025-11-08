@@ -106,23 +106,23 @@
 
         public const string Weaknesses = "Weaknesses";
 
-        public const string Talents = "Talents";
+        public const string Abilities = "Abilities";
 
-        public const string Attaques = "Attaques";
+        public const string Attacks = "Attacks";
 
         public const string TypeEvolution = "TypeEvolution";
 
         public const string StatPv = "StatPv";
 
-        public const string StatAttaque = "StatAttaque";
+        public const string StatAttack = "StatAttack";
 
         public const string StatDefense = "StatDefense";
         
-        public const string StatAttaqueSpe = "StatAttaqueSpe";
+        public const string StatAttackSpe = "StatAttackSpe";
 
         public const string StatDefenseSpe = "StatDefenseSpe";
 
-        public const string StatVitesse = "StatVitesse";
+        public const string StatSpeed = "StatSpeed";
 
         public const string StatTotal = "StatTotal";
 
@@ -169,7 +169,7 @@
         public const string Game = "Game";
         #endregion
 
-        #region Talent
+        #region Abilities
         public const string Description_FR = "Description_FR";
 
         public const string Description_EN = "Description_EN";
@@ -189,14 +189,14 @@
         public const string Description_JP = "Description_JP";
         #endregion
 
-        #region Attaque
+        #region Attack
         public const string Puissance = "Puissance";
         public const string Precision = "Precision";
         public const string PP = "PP";
         #endregion
 
-        #region TypeAttaque
-        public const string TypeAttaque = "TypeAttaque";
+        #region TypeAttack
+        public const string TypeAttack = "TypeAttack";
         #endregion
 
         #region Question

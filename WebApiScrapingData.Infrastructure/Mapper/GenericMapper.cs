@@ -127,11 +127,11 @@ namespace WebApiScrapingData.Infrastructure.Mapper
                 case "Pokemon_Weaknesses":
                     name = "TypePok";
                     break;
-                case "Pokemon_Talents":
-                    name = "Talent";
+                case "Pokemon_Abilities":
+                    name = "Ability";
                     break;
-                case "Pokemon_Attaques":
-                    name = "Attaque";
+                case "Pokemon_Attacks":
+                    name = "Attack";
                     break;
                 default:
                     name = "";
@@ -146,11 +146,11 @@ namespace WebApiScrapingData.Infrastructure.Mapper
             string name = "";
             switch (type)
             {
-                case "Pokemon_Attaques":
-                    name = "Pokemon_Attaque";
+                case "Pokemon_Attacks":
+                    name = "Pokemon_Attack";
                     break;
-                case "Pokemon_Talents":
-                    name = "Pokemon_Talent";
+                case "Pokemon_Abilities":
+                    name = "Pokemon_Ability";
                     break;
                 case "Pokemon_TypePoks":
                     name = "Pokemon_TypePok";

@@ -5,13 +5,13 @@ using WepApiScrapingData.DTOs.Concrete;
 
 namespace WepApiScrapingData.Mapper
 {
-    public class TypeAttaqueMapper : GenericMapper<TypeAttaque, TypeAttaqueDto>
+    public class TypeAttackMapper : GenericMapper<TypeAttack, TypeAttackDto>
     {
-        public override TypeAttaqueDto Map(TypeAttaque source, string langue)
+        public override TypeAttackDto Map(TypeAttack source, string langue)
         {
             if (source == null) return null;
 
-            var dto = new TypeAttaqueDto
+            var dto = new TypeAttackDto
             {
                 Id = source.Id,
                 PathImg = source.PathImg
@@ -21,12 +21,12 @@ namespace WepApiScrapingData.Mapper
             var lang = langue?.ToUpper() ?? Constantes.FR;
 
             // Nom
-            var nameProp = typeof(TypeAttaque).GetProperty($"Name_{lang}");
+            var nameProp = typeof(TypeAttack).GetProperty($"Name_{lang}");
             if (nameProp != null)
                 dto.Name = nameProp.GetValue(source)?.ToString();
 
             // Description
-            var pathProp = typeof(TypeAttaque).GetProperty($"Description_{lang}");
+            var pathProp = typeof(TypeAttack).GetProperty($"Description_{lang}");
             if (pathProp != null)
                 dto.Description = pathProp.GetValue(source)?.ToString();
 

@@ -958,7 +958,7 @@ namespace WepApiScrapingData.Utils
             File.WriteAllText(nameFile.ToString(), json);
         }
 
-        public static void WriteToJson(List<Pokemon> pokemons, List<TypePok> typePoks, List<Talent> talents, List<Attaque> attaques, List<TypeAttaque> typeAttaques, List<Game> games)
+        public static void WriteToJson(List<Pokemon> pokemons, List<TypePok> typePoks, List<Ability> talents, List<Attack> attaques, List<TypeAttack> typeAttaques, List<Game> games)
         {
             StringBuilder nameFile = new StringBuilder();
             nameFile.Append("TypePokDbToJson.json");

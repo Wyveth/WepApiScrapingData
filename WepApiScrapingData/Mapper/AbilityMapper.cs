@@ -5,13 +5,13 @@ using WepApiScrapingData.DTOs.Concrete;
 
 namespace WepApiScrapingData.Mapper
 {
-    public class TalentMapper : GenericMapper<Talent, TalentDto>
+    public class AbilityMapper : GenericMapper<Ability, AbilityDto>
     {
-        public override TalentDto Map(Talent source, string langue)
+        public override AbilityDto Map(Ability source, string langue)
         {
             if (source == null) return null;
 
-            var dto = new TalentDto
+            var dto = new AbilityDto
             {
                 Id = source.Id
             };
@@ -20,12 +20,12 @@ namespace WepApiScrapingData.Mapper
             var lang = langue?.ToUpper() ?? Constantes.FR;
 
             // Nom
-            var nameProp = typeof(Talent).GetProperty($"Name_{lang}");
+            var nameProp = typeof(Ability).GetProperty($"Name_{lang}");
             if (nameProp != null)
                 dto.Name = nameProp.GetValue(source)?.ToString();
 
             // Description
-            var pathProp = typeof(Talent).GetProperty($"Description_{lang}");
+            var pathProp = typeof(Ability).GetProperty($"Description_{lang}");
             if (pathProp != null)
                 dto.Description = pathProp.GetValue(source)?.ToString();
 

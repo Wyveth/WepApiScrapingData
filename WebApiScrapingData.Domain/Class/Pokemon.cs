@@ -61,10 +61,10 @@ namespace WebApiScrapingData.Domain.Class
         public List<Pokemon_TypePok> Pokemon_TypePoks { get; set; }
         [DataMember(Name = DataMember.Weaknesses)]
         public List<Pokemon_Weakness> Pokemon_Weaknesses { get; set; }
-        [DataMember(Name = DataMember.Talents)]
-        public List<Pokemon_Talent> Pokemon_Talents { get; set; }
-        [DataMember(Name = DataMember.Attaques)]
-        public List<Pokemon_Attaque> Pokemon_Attaques { get; set; }
+        [DataMember(Name = DataMember.Abilities)]
+        public List<Pokemon_Ability> Pokemon_Abilities { get; set; }
+        [DataMember(Name = DataMember.Attacks)]
+        public List<Pokemon_Attack> Pokemon_Attacks { get; set; }
 
         //Type Evolution : Normal, Méga, Gigamax, Alola, Galar, Hisui
         [DataMember(Name = DataMember.TypeEvolution)]
@@ -75,24 +75,24 @@ namespace WebApiScrapingData.Domain.Class
         public int StatPv { get; set; }
 
         //Statistique Attaque
-        [DataMember(Name = DataMember.StatAttaque)]
-        public int StatAttaque { get; set; }
+        [DataMember(Name = DataMember.StatAttack)]
+        public int StatAttack { get; set; }
 
         //Statistique Défense
         [DataMember(Name = DataMember.StatDefense)]
         public int StatDefense { get; set; }
 
         //Statistique Attaque Spéciale
-        [DataMember(Name = DataMember.StatAttaqueSpe)]
-        public int StatAttaqueSpe { get; set; }
+        [DataMember(Name = DataMember.StatAttackSpe)]
+        public int StatAttackSpe { get; set; }
 
         //Statistique Défense Spéciale
         [DataMember(Name = DataMember.StatDefenseSpe)]
         public int StatDefenseSpe { get; set; }
 
         //Statistique Vitesse
-        [DataMember(Name = DataMember.StatVitesse)]
-        public int StatVitesse { get; set; }
+        [DataMember(Name = DataMember.StatSpeed)]
+        public int StatSpeed { get; set; }
 
         //Statistique Total
         [DataMember(Name = DataMember.StatTotal)]
@@ -179,8 +179,8 @@ namespace WebApiScrapingData.Domain.Class
 
             Pokemon_TypePoks = new();
             Pokemon_Weaknesses = new();
-            Pokemon_Talents = new();
-            Pokemon_Attaques = new();
+            Pokemon_Abilities = new();
+            Pokemon_Attacks = new();
         }
     }
 }

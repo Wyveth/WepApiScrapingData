@@ -5,17 +5,17 @@ using WebApiScrapingData.Infrastructure.Data;
 
 namespace WebApiScrapingData.Infrastructure.Repository.Class
 {
-    public class TypeAttaqueRepository : Repository<TypeAttaque>
+    public class TypeAttackRepository : Repository<TypeAttack>
     {
         #region Constructor
-        public TypeAttaqueRepository(ScrapingContext context) : base(context) { }
+        public TypeAttackRepository(ScrapingContext context) : base(context) { }
         #endregion
 
         #region Public Methods
         #region Read
-        public async Task<TypeAttaque> GetByName(string name)
+        public async Task<TypeAttack> GetByName(string name)
         {
-            return await this._context.TypeAttaques.FirstOrDefaultAsync(x => x.Name_FR.Equals(name));
+            return await this._context.TypeAttacks.FirstOrDefaultAsync(x => x.Name_FR.Equals(name));
         }
         #endregion
         #endregion

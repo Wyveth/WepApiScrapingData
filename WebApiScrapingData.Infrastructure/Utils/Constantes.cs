@@ -3188,11 +3188,11 @@
 
         #region Statistic
         public const string Pv = "Pv";
-        public const string Attaque = "Attaque";
+        public const string Attack = "Attack";
         public const string Defense = "Defense";
-        public const string AttaqueSpe = "AttaqueSpe";
+        public const string AttackSpe = "AttackSpe";
         public const string DefenseSpe = "DefenseSpe";
-        public const string Vitesse = "Vitesse";
+        public const string Speed = "Speed";
         #endregion
     }
 }

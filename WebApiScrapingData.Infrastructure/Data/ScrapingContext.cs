@@ -47,13 +47,13 @@ namespace WebApiScrapingData.Infrastructure.Data
         public virtual DbSet<Pokemon> Pokemons { get; set; }
         public virtual DbSet<DataInfo> DataInfos { get; set; }
         public virtual DbSet<TypePok> TypesPok { get; set; }
-        public virtual DbSet<Talent> Talents { get; set; }
-        public virtual DbSet<Attaque> Attaques { get; set; }
-        public virtual DbSet<TypeAttaque> TypeAttaques { get; set; }
+        public virtual DbSet<Ability> Abilities { get; set; }
+        public virtual DbSet<Attack> Attacks { get; set; }
+        public virtual DbSet<TypeAttack> TypeAttacks { get; set; }
         public virtual DbSet<Pokemon_TypePok> Pokemon_TypePok { get; set; }
         public virtual DbSet<Pokemon_Weakness> Pokemon_Weakness { get; set; }
-        public virtual DbSet<Pokemon_Talent> Pokemon_Talent { get; set; }
-        public virtual DbSet<Pokemon_Attaque> Pokemon_Attaque { get; set; }
+        public virtual DbSet<Pokemon_Ability> Pokemon_Ability { get; set; }
+        public virtual DbSet<Pokemon_Attack> Pokemon_Attack { get; set; }
         public virtual DbSet<Game> Games { get; set; }
 
         public virtual DbSet<Quizz> Quizzs { get; set; }

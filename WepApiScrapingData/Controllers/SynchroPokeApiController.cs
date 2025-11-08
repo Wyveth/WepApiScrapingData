@@ -21,20 +21,20 @@ namespace WepApiScrapingData.Controllers
         private readonly ILogger<SynchroPokeController> _logger;
         private readonly ScrapingContext _context;
         private readonly HttpClient _pokeApiClient;
-        private readonly AttaqueRepository _repositoryAT;
-        private readonly TypeAttaqueRepository _repositoryTA;
+        private readonly AttackRepository _repositoryAT;
+        private readonly TypeAttackRepository _repositoryTA;
         private readonly TypePokRepository _repositoryTP;
-        private readonly TalentRepository _repositoryT;
+        private readonly AbilityRepository _repositoryT;
         private readonly PokemonRepository _repositoryP;
         #endregion
 
         public SynchroPokeController(ILogger<SynchroPokeController> logger,
             ScrapingContext context,
             IHttpClientFactory httpClientFactory,
-            AttaqueRepository repositoryAT,
-            TypeAttaqueRepository repositoryTA,
+            AttackRepository repositoryAT,
+            TypeAttackRepository repositoryTA,
             TypePokRepository repositoryTP,
-            TalentRepository repositoryT,
+            AbilityRepository repositoryT,
             PokemonRepository repositoryP)
         {
             _logger = logger;
@@ -122,7 +122,7 @@ namespace WepApiScrapingData.Controllers
                 json = r.ReadToEnd();
 
                 List<MoveDto> isExist = new();
-                List<Attaque> attaqueNotExist = new();
+                List<Attack> attaqueNotExist = new();
 
                 if (!string.IsNullOrEmpty(json))
                 {
@@ -130,7 +130,7 @@ namespace WepApiScrapingData.Controllers
 
                     foreach (MoveDto move in moves)
                     {
-                        Attaque? attaque = await this._repositoryAT.GetByName(move.Names["en"]);
+                        Attack? attaque = await this._repositoryAT.GetByName(move.Names["en"]);
 
                         if (attaque != null)
                         {
@@ -155,7 +155,7 @@ namespace WepApiScrapingData.Controllers
                         }
                         else
                         {
-                            Attaque newAttack = new()
+                            Attack newAttack = new()
                             {
                                 Name_FR = move.Names.GetValueOrDefault("fr"),
                                 Description_FR = move.Descriptions.GetValueOrDefault("fr"),
@@ -173,7 +173,7 @@ namespace WepApiScrapingData.Controllers
                                 Description_CN = move.Descriptions.GetValueOrDefault("zh-Hans"),
                                 Name_JP = move.Names.GetValueOrDefault("ja"),
                                 Description_JP = move.Descriptions.GetValueOrDefault("ja"),
-                                TypeAttaque = (await _repositoryTA.Find(m => m.Name_EN.Contains(move.DamageClass))).FirstOrDefault(),
+                                TypeAttack = (await _repositoryTA.Find(m => m.Name_EN.Contains(move.DamageClass))).FirstOrDefault(),
                                 TypePok = (await _repositoryTP.Find(m => m.Name_EN.Contains(move.Type))).FirstOrDefault(),
                                 Power = move.Power.ToString(),
                                 Precision = move.Accuracy.ToString(),
@@ -259,7 +259,7 @@ namespace WepApiScrapingData.Controllers
                 json = r.ReadToEnd();
 
                 List<AbilityDto> isExist = new();
-                List<Talent> talentsNotExist = new();
+                List<Ability> talentsNotExist = new();
 
                 if (!string.IsNullOrEmpty(json))
                 {
@@ -267,7 +267,7 @@ namespace WepApiScrapingData.Controllers
 
                     foreach (AbilityDto ability in abilities)
                     {
-                        Talent? talent = await this._repositoryT.GetByName(ability.Names["en"]);
+                        Ability? talent = await this._repositoryT.GetByName(ability.Names["en"]);
 
                         if (talent != null)
                         {
@@ -292,7 +292,7 @@ namespace WepApiScrapingData.Controllers
                         }
                         else
                         {
-                            Talent newTalent = new()
+                            Ability newTalent = new()
                             {
                                 Name_FR = ability.Names.GetValueOrDefault("fr"),
                                 Description_FR = ability.Descriptions.GetValueOrDefault("fr"),

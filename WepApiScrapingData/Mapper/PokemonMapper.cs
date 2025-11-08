@@ -11,15 +11,15 @@ namespace WepApiScrapingData.Mapper
     {
         private readonly GenericMapper<DataInfo, DataInfoDto> _dataInfoMapper;
         private readonly TypePokMapper _typeMapper;
-        private readonly Pokemon_TalentMapper _talentMapper;
-        private readonly Pokemon_AttaqueMapper _attaqueMapper;
+        private readonly Pokemon_AbilityMapper _talentMapper;
+        private readonly Pokemon_AttackMapper _attaqueMapper;
         private readonly GameMapper _gameMapper;
 
         public PokemonMapper(
             GenericMapper<DataInfo, DataInfoDto> dataInfoMapper,
             TypePokMapper typeMapper,
-            Pokemon_TalentMapper talentMapper,
-            Pokemon_AttaqueMapper attaqueMapper,
+            Pokemon_AbilityMapper talentMapper,
+            Pokemon_AttackMapper attaqueMapper,
             GameMapper gameMapper)
         {
             _dataInfoMapper = dataInfoMapper;
@@ -64,17 +64,17 @@ namespace WepApiScrapingData.Mapper
             }
 
             // 🔹 Talents
-            if (source.Pokemon_Talents?.Any() == true)
+            if (source.Pokemon_Abilities?.Any() == true)
             {
-                dto.Talents = source.Pokemon_Talents
+                dto.Talents = source.Pokemon_Abilities
                     .Select(t => _talentMapper.Map(t, langueKey))
                     .ToList();
             }
 
             // 🔹 Attaques
-            if (source.Pokemon_Attaques?.Any() == true)
+            if (source.Pokemon_Attacks?.Any() == true)
             {
-                dto.Attaques = source.Pokemon_Attaques
+                dto.Attaques = source.Pokemon_Attacks
                     .Select(a => _attaqueMapper.Map(a, langueKey))
                     .ToList();
             }

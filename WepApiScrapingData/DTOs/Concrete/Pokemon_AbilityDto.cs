@@ -3,12 +3,12 @@ using WepApiScrapingData.DTOs.Abstract;
 
 namespace WepApiScrapingData.DTOs.Concrete
 {
-    public class TypeAttaqueDto : IdentityDto
+    public class Pokemon_AbilityDto : IdentityDto
     {
         public string? Name { get; set; }
 
         public string? Description { get; set; }
 
-        public string? PathImg { get; set; }
+        public bool IsHidden { get; set; }
     }
 }

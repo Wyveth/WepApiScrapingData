@@ -11,8 +11,8 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public List<TypePokDto>? TypePoks { get; set; }
         public List<TypePokDto>? Weaknesses { get; set; }
-        public List<Pokemon_TalentDto>? Talents { get; set; }
-        public List<Pokemon_AttaqueDto>? Attaques { get; set; }
+        public List<Pokemon_AbilityDto>? Talents { get; set; }
+        public List<Pokemon_AttackDto>? Attaques { get; set; }
 
         public string? TypeEvolution { get; set; }
 

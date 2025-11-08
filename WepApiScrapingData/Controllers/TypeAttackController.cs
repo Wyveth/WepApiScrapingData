@@ -14,10 +14,10 @@ namespace WepApiScrapingData.Controllers
     [ApiController]
     [Route("api/v1.0/[controller]")]
     [EnableCors(SecurityMethods.DEFAULT_POLICY)]
-    public class TypeAttaqueController : GenericController<TypeAttaque, TypeAttaqueDto, TypeAttaqueRepository>
+    public class TypeAttackController : GenericController<TypeAttack, TypeAttackDto, TypeAttackRepository>
     {
         #region Constructors
-        public TypeAttaqueController(ILogger<TypeAttaque> logger, GenericMapper<TypeAttaque, TypeAttaqueDto> mapper, TypeAttaqueRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)
+        public TypeAttackController(ILogger<TypeAttack> logger, GenericMapper<TypeAttack, TypeAttackDto> mapper, TypeAttackRepository repository, ScrapingContext context) : base(logger, mapper, repository, context)
         {
         }
         #endregion
@@ -25,7 +25,7 @@ namespace WepApiScrapingData.Controllers
         #region Public Methods
         [HttpGet]
         [Route("FindByName/{name}")]
-        public async Task<IEnumerable<TypeAttaque>> GetFindByName(string name)
+        public async Task<IEnumerable<TypeAttack>> GetFindByName(string name)
         {
             return await _repository.Find(m => m.Name_FR.Equals(name));
         }

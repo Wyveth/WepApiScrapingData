@@ -2,7 +2,7 @@
 
 namespace WepApiScrapingData.DTOs.Concrete
 {
-    public class TalentDto : IdentityDto
+    public class AbilityDto : IdentityDto
     {
         public string? Name { get; set; }
 
