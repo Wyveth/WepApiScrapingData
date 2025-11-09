@@ -70,6 +70,22 @@ namespace WebApiScrapingData.Domain.Class
         [DataMember(Name = DataMember.TypeEvolution)]
         public string? TypeEvolution { get; set; }
 
+        // Relations vers la chaîne d’évolution
+        public long? EvolutionChainId { get; set; }
+        [DataMember(Name = DataMember.EvolutionChain)]
+        [ForeignKey("EvolutionChainId")]
+        public virtual EvolutionChain? EvolutionChain { get; set; }
+
+        // Relation d’évolution (facultative)
+        public long? EvolvesFromId { get; set; }
+        [DataMember(Name = DataMember.EvolvesFrom)]
+        [ForeignKey("EvolvesFromId")]
+        public virtual Pokemon? EvolvesFrom { get; set; }
+
+        // Collection inverse pour EF Core (Pokémon qui évoluent depuis ce Pokémon)
+        [NotMapped] // EF Core Data Annotations seules ne permettent pas la collection inverse auto-référencée
+        public virtual List<Pokemon_EvolvesTo> Pokemons_EvolvesTo { get; set; } = new List<Pokemon_EvolvesTo>();
+
         //Statistique PV
         [DataMember(Name = DataMember.StatPv)]
         public int StatPv { get; set; }
@@ -176,6 +192,8 @@ namespace WebApiScrapingData.Domain.Class
             CO = new();
             CN = new();
             JP = new();
+
+            EvolutionChain = new();
 
             Pokemon_TypePoks = new();
             Pokemon_Weaknesses = new();

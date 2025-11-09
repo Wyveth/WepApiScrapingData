@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiScrapingData.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using WebApiScrapingData.Infrastructure.Data;
 namespace WebApiScrapingData.Infrastructure.Migrations
 {
     [DbContext(typeof(ScrapingContext))]
-    partial class ScrapingContextModelSnapshot : ModelSnapshot
+    [Migration("20251109003807_new_table_evolution")]
+    partial class new_table_evolution
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -838,47 +841,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.HasIndex("PokemonId");
 
                     b.ToTable("Pokemon_Attack");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_EvolutionChain", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("EvolutionChainId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("PokemonId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserCreation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserModification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("versionModification")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EvolutionChainId");
-
-                    b.HasIndex("PokemonId");
-
-                    b.ToTable("Pokemon_EvolutionChain");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_EvolvesTo", b =>
@@ -1806,7 +1768,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>
                 {
                     b.HasOne("WebApiScrapingData.Domain.Class.EvolutionChain", "EvolutionChain")
-                        .WithMany()
+                        .WithMany("Pokemons")
                         .HasForeignKey("EvolutionChainId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -1933,25 +1895,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Attack");
-
-                    b.Navigation("Pokemon");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_EvolutionChain", b =>
-                {
-                    b.HasOne("WebApiScrapingData.Domain.Class.EvolutionChain", "EvolutionChain")
-                        .WithMany("Pokemons_EvolutionChain")
-                        .HasForeignKey("EvolutionChainId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "Pokemon")
-                        .WithMany()
-                        .HasForeignKey("PokemonId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("EvolutionChain");
 
                     b.Navigation("Pokemon");
                 });
@@ -2114,7 +2057,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.EvolutionChain", b =>
                 {
-                    b.Navigation("Pokemons_EvolutionChain");
+                    b.Navigation("Pokemons");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>

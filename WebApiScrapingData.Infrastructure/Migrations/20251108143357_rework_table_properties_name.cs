@@ -48,6 +48,21 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                 table: "Pokemon_Attack",
                 newName: "AttackId");
 
+            // Renommer les colonnes
+            migrationBuilder.RenameColumn(
+                name: "StatAttaque",
+                table: "Pokemons",
+                newName: "StatAttack");
+
+            migrationBuilder.RenameColumn(
+                name: "StatAttaqueSpe",
+                table: "Pokemons",
+                newName: "StatAttackSpe");
+
+            migrationBuilder.RenameColumn(
+                name: "StatVitesse",
+                table: "Pokemons",
+                newName: "StatSpeed");
 
             //Rename Index
             migrationBuilder.RenameIndex(

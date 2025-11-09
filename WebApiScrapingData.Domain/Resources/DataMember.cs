@@ -112,6 +112,10 @@
 
         public const string TypeEvolution = "TypeEvolution";
 
+        public const string EvolutionChain = "EvolutionChain";
+
+        public const string EvolvesFrom = "EvolvesFrom";
+
         public const string StatPv = "StatPv";
 
         public const string StatAttack = "StatAttack";

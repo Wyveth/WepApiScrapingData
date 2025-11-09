@@ -44,10 +44,12 @@ namespace WepApiScrapingData.ExtensionMethods
             services.AddScoped<AbilityRepository>();
             services.AddScoped<TypeAttackRepository>();
             services.AddScoped<TypePokRepository>();
+            services.AddScoped<EvolutionChainRepository>();
             services.AddScoped<Pokemon_TypePokRepository>();
             services.AddScoped<Pokemon_WeaknessRepository>();
             services.AddScoped<Pokemon_AbilityRepository>();
             services.AddScoped<Pokemon_AttackRepository>();
+            services.AddScoped<Pokemon_EvolvesToRepository>();
 
             #region Quizz
             services.AddScoped<QuizzRepository>();
