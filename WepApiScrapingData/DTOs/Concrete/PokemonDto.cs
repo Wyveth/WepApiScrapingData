@@ -1,5 +1,4 @@
-﻿using WebApiScrapingData.Domain.Class;
-using WepApiScrapingData.DTOs.Abstract;
+﻿using WepApiScrapingData.DTOs.Abstract;
 
 namespace WepApiScrapingData.DTOs.Concrete
 {
@@ -11,22 +10,28 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public List<TypePokDto>? TypePoks { get; set; }
         public List<TypePokDto>? Weaknesses { get; set; }
-        public List<Pokemon_AbilityDto>? Talents { get; set; }
-        public List<Pokemon_AttackDto>? Attaques { get; set; }
+        public List<Pokemon_AbilityDto>? Abilities { get; set; }
+        public List<Pokemon_AttackDto>? Attacks { get; set; }
 
         public string? TypeEvolution { get; set; }
 
+        public Pokemon_EvolvesToDto? EvolveFrom { get; set; }
+
+        public List<Pokemon_EvolvesToDto>? EvolvesTo { get; set; }
+
+        public int EvolutionChainId { get; set; }
+
         public int StatPv { get; set; }
 
-        public int StatAttaque { get; set; }
+        public int StatAttack { get; set; }
 
         public int StatDefense { get; set; }
 
-        public int StatAttaqueSpe { get; set; }
+        public int StatAttackSpe { get; set; }
 
         public int StatDefenseSpe { get; set; }
 
-        public int StatVitesse { get; set; }
+        public int StatSpeed { get; set; }
 
         public int StatTotal { get; set; }
 
@@ -68,9 +73,12 @@ namespace WepApiScrapingData.DTOs.Concrete
             
             TypePoks = new ();
             Weaknesses = new ();
-            Talents = new ();
-            Attaques = new ();
+            Abilities = new ();
+            Attacks = new ();
             Game = new();
+
+            EvolveFrom = new();
+            EvolvesTo = new ();
         }
     }
 }

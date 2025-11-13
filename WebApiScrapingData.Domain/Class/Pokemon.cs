@@ -77,10 +77,8 @@ namespace WebApiScrapingData.Domain.Class
         public virtual EvolutionChain? EvolutionChain { get; set; }
 
         // Relation d’évolution (facultative)
-        public long? EvolvesFromId { get; set; }
-        [DataMember(Name = DataMember.EvolvesFrom)]
-        [ForeignKey("EvolvesFromId")]
-        public virtual Pokemon? EvolvesFrom { get; set; }
+        [NotMapped]
+        public virtual Pokemon_EvolvesTo? EvolvesFrom { get; set; }
 
         // Collection inverse pour EF Core (Pokémon qui évoluent depuis ce Pokémon)
         [NotMapped] // EF Core Data Annotations seules ne permettent pas la collection inverse auto-référencée

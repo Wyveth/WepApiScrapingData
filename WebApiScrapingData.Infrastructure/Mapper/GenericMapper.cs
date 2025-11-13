@@ -1,5 +1,4 @@
 ﻿using WebApiScrapingData.Core;
-using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.Interface;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Utils;

@@ -1,9 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using WebApiScrapingData.Domain.Body;
 using WebApiScrapingData.Domain.Class;
-using WebApiScrapingData.Domain.Query;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Repository.Class;
 using WebApiScrapingData.Infrastructure.Utils;
@@ -11,7 +8,6 @@ using WepApiScrapingData.Controllers.Abstract;
 using WepApiScrapingData.DTOs.Concrete;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Mapper;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WepApiScrapingData.Controllers
 {
@@ -45,6 +41,18 @@ namespace WepApiScrapingData.Controllers
             var result = entities.Select(p => _mapper.MapLight(p, lang)).ToList();
 
             return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("GetById/{id}")]
+        public async Task<ActionResult<PokemonDto?>> GetById(int id, [FromQuery] string lang = Constantes.FR)
+        {
+            var entitiy = await _repository.GetById(id, lang);
+
+            if(entitiy == null)
+                return NotFound();
+
+            return Ok(_mapper.Map(entitiy, lang));
         }
 
         [HttpGet]
@@ -89,13 +97,26 @@ namespace WepApiScrapingData.Controllers
         }
 
         [HttpGet]
+        [Route("GetFamilyOrVariants")]
+        public async Task<ActionResult<IEnumerable<FamilyDto>>> GetFamilyOrVariants(int evolutionChainId, string displayName, [FromQuery] string lang = Constantes.FR)
+        {
+            var entities = await _repository.GetFamilyAsync(evolutionChainId, displayName, lang);
+
+            var result = (entities ?? Enumerable.Empty<Pokemon>())
+                .Select(p => _mapper.MapFamily(p, lang))
+                .ToList();
+
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("GetVariant/{number}")]
         public async Task<ActionResult<IEnumerable<PokemonDto>>> GetVariant(string number, [FromQuery] string lang = Constantes.FR)
         {
             var entities = await _repository.GetAllVariantAsync(number, lang);
 
             var result = (entities ?? Enumerable.Empty<Pokemon>())
-                .Select(p => _mapper.Map(p, lang))
+                .Select(p => _mapper.MapFamily(p, lang))
                 .ToList();
 
             return Ok(result);

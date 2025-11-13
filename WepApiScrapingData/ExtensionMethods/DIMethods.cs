@@ -26,6 +26,7 @@ namespace WepApiScrapingData.ExtensionMethods
             services.AddScoped<AbilityMapper>();
             services.AddScoped<Pokemon_AttackMapper>();
             services.AddScoped<AttackMapper>();
+            services.AddScoped<Pokemon_EvolvesToMapper>();
             services.AddScoped<PokemonMapper>();
 
             services.AddScoped<GenericMapper<Game, GameDto>, GameMapper>();
@@ -34,6 +35,7 @@ namespace WepApiScrapingData.ExtensionMethods
             services.AddScoped<GenericMapper<Pokemon_Ability, Pokemon_AbilityDto>, Pokemon_AbilityMapper>();
             services.AddScoped<GenericMapper<Ability, AbilityDto>, AbilityMapper>();
             services.AddScoped<GenericMapper<Pokemon_Attack, Pokemon_AttackDto>, Pokemon_AttackMapper>();
+            services.AddScoped<GenericMapper<Pokemon_EvolvesTo, Pokemon_EvolvesToDto>, Pokemon_EvolvesToMapper>();
             services.AddScoped<GenericMapper<Attack, AttackDto>, AttackMapper>();
             services.AddScoped<GenericMapper<Pokemon, PokemonDto>, PokemonMapper>();
 
@@ -50,6 +52,7 @@ namespace WepApiScrapingData.ExtensionMethods
             services.AddScoped<Pokemon_AbilityRepository>();
             services.AddScoped<Pokemon_AttackRepository>();
             services.AddScoped<Pokemon_EvolvesToRepository>();
+            services.AddScoped<Pokemon_EvolutionChainRepository>();
 
             #region Quizz
             services.AddScoped<QuizzRepository>();

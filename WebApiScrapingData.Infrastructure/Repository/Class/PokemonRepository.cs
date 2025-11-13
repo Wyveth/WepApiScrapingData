@@ -160,6 +160,18 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .AsSplitQuery()
                 .FirstOrDefaultAsync(x => x.Id.Equals(id));
 
+            pokemon.EvolvesFrom = await _context.Pokemon_EvolveTo
+                .Include(e => e.Pokemon)
+                .Include(e => e.EvolveTo)
+                .Where(e => e.EvolveToId == pokemon.Id)
+                .FirstOrDefaultAsync();
+
+            pokemon.Pokemons_EvolvesTo = await _context.Pokemon_EvolveTo
+                .Include(e => e.Pokemon)
+                .Include(e => e.EvolveTo)
+                .Where(e => e.PokemonId == pokemon.Id)
+                .ToListAsync();
+
             if (pokemon != null)
             {
                 // Trier selon l'ordre d'insertion en base (Id de la table de jonction)
@@ -170,6 +182,67 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             }
 
             return pokemon;
+        }
+
+        public async Task<List<Pokemon>?> GetFamilyAndVariant(long evolutionChainId, string displayName, string lang = Constantes.FR)
+        {
+            var query = _context.Pokemons
+               .Include(m => m.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+               .Include(m => m.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+               .Include(m => m.Pokemon_Abilities).ThenInclude(u => u.Ability)
+               .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypePok)
+               .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypeAttack)
+               .Include(m => m.Game)
+               .AsSplitQuery();
+
+            query = lang switch
+            {
+                Constantes.FR => query.Include(p => p.FR).Where(p => p.TypeEvolution == Constantes.NormalEvolution || (EF.Functions.Collate(p.FR.DisplayName, "SQL_Latin1_General_CP1_CI_AI").Contains(displayName))),
+                Constantes.ES => query.Include(p => p.ES).Where(p => p.TypeEvolution == Constantes.NormalEvolution || (EF.Functions.Collate(p.ES.DisplayName, "SQL_Latin1_General_CP1_CI_AI").Contains(displayName))),
+                Constantes.DE => query.Include(p => p.DE).Where(p => p.TypeEvolution == Constantes.NormalEvolution || (EF.Functions.Collate(p.DE.DisplayName, "SQL_Latin1_General_CP1_CI_AI").Contains(displayName))),
+                Constantes.IT => query.Include(p => p.IT).Where(p => p.TypeEvolution == Constantes.NormalEvolution || (EF.Functions.Collate(p.IT.DisplayName, "SQL_Latin1_General_CP1_CI_AI").Contains(displayName))),
+                Constantes.RU => query.Include(p => p.RU).Where(p => p.TypeEvolution == Constantes.NormalEvolution || (EF.Functions.Collate(p.RU.DisplayName, "SQL_Latin1_General_CP1_CI_AI").Contains(displayName))),
+                Constantes.CO => query.Include(p => p.CO).Where(p => p.TypeEvolution == Constantes.NormalEvolution || (EF.Functions.Collate(p.CO.DisplayName, "SQL_Latin1_General_CP1_CI_AI").Contains(displayName))),
+                Constantes.CN => query.Include(p => p.CN).Where(p => p.TypeEvolution == Constantes.NormalEvolution || (EF.Functions.Collate(p.CN.DisplayName, "SQL_Latin1_General_CP1_CI_AI").Contains(displayName))),
+                Constantes.JP => query.Include(p => p.JP).Where(p => p.TypeEvolution == Constantes.NormalEvolution || (EF.Functions.Collate(p.JP.DisplayName, "SQL_Latin1_General_CP1_CI_AI").Contains(displayName))),
+                _ => query.Include(p => p.EN).Where(p => p.TypeEvolution == Constantes.NormalEvolution || (EF.Functions.Collate(p.EN.DisplayName, "SQL_Latin1_General_CP1_CI_AI").Contains(displayName)))
+            };
+
+            var pokemons = await query
+                .Where(p => p.EvolutionChainId == evolutionChainId)
+                .OrderBy(p => Convert.ToInt32(p.Number))
+                .AsNoTracking()
+                .AsSplitQuery()
+                .ToListAsync();
+
+            if (pokemons != null)
+            {
+                foreach (var pokemon in pokemons)
+                {
+                    pokemon.EvolvesFrom = await _context.Pokemon_EvolveTo
+                        .Include(e => e.Pokemon)
+                        .Include(e => e.EvolveTo)
+                        .Where(e => e.EvolveToId == pokemon.Id)
+                        .FirstOrDefaultAsync();
+
+                    pokemon.Pokemons_EvolvesTo = await _context.Pokemon_EvolveTo
+                        .Include(e => e.Pokemon)
+                        .Include(e => e.EvolveTo)
+                        .Where(e => e.PokemonId == pokemon.Id)
+                        .ToListAsync();
+
+                    if (pokemon != null)
+                    {
+                        // Trier selon l'ordre d'insertion en base (Id de la table de jonction)
+                        pokemon.Pokemon_TypePoks = pokemon.Pokemon_TypePoks.OrderBy(t => t.Id).ToList();
+                        pokemon.Pokemon_Weaknesses = pokemon.Pokemon_Weaknesses.OrderBy(t => t.Id).ToList();
+                        pokemon.Pokemon_Abilities = pokemon.Pokemon_Abilities.OrderBy(t => t.Id).ToList();
+                        pokemon.Pokemon_Attacks = pokemon.Pokemon_Attacks.OrderBy(t => t.Id).ToList();
+                    }
+                }
+            }
+
+            return pokemons;
         }
 
         public override async Task<Pokemon?> GetByGuid(Guid guid)
@@ -314,6 +387,60 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .ToListAsync();
         }
 
+        public async Task<Pokemon?> GetById(int id, string lang = "FR")
+        {
+            lang = lang.ToUpper();
+
+            IQueryable<Pokemon> query = _context.Pokemons
+                .Include(p => p.Game)
+                .Include(p => p.Pokemon_TypePoks).ThenInclude(u => u.TypePok)
+                .Include(p => p.Pokemon_Weaknesses).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Abilities).ThenInclude(u => u.Ability)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypePok)
+                .Include(m => m.Pokemon_Attacks).ThenInclude(u => u.Attack).ThenInclude(u => u.TypeAttack)
+                .AsSplitQuery();
+
+            query = lang switch
+            {
+                Constantes.FR => query.Include(p => p.FR),
+                Constantes.ES => query.Include(p => p.ES),
+                Constantes.DE => query.Include(p => p.DE),
+                Constantes.IT => query.Include(p => p.IT),
+                Constantes.RU => query.Include(p => p.RU),
+                Constantes.CO => query.Include(p => p.CO),
+                Constantes.CN => query.Include(p => p.CN),
+                Constantes.JP => query.Include(p => p.JP),
+                _ => query.Include(p => p.EN)
+            };
+
+            var pokemon = await query
+                .OrderBy(p => Convert.ToInt32(p.Number))
+                .AsSplitQuery().FirstOrDefaultAsync(p => p.Id == id);
+
+            if (pokemon != null)
+            {
+                pokemon.EvolvesFrom = await _context.Pokemon_EvolveTo
+                    .Include(e => e.Pokemon)
+                    .Include(e => e.EvolveTo)
+                    .FirstOrDefaultAsync(e => e.EvolveToId == pokemon.Id);
+
+                pokemon.Pokemons_EvolvesTo = await _context.Pokemon_EvolveTo
+                    .Include(e => e.Pokemon)
+                    .Include(e => e.EvolveTo)
+                    .Where(e => e.PokemonId == pokemon.Id)
+                    .ToListAsync();
+
+            
+                // Trier selon l'ordre d'insertion en base (Id de la table de jonction)
+                pokemon.Pokemon_TypePoks = pokemon.Pokemon_TypePoks.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Weaknesses = pokemon.Pokemon_Weaknesses.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Abilities = pokemon.Pokemon_Abilities.OrderBy(t => t.Id).ToList();
+                pokemon.Pokemon_Attacks = pokemon.Pokemon_Attacks.OrderBy(t => t.Id).ToList();
+            }
+
+            return pokemon;
+        }
+
 
         public async Task<IEnumerable<Pokemon>> GetAllLight(int? gen = null, bool desc = false, int max = 0, string lang = "FR")
         {
@@ -334,7 +461,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 "JP" => query.Include(p => p.JP),
                 _ => query.Include(p => p.EN)
             };
-            
+
             // 🔹 Filtrer par génération si gen est spécifié
             if (gen.HasValue)
                 query = query.Where(m => m.Generation == gen.Value);
@@ -358,12 +485,12 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
             return pokemons;
         }
-        
+
         public async Task<IEnumerable<Pokemon>> GetFamilyWithoutVariantAsync(string family, string lang = "FR")
         {
             string[] vs = family.Split(',');
             List<Pokemon> result = new();
-            
+
             foreach (var item in vs)
             {
                 Pokemon pokemon = await FirstOrDefaultByName(item, lang.ToUpper());
@@ -372,6 +499,11 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             }
 
             return await Task.FromResult(result);
+        }
+
+        public async Task<IEnumerable<Pokemon>?> GetFamilyAsync(int evolutionChainId, string displayName, string lang = "FR")
+        {
+            return await Task.FromResult(await GetFamilyAndVariant(evolutionChainId, displayName, lang));
         }
 
         public async Task<IEnumerable<Pokemon>> GetAllVariantAsync(string number, string lang = "FR")
@@ -416,7 +548,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
             return await Task.FromResult(resultFilterGen[numberRandom]);
         }
-        
+
         public async Task<Pokemon> GetPokemonRandom(ClassQuizz.Quizz quizz)
         {
             List<Pokemon> resultFilterGen = await GetPokemonsWithFilterGen(GetAllLight().Result.ToList(), quizz.Gen1, quizz.Gen2, quizz.Gen3, quizz.Gen4, quizz.Gen5, quizz.Gen6, quizz.Gen7, quizz.Gen8, quizz.Gen9, quizz.GenArceus);
@@ -801,7 +933,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                     await _repositoryPT.AddAsync(pokemon_Ability);
                 }
             }
-            
+
             foreach (AttaquesExportJson attackJson in pokemonJson.Attaques)
             {
                 Attack attack = _repositoryAT.Find(m => m.Name_EN.Equals(attackJson.Attaque.Name_EN)).Result.FirstOrDefault();

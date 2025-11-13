@@ -46,7 +46,7 @@ namespace WepApiScrapingData.Mapper
             if (attaque.TypeAttack != null)
             {
                 var typeAttaqueMapper = new TypeAttackMapper();
-                dto.TypeAttaque = typeAttaqueMapper.Map(attaque.TypeAttack, lang);
+                dto.TypeAttack = typeAttaqueMapper.Map(attaque.TypeAttack, lang);
             }
 
             return dto;

@@ -8,7 +8,7 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public string? Description { get; set; }
 
-        public TypeAttackDto? TypeAttaque { get; set; }
+        public TypeAttackDto? TypeAttack { get; set; }
         
         public TypePokDto? TypePok { get; set; }
 

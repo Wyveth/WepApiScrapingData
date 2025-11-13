@@ -38,5 +38,30 @@ namespace WepApiScrapingData.Mapper
 
             return dto;
         }
+
+        public TypePokLightDto MapLight(TypePok source, string langue)
+        {
+            if (source == null) return null;
+
+            var dto = new TypePokLightDto
+            {
+                Id = source.Id,
+            };
+
+            // Déterminer les propriétés dynamiquement selon la langue
+            var lang = langue?.ToUpper() ?? Constantes.FR;
+
+            // Nom
+            var nameProp = typeof(TypePok).GetProperty($"Name_{lang}");
+            if (nameProp != null)
+                dto.Name = nameProp.GetValue(source)?.ToString();
+
+            // PathMiniHome
+            var pathProp = typeof(TypePok).GetProperty($"PathMiniHome_{lang}");
+            if (pathProp != null)
+                dto.PathMiniHome = pathProp.GetValue(source)?.ToString();
+
+            return dto;
+        }
     }
 }

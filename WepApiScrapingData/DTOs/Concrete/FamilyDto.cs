@@ -2,7 +2,7 @@
 
 namespace WepApiScrapingData.DTOs.Concrete
 {
-    public class PokemonLightDto : IdentityDto
+    public class FamilyDto : IdentityDto
     {
         public string? Number { get; set; }
 
@@ -12,23 +12,13 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public string TypeEvolution { get; set; }
 
-        public string? PathImgLegacy { get; set; }
+        public string? WhenEvolution { get; set; }
 
         public string? PathImgNormal { get; set; }
 
-        public string? PathImgShiny { get; set; }
-
-        public string? PathSpriteLegacy { get; set; }
-
         public string? PathSpriteNormal { get; set; }
 
-        public string? PathSpriteShiny { get; set; }
-
-        public string? PathAnimatedImg { get; set; }
-
-        public string? PathAnimatedImgShiny { get; set; }
-
-        public PokemonLightDto()
+        public FamilyDto()
         {
             DataInfo = new();
             TypePoks = new();

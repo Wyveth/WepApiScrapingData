@@ -27,6 +27,7 @@ namespace WepApiScrapingData.Controllers
         private readonly AbilityRepository _repositoryT;
         private readonly PokemonRepository _repositoryP;
         private readonly Pokemon_EvolvesToRepository _repositoryPET;
+        private readonly Pokemon_EvolutionChainRepository _repositoryPEC;
         private readonly EvolutionChainRepository _repositoryEC;
         #endregion
 
@@ -39,6 +40,7 @@ namespace WepApiScrapingData.Controllers
             AbilityRepository repositoryT,
             PokemonRepository repositoryP,
             EvolutionChainRepository repositoryEC,
+            Pokemon_EvolutionChainRepository repositoryPEC,
             Pokemon_EvolvesToRepository repositoryPET)
         {
             _logger = logger;
@@ -52,6 +54,7 @@ namespace WepApiScrapingData.Controllers
             _repositoryT = repositoryT;
             _repositoryP = repositoryP;
             _repositoryEC = repositoryEC;
+            _repositoryPEC = repositoryPEC;
             _repositoryPET = repositoryPET;
         }
 
@@ -142,16 +145,16 @@ namespace WepApiScrapingData.Controllers
                         await _repositoryPET.UpdateAsync(pokEvol);
                     }
 
-                        // Tous les Pokémon de la famille partagent la même chaîne
-                        nextPokemon.EvolutionChainId = chain.Id;
+                    // Tous les Pokémon de la famille partagent la même chaîne
+                    nextPokemon.EvolutionChainId = chain.Id;
                     await _repositoryP.UpdateAsync(nextPokemon);
                 }
 
                 // 🧩 Gestion des formes spéciales (Méga / Gigamax)
                 var baseNameNoForm = familyNames.Last();
                 var variants = pokemons.Where(p =>
-                    p.EN.DisplayName.StartsWith(baseNameNoForm, StringComparison.OrdinalIgnoreCase)
-                    && !familyNames.Contains(p.EN.DisplayName, StringComparer.OrdinalIgnoreCase));
+                    p.EN.DisplayName == baseNameNoForm)
+                    .Skip(1);
 
                 foreach (var variant in variants)
                 {
@@ -177,22 +180,30 @@ namespace WepApiScrapingData.Controllers
                     }
                     else
                     {
-                        //var pokEvol = await _repositoryPET.GetByIdAsync(variant.Id);
-                        //pokEvol.WhenEvolutionFR = nextPokemon.FR.WhenEvolution;
-                        //pokEvol.WhenEvolutionEN = nextPokemon.EN.WhenEvolution;
-                        //pokEvol.WhenEvolutionES = nextPokemon.ES.WhenEvolution;
-                        //pokEvol.WhenEvolutionIT = nextPokemon.IT.WhenEvolution;
-                        //pokEvol.WhenEvolutionDE = nextPokemon.DE.WhenEvolution;
-                        //pokEvol.WhenEvolutionRU = nextPokemon.RU.WhenEvolution;
-                        //pokEvol.WhenEvolutionCO = nextPokemon.CO.WhenEvolution;
-                        //pokEvol.WhenEvolutionCN = nextPokemon.CN.WhenEvolution;
-                        //pokEvol.WhenEvolutionJP = nextPokemon.JP.WhenEvolution;
-                        //await _repositoryPET.UpdateAsync(pokEvol);
+                        var pokEvol = await _repositoryPET.GetAsync(pokemons.First(x => x.EN.DisplayName == baseNameNoForm).Id, variant.Id);
+                        pokEvol.WhenEvolutionFR = variant.FR.WhenEvolution;
+                        pokEvol.WhenEvolutionEN = variant.EN.WhenEvolution;
+                        pokEvol.WhenEvolutionES = variant.ES.WhenEvolution;
+                        pokEvol.WhenEvolutionIT = variant.IT.WhenEvolution;
+                        pokEvol.WhenEvolutionDE = variant.DE.WhenEvolution;
+                        pokEvol.WhenEvolutionRU = variant.RU.WhenEvolution;
+                        pokEvol.WhenEvolutionCO = variant.CO.WhenEvolution;
+                        pokEvol.WhenEvolutionCN = variant.CN.WhenEvolution;
+                        pokEvol.WhenEvolutionJP = variant.JP.WhenEvolution;
+                        await _repositoryPET.UpdateAsync(pokEvol);
                     }
 
                         variant.EvolutionChainId = chain.Id;
                     await _repositoryP.UpdateAsync(variant);
                 }
+
+                var exist = await _repositoryPEC.ExistsAsync(pokemon.Id, chain.Id);
+                if (!exist)
+                    await _repositoryPEC.AddAsync(new Pokemon_EvolutionChain
+                    {
+                        PokemonId = pokemon.Id,
+                        EvolutionChainId = chain.Id
+                    });
             }
 
             return Ok("✅ Chaînes et relations d’évolution mises à jour !");
