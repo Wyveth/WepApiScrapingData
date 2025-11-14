@@ -36,22 +36,6 @@ namespace WebApiScrapingData.Domain.Class
         [DataMember(Name = DataMember.Weight)]
         public string? Weight { get; set; }
 
-        //Talent du Pokémon
-        [DataMember(Name = DataMember.Talent)]
-        public string? Talent { get; set; }
-
-        //Description du Talent
-        [DataMember(Name = DataMember.DescriptionTalent)]
-        public string? DescriptionTalent { get; set; }
-
-        //Nom des Types
-        [DataMember(Name = DataMember.Types)]
-        public string? Types { get; set; }
-
-        //Nom des Faiblesses
-        [DataMember(Name = DataMember.Weakness)]
-        public string? Weakness { get; set; }
-
         //Evolution/Famille du Pokémon
         [DataMember(Name = DataMember.Evolutions)]
         public string? Evolutions { get; set; }

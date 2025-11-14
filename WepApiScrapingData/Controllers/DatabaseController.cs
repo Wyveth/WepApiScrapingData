@@ -2501,139 +2501,139 @@ namespace WepApiScrapingData.Controllers
             httpClient.Dispose();
         }
 
-        [HttpPut]
-        [Route("UpdateTalent")]
-        public async Task UpdateTalent()
-        {
-            IEnumerable<Ability> abilitiesDB = await _repositoryTL.GetAll();
-            List<Ability> abilities = abilitiesDB.ToList();
-            List<Ability> newTalents = new List<Ability>();
-            IEnumerable<Pokemon> pokemons = await _repository.GetAll();
-            foreach (Pokemon pokemon in pokemons.ToList())
-            {
-                if (pokemon.FR.Talent != null)
-                {
-                    int count = pokemon.FR.Talent.Split(",").Length;
+        //[HttpPut]
+        //[Route("UpdateTalent")]
+        //public async Task UpdateTalent()
+        //{
+        //    IEnumerable<Ability> abilitiesDB = await _repositoryTL.GetAll();
+        //    List<Ability> abilities = abilitiesDB.ToList();
+        //    List<Ability> newTalents = new List<Ability>();
+        //    IEnumerable<Pokemon> pokemons = await _repository.GetAll();
+        //    foreach (Pokemon pokemon in pokemons.ToList())
+        //    {
+        //        if (pokemon.FR.Talent != null)
+        //        {
+        //            int count = pokemon.FR.Talent.Split(",").Length;
 
-                    for (int i = 0; i < count; i++)
-                    {
-                        Ability ability = new Ability();
-                        #region FR
-                        if (pokemon.FR.Talent != null)
-                        {
-                            string[] Name = pokemon.FR.Talent.Split(",");
-                            string[] Description = pokemon.FR.DescriptionTalent.Split(";");
+        //            for (int i = 0; i < count; i++)
+        //            {
+        //                Ability ability = new Ability();
+        //                #region FR
+        //                if (pokemon.FR.Talent != null)
+        //                {
+        //                    string[] Name = pokemon.FR.Talent.Split(",");
+        //                    string[] Description = pokemon.FR.DescriptionTalent.Split(";");
 
-                            ability.Name_FR = Name[i];
-                            ability.Description_FR = Description[i];
-                        }
-                        #endregion
+        //                    ability.Name_FR = Name[i];
+        //                    ability.Description_FR = Description[i];
+        //                }
+        //                #endregion
 
-                        #region EN
-                        if (pokemon.EN.Talent != null)
-                        {
-                            string[] Name = pokemon.EN.Talent.Split(",");
-                            string[] Description = pokemon.EN.DescriptionTalent.Split(";");
+        //                #region EN
+        //                if (pokemon.EN.Talent != null)
+        //                {
+        //                    string[] Name = pokemon.EN.Talent.Split(",");
+        //                    string[] Description = pokemon.EN.DescriptionTalent.Split(";");
 
-                            ability.Name_EN = Name[i];
-                            ability.Description_EN = Description[i];
-                        }
-                        #endregion
+        //                    ability.Name_EN = Name[i];
+        //                    ability.Description_EN = Description[i];
+        //                }
+        //                #endregion
 
-                        #region ES
-                        if (pokemon.ES.Talent != null)
-                        {
-                            string[] Name = pokemon.ES.Talent.Split(",");
-                            string[] Description = pokemon.ES.DescriptionTalent.Split(";");
+        //                #region ES
+        //                if (pokemon.ES.Talent != null)
+        //                {
+        //                    string[] Name = pokemon.ES.Talent.Split(",");
+        //                    string[] Description = pokemon.ES.DescriptionTalent.Split(";");
 
-                            ability.Name_ES = Name[i];
-                            ability.Description_ES = Description[i];
-                        }
-                        #endregion
+        //                    ability.Name_ES = Name[i];
+        //                    ability.Description_ES = Description[i];
+        //                }
+        //                #endregion
 
-                        #region IT
-                        if (pokemon.IT.Talent != null)
-                        {
-                            string[] Name = pokemon.IT.Talent.Split(",");
-                            string[] Description = pokemon.IT.DescriptionTalent.Split(";");
+        //                #region IT
+        //                if (pokemon.IT.Talent != null)
+        //                {
+        //                    string[] Name = pokemon.IT.Talent.Split(",");
+        //                    string[] Description = pokemon.IT.DescriptionTalent.Split(";");
 
-                            ability.Name_IT = Name[i];
-                            ability.Description_IT = Description[i];
-                        }
-                        #endregion
+        //                    ability.Name_IT = Name[i];
+        //                    ability.Description_IT = Description[i];
+        //                }
+        //                #endregion
 
-                        #region DE
-                        if (pokemon.DE.Talent != null)
-                        {
-                            string[] Name = pokemon.DE.Talent.Split(",");
-                            string[] Description = pokemon.DE.DescriptionTalent.Split(";");
+        //                #region DE
+        //                if (pokemon.DE.Talent != null)
+        //                {
+        //                    string[] Name = pokemon.DE.Talent.Split(",");
+        //                    string[] Description = pokemon.DE.DescriptionTalent.Split(";");
 
-                            ability.Name_DE = Name[i];
-                            ability.Description_DE = Description[i];
-                        }
-                        #endregion
+        //                    ability.Name_DE = Name[i];
+        //                    ability.Description_DE = Description[i];
+        //                }
+        //                #endregion
 
-                        #region RU
-                        if (pokemon.RU.Talent != null && pokemon.RU.DescriptionTalent != "")
-                        {
-                            string[] Name = pokemon.RU.Talent.Split(",");
-                            string[] Description = pokemon.RU.DescriptionTalent.Split(";");
+        //                #region RU
+        //                if (pokemon.RU.Talent != null && pokemon.RU.DescriptionTalent != "")
+        //                {
+        //                    string[] Name = pokemon.RU.Talent.Split(",");
+        //                    string[] Description = pokemon.RU.DescriptionTalent.Split(";");
 
-                            ability.Name_RU = Name[i];
-                            ability.Description_RU = Description[i];
-                        }
-                        #endregion
+        //                    ability.Name_RU = Name[i];
+        //                    ability.Description_RU = Description[i];
+        //                }
+        //                #endregion
 
-                        #region CO
-                        if (pokemon.CO.Talent != null && pokemon.CO.DescriptionTalent != "")
-                        {
-                            string[] Name = pokemon.CO.Talent.Split(",");
-                            string[] Description = pokemon.CO.DescriptionTalent.Split(";");
+        //                #region CO
+        //                if (pokemon.CO.Talent != null && pokemon.CO.DescriptionTalent != "")
+        //                {
+        //                    string[] Name = pokemon.CO.Talent.Split(",");
+        //                    string[] Description = pokemon.CO.DescriptionTalent.Split(";");
 
-                            ability.Name_CO = Name[i];
-                            ability.Description_CO = Description[i];
-                        }
-                        #endregion
+        //                    ability.Name_CO = Name[i];
+        //                    ability.Description_CO = Description[i];
+        //                }
+        //                #endregion
 
-                        #region CN
-                        if (pokemon.CN.Talent != null && pokemon.CN.DescriptionTalent != "")
-                        {
-                            string[] Name = pokemon.CN.Talent.Split(",");
-                            string[] Description = pokemon.CN.DescriptionTalent.Split(";");
+        //                #region CN
+        //                if (pokemon.CN.Talent != null && pokemon.CN.DescriptionTalent != "")
+        //                {
+        //                    string[] Name = pokemon.CN.Talent.Split(",");
+        //                    string[] Description = pokemon.CN.DescriptionTalent.Split(";");
 
-                            ability.Name_CN = Name[i];
-                            ability.Description_CN = Description[i];
-                        }
-                        #endregion
+        //                    ability.Name_CN = Name[i];
+        //                    ability.Description_CN = Description[i];
+        //                }
+        //                #endregion
 
-                        #region JP
-                        if (pokemon.JP.Talent != null && pokemon.JP.DescriptionTalent != "")
-                        {
-                            string[] Name = pokemon.JP.Talent.Split(",");
-                            string[] Description = pokemon.JP.DescriptionTalent.Split(";");
+        //                #region JP
+        //                if (pokemon.JP.Talent != null && pokemon.JP.DescriptionTalent != "")
+        //                {
+        //                    string[] Name = pokemon.JP.Talent.Split(",");
+        //                    string[] Description = pokemon.JP.DescriptionTalent.Split(";");
 
-                            ability.Name_JP = Name[i];
-                            ability.Description_JP = Description[i];
-                        }
-                        #endregion
+        //                    ability.Name_JP = Name[i];
+        //                    ability.Description_JP = Description[i];
+        //                }
+        //                #endregion
 
-                        Ability abilityExist = abilities.Find(x => x.Name_FR == ability.Name_FR);
-                        if (abilityExist == null)
-                        {
-                            Ability newTalentsExist = newTalents.Find(x => x.Name_FR == ability.Name_FR);
-                            if (newTalentsExist == null)
-                            {
-                                newTalents.Add(ability);
-                                Console.WriteLine(ability.Name_FR + ": " + ability.Description_FR);
-                            }
-                        }
-                    }
-                }
-            }
+        //                Ability abilityExist = abilities.Find(x => x.Name_FR == ability.Name_FR);
+        //                if (abilityExist == null)
+        //                {
+        //                    Ability newTalentsExist = newTalents.Find(x => x.Name_FR == ability.Name_FR);
+        //                    if (newTalentsExist == null)
+        //                    {
+        //                        newTalents.Add(ability);
+        //                        Console.WriteLine(ability.Name_FR + ": " + ability.Description_FR);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
 
-            await _repositoryTL.AddRangeAsync(newTalents);
-            _repository.UnitOfWork.SaveChanges();
-        }
+        //    await _repositoryTL.AddRangeAsync(newTalents);
+        //    _repository.UnitOfWork.SaveChanges();
+        //}
 
         [HttpPut]
         [Route("UpdateGameInDB")]
@@ -2882,93 +2882,93 @@ namespace WepApiScrapingData.Controllers
             _repositoryG.UnitOfWork.SaveChanges();
         }
 
-        [HttpPut]
-        [Route("UpdateTypePokInDB")]
-        public async Task UpdateTypePokInDB()
-        {
-            IEnumerable<Pokemon> pokemons = await _repository.GetAll();
-            foreach (Pokemon pokemon in pokemons.ToList())
-            {
-                List<Pokemon_TypePok> pokemon_TypePoks = new();
+        //[HttpPut]
+        //[Route("UpdateTypePokInDB")]
+        //public async Task UpdateTypePokInDB()
+        //{
+        //    IEnumerable<Pokemon> pokemons = await _repository.GetAll();
+        //    foreach (Pokemon pokemon in pokemons.ToList())
+        //    {
+        //        List<Pokemon_TypePok> pokemon_TypePoks = new();
 
-                foreach (string type in pokemon.FR.Types.Split(','))
-                {
-                    TypePok typePok = await _repositoryTP.SingleOrDefault(x => x.Name_FR.Equals(type));
-                    Pokemon_TypePok pokemon_TypePok = new()
-                    {
-                        PokemonId = pokemon.Id,
-                        TypePokId = typePok.Id
-                    };
+        //        foreach (string type in pokemon.FR.Types.Split(','))
+        //        {
+        //            TypePok typePok = await _repositoryTP.SingleOrDefault(x => x.Name_FR.Equals(type));
+        //            Pokemon_TypePok pokemon_TypePok = new()
+        //            {
+        //                PokemonId = pokemon.Id,
+        //                TypePokId = typePok.Id
+        //            };
 
-                    pokemon_TypePoks.Add(pokemon_TypePok);
-                }
+        //            pokemon_TypePoks.Add(pokemon_TypePok);
+        //        }
 
-                _repositoryPTP.AddRangeAsync(pokemon_TypePoks);
-            }
+        //        _repositoryPTP.AddRangeAsync(pokemon_TypePoks);
+        //    }
 
-            _repository.UnitOfWork.SaveChanges();
-        }
+        //    _repository.UnitOfWork.SaveChanges();
+        //}
 
-        [HttpPut]
-        [Route("UpdateWeaknessInDB")]
-        public async Task UpdateWeaknessInDB()
-        {
-            try
-            {
-                List<Pokemon> pokemons = _repository.GetAll().Result.ToList();
-                foreach (Pokemon pokemon in pokemons)
-                {
-                    List<Pokemon_Weakness> pokemon_Weaknesses = new();
+        //[HttpPut]
+        //[Route("UpdateWeaknessInDB")]
+        //public async Task UpdateWeaknessInDB()
+        //{
+        //    try
+        //    {
+        //        List<Pokemon> pokemons = _repository.GetAll().Result.ToList();
+        //        foreach (Pokemon pokemon in pokemons)
+        //        {
+        //            List<Pokemon_Weakness> pokemon_Weaknesses = new();
 
-                    foreach (string weakness in pokemon.FR.Weakness.Split(','))
-                    {
-                        TypePok typePok = await _repositoryTP.SingleOrDefault(m => m.Name_FR.Equals(weakness));
-                        Pokemon_Weakness pokemon_Weakness = new()
-                        {
-                            PokemonId = pokemon.Id,
-                            TypePokId = typePok.Id
-                        };
+        //            foreach (string weakness in pokemon.FR.Weakness.Split(','))
+        //            {
+        //                TypePok typePok = await _repositoryTP.SingleOrDefault(m => m.Name_FR.Equals(weakness));
+        //                Pokemon_Weakness pokemon_Weakness = new()
+        //                {
+        //                    PokemonId = pokemon.Id,
+        //                    TypePokId = typePok.Id
+        //                };
 
-                        pokemon_Weaknesses.Add(pokemon_Weakness);
-                    }
+        //                pokemon_Weaknesses.Add(pokemon_Weakness);
+        //            }
 
-                    await _repositoryPWN.AddRangeAsync(pokemon_Weaknesses);
-                }
+        //            await _repositoryPWN.AddRangeAsync(pokemon_Weaknesses);
+        //        }
 
-                _repository.UnitOfWork.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.InnerException.ToString());
-            }
-        }
+        //        _repository.UnitOfWork.SaveChanges();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e.InnerException.ToString());
+        //    }
+        //}
 
-        [HttpPut]
-        [Route("UpdateTalentInDB")]
-        public async Task UpdateTalentInDB()
-        {
-            IEnumerable<Pokemon> pokemons = await _repository.GetAll();
-            foreach (Pokemon pokemon in pokemons.ToList())
-            {
-                List<Pokemon_Ability> pokemon_Abilities = new();
+        //[HttpPut]
+        //[Route("UpdateTalentInDB")]
+        //public async Task UpdateTalentInDB()
+        //{
+        //    IEnumerable<Pokemon> pokemons = await _repository.GetAll();
+        //    foreach (Pokemon pokemon in pokemons.ToList())
+        //    {
+        //        List<Pokemon_Ability> pokemon_Abilities = new();
 
-                foreach (string type in pokemon.FR.Talent.Split(','))
-                {
-                    Ability abilityPok = await _repositoryTL.SingleOrDefault(x => x.Name_FR.Equals(type));
-                    Pokemon_Ability pokemon_Ability = new()
-                    {
-                        PokemonId = pokemon.Id,
-                        AbilityId = abilityPok.Id
-                    };
+        //        foreach (string type in pokemon.FR.Talent.Split(','))
+        //        {
+        //            Ability abilityPok = await _repositoryTL.SingleOrDefault(x => x.Name_FR.Equals(type));
+        //            Pokemon_Ability pokemon_Ability = new()
+        //            {
+        //                PokemonId = pokemon.Id,
+        //                AbilityId = abilityPok.Id
+        //            };
 
-                    pokemon_Abilities.Add(pokemon_Ability);
-                }
+        //            pokemon_Abilities.Add(pokemon_Ability);
+        //        }
 
-                _repositoryPTL.AddRangeAsync(pokemon_Abilities);
-            }
+        //        _repositoryPTL.AddRangeAsync(pokemon_Abilities);
+        //    }
 
-            _repository.UnitOfWork.SaveChanges();
-        }
+        //    _repository.UnitOfWork.SaveChanges();
+        //}
 
         [HttpPut]
         [Route("UpdateTypeAttaqueInDB")]

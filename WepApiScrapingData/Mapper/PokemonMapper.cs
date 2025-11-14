@@ -81,9 +81,9 @@ namespace WepApiScrapingData.Mapper
                     .ToList();
             }
 
-            dto.EvolveFrom = _evolveToMapper.Map(source.EvolvesFrom, langueKey);
+            dto.EvolveFrom = _evolveToMapper.Map(source.EvolvesFrom, langueKey, true);
 
-            if (source.Pokemon_TypePoks?.Any() == true)
+            if (source.Pokemons_EvolvesTo?.Any() == true)
             {
                 dto.EvolvesTo = source.Pokemons_EvolvesTo
                     .Select(t => _evolveToMapper.Map(t, langueKey))

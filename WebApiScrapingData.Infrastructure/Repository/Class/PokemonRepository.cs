@@ -219,15 +219,47 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             {
                 foreach (var pokemon in pokemons)
                 {
-                    pokemon.EvolvesFrom = await _context.Pokemon_EvolveTo
-                        .Include(e => e.Pokemon)
-                        .Include(e => e.EvolveTo)
+                    var queryEvolveFrom = _context.Pokemon_EvolveTo
+                       .Include(e => e.Pokemon)
+                       .Include(e => e.EvolveTo)
+                       .AsSplitQuery();
+
+                    queryEvolveFrom = lang switch
+                    {
+                        Constantes.FR => queryEvolveFrom.Include(p => p.EvolveTo.FR),
+                        Constantes.ES => queryEvolveFrom.Include(p => p.EvolveTo.ES),
+                        Constantes.DE => queryEvolveFrom.Include(p => p.EvolveTo.DE),
+                        Constantes.IT => queryEvolveFrom.Include(p => p.EvolveTo.IT),
+                        Constantes.RU => queryEvolveFrom.Include(p => p.EvolveTo.RU),
+                        Constantes.CO => queryEvolveFrom.Include(p => p.EvolveTo.CO),
+                        Constantes.CN => queryEvolveFrom.Include(p => p.EvolveTo.CN),
+                        Constantes.JP => queryEvolveFrom.Include(p => p.EvolveTo.JP),
+                        _ => queryEvolveFrom.Include(p => p.EvolveTo.EN)
+                    };
+
+                    pokemon.EvolvesFrom = await queryEvolveFrom
                         .Where(e => e.EvolveToId == pokemon.Id)
                         .FirstOrDefaultAsync();
 
-                    pokemon.Pokemons_EvolvesTo = await _context.Pokemon_EvolveTo
-                        .Include(e => e.Pokemon)
-                        .Include(e => e.EvolveTo)
+                    var queryEvolvesTo = _context.Pokemon_EvolveTo
+                       .Include(e => e.Pokemon)
+                       .Include(e => e.EvolveTo)
+                       .AsSplitQuery();
+
+                    queryEvolvesTo = lang switch
+                    {
+                        Constantes.FR => queryEvolveFrom.Include(p => p.EvolveTo.FR),
+                        Constantes.ES => queryEvolveFrom.Include(p => p.EvolveTo.ES),
+                        Constantes.DE => queryEvolveFrom.Include(p => p.EvolveTo.DE),
+                        Constantes.IT => queryEvolveFrom.Include(p => p.EvolveTo.IT),
+                        Constantes.RU => queryEvolveFrom.Include(p => p.EvolveTo.RU),
+                        Constantes.CO => queryEvolveFrom.Include(p => p.EvolveTo.CO),
+                        Constantes.CN => queryEvolveFrom.Include(p => p.EvolveTo.CN),
+                        Constantes.JP => queryEvolveFrom.Include(p => p.EvolveTo.JP),
+                        _ => queryEvolveFrom.Include(p => p.EvolveTo.EN)
+                    };
+
+                    pokemon.Pokemons_EvolvesTo = await queryEvolvesTo
                         .Where(e => e.PokemonId == pokemon.Id)
                         .ToListAsync();
 
@@ -419,18 +451,51 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
             if (pokemon != null)
             {
-                pokemon.EvolvesFrom = await _context.Pokemon_EvolveTo
-                    .Include(e => e.Pokemon)
-                    .Include(e => e.EvolveTo)
-                    .FirstOrDefaultAsync(e => e.EvolveToId == pokemon.Id);
+                var queryEvolveFrom = _context.Pokemon_EvolveTo
+                       .Include(e => e.Pokemon)
+                       .Include(e => e.EvolveTo)
+                       .AsSplitQuery();
 
-                pokemon.Pokemons_EvolvesTo = await _context.Pokemon_EvolveTo
-                    .Include(e => e.Pokemon)
-                    .Include(e => e.EvolveTo)
+                queryEvolveFrom = lang switch
+                {
+                    Constantes.FR => queryEvolveFrom.Include(p => p.Pokemon.FR),
+                    Constantes.ES => queryEvolveFrom.Include(p => p.Pokemon.ES),
+                    Constantes.DE => queryEvolveFrom.Include(p => p.Pokemon.DE),
+                    Constantes.IT => queryEvolveFrom.Include(p => p.Pokemon.IT),
+                    Constantes.RU => queryEvolveFrom.Include(p => p.Pokemon.RU),
+                    Constantes.CO => queryEvolveFrom.Include(p => p.Pokemon.CO),
+                    Constantes.CN => queryEvolveFrom.Include(p => p.Pokemon.CN),
+                    Constantes.JP => queryEvolveFrom.Include(p => p.Pokemon.JP),
+                    _ => queryEvolveFrom.Include(p => p.Pokemon.EN)
+                };
+
+                pokemon.EvolvesFrom = await queryEvolveFrom
+                    .Where(e => e.EvolveToId == pokemon.Id)
+                    .FirstOrDefaultAsync();
+
+                var queryEvolvesTo = _context.Pokemon_EvolveTo
+                   .Include(e => e.Pokemon)
+                   .Include(e => e.EvolveTo)
+                   .AsSplitQuery();
+
+                queryEvolvesTo = lang switch
+                {
+                    Constantes.FR => queryEvolveFrom.Include(p => p.EvolveTo.FR),
+                    Constantes.ES => queryEvolveFrom.Include(p => p.EvolveTo.ES),
+                    Constantes.DE => queryEvolveFrom.Include(p => p.EvolveTo.DE),
+                    Constantes.IT => queryEvolveFrom.Include(p => p.EvolveTo.IT),
+                    Constantes.RU => queryEvolveFrom.Include(p => p.EvolveTo.RU),
+                    Constantes.CO => queryEvolveFrom.Include(p => p.EvolveTo.CO),
+                    Constantes.CN => queryEvolveFrom.Include(p => p.EvolveTo.CN),
+                    Constantes.JP => queryEvolveFrom.Include(p => p.EvolveTo.JP),
+                    _ => queryEvolveFrom.Include(p => p.EvolveTo.EN)
+                };
+
+                pokemon.Pokemons_EvolvesTo = await queryEvolvesTo
                     .Where(e => e.PokemonId == pokemon.Id)
                     .ToListAsync();
 
-            
+
                 // Trier selon l'ordre d'insertion en base (Id de la table de jonction)
                 pokemon.Pokemon_TypePoks = pokemon.Pokemon_TypePoks.OrderBy(t => t.Id).ToList();
                 pokemon.Pokemon_Weaknesses = pokemon.Pokemon_Weaknesses.OrderBy(t => t.Id).ToList();
@@ -963,10 +1028,10 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 Size = dataInfoJson.Size,
                 Category = dataInfoJson.Category,
                 Weight = dataInfoJson.Weight,
-                Talent = dataInfoJson.Talent,
-                DescriptionTalent = dataInfoJson.DescriptionTalent,
-                Types = dataInfoJson.Types,
-                Weakness = dataInfoJson.Weakness,
+                //Talent = dataInfoJson.Talent,
+                //DescriptionTalent = dataInfoJson.DescriptionTalent,
+                //Types = dataInfoJson.Types,
+                //Weakness = dataInfoJson.Weakness,
                 Evolutions = dataInfoJson.Evolutions,
                 WhenEvolution = dataInfoJson.WhenEvolution,
                 NextUrl = dataInfoJson.NextUrl

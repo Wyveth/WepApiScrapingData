@@ -6,7 +6,7 @@ namespace WepApiScrapingData.Mapper
 {
     public class Pokemon_EvolvesToMapper : GenericMapper<Pokemon_EvolvesTo, Pokemon_EvolvesToDto>
     {
-        public override Pokemon_EvolvesToDto Map(Pokemon_EvolvesTo source, string langue)
+        public Pokemon_EvolvesToDto Map(Pokemon_EvolvesTo source, string langue,bool from = false)
         {
             if (source == null) return new Pokemon_EvolvesToDto
             {
@@ -28,8 +28,8 @@ namespace WepApiScrapingData.Mapper
             var dto = new Pokemon_EvolvesToDto
             {
                 Id = source.EvolveToId,
-                Name = GetNameByLang(source.EvolveTo, langue),
-                PathImage = GetImagePath(source.EvolveTo, langue),
+                Name = GetNameByLang(from ? source.Pokemon : source.EvolveTo, langue),
+                PathImage = GetImagePath(from ? source.Pokemon : source.EvolveTo, langue),
                 WhenEvolution = langue switch
                 {
                     "FR" => source.WhenEvolutionFR,
