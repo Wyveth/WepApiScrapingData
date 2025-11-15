@@ -44,13 +44,13 @@ namespace WepApiScrapingData.Controllers
                 foreach (TypePok item in _context.TypesPok)
                     item.Guid = Guid.NewGuid();
 
-                foreach (Talent item in _context.Talents)
+                foreach (Ability item in _context.Abilities)
                     item.Guid = Guid.NewGuid();
 
-                foreach (Attaque item in _context.Attaques)
+                foreach (Attack item in _context.Attacks)
                     item.Guid = Guid.NewGuid();
 
-                foreach (TypeAttaque item in _context.TypeAttaques)
+                foreach (TypeAttack item in _context.TypeAttacks)
                     item.Guid = Guid.NewGuid();
                 
                 foreach (Pokemon_TypePok item in _context.Pokemon_TypePok)
@@ -59,10 +59,10 @@ namespace WepApiScrapingData.Controllers
                 foreach (Pokemon_Weakness item in _context.Pokemon_Weakness)
                     item.Guid = Guid.NewGuid();
 
-                foreach (Pokemon_Talent item in _context.Pokemon_Talent)
+                foreach (Pokemon_Ability item in _context.Pokemon_Ability)
                     item.Guid = Guid.NewGuid();
 
-                foreach (Pokemon_Attaque item in _context.Pokemon_Attaque)
+                foreach (Pokemon_Attack item in _context.Pokemon_Attack)
                     item.Guid = Guid.NewGuid();
 
                 foreach (Game item in _context.Games)

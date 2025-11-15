@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using WebApiScrapingData.Domain.Abstract;
 using WebApiScrapingData.Domain.Resources;
 
 namespace WebApiScrapingData.Domain.Class
 {
     [DataContract]
-    public class Talent : Identity
+    public class Attack : Identity
     {
         [DataMember(Name = DataMember.Name_FR)]
         public string? Name_FR { get; set; }
@@ -16,7 +15,7 @@ namespace WebApiScrapingData.Domain.Class
 
         [DataMember(Name = DataMember.Name_EN)]
         public string? Name_EN { get; set; }
-        
+
         [DataMember(Name = DataMember.Description_EN)]
         public string? Description_EN { get; set; }
 
@@ -62,6 +61,21 @@ namespace WebApiScrapingData.Domain.Class
         [DataMember(Name = DataMember.Description_JP)]
         public string? Description_JP { get; set; }
 
-        public List<Pokemon_Talent>? Pokemon_Talents { get; set; }
+        [DataMember(Name = DataMember.TypeAttack)]
+        public virtual TypeAttack? TypeAttack { get; set; }
+        
+        [DataMember(Name = DataMember.Types)]
+        public virtual TypePok? TypePok { get; set; }
+
+        [DataMember(Name = DataMember.Puissance)]
+        public string? Power { get; set; }
+
+        [DataMember(Name = DataMember.Precision)]
+        public string? Precision { get; set; }
+
+        [DataMember(Name = DataMember.PP)]
+        public string? PP { get; set; }
+
+        public List<Pokemon_Attack>? Pokemon_Attacks { get; set; }
     }
 }

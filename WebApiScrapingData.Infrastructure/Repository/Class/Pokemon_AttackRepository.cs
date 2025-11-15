@@ -4,10 +4,10 @@ using WebApiScrapingData.Infrastructure.Data;
 
 namespace WebApiScrapingData.Infrastructure.Repository.Class
 {
-    public class Pokemon_AttaqueRepository : Repository<Pokemon_Attaque>
+    public class Pokemon_AttackRepository : Repository<Pokemon_Attack>
     {
         #region Constructor
-        public Pokemon_AttaqueRepository(ScrapingContext context) : base(context) { }
+        public Pokemon_AttackRepository(ScrapingContext context) : base(context) { }
         #endregion
     }
 }

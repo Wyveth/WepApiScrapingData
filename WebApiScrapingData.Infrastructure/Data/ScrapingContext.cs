@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Reflection.Emit;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Domain.Interface;
@@ -38,6 +39,19 @@ namespace WebApiScrapingData.Infrastructure.Data
                 .WithMany()
                 .HasForeignKey(rt => rt.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            //// ⚙️ Configuration explicite pour Pokemon_EvolvesTo (évite l'ambiguïté entre PokemonId et EvolveToId)
+            builder.Entity<Pokemon_EvolvesTo>()
+                .HasOne(e => e.Pokemon)
+                .WithMany()
+                .HasForeignKey(e => e.PokemonId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Pokemon_EvolvesTo>()
+                .HasOne(e => e.EvolveTo)
+                .WithMany()
+                .HasForeignKey(e => e.EvolveToId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
         #endregion
 
@@ -47,15 +61,18 @@ namespace WebApiScrapingData.Infrastructure.Data
         public virtual DbSet<Pokemon> Pokemons { get; set; }
         public virtual DbSet<DataInfo> DataInfos { get; set; }
         public virtual DbSet<TypePok> TypesPok { get; set; }
-        public virtual DbSet<Talent> Talents { get; set; }
-        public virtual DbSet<Attaque> Attaques { get; set; }
-        public virtual DbSet<TypeAttaque> TypeAttaques { get; set; }
+        public virtual DbSet<Ability> Abilities { get; set; }
+        public virtual DbSet<Attack> Attacks { get; set; }
+        public virtual DbSet<TypeAttack> TypeAttacks { get; set; }
         public virtual DbSet<Pokemon_TypePok> Pokemon_TypePok { get; set; }
         public virtual DbSet<Pokemon_Weakness> Pokemon_Weakness { get; set; }
-        public virtual DbSet<Pokemon_Talent> Pokemon_Talent { get; set; }
-        public virtual DbSet<Pokemon_Attaque> Pokemon_Attaque { get; set; }
-        public virtual DbSet<Game> Games { get; set; }
+        public virtual DbSet<Pokemon_Ability> Pokemon_Ability { get; set; }
+        public virtual DbSet<Pokemon_Attack> Pokemon_Attack { get; set; }
+        public virtual DbSet<Pokemon_EvolvesTo> Pokemon_EvolveTo { get; set; }
 
+        public virtual DbSet<Pokemon_EvolutionChain> Pokemon_EvolutionChain { get; set; }
+        public virtual DbSet<EvolutionChain> EvolutionChain { get; set; }
+        public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<Quizz> Quizzs { get; set; }
         public virtual DbSet<Quizz_Question> Quizz_Question { get; set; }
         public virtual DbSet<Question> Questions { get; set; }

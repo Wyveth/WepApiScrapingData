@@ -21,21 +21,27 @@ namespace WepApiScrapingData.Controllers
         private readonly ILogger<SynchroPokeController> _logger;
         private readonly ScrapingContext _context;
         private readonly HttpClient _pokeApiClient;
-        private readonly AttaqueRepository _repositoryAT;
-        private readonly TypeAttaqueRepository _repositoryTA;
+        private readonly AttackRepository _repositoryAT;
+        private readonly TypeAttackRepository _repositoryTA;
         private readonly TypePokRepository _repositoryTP;
-        private readonly TalentRepository _repositoryT;
+        private readonly AbilityRepository _repositoryT;
         private readonly PokemonRepository _repositoryP;
+        private readonly Pokemon_EvolvesToRepository _repositoryPET;
+        private readonly Pokemon_EvolutionChainRepository _repositoryPEC;
+        private readonly EvolutionChainRepository _repositoryEC;
         #endregion
 
         public SynchroPokeController(ILogger<SynchroPokeController> logger,
             ScrapingContext context,
             IHttpClientFactory httpClientFactory,
-            AttaqueRepository repositoryAT,
-            TypeAttaqueRepository repositoryTA,
+            AttackRepository repositoryAT,
+            TypeAttackRepository repositoryTA,
             TypePokRepository repositoryTP,
-            TalentRepository repositoryT,
-            PokemonRepository repositoryP)
+            AbilityRepository repositoryT,
+            PokemonRepository repositoryP,
+            EvolutionChainRepository repositoryEC,
+            Pokemon_EvolutionChainRepository repositoryPEC,
+            Pokemon_EvolvesToRepository repositoryPET)
         {
             _logger = logger;
             _context = context;
@@ -47,7 +53,162 @@ namespace WepApiScrapingData.Controllers
             _pokeApiClient = httpClientFactory.CreateClient("pokeapi");
             _repositoryT = repositoryT;
             _repositoryP = repositoryP;
+            _repositoryEC = repositoryEC;
+            _repositoryPEC = repositoryPEC;
+            _repositoryPET = repositoryPET;
         }
+
+        [HttpGet("UpdatePokemonEvolve")]
+        public async Task<IActionResult> UpdatePokemonEvolve()
+        {
+            var pokemons = (await _repositoryP.GetAll()).ToList();
+            var evolutionChains = (await _repositoryEC.GetAll()).ToList();
+
+            foreach (var pokemon in pokemons)
+            {
+                if (string.IsNullOrEmpty(pokemon.EN?.Evolutions))
+                    continue;
+
+                // Liste ordonnée de la famille complète
+                var familyNames = pokemon.EN.Evolutions
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+
+                if (familyNames.Count == 0)
+                    continue;
+
+                // Clé unique pour la famille
+                string key = string.Join("|", familyNames);
+
+                // Vérifie si la chaîne existe déjà
+                var chain = evolutionChains.FirstOrDefault(c =>
+                    c.Evolutions != null &&
+                    string.Equals(c.Evolutions, key, StringComparison.OrdinalIgnoreCase));
+
+                if (chain == null)
+                {
+                    chain = new EvolutionChain { Evolutions = key };
+                    await _repositoryEC.AddAsync(chain);
+                    evolutionChains.Add(chain);
+                }
+
+                // Associe le Pokémon à cette chaîne
+                pokemon.EvolutionChainId = chain.Id;
+                await _repositoryP.UpdateAsync(pokemon);
+
+                // Crée les relations d’évolution
+                for (int i = 0; i < familyNames.Count - 1; i++)
+                {
+                    var baseName = familyNames[i];
+                    var nextName = familyNames[i + 1];
+
+                    var basePokemon = pokemons.FirstOrDefault(p => p.EN.DisplayName.Equals(baseName, StringComparison.OrdinalIgnoreCase));
+                    var nextPokemon = pokemons.FirstOrDefault(p => p.EN.DisplayName.Equals(nextName, StringComparison.OrdinalIgnoreCase));
+
+                    if (basePokemon == null || nextPokemon == null)
+                        continue;
+
+                    // Crée la relation Bulbasaur -> Ivysaur etc.
+                    var exists = await _repositoryPET.ExistsAsync(basePokemon.Id, nextPokemon.Id);
+
+                    if (!exists)
+                    {
+                        var relation = new Pokemon_EvolvesTo
+                        {
+                            PokemonId = basePokemon.Id,
+                            EvolveToId = nextPokemon.Id,
+                            WhenEvolutionFR = nextPokemon.FR.WhenEvolution,
+                            WhenEvolutionEN = nextPokemon.EN.WhenEvolution,
+                            WhenEvolutionES = nextPokemon.ES.WhenEvolution,
+                            WhenEvolutionIT = nextPokemon.IT.WhenEvolution,
+                            WhenEvolutionDE = nextPokemon.DE.WhenEvolution,
+                            WhenEvolutionRU = nextPokemon.RU.WhenEvolution,
+                            WhenEvolutionCO = nextPokemon.CO.WhenEvolution,
+                            WhenEvolutionCN = nextPokemon.CN.WhenEvolution,
+                            WhenEvolutionJP = nextPokemon.JP.WhenEvolution
+                        };
+                        await _repositoryPET.AddAsync(relation);
+                    }
+                    else
+                    {
+                        var pokEvol = await _repositoryPET.GetAsync(basePokemon.Id, nextPokemon.Id);
+                        pokEvol.WhenEvolutionFR = nextPokemon.FR.WhenEvolution;
+                        pokEvol.WhenEvolutionEN = nextPokemon.EN.WhenEvolution;
+                        pokEvol.WhenEvolutionES = nextPokemon.ES.WhenEvolution;
+                        pokEvol.WhenEvolutionIT = nextPokemon.IT.WhenEvolution;
+                        pokEvol.WhenEvolutionDE = nextPokemon.DE.WhenEvolution;
+                        pokEvol.WhenEvolutionRU = nextPokemon.RU.WhenEvolution;
+                        pokEvol.WhenEvolutionCO = nextPokemon.CO.WhenEvolution;
+                        pokEvol.WhenEvolutionCN = nextPokemon.CN.WhenEvolution;
+                        pokEvol.WhenEvolutionJP = nextPokemon.JP.WhenEvolution;
+                        await _repositoryPET.UpdateAsync(pokEvol);
+                    }
+
+                    // Tous les Pokémon de la famille partagent la même chaîne
+                    nextPokemon.EvolutionChainId = chain.Id;
+                    await _repositoryP.UpdateAsync(nextPokemon);
+                }
+
+                // 🧩 Gestion des formes spéciales (Méga / Gigamax)
+                var baseNameNoForm = familyNames.Last();
+                var variants = pokemons.Where(p =>
+                    p.EN.DisplayName == baseNameNoForm)
+                    .Skip(1);
+
+                foreach (var variant in variants)
+                {
+                    // Venusaur -> Mega Venusaur, Gigamax Venusaur
+                    var exists = await _repositoryPET.ExistsAsync(pokemons.First(x => x.EN.DisplayName == baseNameNoForm).Id, variant.Id);
+
+                    if (!exists)
+                    {
+                        await _repositoryPET.AddAsync(new Pokemon_EvolvesTo
+                        {
+                            PokemonId = pokemons.First(x => x.EN.DisplayName == baseNameNoForm).Id,
+                            EvolveToId = variant.Id,
+                            WhenEvolutionFR = variant.FR.WhenEvolution,
+                            WhenEvolutionEN = variant.EN.WhenEvolution,
+                            WhenEvolutionES = variant.ES.WhenEvolution,
+                            WhenEvolutionIT = variant.IT.WhenEvolution,
+                            WhenEvolutionDE = variant.DE.WhenEvolution,
+                            WhenEvolutionRU = variant.RU.WhenEvolution,
+                            WhenEvolutionCO = variant.CO.WhenEvolution,
+                            WhenEvolutionCN = variant.CN.WhenEvolution,
+                            WhenEvolutionJP = variant.JP.WhenEvolution
+                        });
+                    }
+                    else
+                    {
+                        var pokEvol = await _repositoryPET.GetAsync(pokemons.First(x => x.EN.DisplayName == baseNameNoForm).Id, variant.Id);
+                        pokEvol.WhenEvolutionFR = variant.FR.WhenEvolution;
+                        pokEvol.WhenEvolutionEN = variant.EN.WhenEvolution;
+                        pokEvol.WhenEvolutionES = variant.ES.WhenEvolution;
+                        pokEvol.WhenEvolutionIT = variant.IT.WhenEvolution;
+                        pokEvol.WhenEvolutionDE = variant.DE.WhenEvolution;
+                        pokEvol.WhenEvolutionRU = variant.RU.WhenEvolution;
+                        pokEvol.WhenEvolutionCO = variant.CO.WhenEvolution;
+                        pokEvol.WhenEvolutionCN = variant.CN.WhenEvolution;
+                        pokEvol.WhenEvolutionJP = variant.JP.WhenEvolution;
+                        await _repositoryPET.UpdateAsync(pokEvol);
+                    }
+
+                        variant.EvolutionChainId = chain.Id;
+                    await _repositoryP.UpdateAsync(variant);
+                }
+
+                var exist = await _repositoryPEC.ExistsAsync(pokemon.Id, chain.Id);
+                if (!exist)
+                    await _repositoryPEC.AddAsync(new Pokemon_EvolutionChain
+                    {
+                        PokemonId = pokemon.Id,
+                        EvolutionChainId = chain.Id
+                    });
+            }
+
+            return Ok("✅ Chaînes et relations d’évolution mises à jour !");
+        }
+
 
         [HttpGet("SynchroAttacksFromPokeApi")]
         public async Task<IActionResult> SynchroAttacks()
@@ -122,7 +283,7 @@ namespace WepApiScrapingData.Controllers
                 json = r.ReadToEnd();
 
                 List<MoveDto> isExist = new();
-                List<Attaque> attaqueNotExist = new();
+                List<Attack> attaqueNotExist = new();
 
                 if (!string.IsNullOrEmpty(json))
                 {
@@ -130,7 +291,7 @@ namespace WepApiScrapingData.Controllers
 
                     foreach (MoveDto move in moves)
                     {
-                        Attaque? attaque = await this._repositoryAT.GetByName(move.Names["en"]);
+                        Attack? attaque = await this._repositoryAT.GetByName(move.Names["en"]);
 
                         if (attaque != null)
                         {
@@ -155,7 +316,7 @@ namespace WepApiScrapingData.Controllers
                         }
                         else
                         {
-                            Attaque newAttack = new()
+                            Attack newAttack = new()
                             {
                                 Name_FR = move.Names.GetValueOrDefault("fr"),
                                 Description_FR = move.Descriptions.GetValueOrDefault("fr"),
@@ -173,7 +334,7 @@ namespace WepApiScrapingData.Controllers
                                 Description_CN = move.Descriptions.GetValueOrDefault("zh-Hans"),
                                 Name_JP = move.Names.GetValueOrDefault("ja"),
                                 Description_JP = move.Descriptions.GetValueOrDefault("ja"),
-                                TypeAttaque = (await _repositoryTA.Find(m => m.Name_EN.Contains(move.DamageClass))).FirstOrDefault(),
+                                TypeAttack = (await _repositoryTA.Find(m => m.Name_EN.Contains(move.DamageClass))).FirstOrDefault(),
                                 TypePok = (await _repositoryTP.Find(m => m.Name_EN.Contains(move.Type))).FirstOrDefault(),
                                 Power = move.Power.ToString(),
                                 Precision = move.Accuracy.ToString(),
@@ -259,7 +420,7 @@ namespace WepApiScrapingData.Controllers
                 json = r.ReadToEnd();
 
                 List<AbilityDto> isExist = new();
-                List<Talent> talentsNotExist = new();
+                List<Ability> talentsNotExist = new();
 
                 if (!string.IsNullOrEmpty(json))
                 {
@@ -267,7 +428,7 @@ namespace WepApiScrapingData.Controllers
 
                     foreach (AbilityDto ability in abilities)
                     {
-                        Talent? talent = await this._repositoryT.GetByName(ability.Names["en"]);
+                        Ability? talent = await this._repositoryT.GetByName(ability.Names["en"]);
 
                         if (talent != null)
                         {
@@ -292,7 +453,7 @@ namespace WepApiScrapingData.Controllers
                         }
                         else
                         {
-                            Talent newTalent = new()
+                            Ability newTalent = new()
                             {
                                 Name_FR = ability.Names.GetValueOrDefault("fr"),
                                 Description_FR = ability.Descriptions.GetValueOrDefault("fr"),
@@ -356,6 +517,7 @@ namespace WepApiScrapingData.Controllers
 
             // 🔹 Cache global des moves
             var moveNameCache = new ConcurrentDictionary<string, Task<string>>();
+            var abilityNameCache = new ConcurrentDictionary<string, Task<string>>();
             int batchSize = 10;
 
             for (int i = 0; i < pokeList.Results.Count; i += batchSize)
@@ -479,15 +641,32 @@ namespace WepApiScrapingData.Controllers
                                 dto.Types.Add(t.GetProperty("type").GetProperty("name").GetString());
 
                         // Abilities
-                        if (pokemonData.TryGetProperty("abilities", out var abilities) && abilities.ValueKind == JsonValueKind.Array)
+                        if (pokemonData.TryGetProperty("abilities", out var abilities)
+                             && abilities.ValueKind == JsonValueKind.Array)
+                        {
+                            using var client = new HttpClient();
+
                             foreach (var a in abilities.EnumerateArray())
                             {
-                                var abilityDto = new AbilityLightDto();
-                                abilityDto.Identifier = a.GetProperty("ability").GetProperty("name").GetString();
-                                abilityDto.IsHidden = a.GetProperty("is_hidden").GetBoolean();
+                                var abilityUrl = a.GetProperty("ability").GetProperty("url").GetString();
+                                var isHidden = a.GetProperty("is_hidden").GetBoolean();
 
-                                dto.Abilities.Add(abilityDto);
+                                // Récupère le nom anglais (avec cache)
+                                var abilityNameTask = abilityNameCache.GetOrAdd(
+                                    abilityUrl,
+                                    url => GetAbilityNameEnAsync(url, client)
+                                );
+
+                                var abilityNameEn = await abilityNameTask;
+
+                                dto.Abilities.Add(new AbilityLightDto
+                                {
+                                    Identifier = abilityUrl,
+                                    NameEn = abilityNameEn,
+                                    IsHidden = isHidden
+                                });
                             }
+                        }
 
                         // Stats
                         int statTotal = 0;
@@ -1155,6 +1334,35 @@ namespace WepApiScrapingData.Controllers
             return moveEntry.GetProperty("move").GetProperty("name").GetString();
         }
 
+        private static async Task<string> GetAbilityNameEnAsync(string url, HttpClient client)
+        {
+            try
+            {
+                using var response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+
+                using var stream = await response.Content.ReadAsStreamAsync();
+                using var jsonDoc = await JsonDocument.ParseAsync(stream);
+                var root = jsonDoc.RootElement;
+
+                if (root.TryGetProperty("names", out var names) && names.ValueKind == JsonValueKind.Array)
+                {
+                    foreach (var n in names.EnumerateArray())
+                    {
+                        var lang = n.GetProperty("language").GetProperty("name").GetString();
+                        if (lang == "en")
+                            return n.GetProperty("name").GetString() ?? "";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la récupération de {url}: {ex.Message}");
+            }
+
+            return "";
+        }
+
         private async Task<List<string>> GetEvolutionNamesEnAsync(string evolutionChainUrl)
         {
             var evolutionNames = new List<string>();
@@ -1364,6 +1572,7 @@ namespace WepApiScrapingData.Controllers
     public class AbilityLightDto
     {
         public string Identifier { get; set; }
+        public string NameEn { get; set; }
         public bool IsHidden { get; set; }
     }
 

@@ -22,14 +22,14 @@ namespace WepApiScrapingData.Controllers
     {
         #region Fields
         private readonly PokemonRepository _repository;
-        private readonly AttaqueRepository _repositoryA;
-        private readonly TalentRepository _repositoryTL;
-        private readonly TypeAttaqueRepository _repositoryTA;
+        private readonly AttackRepository _repositoryA;
+        private readonly AbilityRepository _repositoryTL;
+        private readonly TypeAttackRepository _repositoryTA;
         private readonly TypePokRepository _repositoryTP;
         #endregion
 
         #region Constructors
-        public XamarinController(PokemonRepository repository, AttaqueRepository repositoryA, TalentRepository repositoryTL, TypeAttaqueRepository repositoryTA, TypePokRepository repositoryTP)
+        public XamarinController(PokemonRepository repository, AttackRepository repositoryA, AbilityRepository repositoryTL, TypeAttackRepository repositoryTA, TypePokRepository repositoryTP)
         {
             _repository = repository;
             _repositoryA = repositoryA;
@@ -66,11 +66,11 @@ namespace WepApiScrapingData.Controllers
                 pokemonJson.Category = item.FR.Category;
                 pokemonJson.Weight = item.FR.Weight;
 
-                foreach (Pokemon_Talent pokemon_Talent in item.Pokemon_Talents)
+                foreach (Pokemon_Ability pokemon_Ability in item.Pokemon_Abilities)
                 {
                     SkillJson skillJson = new();
-                    skillJson.Name = pokemon_Talent.Talent.Name_FR;
-                    skillJson.isHidden = pokemon_Talent.IsHidden;
+                    skillJson.Name = pokemon_Ability.Ability.Name_FR;
+                    skillJson.isHidden = pokemon_Ability.IsHidden;
                     pokemonJson.Talents.Add(skillJson);
                 }
 
@@ -88,10 +88,10 @@ namespace WepApiScrapingData.Controllers
                     pokemonJson.Weakness.Add(typePokJson);
                 }
 
-                foreach (Pokemon_Attaque pokemon_Attaque in item.Pokemon_Attaques)
+                foreach (Pokemon_Attack pokemon_Attaque in item.Pokemon_Attacks)
                 {
                     AttackJson attackJson = new();
-                    attackJson.Name = pokemon_Attaque.Attaque.Name_FR;
+                    attackJson.Name = pokemon_Attaque.Attack.Name_FR;
                     attackJson.TypeLearn = pokemon_Attaque.TypeLearn;
                     attackJson.Level = pokemon_Attaque.Level;
                     attackJson.CTCS = pokemon_Attaque.CTCS;
@@ -102,11 +102,11 @@ namespace WepApiScrapingData.Controllers
                 pokemonJson.TypeEvolution = item.TypeEvolution;
                 pokemonJson.WhenEvolution = item.FR.WhenEvolution;
                 pokemonJson.StatPv = item.StatPv;
-                pokemonJson.StatAttaque = item.StatAttaque;
+                pokemonJson.StatAttaque = item.StatAttack;
                 pokemonJson.StatDefense = item.StatDefense;
-                pokemonJson.StatAttaqueSpe = item.StatAttaqueSpe;
+                pokemonJson.StatAttaqueSpe = item.StatAttackSpe;
                 pokemonJson.StatDefenseSpe = item.StatDefenseSpe;
-                pokemonJson.StatVitesse = item.StatVitesse;
+                pokemonJson.StatVitesse = item.StatSpeed;
                 pokemonJson.StatTotal = item.StatTotal;
                 pokemonJson.Generation = item.Generation;
                 pokemonJson.EggMoves = item.EggMoves;
@@ -148,10 +148,10 @@ namespace WepApiScrapingData.Controllers
                 pokemonJson.FR.Size = item.FR.Size;
                 pokemonJson.FR.Category = item.FR.Category;
                 pokemonJson.FR.Weight = item.FR.Weight;
-                pokemonJson.FR.Talent = item.FR.Talent;
-                pokemonJson.FR.DescriptionTalent = item.FR.DescriptionTalent;
-                pokemonJson.FR.Types = item.FR.Types;
-                pokemonJson.FR.Weakness = item.FR.Weakness;
+                //pokemonJson.FR.Talent = item.FR.Talent;
+                //pokemonJson.FR.DescriptionTalent = item.FR.DescriptionTalent;
+                //pokemonJson.FR.Types = item.FR.Types;
+                //pokemonJson.FR.Weakness = item.FR.Weakness;
                 pokemonJson.FR.Evolutions = item.FR.Evolutions;
                 pokemonJson.FR.WhenEvolution = item.FR.WhenEvolution;
                 pokemonJson.FR.NextUrl = item.FR.NextUrl;
@@ -163,10 +163,10 @@ namespace WepApiScrapingData.Controllers
                 pokemonJson.EN.Size = item.EN.Size;
                 pokemonJson.EN.Category = item.EN.Category;
                 pokemonJson.EN.Weight = item.EN.Weight;
-                pokemonJson.EN.Talent = item.EN.Talent;
-                pokemonJson.EN.DescriptionTalent = item.EN.DescriptionTalent;
-                pokemonJson.EN.Types = item.EN.Types;
-                pokemonJson.EN.Weakness = item.EN.Weakness;
+                //pokemonJson.EN.Talent = item.EN.Talent;
+                //pokemonJson.EN.DescriptionTalent = item.EN.DescriptionTalent;
+                //pokemonJson.EN.Types = item.EN.Types;
+                //pokemonJson.EN.Weakness = item.EN.Weakness;
                 pokemonJson.EN.Evolutions = item.EN.Evolutions;
                 pokemonJson.EN.WhenEvolution = item.EN.WhenEvolution;
                 pokemonJson.EN.NextUrl = item.EN.NextUrl;
@@ -178,10 +178,10 @@ namespace WepApiScrapingData.Controllers
                 pokemonJson.ES.Size = item.ES.Size;
                 pokemonJson.ES.Category = item.ES.Category;
                 pokemonJson.ES.Weight = item.ES.Weight;
-                pokemonJson.ES.Talent = item.ES.Talent;
-                pokemonJson.ES.DescriptionTalent = item.ES.DescriptionTalent;
-                pokemonJson.ES.Types = item.ES.Types;
-                pokemonJson.ES.Weakness = item.ES.Weakness;
+                //pokemonJson.ES.Talent = item.ES.Talent;
+                //pokemonJson.ES.DescriptionTalent = item.ES.DescriptionTalent;
+                //pokemonJson.ES.Types = item.ES.Types;
+                //pokemonJson.ES.Weakness = item.ES.Weakness;
                 pokemonJson.ES.Evolutions = item.ES.Evolutions;
                 pokemonJson.ES.WhenEvolution = item.ES.WhenEvolution;
                 pokemonJson.ES.NextUrl = item.ES.NextUrl;
@@ -193,10 +193,10 @@ namespace WepApiScrapingData.Controllers
                 pokemonJson.IT.Size = item.IT.Size;
                 pokemonJson.IT.Category = item.IT.Category;
                 pokemonJson.IT.Weight = item.IT.Weight;
-                pokemonJson.IT.Talent = item.IT.Talent;
-                pokemonJson.IT.DescriptionTalent = item.IT.DescriptionTalent;
-                pokemonJson.IT.Types = item.IT.Types;
-                pokemonJson.IT.Weakness = item.IT.Weakness;
+                //pokemonJson.IT.Talent = item.IT.Talent;
+                //pokemonJson.IT.DescriptionTalent = item.IT.DescriptionTalent;
+                //pokemonJson.IT.Types = item.IT.Types;
+                //pokemonJson.IT.Weakness = item.IT.Weakness;
                 pokemonJson.IT.Evolutions = item.IT.Evolutions;
                 pokemonJson.IT.WhenEvolution = item.IT.WhenEvolution;
                 pokemonJson.IT.NextUrl = item.IT.NextUrl;
@@ -208,21 +208,21 @@ namespace WepApiScrapingData.Controllers
                 pokemonJson.DE.Size = item.DE.Size;
                 pokemonJson.DE.Category = item.DE.Category;
                 pokemonJson.DE.Weight = item.DE.Weight;
-                pokemonJson.DE.Talent = item.DE.Talent;
-                pokemonJson.DE.DescriptionTalent = item.DE.DescriptionTalent;
-                pokemonJson.DE.Types = item.DE.Types;
-                pokemonJson.DE.Weakness = item.DE.Weakness;
+                //pokemonJson.DE.Talent = item.DE.Talent;
+                //pokemonJson.DE.DescriptionTalent = item.DE.DescriptionTalent;
+                //pokemonJson.DE.Types = item.DE.Types;
+                //pokemonJson.DE.Weakness = item.DE.Weakness;
                 pokemonJson.DE.Evolutions = item.DE.Evolutions;
                 pokemonJson.DE.WhenEvolution = item.DE.WhenEvolution;
                 pokemonJson.DE.NextUrl = item.DE.NextUrl;
 
                 pokemonJson.TypeEvolution = item.TypeEvolution;
                 pokemonJson.StatPv = item.StatPv;
-                pokemonJson.StatAttaque = item.StatAttaque;
+                pokemonJson.StatAttaque = item.StatAttack;
                 pokemonJson.StatDefense = item.StatDefense;
-                pokemonJson.StatAttaqueSpe = item.StatAttaqueSpe;
+                pokemonJson.StatAttaqueSpe = item.StatAttackSpe;
                 pokemonJson.StatDefenseSpe = item.StatDefenseSpe;
-                pokemonJson.StatVitesse = item.StatVitesse;
+                pokemonJson.StatVitesse = item.StatSpeed;
                 pokemonJson.StatTotal = item.StatTotal;
                 pokemonJson.Generation = item.Generation;
                 pokemonJson.UrlImg = item.UrlImg;
@@ -243,11 +243,11 @@ namespace WepApiScrapingData.Controllers
         [Route("Generate/JsonAttaqueV1")]
         public async Task AttaqueV1()
         {
-            IEnumerable<Attaque> attaques = await _repositoryA.GetAll();
+            IEnumerable<Attack> attaques = await _repositoryA.GetAll();
 
             List<AttaqueMobileJsonV1> attaquesJson = new List<AttaqueMobileJsonV1>();
 
-            foreach (Attaque item in attaques.ToList())
+            foreach (Attack item in attaques.ToList())
             {
                 AttaqueMobileJsonV1 attaqueJson = new AttaqueMobileJsonV1();
                 attaqueJson.Name = item.Name_FR;
@@ -255,12 +255,12 @@ namespace WepApiScrapingData.Controllers
                 attaqueJson.Power = item.Power;
                 attaqueJson.Precision = item.Precision;
                 attaqueJson.PP = item.PP;
-                attaqueJson.TypeAttaque = item.TypeAttaque?.Name_FR;
+                attaqueJson.TypeAttaque = item.TypeAttack?.Name_FR;
                 attaqueJson.TypePok = item.TypePok?.Name_FR;
 
                 attaquesJson.Add(attaqueJson);
 
-                Debug.WriteLine("Attaque : " + item.Name_FR);
+                Debug.WriteLine("Attack : " + item.Name_FR);
             }
 
             Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
@@ -272,11 +272,11 @@ namespace WepApiScrapingData.Controllers
         [Route("Generate/JsonTalentV1")]
         public async Task TalentV1()
         {
-            IEnumerable<Talent> talents = await _repositoryTL.GetAll();
+            IEnumerable<Ability> talents = await _repositoryTL.GetAll();
 
             List<TalentMobileJsonV1> talentsJson = new List<TalentMobileJsonV1>();
 
-            foreach (Talent item in talents.ToList())
+            foreach (Ability item in talents.ToList())
             {
                 TalentMobileJsonV1 talentJson = new TalentMobileJsonV1();
                 talentJson.Name = item.Name_FR;
@@ -296,11 +296,11 @@ namespace WepApiScrapingData.Controllers
         [Route("Generate/JsonTypeAttaqueV1")]
         public async Task GenerateJsonTypeAttaqueV1()
         {
-            IEnumerable<TypeAttaque> typesAttaque = await _repositoryTA.GetAll();
+            IEnumerable<TypeAttack> typesAttaque = await _repositoryTA.GetAll();
 
             List<TypeAttaqueMobileJsonV1> typesAttaqueJson = new List<TypeAttaqueMobileJsonV1>();
 
-            foreach (TypeAttaque item in typesAttaque.ToList())
+            foreach (TypeAttack item in typesAttaque.ToList())
             {
                 TypeAttaqueMobileJsonV1 typeAttaqueJson = new TypeAttaqueMobileJsonV1();
                 typeAttaqueJson.Name = item.Name_FR;
@@ -310,7 +310,7 @@ namespace WepApiScrapingData.Controllers
 
                 typesAttaqueJson.Add(typeAttaqueJson);
 
-                Debug.WriteLine("Type Attaque : " + item.Name_FR);
+                Debug.WriteLine("Type Attack : " + item.Name_FR);
             }
 
             Debug.WriteLine("Start Creation Json - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));

@@ -5,7 +5,7 @@ using WebApiScrapingData.Domain.Resources;
 namespace WebApiScrapingData.Domain.Class
 {
     [DataContract]
-    public class Attaque : Identity
+    public class TypeAttack :Identity
     {
         [DataMember(Name = DataMember.Name_FR)]
         public string? Name_FR { get; set; }
@@ -61,21 +61,11 @@ namespace WebApiScrapingData.Domain.Class
         [DataMember(Name = DataMember.Description_JP)]
         public string? Description_JP { get; set; }
 
-        [DataMember(Name = DataMember.TypeAttaque)]
-        public virtual TypeAttaque? TypeAttaque { get; set; }
-        
-        [DataMember(Name = DataMember.Types)]
-        public virtual TypePok? TypePok { get; set; }
+        //Url de l'Image
+        public string? UrlImg { get; set; }
 
-        [DataMember(Name = DataMember.Puissance)]
-        public string? Power { get; set; }
-
-        [DataMember(Name = DataMember.Precision)]
-        public string? Precision { get; set; }
-
-        [DataMember(Name = DataMember.PP)]
-        public string? PP { get; set; }
-
-        public List<Pokemon_Attaque>? Pokemon_Attaques { get; set; }
+        //Url de l'Image Interne
+        [DataMember(Name = DataMember.UrlImg)]
+        public string? PathImg { get; set; }
     }
 }

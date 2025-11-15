@@ -45,10 +45,10 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
             dataInfo.Size = dataInfoJson.Size;
             dataInfo.Category = dataInfoJson.Category;
             dataInfo.Weight = dataInfoJson.Weight;
-            dataInfo.Talent = dataInfoJson.Talent;
-            dataInfo.DescriptionTalent = dataInfoJson.DescriptionTalent;
-            dataInfo.Types = dataInfoJson.Types;
-            dataInfo.Weakness = dataInfoJson.Weakness;
+            //dataInfo.Talent = dataInfoJson.Talent;
+            //dataInfo.DescriptionTalent = dataInfoJson.DescriptionTalent;
+            //dataInfo.Types = dataInfoJson.Types;
+            //dataInfo.Weakness = dataInfoJson.Weakness;
             dataInfo.Evolutions = dataInfoJson.Evolutions;
             dataInfo.WhenEvolution = dataInfoJson.WhenEvolution;
             dataInfo.NextUrl = dataInfoJson.NextUrl;

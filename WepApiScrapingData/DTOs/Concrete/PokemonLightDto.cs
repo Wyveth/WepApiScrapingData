@@ -8,7 +8,9 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public DataInfoDto DataInfo { get; set; }
 
-        public List<TypePokDto>? TypePoks { get; set; }
+        public List<TypePokLightDto>? TypePoks { get; set; }
+
+        public string TypeEvolution { get; set; }
 
         public string? PathImgLegacy { get; set; }
 
@@ -21,12 +23,6 @@ namespace WepApiScrapingData.DTOs.Concrete
         public string? PathSpriteNormal { get; set; }
 
         public string? PathSpriteShiny { get; set; }
-
-        public string? PathSound { get; set; }
-
-        public string? PathSoundLegacy { get; set; }
-
-        public string? PathSoundCurrent { get; set; }
 
         public string? PathAnimatedImg { get; set; }
 

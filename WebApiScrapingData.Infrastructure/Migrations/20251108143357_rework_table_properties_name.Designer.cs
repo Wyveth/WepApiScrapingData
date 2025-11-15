@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiScrapingData.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using WebApiScrapingData.Infrastructure.Data;
 namespace WebApiScrapingData.Infrastructure.Migrations
 {
     [DbContext(typeof(ScrapingContext))]
-    partial class ScrapingContextModelSnapshot : ModelSnapshot
+    [Migration("20251108143357_rework_table_properties_name")]
+    partial class rework_table_properties_name
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -426,6 +429,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<DateTime>("DateModification")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DescriptionTalent")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DescriptionVx")
                         .HasColumnType("nvarchar(max)");
 
@@ -450,10 +456,19 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<string>("Size")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Talent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Types")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserCreation")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserModification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Weakness")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Weight")
@@ -468,40 +483,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DataInfos");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.EvolutionChain", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Evolutions")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserCreation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserModification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("versionModification")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EvolutionChain");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Game", b =>
@@ -584,12 +565,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     b.Property<string>("EggMoves")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("EvolutionChainId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int?>("EvolutionStage")
-                        .HasColumnType("int");
 
                     b.Property<long?>("GameId")
                         .HasColumnType("bigint");
@@ -707,8 +682,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EvolutionChainId");
-
                     b.HasIndex("GameId");
 
                     b.HasIndex("Id_CN");
@@ -824,115 +797,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.HasIndex("PokemonId");
 
                     b.ToTable("Pokemon_Attack");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_EvolutionChain", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("EvolutionChainId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("PokemonId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserCreation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserModification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("versionModification")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EvolutionChainId");
-
-                    b.HasIndex("PokemonId");
-
-                    b.ToTable("Pokemon_EvolutionChain");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_EvolvesTo", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("EvolveToId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("PokemonId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserCreation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserModification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WhenEvolutionCN")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WhenEvolutionCO")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WhenEvolutionDE")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WhenEvolutionEN")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WhenEvolutionES")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WhenEvolutionFR")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WhenEvolutionIT")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WhenEvolutionJP")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WhenEvolutionRU")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("versionModification")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EvolveToId");
-
-                    b.HasIndex("PokemonId");
-
-                    b.ToTable("Pokemon_EvolveTo");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_TypePok", b =>
@@ -1791,11 +1655,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>
                 {
-                    b.HasOne("WebApiScrapingData.Domain.Class.EvolutionChain", "EvolutionChain")
-                        .WithMany()
-                        .HasForeignKey("EvolutionChainId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("WebApiScrapingData.Domain.Class.Game", "Game")
                         .WithMany()
                         .HasForeignKey("GameId")
@@ -1865,8 +1724,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     b.Navigation("ES");
 
-                    b.Navigation("EvolutionChain");
-
                     b.Navigation("FR");
 
                     b.Navigation("Game");
@@ -1912,44 +1769,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Attack");
-
-                    b.Navigation("Pokemon");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_EvolutionChain", b =>
-                {
-                    b.HasOne("WebApiScrapingData.Domain.Class.EvolutionChain", "EvolutionChain")
-                        .WithMany("Pokemons_EvolutionChain")
-                        .HasForeignKey("EvolutionChainId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "Pokemon")
-                        .WithMany()
-                        .HasForeignKey("PokemonId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("EvolutionChain");
-
-                    b.Navigation("Pokemon");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon_EvolvesTo", b =>
-                {
-                    b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "EvolveTo")
-                        .WithMany()
-                        .HasForeignKey("EvolveToId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "Pokemon")
-                        .WithMany()
-                        .HasForeignKey("PokemonId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("EvolveTo");
 
                     b.Navigation("Pokemon");
                 });
@@ -2089,11 +1908,6 @@ namespace WebApiScrapingData.Infrastructure.Migrations
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Attack", b =>
                 {
                     b.Navigation("Pokemon_Attacks");
-                });
-
-            modelBuilder.Entity("WebApiScrapingData.Domain.Class.EvolutionChain", b =>
-                {
-                    b.Navigation("Pokemons_EvolutionChain");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiScrapingData.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using WebApiScrapingData.Infrastructure.Data;
 namespace WebApiScrapingData.Infrastructure.Migrations
 {
     [DbContext(typeof(ScrapingContext))]
-    partial class ScrapingContextModelSnapshot : ModelSnapshot
+    [Migration("20251109005810_update_evolution_chain")]
+    partial class update_evolution_chain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -426,6 +429,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<DateTime>("DateModification")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DescriptionTalent")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DescriptionVx")
                         .HasColumnType("nvarchar(max)");
 
@@ -450,10 +456,19 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<string>("Size")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Talent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Types")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserCreation")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserModification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Weakness")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Weight")
@@ -588,8 +603,8 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<long?>("EvolutionChainId")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("EvolutionStage")
-                        .HasColumnType("int");
+                    b.Property<long?>("EvolvesFromId")
+                        .HasColumnType("bigint");
 
                     b.Property<long?>("GameId")
                         .HasColumnType("bigint");
@@ -708,6 +723,8 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EvolutionChainId");
+
+                    b.HasIndex("EvolvesFromId");
 
                     b.HasIndex("GameId");
 
@@ -1796,6 +1813,11 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .HasForeignKey("EvolutionChainId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "EvolvesFrom")
+                        .WithMany()
+                        .HasForeignKey("EvolvesFromId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("WebApiScrapingData.Domain.Class.Game", "Game")
                         .WithMany()
                         .HasForeignKey("GameId")
@@ -1866,6 +1888,8 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Navigation("ES");
 
                     b.Navigation("EvolutionChain");
+
+                    b.Navigation("EvolvesFrom");
 
                     b.Navigation("FR");
 

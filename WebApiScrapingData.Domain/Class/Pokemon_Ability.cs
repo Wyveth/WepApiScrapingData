@@ -5,25 +5,19 @@ using WebApiScrapingData.Domain.Abstract;
 namespace WebApiScrapingData.Domain.Class
 {
     [DataContract]
-    public class Pokemon_Attaque: Identity
+    public class Pokemon_Ability : Identity
     {
         public long PokemonId { get; set; }
         [ForeignKey("PokemonId")]
         [DataMember]
         public virtual Pokemon? Pokemon { get; set; }
 
-        public long AttaqueId { get; set; }
-        [ForeignKey("AttaqueId")]
+        public long AbilityId { get; set; }
+        [ForeignKey("AbilityId")]
         [DataMember]
-        public virtual Attaque? Attaque { get; set; }
+        public virtual Ability? Ability { get; set; }
 
         [DataMember]
-        public string? TypeLearn { get; set; }
-
-        [DataMember]
-        public string? Level { get; set; }
-
-        [DataMember]
-        public string? CTCS { get; set; }
+        public bool IsHidden { get; set; }
     }
 }

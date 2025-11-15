@@ -1,11 +1,12 @@
-﻿using System.Runtime.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using WebApiScrapingData.Domain.Abstract;
 using WebApiScrapingData.Domain.Resources;
 
 namespace WebApiScrapingData.Domain.Class
 {
     [DataContract]
-    public class TypeAttaque :Identity
+    public class Ability : Identity
     {
         [DataMember(Name = DataMember.Name_FR)]
         public string? Name_FR { get; set; }
@@ -15,7 +16,7 @@ namespace WebApiScrapingData.Domain.Class
 
         [DataMember(Name = DataMember.Name_EN)]
         public string? Name_EN { get; set; }
-
+        
         [DataMember(Name = DataMember.Description_EN)]
         public string? Description_EN { get; set; }
 
@@ -61,11 +62,6 @@ namespace WebApiScrapingData.Domain.Class
         [DataMember(Name = DataMember.Description_JP)]
         public string? Description_JP { get; set; }
 
-        //Url de l'Image
-        public string? UrlImg { get; set; }
-
-        //Url de l'Image Interne
-        [DataMember(Name = DataMember.UrlImg)]
-        public string? PathImg { get; set; }
+        public List<Pokemon_Ability>? Pokemon_Abilities { get; set; }
     }
 }

@@ -5,15 +5,15 @@ using WepApiScrapingData.DTOs.Concrete;
 
 namespace WepApiScrapingData.Mapper
 {
-    public class Pokemon_AttaqueMapper : GenericMapper<Pokemon_Attaque, Pokemon_AttaqueDto>
+    public class Pokemon_AttackMapper : GenericMapper<Pokemon_Attack, Pokemon_AttackDto>
     {
-        public override Pokemon_AttaqueDto Map(Pokemon_Attaque source, string langue)
+        public override Pokemon_AttackDto Map(Pokemon_Attack source, string langue)
         {
-            Attaque attaque = source.Attaque;
+            Attack attaque = source.Attack;
 
             if (attaque == null) return null;
 
-            var dto = new Pokemon_AttaqueDto
+            var dto = new Pokemon_AttackDto
             {
                 Id = source.Id,
                 CTCS = source.CTCS,
@@ -28,12 +28,12 @@ namespace WepApiScrapingData.Mapper
             var lang = langue?.ToUpper() ?? Constantes.FR;
 
             // Nom
-            var nameProp = typeof(Attaque).GetProperty($"Name_{lang}");
+            var nameProp = typeof(Attack).GetProperty($"Name_{lang}");
             if (nameProp != null)
                 dto.Name = nameProp.GetValue(attaque)?.ToString();
 
             // Description
-            var descProp = typeof(Attaque).GetProperty($"Description_{lang}");
+            var descProp = typeof(Attack).GetProperty($"Description_{lang}");
             if (descProp != null)
                 dto.Description = descProp.GetValue(attaque)?.ToString();
 
@@ -43,10 +43,10 @@ namespace WepApiScrapingData.Mapper
                 dto.TypePok = typeMapper.Map(attaque.TypePok, lang);
             }
 
-            if (attaque.TypeAttaque != null)
+            if (attaque.TypeAttack != null)
             {
-                var typeAttaqueMapper = new TypeAttaqueMapper();
-                dto.TypeAttaque = typeAttaqueMapper.Map(attaque.TypeAttaque, lang);
+                var typeAttaqueMapper = new TypeAttackMapper();
+                dto.TypeAttack = typeAttaqueMapper.Map(attaque.TypeAttack, lang);
             }
 
             return dto;
