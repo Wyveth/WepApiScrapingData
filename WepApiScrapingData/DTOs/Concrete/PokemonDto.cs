@@ -15,11 +15,13 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public string? TypeEvolution { get; set; }
 
-        public Pokemon_EvolvesToDto? EvolveFrom { get; set; }
+        public List<Pokemon_EvolvesToDto>? EvolvesFrom { get; set; }
 
         public List<Pokemon_EvolvesToDto>? EvolvesTo { get; set; }
 
         public int EvolutionChainId { get; set; }
+
+        public int? EvolutionStage { get; set; }
 
         public int StatPv { get; set; }
 
@@ -77,7 +79,7 @@ namespace WepApiScrapingData.DTOs.Concrete
             Attacks = new ();
             Game = new();
 
-            EvolveFrom = new();
+            EvolvesFrom = new();
             EvolvesTo = new ();
         }
     }

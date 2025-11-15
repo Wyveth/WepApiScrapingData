@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using WebApiScrapingData.Domain.Abstract;
 using WebApiScrapingData.Domain.Resources;
 
@@ -76,13 +77,17 @@ namespace WebApiScrapingData.Domain.Class
         [ForeignKey("EvolutionChainId")]
         public virtual EvolutionChain? EvolutionChain { get; set; }
 
+        public int? EvolutionStage { get; set; }
+
         // Relation d’évolution (facultative)
         [NotMapped]
-        public virtual Pokemon_EvolvesTo? EvolvesFrom { get; set; }
+        [JsonIgnore]
+        public List<Pokemon_EvolvesTo>? EvolvesFrom { get; set; }
 
         // Collection inverse pour EF Core (Pokémon qui évoluent depuis ce Pokémon)
         [NotMapped] // EF Core Data Annotations seules ne permettent pas la collection inverse auto-référencée
-        public virtual List<Pokemon_EvolvesTo> Pokemons_EvolvesTo { get; set; } = new List<Pokemon_EvolvesTo>();
+        [JsonIgnore]
+        public List<Pokemon_EvolvesTo>? EvolvesTo { get; set; }
 
         //Statistique PV
         [DataMember(Name = DataMember.StatPv)]

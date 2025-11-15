@@ -14,6 +14,8 @@ namespace WepApiScrapingData.DTOs.Concrete
 
         public string? WhenEvolution { get; set; }
 
+        public int? EvolutionStage { get; set; }
+
         public string? PathImgNormal { get; set; }
 
         public string? PathSpriteNormal { get; set; }

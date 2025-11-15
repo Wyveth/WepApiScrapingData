@@ -164,9 +164,9 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                 .Include(e => e.Pokemon)
                 .Include(e => e.EvolveTo)
                 .Where(e => e.EvolveToId == pokemon.Id)
-                .FirstOrDefaultAsync();
+                .ToListAsync();
 
-            pokemon.Pokemons_EvolvesTo = await _context.Pokemon_EvolveTo
+            pokemon.EvolvesTo = await _context.Pokemon_EvolveTo
                 .Include(e => e.Pokemon)
                 .Include(e => e.EvolveTo)
                 .Where(e => e.PokemonId == pokemon.Id)
@@ -239,7 +239,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
                     pokemon.EvolvesFrom = await queryEvolveFrom
                         .Where(e => e.EvolveToId == pokemon.Id)
-                        .FirstOrDefaultAsync();
+                        .ToListAsync();
 
                     var queryEvolvesTo = _context.Pokemon_EvolveTo
                        .Include(e => e.Pokemon)
@@ -259,7 +259,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                         _ => queryEvolveFrom.Include(p => p.EvolveTo.EN)
                     };
 
-                    pokemon.Pokemons_EvolvesTo = await queryEvolvesTo
+                    pokemon.EvolvesTo = await queryEvolvesTo
                         .Where(e => e.PokemonId == pokemon.Id)
                         .ToListAsync();
 
@@ -471,7 +471,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
                 pokemon.EvolvesFrom = await queryEvolveFrom
                     .Where(e => e.EvolveToId == pokemon.Id)
-                    .FirstOrDefaultAsync();
+                    .ToListAsync();
 
                 var queryEvolvesTo = _context.Pokemon_EvolveTo
                    .Include(e => e.Pokemon)
@@ -491,7 +491,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
                     _ => queryEvolveFrom.Include(p => p.EvolveTo.EN)
                 };
 
-                pokemon.Pokemons_EvolvesTo = await queryEvolvesTo
+                pokemon.EvolvesTo = await queryEvolvesTo
                     .Where(e => e.PokemonId == pokemon.Id)
                     .ToListAsync();
 

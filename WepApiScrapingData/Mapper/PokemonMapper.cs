@@ -81,11 +81,16 @@ namespace WepApiScrapingData.Mapper
                     .ToList();
             }
 
-            dto.EvolveFrom = _evolveToMapper.Map(source.EvolvesFrom, langueKey, true);
-
-            if (source.Pokemons_EvolvesTo?.Any() == true)
+            if (source.EvolvesFrom?.Any() == true)
             {
-                dto.EvolvesTo = source.Pokemons_EvolvesTo
+                dto.EvolvesFrom = source.EvolvesFrom
+                    .Select(t => _evolveToMapper.Map(t, langueKey, true))
+                    .ToList();
+            }
+
+            if (source.EvolvesTo?.Any() == true)
+            {
+                dto.EvolvesTo = source.EvolvesTo
                     .Select(t => _evolveToMapper.Map(t, langueKey))
                     .ToList();
             }
@@ -159,7 +164,8 @@ namespace WepApiScrapingData.Mapper
                     .Select(t => _typeMapper.MapLight(t.TypePok, langueKey))
                     .ToList() : null,
                 TypeEvolution = dto.TypeEvolution,
-                WhenEvolution = _evolveToMapper.Map(source.EvolvesFrom, langueKey).WhenEvolution ?? "",
+                WhenEvolution = _evolveToMapper.Map(source.EvolvesFrom.FirstOrDefault(), langueKey).WhenEvolution ?? "",
+                EvolutionStage = dto.EvolutionStage,
                 PathImgNormal = dto.PathImgNormal,
                 PathSpriteNormal = dto.PathSpriteNormal
             };
