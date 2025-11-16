@@ -129,6 +129,26 @@ namespace WebApiScrapingData.Domain.Class
         [DataMember(Name = DataMember.BasicHappiness)]
         public string? BasicHappiness { get; set; }
 
+        //Couleur principale
+        [DataMember(Name = DataMember.Color)]
+        public string? Color { get; set; }
+
+        //Genre différent
+        [DataMember(Name = DataMember.HasGenderDifferences)]
+        public bool HasGenderDifferences { get; set; }
+
+        //Forme Bébé
+        [DataMember(Name = DataMember.IsBaby)]
+        public bool IsBaby { get; set; }
+
+        //Forme Légendaire
+        [DataMember(Name = DataMember.IsLegendary)]
+        public bool IsLegendary { get; set; }
+
+        //Forme Mythique
+        [DataMember(Name = DataMember.IsMythical)]
+        public bool IsMythical { get; set; }
+
         //Generation Number
         [DataMember(Name = DataMember.Generation)]
         public int Generation { get; set; }

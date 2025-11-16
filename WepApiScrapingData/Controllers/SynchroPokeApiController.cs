@@ -875,7 +875,7 @@ namespace WepApiScrapingData.Controllers
         public async Task<IActionResult> SynchroPokemonForDB()
         {
             string json;
-            using (StreamReader r = new StreamReader(Constantes.pathExport + "PokeApi/Pokemon.json"))
+            using (StreamReader r = new StreamReader(Constantes.pathExport + "PokeApi/Pokemons.json"))
             {
                 json = r.ReadToEnd();
 
@@ -1246,15 +1246,22 @@ namespace WepApiScrapingData.Controllers
 
                     foreach (PokeDto pokeDto in pokemons)
                     {
-                        Pokemon? pokemon = await this._repositoryP.FirstOrDefaultByName(pokeDto.Identifier, Constantes.EN);
+                        Pokemon? pokemon = await this._repositoryP.FirstOrDefaultByName(pokeDto.Names["en"], Constantes.EN);
 
                         if (pokemon != null)
                         {
-                            isExist.Add(new()
-                            {
-                                Name = pokeDto.Names["en"],
-                                NameDto = pokemon.EN.Name
-                            });
+                            //isExist.Add(new()
+                            //{
+                            //    Name = pokeDto.Names["en"],
+                            //    NameDto = pokemon.EN.Name
+                            //});
+                            pokemon.Color = pokeDto.Color;
+                            pokemon.HasGenderDifferences = pokeDto.HasGenderDifferences;
+                            pokemon.IsBaby = pokeDto.IsBaby;
+                            pokemon.IsLegendary = pokeDto.IsLegendary;
+                            pokemon.IsMythical = pokeDto.IsMythical;
+
+                            await _context.SaveChangesAsync();
                             //await this._repositoryT.UpdateAsync(talent);
                         }
                         else

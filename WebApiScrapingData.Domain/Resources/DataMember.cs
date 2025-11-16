@@ -138,6 +138,16 @@
 
         public const string BasicHappiness = "BasicHappiness";
 
+        public const string Color = "Color";
+
+        public const string HasGenderDifferences = "HasGenderDifferences";
+
+        public const string IsBaby = "IsBaby";
+
+        public const string IsLegendary = "IsLegendary";
+
+        public const string IsMythical = "IsMythical";
+
         public const string Generation = "Generation";
 
         public const string UrlImg = "UrlImg";

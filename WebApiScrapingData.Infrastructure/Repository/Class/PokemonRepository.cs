@@ -133,7 +133,6 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
             return await query
                 .OrderBy(p => Convert.ToInt32(p.Number))
-                .AsNoTracking()
                 .AsSplitQuery()
                 .FirstOrDefaultAsync();
         }
