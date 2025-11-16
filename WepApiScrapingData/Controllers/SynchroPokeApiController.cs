@@ -1302,6 +1302,24 @@ namespace WepApiScrapingData.Controllers
             }
         }
 
+        [HttpGet("UpdateEvolutionStage")]
+        public async Task<IActionResult> UpdateEvolutionStage()
+        {
+            var entities = await _repositoryPET.GetAll();
+
+            foreach(Pokemon_EvolvesTo entity in entities)
+            {
+                Pokemon pokemonFrom = await _repositoryP.GetById((int)entity.PokemonId);
+                Pokemon pokemonTo = await _repositoryP.GetById((int)entity.EvolveToId);
+
+                pokemonTo.EvolutionStage = (pokemonFrom.EvolutionStage ?? 0) + 1;
+
+                await _repositoryP.UpdateAsync(pokemonTo);
+            }
+
+            return null;
+        }
+
         // Méthode helper async pour récupérer le nom anglais d’un move
         private async Task<string> GetMoveNameEnAsync(string moveUrl, JsonElement moveEntry)
         {

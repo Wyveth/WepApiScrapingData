@@ -210,7 +210,7 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
 
             var pokemons = await query
                 .Where(p => p.EvolutionChainId == evolutionChainId)
-                .OrderBy(p => Convert.ToInt32(p.Number))
+                .OrderBy(p => p.EvolutionStage)
                 .AsNoTracking()
                 .AsSplitQuery()
                 .ToListAsync();
