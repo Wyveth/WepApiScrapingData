@@ -27,7 +27,6 @@ namespace WepApiScrapingData.Controllers
         private readonly AbilityRepository _repositoryT;
         private readonly PokemonRepository _repositoryP;
         private readonly Pokemon_EvolvesToRepository _repositoryPET;
-        private readonly Pokemon_EvolutionChainRepository _repositoryPEC;
         private readonly EvolutionChainRepository _repositoryEC;
         #endregion
 
@@ -40,7 +39,6 @@ namespace WepApiScrapingData.Controllers
             AbilityRepository repositoryT,
             PokemonRepository repositoryP,
             EvolutionChainRepository repositoryEC,
-            Pokemon_EvolutionChainRepository repositoryPEC,
             Pokemon_EvolvesToRepository repositoryPET)
         {
             _logger = logger;
@@ -54,7 +52,6 @@ namespace WepApiScrapingData.Controllers
             _repositoryT = repositoryT;
             _repositoryP = repositoryP;
             _repositoryEC = repositoryEC;
-            _repositoryPEC = repositoryPEC;
             _repositoryPET = repositoryPET;
         }
 
@@ -196,14 +193,6 @@ namespace WepApiScrapingData.Controllers
                         variant.EvolutionChainId = chain.Id;
                     await _repositoryP.UpdateAsync(variant);
                 }
-
-                var exist = await _repositoryPEC.ExistsAsync(pokemon.Id, chain.Id);
-                if (!exist)
-                    await _repositoryPEC.AddAsync(new Pokemon_EvolutionChain
-                    {
-                        PokemonId = pokemon.Id,
-                        EvolutionChainId = chain.Id
-                    });
             }
 
             return Ok("✅ Chaînes et relations d’évolution mises à jour !");

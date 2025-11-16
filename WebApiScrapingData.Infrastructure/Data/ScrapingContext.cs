@@ -70,7 +70,6 @@ namespace WebApiScrapingData.Infrastructure.Data
         public virtual DbSet<Pokemon_Attack> Pokemon_Attack { get; set; }
         public virtual DbSet<Pokemon_EvolvesTo> Pokemon_EvolveTo { get; set; }
 
-        public virtual DbSet<Pokemon_EvolutionChain> Pokemon_EvolutionChain { get; set; }
         public virtual DbSet<EvolutionChain> EvolutionChain { get; set; }
         public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<Quizz> Quizzs { get; set; }

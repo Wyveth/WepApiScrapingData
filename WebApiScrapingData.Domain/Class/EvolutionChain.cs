@@ -9,7 +9,5 @@ namespace WebApiScrapingData.Domain.Class
     {
         [DataMember(Name = DataMember.Evolutions)]
         public string? Evolutions { get; set; } // Optionnel : liste de noms ou IDs
-
-        public virtual ICollection<Pokemon_EvolutionChain> Pokemons_EvolutionChain { get; set; } = new List<Pokemon_EvolutionChain>();
     }
 }

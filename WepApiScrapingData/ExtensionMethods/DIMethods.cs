@@ -52,7 +52,6 @@ namespace WepApiScrapingData.ExtensionMethods
             services.AddScoped<Pokemon_AbilityRepository>();
             services.AddScoped<Pokemon_AttackRepository>();
             services.AddScoped<Pokemon_EvolvesToRepository>();
-            services.AddScoped<Pokemon_EvolutionChainRepository>();
 
             #region Quizz
             services.AddScoped<QuizzRepository>();
