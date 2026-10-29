@@ -7,7 +7,9 @@ Datascraping with Recursive Fonction for get all data on website api.pokemon.com
 
 ## Configuration et lancement
 
-L'API cible .NET 8 et utilise SQL Server. Les fichiers versionnés ne contiennent
+L'API cible .NET 10 et utilise SQL Server. Pour développer avec Visual Studio,
+utilisez Visual Studio 2026 ou une version ultérieure compatible avec .NET 10.
+Les fichiers versionnés ne contiennent
 pas d'identifiants utilisables : il faut fournir la configuration avant le lancement.
 
 - `ConnectionStrings__PokemonDataBase` : chaîne de connexion SQL Server.
@@ -84,11 +86,50 @@ disponibilité des sites externes. Ils ne garantissent pas que le format actuel 
 sites est toujours compatible. Les tests d'autorisation utilisent une clé et une
 connexion fictives, sans base de données réelle.
 
+Le workflow GitHub Actions `.github/workflows/build-test.yml` restaure et compile la
+solution, puis exécute les tests à chaque push et pull request. Il démarre un SQL Server
+jetable pour les tests d'import ; le mot de passe présent dans le workflow est une
+valeur fictive réservée à ce conteneur, et aucun secret du projet n'est nécessaire.
+
+Les tests d'intégration SQL de l'import Pokémon sont ignorés par défaut. Pour les
+exécuter, lancez une instance SQL Server **jetable**, sans volume partagé avec vos
+données, puis indiquez son port local :
+
+```powershell
+docker run -d --rm --name pokemon-import-sql-test --hostname poke-import-it -e ACCEPT_EULA=Y -e MSSQL_SA_PASSWORD="TestOnly!Pokemon2026" -p 127.0.0.1::1433 mcr.microsoft.com/mssql/server:2022-latest
+$env:POKEMON_IMPORT_TEST_SQL_PORT = (docker port pokemon-import-sql-test 1433/tcp).Split(':')[-1]
+dotnet test WepApiScrapingData.sln --filter FullyQualifiedName~PokemonImportSqlTests
+Remove-Item Env:POKEMON_IMPORT_TEST_SQL_PORT
+docker stop pokemon-import-sql-test
+```
+
+Attendez que SQL Server soit prêt avant de lancer les tests. Ceux-ci vérifient le nom
+de l'instance et créent des bases temporaires contenant uniquement des données de test ;
+arrêter ce conteneur jetable les supprime. Le mot de passe ci-dessus est réservé à cet
+exemple et ne doit pas servir pour une autre instance.
+
 ## Imports de fichiers
 
 Les routes `SaveInDB`, `SaveGenInDB/{gen}` et `SaveInfoPokemonAttackInDB` lisent les
 fichiers du répertoire `PokeScrap` sous la racine de l'application et attendent la fin
-du traitement avant de répondre. Leurs règles d'import restent celles des repositories
-existants : elles ne garantissent ni transaction globale ni reprise sans doublon. Les
-autres imports n'ont pas encore été refactorisés. Sauvegardez la base et vérifiez les
-fichiers avant tout import ; les tests automatisés n'importent rien dans la base réelle.
+du traitement avant de répondre.
+
+Pour `SaveInDB` et `SaveGenInDB/{gen}`, l'import conserve les Pokémon déjà présents et
+n'ajoute que les entrées manquantes. Une identité est composée du numéro (sans zéros
+en tête), du type de forme et du nom français complet, sans tenir compte de la casse
+ni des espaces en bordure. Le nom complet permet de distinguer des formes qui partagent
+un même nom affiché. Si le fichier ou une entrée déjà présente n'a pas d'identité
+complète, l'import est refusé. Les écritures sont regroupées dans une transaction :
+une erreur annule également les données de langue créées pendant cet import.
+
+Cette garantie concerne les appels utilisant ce flux, pas toutes les autres écritures
+possibles dans la base. Deux imports simultanés peuvent entraîner un interblocage SQL :
+l'un échoue sans laisser de données partielles et peut être relancé. Les autres flux,
+dont `SaveInfoPokemonAttackInDB`, ne garantissent pas encore une transaction globale
+ni une reprise sans doublon. Sauvegardez la base et vérifiez les fichiers avant tout
+import ; les tests automatisés n'importent rien dans la base réelle.
+
+## Migration .NET
+
+Le projet cible .NET 10 LTS. Les vérifications et précautions liées à la migration
+sont détaillées dans [docs/migration-dotnet-10.md](docs/migration-dotnet-10.md).

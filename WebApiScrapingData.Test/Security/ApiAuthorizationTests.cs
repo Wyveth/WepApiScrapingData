@@ -57,7 +57,10 @@ public class ApiAuthorizationTests
             var secretsDirectory = Path.Combine(secretsRoot, "4aebcedd-4c6a-49dc-ada7-472188070c3a");
             Directory.CreateDirectory(secretsDirectory);
             File.WriteAllText(Path.Combine(secretsDirectory, "secrets.json"), $"{{\"Jwt:Key\":\"{TestKey}\"}}");
-            start.Environment["APPDATA"] = _testDirectory;
+            if (OperatingSystem.IsWindows())
+                start.Environment["APPDATA"] = _testDirectory;
+            else
+                start.Environment.Remove("APPDATA");
             start.Environment["HOME"] = _testDirectory;
             start.Environment.Remove("Jwt__Key");
         }

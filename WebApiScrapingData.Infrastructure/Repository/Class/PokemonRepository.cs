@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Data;
 using System.Linq.Expressions;
 using WebApiScrapingData.Core.Repositories;
 using WebApiScrapingData.Domain.Class;
@@ -46,13 +47,58 @@ namespace WebApiScrapingData.Infrastructure.Repository.Class
         #region Create
         public async Task SaveJsonInDb(string json)
         {
-            List<PokemonJson> pokemonsJson = JsonConvert.DeserializeObject<List<PokemonJson>>(json);
-            foreach (PokemonJson pokemonJson in pokemonsJson)
+            var pokemonsJson = JsonConvert.DeserializeObject<List<PokemonJson>>(json)
+                ?? throw new ArgumentException("Le fichier doit contenir une liste de Pokémon.", nameof(json));
+
+            var incoming = new List<(PokemonJson Pokemon, (string Number, string Form, string Name) Key)>();
+            foreach (var pokemon in pokemonsJson)
             {
+                if (pokemon == null || !TryGetImportKey(pokemon.Number, pokemon.TypeEvolution, pokemon.FR?.Name, out var key) ||
+                    pokemon.EN == null || pokemon.ES == null || pokemon.IT == null || pokemon.DE == null ||
+                    pokemon.RU == null || pokemon.CO == null || pokemon.CN == null || pokemon.JP == null)
+                    throw new ArgumentException("Chaque Pokémon doit avoir un numéro, un type de forme, un nom français et ses données de langue.", nameof(json));
+                incoming.Add((pokemon, key));
+            }
+
+            if (incoming.Count == 0)
+                return;
+
+            await using var transaction = await _context.Database.BeginTransactionAsync(IsolationLevel.Serializable);
+            var existing = await _context.Pokemons.AsNoTracking()
+                .Select(p => new { p.Number, p.TypeEvolution, Name = p.FR.Name })
+                .ToListAsync();
+            var known = new HashSet<(string Number, string Form, string Name)>();
+            foreach (var pokemon in existing)
+            {
+                if (!TryGetImportKey(pokemon.Number, pokemon.TypeEvolution, pokemon.Name, out var key))
+                    throw new InvalidOperationException("Un Pokémon existant ne possède pas une identité complète ; import annulé.");
+                known.Add(key);
+            }
+
+            foreach (var (pokemonJson, key) in incoming)
+            {
+                if (!known.Add(key))
+                    continue;
                 Pokemon pokemon = new();
                 await MapToInstance(pokemon, pokemonJson);
                 await AddAsync(pokemon);
             }
+            await transaction.CommitAsync();
+        }
+
+        private static bool TryGetImportKey(string? number, string? form, string? name,
+            out (string Number, string Form, string Name) key)
+        {
+            key = default;
+            number = number?.Trim();
+            if (string.IsNullOrEmpty(number) || !number.All(char.IsAsciiDigit) ||
+                string.IsNullOrWhiteSpace(form) || string.IsNullOrWhiteSpace(name))
+                return false;
+
+            var normalizedNumber = number.TrimStart('0');
+            key = (normalizedNumber.Length == 0 ? "0" : normalizedNumber,
+                form.Trim().ToUpperInvariant(), name.Trim().ToUpperInvariant());
+            return true;
         }
         #endregion
 
