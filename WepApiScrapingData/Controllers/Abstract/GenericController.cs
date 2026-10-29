@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using WebApiScrapingData.Domain.Interface;
 using WebApiScrapingData.Infrastructure.Data;
@@ -8,6 +9,7 @@ using WebApiScrapingData.Infrastructure.Mapper;
 using WebApiScrapingData.Infrastructure.Repository.Generic;
 using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.DTOs.Abstract;
+using WepApiScrapingData.ExtensionMethods;
 
 namespace WepApiScrapingData.Controllers.Abstract
 {
@@ -111,6 +113,7 @@ namespace WepApiScrapingData.Controllers.Abstract
         #endregion
 
         #region Post
+        [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -139,6 +142,7 @@ namespace WepApiScrapingData.Controllers.Abstract
             }
         }
 
+        [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -174,6 +178,7 @@ namespace WepApiScrapingData.Controllers.Abstract
         #endregion
 
         #region Put
+        [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -202,6 +207,7 @@ namespace WepApiScrapingData.Controllers.Abstract
             }
         }
 
+        [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -237,6 +243,7 @@ namespace WepApiScrapingData.Controllers.Abstract
         #endregion
 
         #region Delete
+        [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -273,6 +280,7 @@ namespace WepApiScrapingData.Controllers.Abstract
             }
         }
 
+        [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

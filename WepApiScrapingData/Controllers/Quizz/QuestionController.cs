@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Infrastructure.Data;
@@ -30,6 +31,7 @@ namespace WepApiScrapingData.Controllers.Quizz
         }
         #endregion
 
+        [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
         [HttpGet]
         [Route("GenerateAnswers/{quizzId}/{id}")]
         public async Task<Question> GenerateQuizz(int quizzId, int id)

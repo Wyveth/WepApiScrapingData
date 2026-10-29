@@ -7,13 +7,13 @@ namespace WepApiScrapingData.Utils
 {
     public static class HttpClientUtils
     {
+        private static readonly HttpClient Client = new HttpClient();
+
         #region Call Url Static/Dynamic
         public static async Task<string> CallUrl(string fullUrl)
         {
-            HttpClient client = new HttpClient();
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls13;
-            client.DefaultRequestHeaders.Accept.Clear();
-            var response = await client.GetAsync(fullUrl);
+            using var response = await Client.GetAsync(fullUrl);
+            response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }
 

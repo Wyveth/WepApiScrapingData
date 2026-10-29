@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Infrastructure.Data;
@@ -7,6 +8,7 @@ using WepApiScrapingData.ExtensionMethods;
 namespace WepApiScrapingData.Controllers
 {
     
+    [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
     [ApiController]
     [Route("api/v1.0/[controller]")]
     [EnableCors(SecurityMethods.DEFAULT_POLICY)]

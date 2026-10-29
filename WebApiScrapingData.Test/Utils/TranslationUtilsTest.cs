@@ -35,10 +35,21 @@ namespace WebApiScrapingData.Test.Utils
         }
 
         [Test]
-        [TestCase(Constantes.Venusaurite_URL, Constantes.Venusaurite_RU, false)]
-        public void getTranslateWithUrl(string url, string RU_Value, bool RU)
+        [TestCase(false)]
+        [TestCase(true)]
+        public void getTranslateWithUrl(bool includeRussian)
         {
-            Dictionary<string, string> dic = TranslationUtils.getTranslateWithUrl(url, new(), RU);
+            const string html = "<html><body><h1 lang=\"en\">Venusaurite</h1>" +
+                "<span lang=\"ja\">フシギバナイト</span><table>Language" +
+                "<tr>\n<td>Spain</td>\n<td></td>\n<td>Venusaurita</td>\n</tr>" +
+                "<tr>\n<td>Italian</td>\n<td></td>\n<td>Venusaurite</td>\n</tr>" +
+                "<tr>\n<td>German</td>\n<td></td>\n<td>Bisaflornit</td>\n</tr>" +
+                "<tr>\n<td>Russian</td>\n<td></td>\n<td>Венузаврит</td>\n</tr>" +
+                "<tr>\n<td>Korean</td>\n<td></td>\n<td>이상해꽃나이</td>\n</tr>" +
+                "<tr>\n<td>Mandarin</td>\n<td></td>\n<td>妙蛙花進化石</td>\n</tr>" +
+                "</table></body></html>";
+            using var server = new LocalHttpServer(html);
+            Dictionary<string, string> dic = TranslationUtils.getTranslateWithUrl(server.Url, new(), includeRussian);
 
             Assert.NotNull(dic);
             Assert.That(dic[Constantes.EN], Is.EqualTo("Venusaurite"));
@@ -49,7 +60,10 @@ namespace WebApiScrapingData.Test.Utils
             Assert.NotNull(dic[Constantes.IT]);
             Assert.That(dic[Constantes.DE], Is.EqualTo("Bisaflornit"));
             Assert.NotNull(dic[Constantes.DE]); 
-            Assert.That(RU_Value, Is.EqualTo("Венузаврит"));
+            if (includeRussian)
+                Assert.That(dic[Constantes.RU], Is.EqualTo("Венузаврит"));
+            else
+                Assert.That(dic.ContainsKey(Constantes.RU), Is.False);
             Assert.NotNull(dic[Constantes.CO]);
             Assert.That(dic[Constantes.CO], Is.EqualTo("이상해꽃나이"));
             Assert.NotNull(dic[Constantes.CN]);

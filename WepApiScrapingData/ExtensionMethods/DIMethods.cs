@@ -5,6 +5,8 @@ using WebApiScrapingData.Infrastructure.Repository.Class;
 using WebApiScrapingData.Infrastructure.Repository.Quizz;
 using WepApiScrapingData.DTOs.Concrete;
 using WepApiScrapingData.Mapper;
+using WebApiScrapingData.Core.Repositories;
+using WepApiScrapingData.Services;
 
 namespace WepApiScrapingData.ExtensionMethods
 {
@@ -43,6 +45,10 @@ namespace WepApiScrapingData.ExtensionMethods
             services.AddScoped<AttackRepository>();
             services.AddScoped<DataInfoRepository>();
             services.AddScoped<PokemonRepository>();
+            services.AddScoped<IPokemonFileImportRepository>(provider => provider.GetRequiredService<PokemonRepository>());
+            services.AddScoped(provider => new PokemonFileImportService(
+                provider.GetRequiredService<IWebHostEnvironment>().ContentRootPath,
+                provider.GetRequiredService<IPokemonFileImportRepository>()));
             services.AddScoped<AbilityRepository>();
             services.AddScoped<TypeAttackRepository>();
             services.AddScoped<TypePokRepository>();

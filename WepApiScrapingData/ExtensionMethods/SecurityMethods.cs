@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Security.Claims;
 using WebApiScrapingData.Infrastructure.Configurations;
 using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.Utils;
@@ -11,6 +12,7 @@ namespace WepApiScrapingData.ExtensionMethods
     {
         #region Constantes
         public const string DEFAULT_POLICY = "DEFAULT_POLICY";
+        public const string AdministratorPolicy = "Administrator";
         #endregion
         
         #region Public Methods
@@ -22,6 +24,17 @@ namespace WepApiScrapingData.ExtensionMethods
         {
             services.AddCustomCors(configuration);
             services.AddCustomAuthentification(configuration);
+            var adminUserIds = configuration.GetSection("Jwt:AdminUserIds").Get<string[]>() ?? [];
+            services.AddAuthorization(options =>
+                options.AddPolicy(AdministratorPolicy, policy => policy
+                    .RequireAuthenticatedUser()
+                    .RequireAssertion(context =>
+                    {
+                        var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                        return !string.IsNullOrWhiteSpace(userId) &&
+                               adminUserIds.Any(id => !string.IsNullOrWhiteSpace(id) &&
+                                   string.Equals(id, userId, StringComparison.Ordinal));
+                    })));
         }
 
         public static void AddCustomCors(this IServiceCollection services, IConfiguration configuration)

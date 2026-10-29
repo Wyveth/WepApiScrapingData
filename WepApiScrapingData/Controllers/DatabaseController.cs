@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,9 +13,11 @@ using WebApiScrapingData.Infrastructure.Repository.Class;
 using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.ExtensionMethods;
 using WepApiScrapingData.Utils;
+using WepApiScrapingData.Services;
 
 namespace WepApiScrapingData.Controllers
 {
+    [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
     [ApiController]
     [Route("api/v1.0/[controller]")]
     [EnableCors(SecurityMethods.DEFAULT_POLICY)]
@@ -34,6 +37,7 @@ namespace WepApiScrapingData.Controllers
         private readonly Pokemon_AttackRepository _repositoryPAT;
         private readonly DifficultyRepository _repositoryD;
         private readonly QuestionTypeRepository _repositoryQT;
+        private readonly PokemonFileImportService _pokemonFileImport;
         #endregion
 
         #region Constructors
@@ -48,7 +52,8 @@ namespace WepApiScrapingData.Controllers
             Pokemon_AbilityRepository repositoryPTL, 
             Pokemon_AttackRepository repositoryPAT,
             DifficultyRepository repositoryD,
-            QuestionTypeRepository repositoryQT)
+            QuestionTypeRepository repositoryQT,
+            PokemonFileImportService pokemonFileImport)
         {
             _repository = repository;
             _repositoryTP = repositoryTP;
@@ -62,6 +67,7 @@ namespace WepApiScrapingData.Controllers
             _repositoryPAT = repositoryPAT;
             _repositoryD = repositoryD;
             _repositoryQT = repositoryQT;
+            _pokemonFileImport = pokemonFileImport;
         }
         #endregion
         
@@ -289,44 +295,23 @@ namespace WepApiScrapingData.Controllers
 
         [HttpPost]
         [Route("SaveInDB")]
-        public void SaveInDB()
+        public async Task SaveInDB()
         {
-            string json;
-            using (StreamReader sr = new StreamReader("PokeScrap/PokeScrap.json"))
-            {
-                json = sr.ReadToEnd();
-                _repository.SaveJsonInDb(json);
-            }
-
-            _repository.UnitOfWork.SaveChanges();
+            await _pokemonFileImport.ImportPokemonAsync();
         }
 
         [HttpPost]
         [Route("SaveInfoPokemonAttackInDB")]
-        public void SaveInfoPokemonAttackInDB()
+        public async Task SaveInfoPokemonAttackInDB()
         {
-            string json;
-            using (StreamReader sr = new StreamReader("PokeScrap/PokeBipScrapGen.json"))
-            {
-                json = sr.ReadToEnd();
-                _repository.SaveInfoPokemonAttackInDB(json);
-            }
-
-            _repository.UnitOfWork.SaveChanges();
+            await _pokemonFileImport.ImportAttackInfoAsync();
         }
 
         [HttpPost]
         [Route("SaveGenInDB/{gen}")]
-        public void SaveGenInDB(int gen)
+        public async Task SaveGenInDB(int gen)
         {
-            string json;
-            using (StreamReader sr = new StreamReader("PokeScrap/PokeScrapGen" + gen + ".json"))
-            {
-                json = sr.ReadToEnd();
-                _repository.SaveJsonInDb(json);
-            }
-
-            _repository.UnitOfWork.SaveChanges();
+            await _pokemonFileImport.ImportPokemonAsync(gen);
         }
 
         [HttpPost]

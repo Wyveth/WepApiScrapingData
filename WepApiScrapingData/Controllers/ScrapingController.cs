@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text;
@@ -12,6 +13,7 @@ using WepApiScrapingData.Utils;
 
 namespace WepApiScrapingData.Controllers
 {
+    [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
     [ApiController]
     [Route("api/v1.0/[controller]")]
     [EnableCors(SecurityMethods.DEFAULT_POLICY)]

@@ -68,15 +68,17 @@ builder.Services.AddSwaggerGen(m => {
     });
 });
 
-// 🔹 On charge la config du fichier JSON + les variables d'environnement
-builder.Configuration
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddEnvironmentVariables();
-
 //Ajout du DBContext
 builder.Services.AddDbContextFactory<ScrapingContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("PokemonDataBase");
+    if (builder.Environment.IsDevelopment() &&
+        string.Equals(Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER"), "true", StringComparison.OrdinalIgnoreCase))
+    {
+        var dockerConnectionString = builder.Configuration.GetConnectionString("PokemonDataBaseDocker");
+        if (!string.IsNullOrWhiteSpace(dockerConnectionString))
+            connectionString = dockerConnectionString;
+    }
     options.UseSqlServer(connectionString);
 });
 

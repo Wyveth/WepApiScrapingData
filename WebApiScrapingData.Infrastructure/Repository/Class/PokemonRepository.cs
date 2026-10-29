@@ -11,7 +11,7 @@ using ClassQuizz = WebApiScrapingData.Domain.Class.Quizz;
 
 namespace WebApiScrapingData.Infrastructure.Repository.Class
 {
-    public class PokemonRepository : Repository<Pokemon>, IRepositoryExtendsPokemon<Pokemon>
+    public class PokemonRepository : Repository<Pokemon>, IRepositoryExtendsPokemon<Pokemon>, IPokemonFileImportRepository
     {
         #region Fields
         private readonly DataInfoRepository _repositoryDI;

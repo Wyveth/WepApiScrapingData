@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using WepApiScrapingData.ExtensionMethods;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 
+[Authorize(Policy = SecurityMethods.AdministratorPolicy)]
 [ApiController]
 [Route("api/[controller]")]
 [ApiExplorerSettings(IgnoreApi = true)]

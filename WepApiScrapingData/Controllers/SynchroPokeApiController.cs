@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
@@ -12,6 +13,7 @@ using WepApiScrapingData.ExtensionMethods;
 
 namespace WepApiScrapingData.Controllers
 {
+    [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
     [ApiController]
     [Route("api/v1.0/[controller]")]
     [EnableCors(SecurityMethods.DEFAULT_POLICY)]

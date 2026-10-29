@@ -1,5 +1,4 @@
 using HtmlAgilityPack;
-using WebApiScrapingData.Infrastructure.Utils;
 using WepApiScrapingData.Utils;
 
 namespace WebApiScrapingData.Test.Utils
@@ -7,27 +6,28 @@ namespace WebApiScrapingData.Test.Utils
     [TestFixture]
     public class HttpClientUtilsTest
     {
-        [SetUp]
-        public void Setup()
+        [Test]
+        public void CallUrlRejectsHttpError()
         {
+            using var server = new LocalHttpServer("<html>Forbidden</html>", 403);
+            var exception = Assert.ThrowsAsync<HttpRequestException>(() => HttpClientUtils.CallUrl(server.Url));
+            Assert.That(exception!.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.Forbidden));
         }
 
         [Test]
-        [TestCase(Constantes.urlStart1Gen_FR)]
-        public async Task CallUrl(string fullUrl)
+        public async Task CallUrl()
         {
-            var result = await HttpClientUtils.CallUrl(Constantes.urlStart1Gen_FR);
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<string>(result);
+            using var server = new LocalHttpServer("<html><body>Bulbizarre</body></html>");
+            var result = await HttpClientUtils.CallUrl(server.Url);
+            Assert.That(result, Is.EqualTo("<html><body>Bulbizarre</body></html>"));
         }
         
         [Test]
-        [TestCase(Constantes.Venusaurite_URL)]
-        public void CallUrlDynamic(string fullUrl)
+        public void CallUrlDynamic()
         {
-            var result = HttpClientUtils.CallUrlDynamic(fullUrl);
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<HtmlNode>(result);
+            using var server = new LocalHttpServer("<html><body><h1>Venusaurite</h1></body></html>");
+            HtmlNode result = HttpClientUtils.CallUrlDynamic(server.Url);
+            Assert.That(result.SelectSingleNode("//h1").InnerText, Is.EqualTo("Venusaurite"));
         }
     }
 }

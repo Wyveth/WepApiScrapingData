@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Class = WebApiScrapingData.Domain.Class.Quizz;
 using WebApiScrapingData.Infrastructure.Repository;
@@ -36,6 +37,7 @@ namespace WepApiScrapingData.Controllers.Quizz
         }
         #endregion
 
+        [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
         [HttpGet]
         [Route("GenerateQuizz")]
         public async Task<ClassQuizz.Quizz> GenerateQuizz()
@@ -59,6 +61,7 @@ namespace WepApiScrapingData.Controllers.Quizz
             return await _repository.GenerateQuizz(null, options);
         }
 
+        [Authorize(Policy = SecurityMethods.AdministratorPolicy)]
         [HttpDelete]
         [Route("PurgeQuizzDone/{id}")]
         public async Task PurgeQuizzDone(int id)
