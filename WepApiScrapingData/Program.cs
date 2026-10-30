@@ -117,6 +117,9 @@ builder.Services.AddGraphQLServer()
 
 builder.Services.AddCustomOutputCache();
 
+// Temps réel des duels
+builder.Services.AddSignalR();
+
 if (!builder.Environment.IsDevelopment())
 {
     builder.Services.AddHttpsRedirection(options =>
@@ -179,5 +182,7 @@ app.UseEndpoints(endpoints =>
 });
 
 app.MapGraphQL("/graphql");
+
+app.MapHub<WepApiScrapingData.Hubs.DuelHub>("/hubs/duel");
 
 app.Run();

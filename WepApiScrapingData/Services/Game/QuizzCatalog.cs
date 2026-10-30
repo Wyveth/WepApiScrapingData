@@ -137,6 +137,8 @@ namespace WepApiScrapingData.Services.Game
                 new(Constantes.QTypPokTalentVarious_Code, H, 12, 0, IsMultipleAnswers: true),
                 new(Constantes.QTypPokFamilyVarious_Code, H, 12, 0, IsMultipleAnswers: true),
                 new(Constantes.QTypPokTypVarious_Code, H, 12, 0, IsMultipleAnswers: true),
+                // Difficile uniquement : reconnaître le Pokémon à son cri (sans image)
+                new(Constantes.QTypPokCry_Code, H, 8, 1),
             ];
         }
 
@@ -155,6 +157,7 @@ namespace WepApiScrapingData.Services.Game
                     (12, new[] { Constantes.QTypPokDesc_Code, Constantes.QTypPokDescReverse_Code }),
                     (15, new[] { Constantes.QTypPokFamilyVarious_Code, Constantes.QTypPokTypVarious_Code }),
                     (20, new[] { Constantes.QTypTypPok_Code, Constantes.QTypTypPokVarious_Code, Constantes.QTypWeakPokVarious_Code }),
+                    (25, new[] { Constantes.QTypPokCry_Code }),
                     (99, new[] { Constantes.QTypPok_Code }),
                 };
 

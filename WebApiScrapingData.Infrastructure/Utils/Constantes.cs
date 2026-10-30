@@ -3163,6 +3163,17 @@
         public const string QTypTalentReverse_Libelle_CO = "적합한 특성 찾기";
         public const string QTypTalentReverse_Libelle_CN = "找到正确的天赋";
         public const string QTypTalentReverse_Libelle_JP = "正しい才能を見つける";
+
+        public const string QTypPokCry_Code = "PokCry";
+        public const string QTypPokCry_Libelle_FR = "Quel est ce pokémon d'après son cri?";
+        public const string QTypPokCry_Libelle_EN = "Which pokemon makes this cry?";
+        public const string QTypPokCry_Libelle_ES = "¿Qué pokémon emite este grito?";
+        public const string QTypPokCry_Libelle_IT = "Quale pokémon emette questo verso?";
+        public const string QTypPokCry_Libelle_DE = "Welches Pokémon gibt diesen Ruf von sich?";
+        public const string QTypPokCry_Libelle_RU = "Какой покемон издаёт этот крик?";
+        public const string QTypPokCry_Libelle_CO = "이 울음소리는 어떤 포켓몬일까요?";
+        public const string QTypPokCry_Libelle_CN = "这是哪只宝可梦的叫声？";
+        public const string QTypPokCry_Libelle_JP = "この鳴き声のポケモンは？";
         #endregion
 
         #region Type

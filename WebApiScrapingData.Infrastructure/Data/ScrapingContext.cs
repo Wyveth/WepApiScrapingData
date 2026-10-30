@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Reflection.Emit;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Domain.Class.Quizz;
+using WebApiScrapingData.Domain.Class.Duels;
+using WebApiScrapingData.Domain.Class.Hangman;
 using WebApiScrapingData.Domain.Interface;
 using WebApiScrapingData.Framework;
 
@@ -70,6 +72,37 @@ namespace WebApiScrapingData.Infrastructure.Data
                 .HasForeignKey(p => p.AvatarPokemonId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // 🔑 Code ami unique (quand il est défini)
+            builder.Entity<UserProfile>()
+                .HasIndex(p => p.FriendCode)
+                .IsUnique()
+                .HasFilter("[FriendCode] IS NOT NULL");
+
+            // ⚔️ Duels : aucune suppression en cascade (deux chemins vers AspNetUsers et Quizzs)
+            builder.Entity<Duel>(duel =>
+            {
+                duel.HasIndex(d => d.Guid).IsUnique();
+                duel.HasIndex(d => new { d.Status, d.Mode, d.DifficultyCode });
+                duel.Property(d => d.DifficultyCode).HasMaxLength(16);
+                duel.Property(d => d.Generations).HasMaxLength(64);
+                duel.HasOne(d => d.Player1).WithMany().HasForeignKey(d => d.Player1Id).OnDelete(DeleteBehavior.Restrict);
+                duel.HasOne(d => d.Player2).WithMany().HasForeignKey(d => d.Player2Id).OnDelete(DeleteBehavior.Restrict);
+                duel.HasOne(d => d.Quizz1).WithMany().HasForeignKey(d => d.Quizz1Id).OnDelete(DeleteBehavior.Restrict);
+                duel.HasOne(d => d.Quizz2).WithMany().HasForeignKey(d => d.Quizz2Id).OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // 🔤 Pendu : pas de suppression en cascade (deux chemins vers AspNetUsers)
+            builder.Entity<HangmanGame>(game =>
+            {
+                game.HasIndex(g => g.Guid).IsUnique();
+                game.HasIndex(g => new { g.Status, g.Player2Id });
+                game.Property(g => g.Lang).HasMaxLength(4);
+                game.Property(g => g.Generations).HasMaxLength(64);
+                game.Property(g => g.GuessedLetters).HasMaxLength(32);
+                game.HasOne(g => g.Player1).WithMany().HasForeignKey(g => g.Player1Id).OnDelete(DeleteBehavior.Restrict);
+                game.HasOne(g => g.Player2).WithMany().HasForeignKey(g => g.Player2Id).OnDelete(DeleteBehavior.Restrict);
+            });
+
             //// ⚙️ Configuration explicite pour Pokemon_EvolvesTo (évite l'ambiguïté entre PokemonId et EvolveToId)
             builder.Entity<Pokemon_EvolvesTo>()
                 .HasOne(e => e.Pokemon)
@@ -89,6 +122,8 @@ namespace WebApiScrapingData.Infrastructure.Data
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Duel> Duels { get; set; }
+        public DbSet<HangmanGame> HangmanGames { get; set; }
 
         public virtual DbSet<Pokemon> Pokemons { get; set; }
         public virtual DbSet<DataInfo> DataInfos { get; set; }
