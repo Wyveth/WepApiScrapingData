@@ -49,8 +49,6 @@
         public long Id { get; set; }
         public int Order { get; set; }
         public string? Label { get; set; }
-        /// <summary>Chemin relatif d'image (sprite Pokémon ou icône de type), à préfixer par img_root.</summary>
-        public string? Image { get; set; }
     }
 
     public class AnswerResultDto

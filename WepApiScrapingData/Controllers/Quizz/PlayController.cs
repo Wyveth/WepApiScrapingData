@@ -70,13 +70,13 @@ namespace WepApiScrapingData.Controllers.Quizz
         [AllowAnonymous]
         [HttpGet("{id:guid}/questions/{order:int}/image")]
         public Task<IActionResult> Image(Guid id, int order) =>
-            Run(async () => Media(await _game.GetSubjectMediaPathAsync(id, order, sound: false, CurrentUserId())));
+            Run(async () => Media(await _game.GetSubjectMediaPathsAsync(id, order, sound: false, CurrentUserId())));
 
         /// <summary>Cri du Pokémon sujet de la question.</summary>
         [AllowAnonymous]
         [HttpGet("{id:guid}/questions/{order:int}/sound")]
         public Task<IActionResult> Sound(Guid id, int order) =>
-            Run(async () => Media(await _game.GetSubjectMediaPathAsync(id, order, sound: true, CurrentUserId())));
+            Run(async () => Media(await _game.GetSubjectMediaPathsAsync(id, order, sound: true, CurrentUserId())));
 
         [AllowAnonymous]
         [HttpGet("{id:guid}/result")]
@@ -112,14 +112,15 @@ namespace WepApiScrapingData.Controllers.Quizz
             }
         }
 
-        private IActionResult Media(string? relativePath)
+        /// <summary>Sert le premier fichier existant parmi les chemins candidats (restreints au dossier Content).</summary>
+        private IActionResult Media(IEnumerable<string> relativePaths)
         {
-            if (string.IsNullOrWhiteSpace(relativePath))
-                return NotFound();
-
             var contentRoot = Path.GetFullPath(Path.Combine(_environment.ContentRootPath, "Content"));
-            var fullPath = Path.GetFullPath(Path.Combine(_environment.ContentRootPath, relativePath));
-            if (!fullPath.StartsWith(contentRoot, StringComparison.OrdinalIgnoreCase) || !System.IO.File.Exists(fullPath))
+            var fullPath = relativePaths
+                .Select(p => Path.GetFullPath(Path.Combine(_environment.ContentRootPath, p)))
+                .FirstOrDefault(p => p.StartsWith(contentRoot, StringComparison.OrdinalIgnoreCase) && System.IO.File.Exists(p));
+
+            if (fullPath == null)
                 return NotFound();
 
             var contentType = Path.GetExtension(fullPath).ToLowerInvariant() switch

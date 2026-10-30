@@ -199,8 +199,7 @@ namespace WepApiScrapingData.Services.Game
                 {
                     Id = a.Id,
                     Order = a.Order,
-                    Label = AnswerLabel(a, lookup),
-                    Image = AnswerImage(a, lookup)
+                    Label = AnswerLabel(a, lookup)
                 }).ToList(),
                 Done = question.Done
             };
@@ -304,10 +303,10 @@ namespace WepApiScrapingData.Services.Game
         }
 
         /// <summary>
-        /// Chemin relatif (sous Content) de l'image ou du cri du sujet de la question.
-        /// Servi par l'API pour ne pas révéler le nom du Pokémon dans l'URL.
+        /// Chemins relatifs (sous Content) candidats pour l'image ou le cri du sujet, par ordre de préférence.
+        /// Le contrôleur sert le premier fichier qui existe. Servi par l'API pour ne pas révéler le nom du Pokémon dans l'URL.
         /// </summary>
-        public async Task<string?> GetSubjectMediaPathAsync(Guid id, int order, bool sound, string? userId)
+        public async Task<List<string>> GetSubjectMediaPathsAsync(Guid id, int order, bool sound, string? userId)
         {
             var loaded = await LoadQuizzAsync(id, userId);
             var question = FindQuestion(loaded.Questions, order);
@@ -319,10 +318,12 @@ namespace WepApiScrapingData.Services.Game
                     .Where(p => p.Id == question.DataObjectID)
                     .Select(p => new { p.PathImgNormal, p.PathImgLegacy, p.PathSoundCurrent, p.PathSoundLegacy, p.PathSound })
                     .FirstOrDefaultAsync();
-                if (pokemon == null) return null;
-                return sound
-                    ? pokemon.PathSoundCurrent ?? pokemon.PathSoundLegacy ?? pokemon.PathSound
-                    : pokemon.PathImgNormal ?? pokemon.PathImgLegacy;
+                if (pokemon == null) return new List<string>();
+                // PathSound est le fichier réellement téléchargé (Content/Sound/G{n}/Nom.ogg), comme dans le Pokédex ;
+                // PathSoundCurrent/Legacy pointent vers des sous-dossiers qui peuvent ne pas exister.
+                return NonEmpty(sound
+                    ? new[] { pokemon.PathSound, pokemon.PathSoundCurrent, pokemon.PathSoundLegacy }
+                    : new[] { pokemon.PathImgNormal, pokemon.PathImgLegacy });
             }
 
             if (kind == KindType && !sound)
@@ -332,11 +333,14 @@ namespace WepApiScrapingData.Services.Game
                     .Select(t => new { t.PathIconHome, t.PathAutoHome, t.PathMiniGo })
                     .FirstOrDefaultAsync();
                 // Icône sans texte : le libellé du type est la réponse attendue
-                return type?.PathIconHome ?? type?.PathAutoHome ?? type?.PathMiniGo;
+                return type == null ? new List<string>() : NonEmpty(new[] { type.PathIconHome, type.PathAutoHome, type.PathMiniGo });
             }
 
-            return null;
+            return new List<string>();
         }
+
+        private static List<string> NonEmpty(IEnumerable<string?> paths) =>
+            paths.Where(p => !string.IsNullOrWhiteSpace(p)).Select(p => p!).Distinct().ToList();
         #endregion
 
         #region Catalogue
@@ -904,7 +908,7 @@ namespace WepApiScrapingData.Services.Game
                     if (pokemon != null && (reveal || (!nameIsAnswer && !imageMasked)))
                         dto.Name = LangHelper.PokemonName(pokemon, lookup.Lang);
                     dto.HasImage = pokemon != null && !string.IsNullOrEmpty(pokemon.PathImgNormal ?? pokemon.PathImgLegacy);
-                    dto.HasSound = pokemon != null && !string.IsNullOrEmpty(pokemon.PathSoundCurrent ?? pokemon.PathSoundLegacy ?? pokemon.PathSound);
+                    dto.HasSound = pokemon != null && !string.IsNullOrEmpty(pokemon.PathSound ?? pokemon.PathSoundCurrent ?? pokemon.PathSoundLegacy);
                     break;
 
                 case KindPokemonDescription:
@@ -968,13 +972,6 @@ namespace WepApiScrapingData.Services.Game
                     return lookup.Abilities.TryGetValue(answer.IsCorrectID, out var ability) ? LangHelper.AbilityName(ability, lookup.Lang) : answer.Libelle;
             }
         }
-
-        private static string? AnswerImage(Answer answer, Lookup lookup) => AnswerKind(answer) switch
-        {
-            KindPokemon => lookup.Pokemons.TryGetValue(answer.IsCorrectID, out var pokemon) ? pokemon.PathSpriteNormal ?? pokemon.PathSpriteLegacy : null,
-            KindType => lookup.Types.TryGetValue(answer.IsCorrectID, out var type) ? LangHelper.TypeImage(type, lookup.Lang) : null,
-            _ => null
-        };
 
         /// <summary>Description du Pokémon dont le nom (et celui de sa famille) est masqué, comme ConvertDescription dans Xamarin.</summary>
         private static string? MaskedDescription(Pokemon pokemon, Lookup lookup)
