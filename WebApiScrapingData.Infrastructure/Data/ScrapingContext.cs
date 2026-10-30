@@ -40,6 +40,36 @@ namespace WebApiScrapingData.Infrastructure.Data
                 .HasForeignKey(rt => rt.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // ⭐ Favoris : un Pokémon au plus une fois par utilisateur, supprimés avec le compte
+            builder.Entity<Favorite>()
+                .HasOne(f => f.User)
+                .WithMany()
+                .HasForeignKey(f => f.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Favorite>()
+                .HasOne(f => f.Pokemon)
+                .WithMany()
+                .HasForeignKey(f => f.PokemonId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Favorite>()
+                .HasIndex(f => new { f.UserId, f.PokemonId })
+                .IsUnique();
+
+            // 👤 Profil joueur : supprimé avec le compte
+            builder.Entity<UserProfile>()
+                .HasOne(p => p.User)
+                .WithOne()
+                .HasForeignKey<UserProfile>(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<UserProfile>()
+                .HasOne(p => p.AvatarPokemon)
+                .WithMany()
+                .HasForeignKey(p => p.AvatarPokemonId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             //// ⚙️ Configuration explicite pour Pokemon_EvolvesTo (évite l'ambiguïté entre PokemonId et EvolveToId)
             builder.Entity<Pokemon_EvolvesTo>()
                 .HasOne(e => e.Pokemon)
@@ -57,6 +87,8 @@ namespace WebApiScrapingData.Infrastructure.Data
 
         #region Properties
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
 
         public virtual DbSet<Pokemon> Pokemons { get; set; }
         public virtual DbSet<DataInfo> DataInfos { get; set; }

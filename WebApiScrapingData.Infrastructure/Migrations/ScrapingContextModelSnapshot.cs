@@ -17,7 +17,7 @@ namespace WebApiScrapingData.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "10.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -502,6 +502,34 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EvolutionChain");
+                });
+
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Favorite", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("PokemonId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PokemonId");
+
+                    b.HasIndex("UserId", "PokemonId")
+                        .IsUnique();
+
+                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Game", b =>
@@ -1680,6 +1708,24 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.ToTable("TypesPok");
                 });
 
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.UserProfile", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long?>("AvatarPokemonId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("AvatarPokemonId");
+
+                    b.ToTable("UserProfiles");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1746,6 +1792,25 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Navigation("TypeAttack");
 
                     b.Navigation("TypePok");
+                });
+
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Favorite", b =>
+                {
+                    b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "Pokemon")
+                        .WithMany()
+                        .HasForeignKey("PokemonId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pokemon");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>
@@ -2017,6 +2082,24 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.UserProfile", b =>
+                {
+                    b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "AvatarPokemon")
+                        .WithMany()
+                        .HasForeignKey("AvatarPokemonId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithOne()
+                        .HasForeignKey("WebApiScrapingData.Domain.Class.UserProfile", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AvatarPokemon");
 
                     b.Navigation("User");
                 });
