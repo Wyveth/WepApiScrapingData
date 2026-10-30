@@ -107,7 +107,15 @@ builder.Services.TryAddEnumerable(
     ServiceDescriptor.Singleton<ILoggerProvider, CustomLoggerProvider>());
 LoggerProviderOptions.RegisterProviderOptions<CustomLoggerConfiguration, CustomLoggerProvider>(builder.Services);
 
-builder.Services.AddGraphQLServer().AddQueryType<Query>().AddProjections().AddFiltering().AddSorting();
+builder.Services.AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddProjections()
+    .AddFiltering()
+    .AddSorting()
+    // Limite la profondeur des requêtes pour éviter des chargements EF démesurés
+    .AddMaxExecutionDepthRule(15);
+
+builder.Services.AddCustomOutputCache();
 
 if (!builder.Environment.IsDevelopment())
 {
@@ -158,6 +166,9 @@ app.UseStaticFiles(new StaticFileOptions()
 app.UseRouting();
 
 app.UseCors(SecurityMethods.DEFAULT_POLICY);
+
+app.UseOutputCache();
+app.UseReadDataCacheEviction();
 
 app.UseAuthentication();
 app.UseAuthorization();

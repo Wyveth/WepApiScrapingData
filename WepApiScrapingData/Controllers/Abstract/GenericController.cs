@@ -36,6 +36,13 @@ namespace WepApiScrapingData.Controllers.Abstract
         }
         #endregion
 
+        #region Protected methods
+        /// <summary>
+        /// Chargement utilisé par l'endpoint GET de lecture. Surchargeable pour une requête en lecture seule.
+        /// </summary>
+        protected virtual Task<IEnumerable<T>> LoadAllForRead() => _repository.GetAll();
+        #endregion
+
         #region Public methods
         #region Get
         [HttpGet]
@@ -47,7 +54,7 @@ namespace WepApiScrapingData.Controllers.Abstract
         {
             try
             {
-                var entities = await _repository.GetAll();
+                var entities = await LoadAllForRead();
 
                 if (entities == null || !entities.Any())
                     return NotFound();

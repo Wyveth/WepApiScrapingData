@@ -136,37 +136,11 @@ namespace WebApiScrapingData.Infrastructure.Repository.Generic
             }
         }
 
-        private async Task<Guid> UpdateGuidAsync()
+        private static Task<Guid> UpdateGuidAsync()
         {
-            Guid guid;
-            bool guidOK = false;
-
-            do
-            {
-                guid = Guid.NewGuid();
-                var obj = await GetByGuid(guid);
-                if (obj == null)
-                    guidOK = true;
-
-            } while (!guidOK);
-
-            return guid;
-        }
-
-        private Guid UpdateGuid()
-        {
-            bool guidOK = false;
-            Guid guid;
-            do
-            {
-                guid = Guid.NewGuid();
-                Task<T?> obj = GetByGuid(guid);
-                if (obj.Result != null)
-                    guidOK = true;
-
-            } while (!guidOK);
-
-            return guid;
+            // Guid.NewGuid() (v4, 122 bits aléatoires) : une collision est négligeable,
+            // inutile de faire un aller-retour SQL par entité créée.
+            return Task.FromResult(Guid.NewGuid());
         }
 
         private bool saveChanges()
