@@ -142,6 +142,14 @@ builder.Services.AddResponseCompression(options =>
 
 var app = builder.Build();
 
+// Déploiement Docker : applique les migrations EF au démarrage (Database:MigrateOnStartup=true).
+// Désactivé par défaut : en développement, les migrations restent appliquées à la main (dotnet ef database update).
+if (app.Configuration.GetValue<bool>("Database:MigrateOnStartup"))
+{
+    using var migrationContext = app.Services.GetRequiredService<IDbContextFactory<ScrapingContext>>().CreateDbContext();
+    migrationContext.Database.Migrate();
+}
+
 app.UseResponseCompression();
 
 app.UseMiddleware<LogRequestMiddleware>();
