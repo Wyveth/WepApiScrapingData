@@ -168,3 +168,16 @@ Règles (section `Hangman` de appsettings.json) :
 Réponse `HangmanDto` : `id, mode (Solo|Coop), status (Invited|InProgress|Finished|Declined|Cancelled), lang, generations, lives, maxLives, found, mask` (`_` pour une lettre cachée, séparateurs tels quels), `letters [{letter, correct}], wrongCount, hints {types [{name,image}], generation, description, silhouette}, nextHintAt, last {name, image, found}, isMyTurn, turnUserName, partner, isInviter, bestScore, createdAt, finishedAt`.
 
 Temps réel (coop) : hub `/hubs/duel`, événement `hangmanUpdated(id)` ; les invitations déclenchent aussi `invitationsChanged`.
+
+## Administration (`api/v1.0/Admin`)
+
+Réservé aux comptes listés dans `Jwt:AdminUserIds` (politique `Administrator`). `GET /Authenticate/me` renvoie `isAdmin` pour que le front affiche la page `/:loc/admin`.
+
+| Méthode | Route | Rôle |
+|---|---|---|
+| GET | `/Admin/game-data` | Aperçu de la purge, sans modification |
+| POST | `/Admin/game-data/purge` | Purge. Corps obligatoire `{ "confirm": "PURGE" }` (sinon 400) |
+
+Réponse (aperçu ou résultat) : `{ quizzes, questions, answers, hangmanGames, duelQuizzesKept }`.
+
+La purge supprime, dans une seule transaction, les quiz rattachés à aucun duel (`Quizz1Id` / `Quizz2Id`), leurs questions, leurs réponses et leurs liaisons, ainsi que toutes les parties de pendu. Les quiz des duels sont conservés : le classement ne change pas. L'opération est journalisée avec l'Id de l'administrateur.

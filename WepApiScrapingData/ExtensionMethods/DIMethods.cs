@@ -73,6 +73,7 @@ namespace WepApiScrapingData.ExtensionMethods
             services.AddScoped<WepApiScrapingData.Services.Game.QuizzGameService>();
             services.AddScoped<WepApiScrapingData.Services.Game.DuelService>();
             services.AddScoped<WepApiScrapingData.Services.Game.HangmanService>();
+            services.AddScoped<WepApiScrapingData.Services.Game.GameDataAdminService>();
             services.AddSingleton<WepApiScrapingData.Services.Game.DuelNotifier>();
             services.AddSingleton<WepApiScrapingData.Hubs.PresenceTracker>();
             services.AddHostedService<WepApiScrapingData.Services.Game.DuelTimerService>();
