@@ -170,6 +170,15 @@ Réponse `HangmanDto` : `id, mode (Solo|Coop), difficulty (Easy|Normal), status 
 
 Temps réel (coop) : hub `/hubs/duel`, événement `hangmanUpdated(id)` ; les invitations déclenchent aussi `invitationsChanged`.
 
+## Mot de passe oublié (`api/v1.0/Authenticate`)
+
+| Méthode | Route | Corps | Rôle |
+|---|---|---|---|
+| POST | `/Authenticate/forgot-password` | `{ email, lang }` | Envoie un lien de réinitialisation. Répond toujours 200, que le compte existe ou non. Une demande par minute et par adresse. |
+| POST | `/Authenticate/reset-password` | `{ email, token, newPassword }` | Change le mot de passe et révoque toutes les sessions. 400 si le lien est invalide ou expiré, ou si le mot de passe ne respecte pas les règles. |
+
+Le lien envoyé est `{App:FrontUrl}/{LANG}/reset-password?email=…&token=…`, valable 60 minutes. Le serveur SMTP se règle dans la section `Email` ; sans `Email:Host`, l'e-mail est seulement écrit dans les journaux.
+
 ## Administration (`api/v1.0/Admin`)
 
 Réservé aux comptes listés dans `Jwt:AdminUserIds` (politique `Administrator`). `GET /Authenticate/me` renvoie `isAdmin` pour que le front affiche la page `/:loc/admin`.

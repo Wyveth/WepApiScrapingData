@@ -20,6 +20,8 @@ namespace WepApiScrapingData.ExtensionMethods
             services.Configure<CorsOption>(configuration.GetSection(Constantes.CorsOption));
             services.Configure<WepApiScrapingData.Services.Game.DuelOptions>(configuration.GetSection(WepApiScrapingData.Services.Game.DuelOptions.Section));
             services.Configure<WepApiScrapingData.Services.Game.HangmanOptions>(configuration.GetSection(WepApiScrapingData.Services.Game.HangmanOptions.Section));
+            services.Configure<WepApiScrapingData.Services.Mail.EmailOptions>(configuration.GetSection(WepApiScrapingData.Services.Mail.EmailOptions.Section));
+            services.Configure<WepApiScrapingData.Services.Mail.AppOptions>(configuration.GetSection(WepApiScrapingData.Services.Mail.AppOptions.Section));
         }
         #endregion
     }

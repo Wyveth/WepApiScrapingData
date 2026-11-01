@@ -58,6 +58,14 @@ services:
       Jwt__Key: ${JWT_KEY:?JWT_KEY manquant dans .env}
       Jwt__AdminUserIds__0: ${ADMIN_USER_ID:-}
       Cors__Origin: https://${DOMAIN}
+      # Liens envoyés par e-mail (mot de passe oublié) et serveur SMTP
+      App__FrontUrl: https://${DOMAIN}
+      Email__Host: ${SMTP_HOST:-}
+      Email__Port: ${SMTP_PORT:-587}
+      Email__EnableSsl: ${SMTP_SSL:-true}
+      Email__UserName: ${SMTP_USER:-}
+      Email__Password: ${SMTP_PASSWORD:-}
+      Email__From: ${SMTP_FROM:-}
       # Applique les migrations EF au démarrage (ex. AddHangman sur la base restaurée)
       Database__MigrateOnStartup: "true"
     volumes:

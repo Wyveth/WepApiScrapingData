@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Collections.Concurrent;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -13,6 +15,7 @@ using WebApiScrapingData.Infrastructure.Configurations;
 using WebApiScrapingData.Infrastructure.Data;
 using WepApiScrapingData.DTOs;
 using WepApiScrapingData.ExtensionMethods;
+using WepApiScrapingData.Services.Mail;
 
 namespace WepApiScrapingData.Controllers
 {
@@ -27,6 +30,14 @@ namespace WepApiScrapingData.Controllers
         private readonly ILogger<AuthenticateController> _logger;
         private readonly ScrapingContext _context;
         private readonly IAuthorizationService _authorization;
+        private readonly EmailSender _emailSender;
+        private readonly AppOptions _app;
+
+        /// <summary>Durée de validité du lien de réinitialisation (voir DataProtectionTokenProviderOptions dans Program.cs).</summary>
+        public const int ResetLinkMinutes = 60;
+        /// <summary>Délai minimal entre deux demandes pour une même adresse (limite les envois abusifs).</summary>
+        private static readonly TimeSpan ResetRequestCooldown = TimeSpan.FromMinutes(1);
+        private static readonly ConcurrentDictionary<string, DateTime> LastResetRequests = new(StringComparer.OrdinalIgnoreCase);
         #endregion
 
         #region Constructor
@@ -35,8 +46,12 @@ namespace WepApiScrapingData.Controllers
             UserManager<IdentityUser> userManager,
             IOptions<SecurityOption> options,
             ScrapingContext context,
-            IAuthorizationService authorization)
+            IAuthorizationService authorization,
+            EmailSender emailSender,
+            IOptions<AppOptions> app)
         {
+            _emailSender = emailSender;
+            _app = app.Value;
             _authorization = authorization;
             _option = options.Value;
             _userManager = userManager;
@@ -210,6 +225,90 @@ namespace WepApiScrapingData.Controllers
             _logger.LogInformation("Tous les refresh tokens ont été révoqués pour l'utilisateur {UserId} après changement de mot de passe", user.Id);
 
             return Ok(new { message = "Mot de passe changé. Tous les tokens ont été révoqués." });
+        }
+
+        /// <summary>
+        /// Mot de passe oublié : envoie un lien de réinitialisation par e-mail.
+        /// Répond toujours 200, que l'adresse existe ou non, pour ne pas révéler quels comptes existent.
+        /// </summary>
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
+        {
+            var email = dto?.Email?.Trim() ?? string.Empty;
+            var accepted = Ok(new { message = "Si un compte existe pour cette adresse, un e-mail de réinitialisation vient d'être envoyé." });
+            if (string.IsNullOrEmpty(email))
+                return BadRequest(new { error = "Adresse e-mail requise." });
+
+            var now = DateTime.UtcNow;
+            if (LastResetRequests.TryGetValue(email, out var last) && now - last < ResetRequestCooldown)
+                return accepted;
+            LastResetRequests[email] = now;
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null || string.IsNullOrEmpty(user.Email))
+                return accepted;
+
+            var lang = PasswordResetMail.NormalizeLang(dto!.Lang);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var link = $"{_app.FrontUrl.TrimEnd('/')}/{lang}/reset-password?email={Uri.EscapeDataString(user.Email)}&token={encodedToken}";
+
+            var (subject, text, html) = PasswordResetMail.Build(lang, user.UserName ?? user.Email, link, ResetLinkMinutes);
+            try
+            {
+                await _emailSender.SendAsync(user.Email, subject, text, html);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Échec de l'envoi de l'e-mail de réinitialisation pour l'utilisateur {UserId}", user.Id);
+                return Problem("L'e-mail n'a pas pu être envoyé. Réessayez plus tard.");
+            }
+
+            return accepted;
+        }
+
+        /// <summary>Nouveau mot de passe à partir du lien reçu par e-mail. Toutes les sessions existantes sont révoquées.</summary>
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+        {
+            var invalid = BadRequest(new { error = "Lien invalide ou expiré. Refaites une demande de réinitialisation." });
+            if (dto == null || string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Token))
+                return invalid;
+
+            var user = await _userManager.FindByEmailAsync(dto.Email.Trim());
+            if (user == null)
+                return invalid;
+
+            string token;
+            try
+            {
+                token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(dto.Token));
+            }
+            catch (FormatException)
+            {
+                return invalid;
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, token, dto.NewPassword ?? string.Empty);
+            if (!result.Succeeded)
+            {
+                if (result.Errors.Any(e => e.Code == "InvalidToken"))
+                    return invalid;
+                return BadRequest(new { errors = result.Errors.Select(e => e.Description).ToList() });
+            }
+
+            // Les anciennes sessions (refresh tokens) ne doivent plus fonctionner
+            var tokens = await _context.RefreshTokens.Where(t => t.UserId == user.Id && !t.Revoked && !t.Used).ToListAsync();
+            foreach (var refresh in tokens)
+            {
+                refresh.Revoked = true;
+                refresh.Used = true;
+                refresh.RevokedAt = DateTime.UtcNow;
+            }
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Mot de passe réinitialisé pour l'utilisateur {UserId} ; {Count} session(s) révoquée(s)", user.Id, tokens.Count);
+            return Ok(new { message = "Mot de passe modifié. Vous pouvez vous connecter." });
         }
 
         [HttpPost("logout")]

@@ -57,8 +57,24 @@ namespace WepApiScrapingData.DTOs.Play
 
         /// <summary>Temps réel : question en cours et son chrono (UTC).</summary>
         public int CurrentOrder { get; set; }
-        public DateTime? QuestionStartsAt { get; set; }
-        public DateTime? QuestionEndsAt { get; set; }
+        private DateTime? _questionStartsAt;
+        private DateTime? _questionEndsAt;
+        public DateTime? QuestionStartsAt
+        {
+            get => _questionStartsAt;
+            set => _questionStartsAt = AsUtc(value);
+        }
+        public DateTime? QuestionEndsAt
+        {
+            get => _questionEndsAt;
+            set => _questionEndsAt = AsUtc(value);
+        }
+
+        // Les dates SQL datetime2 sont stockées en UTC mais relues sans indication de fuseau.
+        private static DateTime? AsUtc(DateTime? value) => value == null ? null
+            : value.Value.Kind == DateTimeKind.Unspecified
+                ? DateTime.SpecifyKind(value.Value, DateTimeKind.Utc)
+                : value.Value.ToUniversalTime();
         public int QuestionSeconds { get; set; }
         /// <summary>Heure du serveur, pour corriger le décalage d'horloge du client.</summary>
         public DateTime ServerTime { get; set; }

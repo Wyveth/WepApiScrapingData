@@ -93,6 +93,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     //options.SignIn.RequireConfirmedEmail = true;
 }).AddEntityFrameworkStores<ScrapingContext>();
 
+// Lien de réinitialisation du mot de passe : valable 1 heure (au lieu d'un jour par défaut)
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+    options.TokenLifespan = TimeSpan.FromMinutes(WepApiScrapingData.Controllers.AuthenticateController.ResetLinkMinutes));
+
 
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 {
