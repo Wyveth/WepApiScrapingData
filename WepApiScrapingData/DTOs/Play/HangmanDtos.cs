@@ -7,6 +7,8 @@ namespace WepApiScrapingData.DTOs.Play
         public List<int> Generations { get; set; } = new();
         /// <summary>Langue des noms à deviner : FR, EN, ES, IT ou DE.</summary>
         public string? Lang { get; set; } = "FR";
+        /// <summary>Easy (indices progressifs) ou Normal (sans indice, valeur par défaut).</summary>
+        public string? Difficulty { get; set; } = "Normal";
     }
 
     /// <summary>Invitation à une partie de pendu en coop, via le code ami du partenaire.</summary>
@@ -59,6 +61,8 @@ namespace WepApiScrapingData.DTOs.Play
         public Guid Id { get; set; }
         /// <summary>Solo ou Coop.</summary>
         public string Mode { get; set; } = string.Empty;
+        /// <summary>Easy ou Normal.</summary>
+        public string Difficulty { get; set; } = "Normal";
         /// <summary>Invited, InProgress, Finished, Declined, Cancelled.</summary>
         public string Status { get; set; } = string.Empty;
         public string Lang { get; set; } = "FR";

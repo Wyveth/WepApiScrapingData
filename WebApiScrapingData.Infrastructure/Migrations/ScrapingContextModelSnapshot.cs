@@ -697,6 +697,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<string>("CurrentTurnUserId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("FinishedAt")
                         .HasColumnType("datetime2");
 

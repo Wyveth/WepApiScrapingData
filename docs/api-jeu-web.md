@@ -149,8 +149,8 @@ Solo : sans compte (la partie est identifiée par son Guid). Coop : comptes obli
 
 | Méthode | Route | Auth | Rôle |
 |---|---|---|---|
-| POST | `/Hangman` | facultative | Nouvelle partie solo. Corps `{ generations: int[], lang }` |
-| POST | `/Hangman/coop` | oui | Invitation coop. Corps `{ friendCode, generations, lang }` |
+| POST | `/Hangman` | facultative | Nouvelle partie solo. Corps `{ generations: int[], lang, difficulty }` (`Easy` ou `Normal`) |
+| POST | `/Hangman/coop` | oui | Invitation coop. Corps `{ friendCode, generations, lang, difficulty }` |
 | GET | `/Hangman/invitations` | oui | Invitations coop reçues |
 | GET | `/Hangman/mine` | oui | Parties du compte |
 | GET | `/Hangman/{id}` | facultative | État de la partie |
@@ -163,9 +163,10 @@ Solo : sans compte (la partie est identifiée par son Guid). Coop : comptes obli
 Règles (section `Hangman` de appsettings.json) :
 - `StartLives` 7 vies au départ, `LivesPerFound` +2 par Pokémon trouvé, plafond `MaxLives` 10.
 - Une mauvaise lettre coûte une vie. À 0 vie, la partie est terminée (`Found` = score).
-- Indices selon le nombre d'erreurs sur le Pokémon en cours : types (`TypeHintAt` 1), génération (`GenerationHintAt` 2), description sans le nom (`DescriptionHintAt` 4), silhouette (`SilhouetteHintAt` 6).
+- Difficulté : `Easy` donne des indices, `Normal` (par défaut) aucun. Le record est calculé par mode et par difficulté.
+- Indices (Easy uniquement) selon le nombre d'erreurs sur le Pokémon en cours : types (`TypeHintAt` 1), génération (`GenerationHintAt` 2), description sans le nom (`DescriptionHintAt` 4), silhouette (`SilhouetteHintAt` 6).
 
-Réponse `HangmanDto` : `id, mode (Solo|Coop), status (Invited|InProgress|Finished|Declined|Cancelled), lang, generations, lives, maxLives, found, mask` (`_` pour une lettre cachée, séparateurs tels quels), `letters [{letter, correct}], wrongCount, hints {types [{name,image}], generation, description, silhouette}, nextHintAt, last {name, image, found}, isMyTurn, turnUserName, partner, isInviter, bestScore, createdAt, finishedAt`.
+Réponse `HangmanDto` : `id, mode (Solo|Coop), difficulty (Easy|Normal), status (Invited|InProgress|Finished|Declined|Cancelled), lang, generations, lives, maxLives, found, mask` (`_` pour une lettre cachée, séparateurs tels quels), `letters [{letter, correct}], wrongCount, hints {types [{name,image}], generation, description, silhouette}, nextHintAt, last {name, image, found}, isMyTurn, turnUserName, partner, isInviter, bestScore, createdAt, finishedAt`.
 
 Temps réel (coop) : hub `/hubs/duel`, événement `hangmanUpdated(id)` ; les invitations déclenchent aussi `invitationsChanged`.
 

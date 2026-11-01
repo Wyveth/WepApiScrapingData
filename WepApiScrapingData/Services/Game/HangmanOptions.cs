@@ -12,10 +12,7 @@ namespace WepApiScrapingData.Services.Game
         /// <summary>Plafond de vies.</summary>
         public int MaxLives { get; set; } = 10;
 
-        /// <summary>Indices activés (désactivés pour l'instant : trop facile). Quand c'est faux, aucun indice n'est envoyé.</summary>
-        public bool HintsEnabled { get; set; } = false;
-
-        /// <summary>Nombre d'erreurs sur le Pokémon en cours qui débloque chaque indice.</summary>
+        /// <summary>Nombre d'erreurs sur le Pokémon en cours qui débloque chaque indice (difficulté Facile uniquement).</summary>
         public int TypeHintAt { get; set; } = 1;
         public int GenerationHintAt { get; set; } = 2;
         public int DescriptionHintAt { get; set; } = 4;

@@ -9,6 +9,14 @@ namespace WebApiScrapingData.Domain.Class.Hangman
         Coop = 1
     }
 
+    public enum HangmanDifficulty
+    {
+        /// <summary>Sans indice (valeur des parties créées avant l'ajout de la difficulté).</summary>
+        Normal = 0,
+        /// <summary>Indices progressifs au fil des erreurs.</summary>
+        Easy = 1
+    }
+
     public enum HangmanStatus
     {
         /// <summary>Coop : invitation envoyée, en attente de réponse.</summary>
@@ -30,6 +38,9 @@ namespace WebApiScrapingData.Domain.Class.Hangman
 
         public HangmanMode Mode { get; set; }
         public HangmanStatus Status { get; set; }
+
+        /// <summary>Facile : indices progressifs ; Normal : aucun indice.</summary>
+        public HangmanDifficulty Difficulty { get; set; } = HangmanDifficulty.Normal;
 
         /// <summary>Langue des noms à deviner et des indices (FR, EN, ES, IT, DE), fixée à la création.</summary>
         public string Lang { get; set; } = "FR";

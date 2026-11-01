@@ -241,7 +241,7 @@ namespace WepApiScrapingData.Services.Game
         public async Task<List<string>> SilhouettePathsAsync(string? userId, Guid id)
         {
             var game = await LoadAsync(id, userId);
-            if (game.Status != HangmanStatus.InProgress || game.CurrentPokemonId == null || !_options.HintsEnabled || game.WrongCount < _options.SilhouetteHintAt)
+            if (game.Status != HangmanStatus.InProgress || game.CurrentPokemonId == null || game.Difficulty != HangmanDifficulty.Easy || game.WrongCount < _options.SilhouetteHintAt)
                 return new List<string>();
 
             var paths = await _context.Pokemons.AsNoTracking()
@@ -262,6 +262,9 @@ namespace WepApiScrapingData.Services.Game
             {
                 Guid = Guid.NewGuid(),
                 Mode = mode,
+                Difficulty = string.Equals(dto.Difficulty, nameof(HangmanDifficulty.Easy), StringComparison.OrdinalIgnoreCase)
+                    ? HangmanDifficulty.Easy
+                    : HangmanDifficulty.Normal,
                 Lang = lang,
                 Generations = generations.Count == 0 ? null : string.Join(',', generations),
                 Player1Id = userId,
@@ -349,6 +352,7 @@ namespace WepApiScrapingData.Services.Game
             {
                 Id = game.Guid,
                 Mode = game.Mode.ToString(),
+                Difficulty = game.Difficulty.ToString(),
                 Status = game.Status.ToString(),
                 Lang = game.Lang,
                 Generations = string.IsNullOrEmpty(game.Generations) ? new List<int>() : game.Generations.Split(',').Select(int.Parse).ToList(),
@@ -386,7 +390,8 @@ namespace WepApiScrapingData.Services.Game
                 dto.Mask = MaskName(name, game.GuessedLetters);
                 dto.Letters = game.GuessedLetters.Select(l => new HangmanLetterDto { Letter = l.ToString(), Correct = letters.Contains(l) }).ToList();
 
-                if (_options.HintsEnabled)
+                // Indices progressifs uniquement en difficulté Facile
+                if (game.Difficulty == HangmanDifficulty.Easy)
                 {
                     if (game.WrongCount >= _options.TypeHintAt)
                         dto.Hints.Types = pokemon.Pokemon_TypePoks.OrderBy(t => t.Id).Where(t => t.TypePok != null)
@@ -422,7 +427,7 @@ namespace WepApiScrapingData.Services.Game
             if (withBest && userId != null)
             {
                 dto.BestScore = await _context.HangmanGames.AsNoTracking()
-                    .Where(g => g.Status == HangmanStatus.Finished && g.Mode == game.Mode && (g.Player1Id == userId || g.Player2Id == userId))
+                    .Where(g => g.Status == HangmanStatus.Finished && g.Mode == game.Mode && g.Difficulty == game.Difficulty && (g.Player1Id == userId || g.Player2Id == userId))
                     .MaxAsync(g => (int?)g.Found);
             }
 
