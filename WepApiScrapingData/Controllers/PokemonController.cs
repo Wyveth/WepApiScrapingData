@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using WebApiScrapingData.Domain.Class;
 using WebApiScrapingData.Infrastructure.Data;
 using WebApiScrapingData.Infrastructure.Repository.Class;
@@ -14,6 +15,7 @@ namespace WepApiScrapingData.Controllers
     [ApiController]
     [Route("api/v1.0/[controller]")]
     [EnableCors(SecurityMethods.DEFAULT_POLICY)]
+    [OutputCache(PolicyName = OutputCacheMethods.READ_DATA_POLICY)]
     public class PokemonController : GenericController<Pokemon, PokemonDto, PokemonRepository>
     {
         private PokemonMapper _mapper;
@@ -22,6 +24,10 @@ namespace WepApiScrapingData.Controllers
         {
             _mapper = mapper;
         }
+        #endregion
+
+        #region Protected Methods
+        protected override async Task<IEnumerable<Pokemon>> LoadAllForRead() => await _repository.GetAllReadOnly();
         #endregion
 
         #region Public Methods

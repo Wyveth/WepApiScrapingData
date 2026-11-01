@@ -6,12 +6,25 @@ namespace WebApiScrapingData.Infrastructure.Data
 {
     public class ScrapingContextFactory : IDesignTimeDbContextFactory<ScrapingContext>
     {
+        // Doit rester identique au <UserSecretsId> de WepApiScrapingData.csproj
+        private const string ApiUserSecretsId = "4aebcedd-4c6a-49dc-ada7-472188070c3a";
+
         public ScrapingContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ScrapingContext>();
             string? connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__PokemonDataBase");
             if (string.IsNullOrWhiteSpace(connectionString))
                 connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
+
+            // Secrets utilisateur du projet API (poste de développement), comme au lancement de l'API
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                IConfigurationRoot secrets = new ConfigurationBuilder()
+                    .AddUserSecrets(ApiUserSecretsId)
+                    .Build();
+
+                connectionString = secrets.GetConnectionString("PokemonDataBase");
+            }
 
             // 1️⃣ Essayer de charger la configuration depuis appSettings.json
             try
@@ -39,7 +52,9 @@ namespace WebApiScrapingData.Infrastructure.Data
             {
                 throw new InvalidOperationException(
                     "La chaîne de connexion n'a pas été trouvée. " +
-                    "Vérifiez que 'appSettings.json' est présent dans Settings ou que la variable d'environnement DB_CONNECTION est définie."
+                    "Définissez le secret utilisateur 'ConnectionStrings:PokemonDataBase' du projet WepApiScrapingData, " +
+                    "la variable d'environnement ConnectionStrings__PokemonDataBase (ou DB_CONNECTION), " +
+                    "ou un fichier Settings/appSettings.json."
                 );
             }
 

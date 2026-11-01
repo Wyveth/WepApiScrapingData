@@ -68,6 +68,9 @@ namespace WepApiScrapingData.ExtensionMethods
             services.AddScoped<QuestionTypeRepository>();
             services.AddScoped<QuizzDifficultyRepository>();
             services.AddScoped<DifficultyRepository>();
+
+            // Jeu web/mobile
+            services.AddScoped<WepApiScrapingData.Services.Game.QuizzGameService>();
             #endregion
             #endregion
 
