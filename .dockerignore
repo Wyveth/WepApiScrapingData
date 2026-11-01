@@ -23,3 +23,6 @@
 **/values.dev.yaml
 LICENSE
 README.md
+# Médias (environ 1 Go) : montés en volume dans le conteneur, pas copiés dans l'image
+WepApiScrapingData/Content
+**/deploy

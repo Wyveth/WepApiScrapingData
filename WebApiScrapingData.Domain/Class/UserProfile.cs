@@ -17,6 +17,10 @@ namespace WebApiScrapingData.Domain.Class
         public long? AvatarPokemonId { get; set; }
         public Pokemon? AvatarPokemon { get; set; }
 
+        /// <summary>Code ami permanent (8 caractères, sans tiret) pour les duels privés.</summary>
+        [MaxLength(16)]
+        public string? FriendCode { get; set; }
+
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }

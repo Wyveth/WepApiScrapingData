@@ -61,6 +61,14 @@ namespace WepApiScrapingData.Services.Game
         #region Public Methods
         public async Task<QuizzSummaryDto> CreateAsync(QuizzCreateDto options, string? userId)
         {
+            var created = await GenerateAsync(options, userId);
+            var loaded = await LoadQuizzAsync(created.Guid, userId);
+            return Summarize(loaded.Quizz, loaded.Questions, loaded.OwnerId);
+        }
+
+        /// <summary>Génère et enregistre un quiz complet (utilisé aussi par les duels).</summary>
+        public async Task<ClassQuizz.Quizz> GenerateAsync(QuizzCreateDto options, string? userId)
+        {
             var generations = (options?.Generations ?? new List<int>()).Where(g => g >= 0 && g <= 9).Distinct().ToList();
             var difficulties = (options?.Difficulties ?? new List<string>())
                 .Select(d => QuizzCatalog.DifficultyCodes.FirstOrDefault(c => string.Equals(c, d, StringComparison.OrdinalIgnoreCase)))
@@ -146,9 +154,65 @@ namespace WepApiScrapingData.Services.Game
             }
 
             await _context.SaveChangesAsync();
+            return quizz;
+        }
 
-            var loaded = await LoadQuizzAsync(quizz.Guid, userId);
-            return Summarize(loaded.Quizz, loaded.Questions, loaded.OwnerId);
+        /// <summary>
+        /// Copie un quiz (mêmes questions, mêmes réponses dans le même ordre) pour un autre joueur : les deux adversaires d'un duel
+        /// répondent ainsi à des questions identiques, chacun sur son propre quiz.
+        /// </summary>
+        public async Task<ClassQuizz.Quizz> CloneAsync(long sourceQuizzId, string userId)
+        {
+            var source = await _context.Quizzs.AsNoTracking()
+                .Where(q => q.Id == sourceQuizzId)
+                .Include(q => q.Quizz_Questions).ThenInclude(qq => qq.Question).ThenInclude(q => q!.Question_Answers!).ThenInclude(qa => qa.Answer)
+                .AsSplitQuery()
+                .FirstOrDefaultAsync()
+                ?? throw new QuizzGameException(StatusCodes.Status404NotFound, "Quiz introuvable.");
+
+            var copy = Stamp(new ClassQuizz.Quizz
+            {
+                Gen1 = source.Gen1, Gen2 = source.Gen2, Gen3 = source.Gen3, Gen4 = source.Gen4, Gen5 = source.Gen5,
+                Gen6 = source.Gen6, Gen7 = source.Gen7, Gen8 = source.Gen8, Gen9 = source.Gen9, GenArceus = source.GenArceus,
+                Easy = source.Easy, Normal = source.Normal, Hard = source.Hard,
+                Done = false
+            });
+            _context.Quizzs.Add(copy);
+            _context.Entry(copy).Property("IdentityUserId").CurrentValue = userId;
+
+            // Type de chaque question source (clé étrangère fantôme QuestionTypeId)
+            var sourceQuestionIds = source.Quizz_Questions.Where(qq => qq.Question != null).Select(qq => qq.Question!.Id).ToList();
+            var questionTypeIds = await _context.Questions
+                .Where(q => sourceQuestionIds.Contains(q.Id))
+                .Select(q => new { q.Id, TypeId = EF.Property<long?>(q, "QuestionTypeId") })
+                .ToDictionaryAsync(x => x.Id, x => x.TypeId);
+
+            foreach (var link in source.Quizz_Questions.Where(qq => qq.Question != null).OrderBy(qq => qq.Question!.Order))
+            {
+                var original = link.Question!;
+                var question = Stamp(new Question { Order = original.Order, DataObjectID = original.DataObjectID, Done = false });
+                _context.Questions.Add(question);
+                _context.Entry(question).Property("QuestionTypeId").CurrentValue = questionTypeIds[original.Id];
+                _context.Quizz_Question.Add(Stamp(new Quizz_Question { Quizz = copy, Question = question }));
+
+                foreach (var originalAnswer in Answers(original))
+                {
+                    var answer = Stamp(new Answer
+                    {
+                        Order = originalAnswer.Order,
+                        IsCorrect = originalAnswer.IsCorrect,
+                        IsCorrectID = originalAnswer.IsCorrectID,
+                        Type = originalAnswer.Type,
+                        Libelle = originalAnswer.Libelle,
+                        IsSelected = false
+                    });
+                    _context.Answers.Add(answer);
+                    _context.Question_Answer.Add(Stamp(new Question_Answer { Question = question, Answer = answer }));
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return copy;
         }
 
         public async Task<QuizzSummaryDto> GetSummaryAsync(Guid id, string? userId)
@@ -172,11 +236,18 @@ namespace WepApiScrapingData.Services.Game
                 .ToList();
         }
 
-        public async Task<QuestionDto> GetQuestionAsync(Guid id, int order, string? lang, string? userId)
+        public async Task<QuestionDto> GetQuestionAsync(Guid id, int order, string? lang, string? userId, bool viaDuel = false)
         {
             var language = LangHelper.Normalize(lang);
-            var loaded = await LoadQuizzAsync(id, userId);
+            var loaded = await LoadQuizzAsync(id, userId, viaDuel);
             var question = FindQuestion(loaded.Questions, order);
+
+            // Début du chrono de la question (bonus de rapidité des duels), au premier affichage
+            if (question.ShownAt == null && !question.Done)
+            {
+                question.ShownAt = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+            }
             var lookup = await BuildLookupAsync(new[] { question }, language);
 
             var questionType = question.QuestionType!;
@@ -210,9 +281,9 @@ namespace WepApiScrapingData.Services.Game
             return dto;
         }
 
-        public async Task<AnswerResultDto> SubmitAsync(Guid id, int order, AnswerSubmitDto submit, string? userId)
+        public async Task<AnswerResultDto> SubmitAsync(Guid id, int order, AnswerSubmitDto submit, string? userId, bool viaDuel = false)
         {
-            var loaded = await LoadQuizzAsync(id, userId);
+            var loaded = await LoadQuizzAsync(id, userId, viaDuel);
             var question = FindQuestion(loaded.Questions, order);
 
             if (question.Done)
@@ -236,6 +307,7 @@ namespace WepApiScrapingData.Services.Game
             }
 
             question.Done = true;
+            question.AnsweredAt = now;
             question.DateModification = now;
 
             loaded.Quizz.Done = loaded.Questions.All(q => q.Done);
@@ -306,11 +378,15 @@ namespace WepApiScrapingData.Services.Game
         /// Chemins relatifs (sous Content) candidats pour l'image ou le cri du sujet, par ordre de préférence.
         /// Le contrôleur sert le premier fichier qui existe. Servi par l'API pour ne pas révéler le nom du Pokémon dans l'URL.
         /// </summary>
-        public async Task<List<string>> GetSubjectMediaPathsAsync(Guid id, int order, bool sound, string? userId)
+        public async Task<List<string>> GetSubjectMediaPathsAsync(Guid id, int order, bool sound, string? userId, bool viaDuel = false)
         {
-            var loaded = await LoadQuizzAsync(id, userId);
+            var loaded = await LoadQuizzAsync(id, userId, viaDuel);
             var question = FindQuestion(loaded.Questions, order);
             var kind = SubjectKind(question.QuestionType?.Code);
+
+            // Question du cri : l'image donnerait la réponse, elle n'est servie qu'une fois la question répondue
+            if (!sound && question.QuestionType?.Code == Constantes.QTypPokCry_Code && !question.Done)
+                return new List<string>();
 
             if (kind == KindPokemon)
             {
@@ -471,6 +547,7 @@ namespace WepApiScrapingData.Services.Game
             public List<long> WeaknessIds { get; set; } = new();
             public List<long> AbilityIds { get; set; } = new();
             public bool HasDescription { get; set; }
+            public bool HasSound { get; set; }
         }
 
         private sealed class GenerationData
@@ -529,7 +606,8 @@ namespace WepApiScrapingData.Services.Game
                     TypeIds = p.Pokemon_TypePoks.OrderBy(t => t.Id).Select(t => t.TypePokId).ToList(),
                     WeaknessIds = p.Pokemon_Weaknesses.Select(w => w.TypePokId).ToList(),
                     AbilityIds = p.Pokemon_Abilities.Select(a => a.AbilityId).ToList(),
-                    HasDescription = p.FR.DescriptionVx != null && p.FR.DescriptionVx != ""
+                    HasDescription = p.FR.DescriptionVx != null && p.FR.DescriptionVx != "",
+                    HasSound = (p.PathSound != null && p.PathSound != "") || (p.PathSoundCurrent != null && p.PathSoundCurrent != "") || (p.PathSoundLegacy != null && p.PathSoundLegacy != "")
                 })
                 .AsSplitQuery()
                 .ToListAsync();
@@ -572,6 +650,16 @@ namespace WepApiScrapingData.Services.Game
         {
             int n = definition.NbAnswers;
             var code = definition.Code;
+
+            if (code == Constantes.QTypPokCry_Code)
+            {
+                var subject = PickPokemon(data, p => p.HasSound);
+                if (subject == null) return null;
+                var distractors = Sample(data.Pool.Where(p => p.Id != subject.Id).Select(p => p.Id), n - 1);
+                if (distractors.Count < n - 1) return null;
+                return MakeQuestion(definition, subject.Id,
+                    distractors.Select(id => new BuiltAnswer(id, false, KindPokemon)).Prepend(new BuiltAnswer(subject.Id, true, KindPokemon)));
+            }
 
             if (code == Constantes.QTypPok_Code || code == Constantes.QTypPokDescReverse_Code || code == Constantes.QTypPokDesc_Code)
             {
@@ -758,7 +846,7 @@ namespace WepApiScrapingData.Services.Game
             public ILookup<long, Pokemon> Families { get; init; } = Enumerable.Empty<Pokemon>().ToLookup(p => 0L);
         }
 
-        private async Task<LoadedQuizz> LoadQuizzAsync(Guid id, string? userId)
+        private async Task<LoadedQuizz> LoadQuizzAsync(Guid id, string? userId, bool viaDuel = false)
         {
             var quizz = await _context.Quizzs
                 .Where(q => q.Guid == id)
@@ -774,6 +862,10 @@ namespace WepApiScrapingData.Services.Game
             // Un quiz rattaché à un compte n'est visible que par son propriétaire ; 404 pour ne pas révéler son existence
             if (ownerId != null && ownerId != userId)
                 throw new QuizzGameException(StatusCodes.Status404NotFound, "Quiz introuvable.");
+
+            // Les quiz de duel ne se jouent que via l'API des duels (ordre et chrono imposés en temps réel)
+            if (!viaDuel && await _context.Duels.AnyAsync(d => d.Quizz1Id == quizz.Id || d.Quizz2Id == quizz.Id))
+                throw new QuizzGameException(StatusCodes.Status403Forbidden, "Ce quiz fait partie d'un duel.");
 
             var questions = quizz.Quizz_Questions
                 .Where(qq => qq.Question != null)
@@ -794,6 +886,9 @@ namespace WepApiScrapingData.Services.Game
                 .Select(qa => qa.Answer!)
                 .OrderBy(a => a.Order)
                 .ToList();
+
+        /// <summary>Bonne réponse : toutes les bonnes cochées et aucune mauvaise.</summary>
+        public static bool IsQuestionCorrect(Question question) => IsCorrect(question);
 
         private static bool IsCorrect(Question question)
         {
@@ -903,11 +998,13 @@ namespace WepApiScrapingData.Services.Game
             {
                 case KindPokemon:
                     lookup.Pokemons.TryGetValue(question.DataObjectID, out var pokemon);
-                    bool nameIsAnswer = questionType.Code == Constantes.QTypPok_Code;
+                    bool isCry = questionType.Code == Constantes.QTypPokCry_Code;
+                    bool nameIsAnswer = questionType.Code == Constantes.QTypPok_Code || isCry;
                     bool imageMasked = questionType.IsBlurred || questionType.IsHide;
                     if (pokemon != null && (reveal || (!nameIsAnswer && !imageMasked)))
                         dto.Name = LangHelper.PokemonName(pokemon, lookup.Lang);
-                    dto.HasImage = pokemon != null && !string.IsNullOrEmpty(pokemon.PathImgNormal ?? pokemon.PathImgLegacy);
+                    // Question du cri : l'image n'est révélée qu'après la réponse
+                    dto.HasImage = pokemon != null && (!isCry || reveal) && !string.IsNullOrEmpty(pokemon.PathImgNormal ?? pokemon.PathImgLegacy);
                     dto.HasSound = pokemon != null && !string.IsNullOrEmpty(pokemon.PathSound ?? pokemon.PathSoundCurrent ?? pokemon.PathSoundLegacy);
                     break;
 
@@ -977,7 +1074,7 @@ namespace WepApiScrapingData.Services.Game
         private static string? MaskedDescription(Pokemon pokemon, Lookup lookup)
         {
             var info = LangHelper.Info(pokemon, lookup.Lang);
-            var description = string.IsNullOrWhiteSpace(info?.DescriptionVx) ? info?.DescriptionVy : info.DescriptionVx;
+            var description = LangHelper.CleanText(string.IsNullOrWhiteSpace(info?.DescriptionVx) ? info?.DescriptionVy : info.DescriptionVx);
             if (string.IsNullOrWhiteSpace(description))
                 return description;
 

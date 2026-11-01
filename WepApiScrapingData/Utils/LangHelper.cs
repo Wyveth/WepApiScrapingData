@@ -88,7 +88,13 @@ namespace WepApiScrapingData.Utils
             _ => ability.Name_FR
         } ?? ability.Name_FR;
 
-        public static string? AbilityDescription(Ability ability, string lang) => lang switch
+        /// <summary>
+        /// Nettoie un texte issu du scraping : certains contiennent des retours à la ligne, parfois sous forme littérale "\n".
+        /// </summary>
+        public static string? CleanText(string? text) =>
+            text == null ? null : System.Text.RegularExpressions.Regex.Replace(text.Replace("\\n", " "), @"\s+", " ").Trim();
+
+        public static string? AbilityDescription(Ability ability, string lang) => CleanText(lang switch
         {
             "EN" => ability.Description_EN,
             "ES" => ability.Description_ES,
@@ -99,7 +105,7 @@ namespace WepApiScrapingData.Utils
             "CN" => ability.Description_CN,
             "JP" => ability.Description_JP,
             _ => ability.Description_FR
-        } ?? ability.Description_FR;
+        } ?? ability.Description_FR);
 
         public static string? QuestionTypeLabel(QuestionType questionType, string lang) => lang switch
         {

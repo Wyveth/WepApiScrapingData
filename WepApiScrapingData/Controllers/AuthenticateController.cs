@@ -26,6 +26,7 @@ namespace WepApiScrapingData.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<AuthenticateController> _logger;
         private readonly ScrapingContext _context;
+        private readonly IAuthorizationService _authorization;
         #endregion
 
         #region Constructor
@@ -33,8 +34,10 @@ namespace WepApiScrapingData.Controllers
             ILogger<AuthenticateController> logger,
             UserManager<IdentityUser> userManager,
             IOptions<SecurityOption> options,
-            ScrapingContext context)
+            ScrapingContext context,
+            IAuthorizationService authorization)
         {
+            _authorization = authorization;
             _option = options.Value;
             _userManager = userManager;
             _logger = logger;
@@ -109,11 +112,15 @@ namespace WepApiScrapingData.Controllers
             if (user == null)
                 return NotFound(new { error = "Utilisateur introuvable" });
 
+            // Administrateur : compte listé dans Jwt:AdminUserIds (le front affiche alors la page d'administration)
+            var isAdmin = (await _authorization.AuthorizeAsync(User, SecurityMethods.AdministratorPolicy)).Succeeded;
+
             return Ok(new
             {
                 user.UserName,
                 user.Email,
-                user.Id
+                user.Id,
+                IsAdmin = isAdmin
             });
         }
 

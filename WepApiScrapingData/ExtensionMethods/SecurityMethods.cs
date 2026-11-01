@@ -64,6 +64,17 @@ namespace WepApiScrapingData.ExtensionMethods
             }).AddJwtBearer(options =>
             {
                 options.SaveToken = true;
+                // SignalR (WebSocket) ne peut pas envoyer d'en-tête Authorization : le jeton arrive en paramètre access_token
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        if (!string.IsNullOrEmpty(accessToken) && context.HttpContext.Request.Path.StartsWithSegments("/hubs"))
+                            context.Token = accessToken;
+                        return Task.CompletedTask;
+                    }
+                };
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityOption.Key)),

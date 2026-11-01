@@ -470,6 +470,96 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.ToTable("DataInfos");
                 });
 
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Duels.Duel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CurrentOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DifficultyCode")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
+                    b.Property<DateTime?>("FinishedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ForfeitedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Generations")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Mode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Player1Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Player2Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("QuestionSeconds")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("QuestionStartedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("Quizz1Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("Quizz2Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Score1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Score2")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WinnerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Guid")
+                        .IsUnique();
+
+                    b.HasIndex("Player1Id");
+
+                    b.HasIndex("Player2Id");
+
+                    b.HasIndex("Quizz1Id");
+
+                    b.HasIndex("Quizz2Id");
+
+                    b.HasIndex("Status", "Mode", "DifficultyCode");
+
+                    b.ToTable("Duels");
+                });
+
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.EvolutionChain", b =>
                 {
                     b.Property<long>("Id")
@@ -588,6 +678,96 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Hangman.HangmanGame", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CurrentPokemonId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CurrentTurnUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("FinishedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Found")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Generations")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("GuessedLetters")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Lang")
+                        .IsRequired()
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
+
+                    b.Property<bool>("LastFound")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("LastPokemonId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Lives")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxLives")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Mode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Player1Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Player2Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsedPokemonIds")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WrongCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Guid")
+                        .IsUnique();
+
+                    b.HasIndex("Player1Id");
+
+                    b.HasIndex("Player2Id");
+
+                    b.HasIndex("Status", "Player2Id");
+
+                    b.ToTable("HangmanGames");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>
@@ -1122,6 +1302,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<DateTime?>("AnsweredAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<long>("DataObjectID")
                         .HasColumnType("bigint");
 
@@ -1142,6 +1325,9 @@ namespace WebApiScrapingData.Infrastructure.Migrations
 
                     b.Property<long?>("QuestionTypeId")
                         .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("ShownAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserCreation")
                         .HasColumnType("nvarchar(max)");
@@ -1716,12 +1902,20 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Property<long?>("AvatarPokemonId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("FriendCode")
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("UserId");
 
                     b.HasIndex("AvatarPokemonId");
+
+                    b.HasIndex("FriendCode")
+                        .IsUnique()
+                        .HasFilter("[FriendCode] IS NOT NULL");
 
                     b.ToTable("UserProfiles");
                 });
@@ -1794,6 +1988,38 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Navigation("TypePok");
                 });
 
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Duels.Duel", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Player1")
+                        .WithMany()
+                        .HasForeignKey("Player1Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Player2")
+                        .WithMany()
+                        .HasForeignKey("Player2Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Quizz", "Quizz1")
+                        .WithMany()
+                        .HasForeignKey("Quizz1Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("WebApiScrapingData.Domain.Class.Quizz.Quizz", "Quizz2")
+                        .WithMany()
+                        .HasForeignKey("Quizz2Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Player1");
+
+                    b.Navigation("Player2");
+
+                    b.Navigation("Quizz1");
+
+                    b.Navigation("Quizz2");
+                });
+
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Favorite", b =>
                 {
                     b.HasOne("WebApiScrapingData.Domain.Class.Pokemon", "Pokemon")
@@ -1811,6 +2037,23 @@ namespace WebApiScrapingData.Infrastructure.Migrations
                     b.Navigation("Pokemon");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebApiScrapingData.Domain.Class.Hangman.HangmanGame", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Player1")
+                        .WithMany()
+                        .HasForeignKey("Player1Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Player2")
+                        .WithMany()
+                        .HasForeignKey("Player2Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Player1");
+
+                    b.Navigation("Player2");
                 });
 
             modelBuilder.Entity("WebApiScrapingData.Domain.Class.Pokemon", b =>

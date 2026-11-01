@@ -1,3 +1,4 @@
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using WebApiScrapingData.Infrastructure.Data;
 
@@ -18,7 +19,12 @@ public class ScrapingContextFactoryTests
             Environment.SetEnvironmentVariable("ConnectionStrings__PokemonDataBase", null);
             Environment.SetEnvironmentVariable("DB_CONNECTION", expected);
             using var context = new ScrapingContextFactory().CreateDbContext([]);
-            Assert.That(context.Database.GetConnectionString(), Is.EqualTo(expected));
+            var builder = new SqlConnectionStringBuilder(context.Database.GetConnectionString());
+            Assert.That(builder.DataSource, Is.EqualTo("localhost"));
+            Assert.That(builder.InitialCatalog, Is.EqualTo("TestOnly"));
+            Assert.That(builder.UserID, Is.EqualTo("test"));
+            Assert.That(builder.Password, Is.EqualTo("test-only"));
+            Assert.That(builder.TrustServerCertificate, Is.True);
         }
         finally
         {
@@ -38,7 +44,12 @@ public class ScrapingContextFactoryTests
             Environment.SetEnvironmentVariable("ConnectionStrings__PokemonDataBase", " ");
             Environment.SetEnvironmentVariable("DB_CONNECTION", expected);
             using var context = new ScrapingContextFactory().CreateDbContext([]);
-            Assert.That(context.Database.GetConnectionString(), Is.EqualTo(expected));
+            var builder = new SqlConnectionStringBuilder(context.Database.GetConnectionString());
+            Assert.That(builder.DataSource, Is.EqualTo("localhost"));
+            Assert.That(builder.InitialCatalog, Is.EqualTo("TestOnly"));
+            Assert.That(builder.UserID, Is.EqualTo("test"));
+            Assert.That(builder.Password, Is.EqualTo("test-only"));
+            Assert.That(builder.TrustServerCertificate, Is.True);
         }
         finally
         {

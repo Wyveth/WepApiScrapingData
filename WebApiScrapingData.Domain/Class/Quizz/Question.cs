@@ -27,6 +27,12 @@ namespace WebApiScrapingData.Domain.Class.Quizz
         [DataMember(Name = DataMember.Done)]
         public bool Done { get; set; }
 
+        //Premier affichage de la question (chrono des duels)
+        public DateTime? ShownAt { get; set; }
+
+        //Heure de la réponse (null si aucune réponse avant la fin du chrono)
+        public DateTime? AnsweredAt { get; set; }
+
         public Question()
         {
             Question_Answers = new List<Question_Answer>();

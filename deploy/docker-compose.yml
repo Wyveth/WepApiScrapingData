@@ -1,0 +1,92 @@
+# Déploiement PokeQuizz : SQL Server + API .NET + front Angular, derrière Caddy (HTTPS automatique).
+# Arborescence attendue sur le serveur (voir README.md) :
+#   /opt/pokequizz/WebApiScrapingData   (ce dépôt ; ce fichier est dans deploy/)
+#   /opt/pokequizz/PokeQuizz-Dex        (dépôt du front)
+#   /opt/pokequizz/content              (dossier Content : images et cris, copié à part)
+# Lancement : cd /opt/pokequizz/WebApiScrapingData/deploy && docker compose up -d --build
+
+name: pokequizz
+
+services:
+  db:
+    image: ${MSSQL_IMAGE:-mcr.microsoft.com/mssql/server:2022-latest}
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD:?SA_PASSWORD manquant dans .env}
+      MSSQL_PID: ${MSSQL_PID:-Express}
+    volumes:
+      - mssql-data:/var/opt/mssql
+      - ./backup:/var/opt/mssql/backup:ro
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q 'SELECT 1' -b -o /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    # Pas de port publié : la base n'est joignable que depuis les conteneurs.
+    # Pour y accéder depuis votre poste, passez par un tunnel SSH (voir README.md).
+
+  # Préparation unique de la base : restauration de la sauvegarde (si la base n'existe pas) et compte applicatif.
+  db-init:
+    image: ${MSSQL_IMAGE:-mcr.microsoft.com/mssql/server:2022-latest}
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      DB_NAME: ${DB_NAME:?DB_NAME manquant dans .env}
+      DB_BACKUP_FILE: ${DB_BACKUP_FILE:-pokequizz.bak}
+      APP_DB_USER: ${APP_DB_USER:-pokequizz_app}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?APP_DB_PASSWORD manquant dans .env}
+    volumes:
+      - ./db/init.sh:/init.sh:ro
+    entrypoint: ["/bin/bash", "/init.sh"]
+    restart: "no"
+
+  api:
+    build:
+      context: ..
+      dockerfile: WepApiScrapingData/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__PokemonDataBase: "Server=db,1433;Database=${DB_NAME};User Id=${APP_DB_USER:-pokequizz_app};Password=${APP_DB_PASSWORD};TrustServerCertificate=True;Encrypt=True"
+      Jwt__Key: ${JWT_KEY:?JWT_KEY manquant dans .env}
+      Jwt__AdminUserIds__0: ${ADMIN_USER_ID:-}
+      Cors__Origin: https://${DOMAIN}
+      # Applique les migrations EF au démarrage (ex. AddHangman sur la base restaurée)
+      Database__MigrateOnStartup: "true"
+    volumes:
+      - ${CONTENT_DIR:-../../content}:/app/Content
+
+  front:
+    build:
+      context: ${FRONT_DIR:-../../PokeQuizz-Dex}
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - api
+      - front
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:?DOMAIN manquant dans .env}
+      ACME_EMAIL: ${ACME_EMAIL:?ACME_EMAIL manquant dans .env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  mssql-data:
+  caddy-data:
+  caddy-config:
